@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trading Dashboard - SVG</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .chart-container { background: #1f2937; border-radius: 8px; padding: 16px; margin-bottom: 16px; min-height: 300px; }
+.chart-container > div { width: 100%; }
+        .chart-title { color: #e5e7eb; font-size: 14px; font-weight: 600; margin-bottom: 12px; }
+        .chart-wrapper { width: 100%; min-height: 250px; display: flex; align-items: stretch; }
+.chart-wrapper svg { width: 100%; height: 100%; display: block; }
+.chart-wrapper > div { width: 100%; height: 100%; }
+        .layout-btn { padding: 4px 12px; border-radius: 6px; font-size: 12px; font-weight: 500; border: none; cursor: pointer; transition: background 0.15s, color 0.15s; background: transparent; color: #9ca3af; }
+        .layout-btn:hover { background: #374151; }
+        .layout-btn.active { background: rgba(255,255,255,0.12); color: #f3f4f6; }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100">
+    <div class="min-h-screen px-5 py-4">
+        <div class="max-w-[1400px] mx-auto">
+
+            <header class="flex items-center justify-between mb-6">
+                <div class="flex items-center gap-4">
+                    <h1 class="text-2xl font-bold">SVG Trading Dashboard</h1>
+                    <a href="/plotly" class="text-sm text-gray-400 hover:text-white underline ml-4">[Plotly версия]</a>
+                </div>
+                <div class="flex items-center gap-4">
+                    <select id="symbol-select" class="bg-gray-800 border border-gray-700 rounded px-3 py-2 text-sm">
+                        <option value="BTCUSDT">BTC/USDT</option>
+                        <option value="ETHUSDT">ETH/USDT</option>
+                        <option value="SOLUSDT">SOL/USDT</option>
+                        <option value="BNBUSDT">BNB/USDT</option>
+                        <option value="ADAUSDT">ADA/USDT</option>
+                    </select>
+                    <button id="refresh-btn" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded text-sm">Refresh</button>
+                </div>
+            </header>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
+                <div class="bg-gray-800 rounded-lg p-4">
+                    <div class="text-gray-400 text-sm">Current Price</div>
+                    <div id="kpi-price" class="text-2xl font-bold">--</div>
+                    <div id="kpi-price-change" class="text-sm">--</div>
+                </div>
+                <div class="bg-gray-800 rounded-lg p-4">
+                    <div class="text-gray-400 text-sm">24h Volume</div>
+                    <div id="kpi-volume" class="text-2xl font-bold">--</div>
+                </div>
+                <div class="bg-gray-800 rounded-lg p-4">
+                    <div class="text-gray-400 text-sm">Total P&L</div>
+                    <div id="kpi-pnl" class="text-2xl font-bold">--</div>
+                </div>
+                <div class="bg-gray-800 rounded-lg p-4">
+                    <div class="text-gray-400 text-sm">Win Rate</div>
+                    <div id="kpi-winrate" class="text-2xl font-bold">--</div>
+                </div>
+                <div class="bg-gray-800 rounded-lg p-4">
+                    <div class="text-gray-400 text-sm">Sharpe Ratio</div>
+                    <div id="kpi-sharpe" class="text-2xl font-bold">--</div>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-1 mb-3">
+                <button class="layout-btn active" data-layout="split">Split</button>
+                <button class="layout-btn" data-layout="candle">Candles</button>
+                <button class="layout-btn" data-layout="combined">Combined</button>
+            </div>
+
+            <div id="layout-split" class="layout-section">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
+                    <div class="lg:col-span-2 chart-container">
+                        <div class="chart-title">Price Action & Pattern Recognition</div>
+                        <div id="candle-chart-split" class="chart-wrapper" style="width:100%;min-height:350px;"></div>
+                    </div>
+                    <div class="chart-container">
+                        <div class="chart-title">Cumulative P&L & Drawdown</div>
+                        <div id="pnl-chart-split" class="chart-wrapper"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="layout-candle" class="layout-section hidden">
+                <div class="chart-container">
+                    <div class="chart-title">Price Action & Pattern Recognition</div>
+                    <div id="candle-chart-full" class="chart-wrapper" style="width:100%;min-height:350px;"></div>
+                </div>
+            </div>
+
+            <div id="layout-combined" class="layout-section hidden">
+                <div class="chart-container">
+                    <div class="chart-title">Price Action, Patterns & Cumulative P&L</div>
+                    <div id="combined-chart" class="chart-wrapper" style="width:100%;min-height:450px;"></div>
+                </div>
+            </div>
+
+            <div class="bg-gray-800 rounded-lg p-4 mb-4">
+                <div class="chart-title flex items-center justify-between">
+                    <span>Detected Patterns Log</span>
+                    <button id="toggle-patterns" class="text-xs text-gray-500 hover:text-white underline">скрыть</button>
+                </div>
+                <div id="patterns-container" class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="text-left text-gray-400 border-b border-gray-700">
+                            <th class="pb-2">Time</th>
+                            <th class="pb-2">Pattern</th>
+                            <th class="pb-2">Type</th>
+                            <th class="pb-2">Description</th>
+                            <th class="pb-2">Strength</th>
+                            <th class="pb-2">Price</th>
+                        </tr>
+                    </thead>
+                    <tbody id="patterns-table">
+                        <tr><td colspan="6" class="py-4 text-center text-gray-500">Loading...</td></tr>
+                    </tbody>
+                </table>
+                </div>
+            </div>
+
+            <div class="bg-gray-800 rounded-lg p-4 mb-4">
+                <div class="chart-title flex items-center justify-between">
+                    <span>Легенда паттернов</span>
+                    <button id="toggle-legend" class="text-xs text-gray-500 hover:text-white underline">скрыть</button>
+                </div>
+                <div id="legend-container" class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                    <!-- Заполнится JS -->
+                </div>
+                <div id="legend-empty" class="text-gray-500 text-center py-4">Нет паттернов</div>
+            </div>
+
+            <div class="text-center text-gray-500 text-sm mt-4">
+                Last updated: <span id="last-updated">--</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const symbolSelect = document.getElementById('symbol-select');
+        const refreshBtn = document.getElementById('refresh-btn');
+        const layoutBtns = document.querySelectorAll('.layout-btn');
+        const layoutSections = document.querySelectorAll('.layout-section');
+
+        let currentSymbol = 'BTCUSDT';
+        let currentLayout = 'split';
+
+        const formatCurrency = (val) => val !== undefined ? new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(val) : '--';
+        const formatPct = (val) => val !== undefined ? `${val > 0 ? '+' : ''}${val.toFixed(2)}%` : '--';
+        const formatNum = (val) => val !== undefined ? new Intl.NumberFormat('en-US', { maximumFractionDigits: 2 }).format(val) : '--';
+
+        async function loadData() {
+            const symbol = symbolSelect.value;
+            currentSymbol = symbol;
+
+            try {
+                const summaryRes = await fetch(`/api/summary?symbol=${symbol}`);
+                const summary = await summaryRes.json();
+
+                document.getElementById('kpi-price').textContent = formatCurrency(summary.currentPrice);
+                document.getElementById('kpi-price-change').textContent = formatPct(summary.priceChangePct24h);
+                document.getElementById('kpi-price-change').className = `text-sm ${summary.priceChangePct24h >= 0 ? 'text-green-500' : 'text-red-500'}`;
+                document.getElementById('kpi-volume').textContent = summary.volume24h ? `$${formatNum(summary.volume24h)}` : '--';
+                document.getElementById('kpi-pnl').textContent = formatCurrency(summary.totalPnl);
+                document.getElementById('kpi-pnl').className = `text-2xl font-bold ${summary.totalPnl >= 0 ? 'text-green-500' : 'text-red-500'}`;
+                document.getElementById('kpi-winrate').textContent = summary.winRate ? `${summary.winRate}%` : '--';
+                document.getElementById('kpi-sharpe').textContent = formatNum(summary.sharpeRatio);
+
+                await loadCharts(symbol);
+                await loadPatterns(symbol);
+
+                document.getElementById('last-updated').textContent = new Date().toLocaleTimeString();
+
+            } catch (e) {
+                console.error('Error loading data:', e);
+            }
+        }
+
+        async function loadCharts(symbol) {
+            try {
+                if (currentLayout === 'split' || currentLayout === 'candle') {
+                    const candleRes = await fetch(`/api/chart/svg/candlestick?symbol=${symbol}`);
+                    const candleData = await candleRes.json();
+                    const svg = candleData.svg || '<div class="text-gray-500 p-8 text-center">No chart data</div>';
+
+                    if (currentLayout === 'split') {
+                        document.getElementById('candle-chart-split').innerHTML = svg;
+                    } else {
+                        document.getElementById('candle-chart-full').innerHTML = svg;
+                    }
+                }
+
+                if (currentLayout === 'split') {
+                    const pnlRes = await fetch(`/api/chart/svg/pnl?symbol=${symbol}`);
+                    const pnlData = await pnlRes.json();
+                    document.getElementById('pnl-chart-split').innerHTML = pnlData.svg || '<div class="text-gray-500 p-8 text-center">No chart data</div>';
+                }
+
+                if (currentLayout === 'combined') {
+                    const combinedRes = await fetch(`/api/chart/svg/combined?symbol=${symbol}`);
+                    const combinedData = await combinedRes.json();
+                    document.getElementById('combined-chart').innerHTML = combinedData.svg || '<div class="text-gray-500 p-8 text-center">No chart data</div>';
+                }
+            } catch (e) {
+                console.error('Error loading charts:', e);
+            }
+        }
+
+        async function loadPatterns(symbol) {
+            try {
+                const res = await fetch(`/api/patterns?symbol=${symbol}`);
+                const patterns = await res.json();
+
+                const tbody = document.getElementById('patterns-table');
+                if (patterns.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" class="py-4 text-center text-gray-500">No patterns detected</td></tr>';
+                    return;
+                }
+
+                const patColors = {'Hammer': '#22c55e', 'Shooting Star': '#ef4444', 'Doji': '#fbbf24', 'Bullish Engulfing': '#22c55e', 'Bearish Engulfing': '#ef4444', 'Morning Star': '#22c55e', 'Evening Star': '#ef4444', 'Marubozu': '#22c55e'};
+                const patIcons = {'Hammer': '� hammer', 'Shooting Star': '★ Br.', 'Doji': '◈ doji', 'Bullish Engulfing': '▣ B', 'Bearish Engulfing': '▣ Br', 'Morning Star': '☆ M', 'Evening Star': '☆ E', 'Marubozu': '▬ Mrb'};
+
+                tbody.innerHTML = patterns.slice(0, 15).map(p => `
+                    <tr class="border-b border-gray-700 hover:bg-gray-700 pattern-row" data-pattern="${p.pattern}">
+                        <td class="py-2 text-gray-400">${p.time}</td>
+                        <td class="py-2">
+                            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-bold" style="background:${patColors[p.pattern] || '#9ca3af'}22;color:${patColors[p.pattern] || '#9ca3af'}">
+                                ${patIcons[p.pattern] || p.pattern}
+                            </span>
+                        </td>
+                        <td class="py-2"><span class="${p.type === 'bullish' ? 'text-green-500' : 'text-red-500'} text-xs">${p.type}</span></td>
+                        <td class="py-2 text-gray-400 text-xs">${p.description}</td>
+                        <td class="py-2 w-24">
+                            <div class="w-full bg-gray-700 rounded h-1.5">
+                                <div class="h-1.5 rounded" style="width:${p.strength}%;background:${patColors[p.pattern] || '#3b82f6'}"></div>
+                            </div>
+                        </td>
+                        <td class="py-2 text-right">$${p.priceLevel.toFixed(2)}</td>
+                    </tr>
+                `).join('');
+
+                // 构建动态图例
+                buildLegend(patterns);
+            } catch (e) {
+                console.error('Error loading patterns:', e);
+            }
+        }
+
+        function buildLegend(patterns) {
+            const container = document.getElementById('legend-container');
+            const empty = document.getElementById('legend-empty');
+            if (!patterns || patterns.length === 0) {
+                if (container) container.innerHTML = '';
+                if (empty) empty.classList.remove('hidden');
+                return;
+            }
+            if (empty) empty.classList.add('hidden');
+
+            const counts = {};
+            patterns.forEach(p => { counts[p.pattern] = (counts[p.pattern] || 0) + 1; });
+
+            const legendData = [
+                {name: 'Hammer', key: 'Hammer', color: '#22c55e', desc: 'бычий разворот'},
+                {name: 'Shooting Star', key: 'Shooting Star', color: '#ef4444', desc: 'медвежий разворот'},
+                {name: 'Doji', key: 'Doji', color: '#fbbf24', desc: 'неопределённость'},
+                {name: 'Bullish Engulfing', key: 'Bullish Engulfing', color: '#22c55e', desc: 'бычье поглощение'},
+                {name: 'Bearish Engulfing', key: 'Bearish Engulfing', color: '#ef4444', desc: 'медвежье поглощение'},
+                {name: 'Morning Star', key: 'Morning Star', color: '#22c55e', desc: 'бычья звезда'},
+                {name: 'Evening Star', key: 'Evening Star', color: '#ef4444', desc: 'медвежья звезда'},
+                {name: 'Marubozu', key: 'Marubozu', color: '#22c55e', desc: 'сильный тренд'},
+            ];
+
+            const patternIcons = {
+                'Hammer': '<svg width="36" height="20" viewBox="0 0 36 20"><line x1="18" y1="2" x2="18" y2="8" stroke="#22c55e" stroke-width="2"/><rect x="10" y="8" width="16" height="10" fill="#22c55e" rx="1"/><line x1="18" y1="18" x2="18" y2="20" stroke="#22c55e" stroke-width="2"/></svg>',
+                'Shooting Star': '<svg width="36" height="20" viewBox="0 0 36 20"><line x1="18" y1="2" x2="18" y2="8" stroke="#ef4444" stroke-width="2"/><rect x="10" y="8" width="16" height="10" fill="#ef4444" rx="1"/><line x1="18" y1="18" x2="18" y2="20" stroke="#ef4444" stroke-width="2"/></svg>',
+                'Doji': '<svg width="36" height="20" viewBox="0 0 36 20"><line x1="18" y1="2" x2="18" y2="6" stroke="#fbbf24" stroke-width="2"/><rect x="14" y="6" width="8" height="8" fill="#fbbf24" rx="1"/><line x1="18" y1="14" x2="18" y2="18" stroke="#fbbf24" stroke-width="2"/></svg>',
+                'Bullish Engulfing': '<svg width="36" height="20" viewBox="0 0 36 20"><rect x="2" y="6" width="14" height="12" fill="#ef4444" rx="1"/><rect x="18" y="4" width="16" height="14" fill="#22c55e" rx="1"/></svg>',
+                'Bearish Engulfing': '<svg width="36" height="20" viewBox="0 0 36 20"><rect x="2" y="4" width="14" height="14" fill="#22c55e" rx="1"/><rect x="18" y="6" width="16" height="12" fill="#ef4444" rx="1"/></svg>',
+                'Morning Star': '<svg width="36" height="20" viewBox="0 0 36 20"><rect x="2" y="8" width="10" height="8" fill="#ef4444" rx="1"/><rect x="14" y="10" width="6" height="4" fill="#9ca3af" rx="1"/><rect x="22" y="4" width="12" height="14" fill="#22c55e" rx="1"/></svg>',
+                'Evening Star': '<svg width="36" height="20" viewBox="0 0 36 20"><rect x="2" y="4" width="10" height="14" fill="#22c55e" rx="1"/><rect x="14" y="10" width="6" height="4" fill="#9ca3af" rx="1"/><rect x="22" y="8" width="12" height="10" fill="#ef4444" rx="1"/></svg>',
+                'Marubozu': '<svg width="36" height="20" viewBox="0 0 36 20"><rect x="10" y="2" width="16" height="16" fill="#22c55e" rx="1"/></svg>',
+            };
+
+            container.innerHTML = legendData.map(item => {
+                const count = counts[item.key] || 0;
+                const bg = count > 0 ? 'bg-gray-700/50' : 'bg-gray-800/30 opacity-50';
+                const border = count > 0 ? 'border-gray-600/30' : 'border-gray-700/30';
+                const textColor = count > 0 ? item.color : '#6b7280';
+                return '<div class="legend-item flex items-center gap-2 p-2 rounded ' + bg + ' border ' + border + ' cursor-pointer hover:bg-gray-600/50" data-pattern="' + item.key + '" title="Клик: ' + item.desc + '">' +
+                    patternIcons[item.key] +
+                    '<div class="flex flex-col"><span style="color:' + textColor + '" class="text-xs font-bold">' + item.name + '</span>' +
+                    '<span class="text-gray-500 text-[10px]">' + (count > 0 ? count + 'x' : '0x') + '</span></div>' +
+                '</div>';
+            }).join('');
+
+            container.querySelectorAll('.legend-item').forEach(el => {
+                el.addEventListener('click', () => {
+                    const pat = el.dataset.pattern;
+                    const count = counts[pat] || 0;
+                    if (count === 0) return;
+                    document.querySelectorAll('.pattern-row').forEach(row => {
+                        if (row.dataset.pattern === pat) {
+                            row.classList.remove('hidden');
+                        } else {
+                            row.classList.add('hidden');
+                        }
+                    });
+                    // Показать кнопку "все" если скрыты
+                    showAllBtn.classList.remove('hidden');
+                });
+            });
+
+            // Кнопка показать все
+            const showAllBtn = document.createElement('div');
+            showAllBtn.id = 'show-all-patterns';
+            showAllBtn.className = 'hidden text-center py-2';
+            showAllBtn.innerHTML = '<button class="text-xs text-blue-400 hover:text-blue-300 underline">показать все паттерны</button>';
+            showAllBtn.onclick = () => {
+                document.querySelectorAll('.pattern-row').forEach(row => row.classList.remove('hidden'));
+                showAllBtn.classList.add('hidden');
+            };
+            container.after(showAllBtn);
+        }
+
+        const toggleBtn = document.getElementById('toggle-legend');
+        const legendContainer = document.getElementById('legend-container');
+        let legendVisible = true;
+        if (toggleBtn) {
+            toggleBtn.addEventListener('click', () => {
+                legendVisible = !legendVisible;
+                legendContainer.classList.toggle('hidden', !legendVisible);
+                toggleBtn.textContent = legendVisible ? 'скрыть' : 'показать';
+            });
+        }
+
+        // Patterns table toggle
+        const togglePatternsBtn = document.getElementById('toggle-patterns');
+        const patternsContainer = document.getElementById('patterns-container');
+        let patternsVisible = true;
+        if (togglePatternsBtn) {
+            togglePatternsBtn.addEventListener('click', () => {
+                patternsVisible = !patternsVisible;
+                patternsContainer.classList.toggle('hidden', !patternsVisible);
+                togglePatternsBtn.textContent = patternsVisible ? 'скрыть' : 'показать';
+            });
+        }
+
+        symbolSelect.addEventListener('change', loadData);
+        refreshBtn.addEventListener('click', loadData);
+
+        layoutBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                layoutBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentLayout = btn.dataset.layout;
+
+                layoutSections.forEach(s => s.classList.add('hidden'));
+                document.getElementById(`layout-${currentLayout}`).classList.remove('hidden');
+
+                loadData();
+            });
+        });
+
+        loadData();
+    </script>
+</body>
+</html>

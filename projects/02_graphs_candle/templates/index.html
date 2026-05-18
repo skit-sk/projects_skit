@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trading Dashboard - Plotly</title>
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="bg-gray-900 text-gray-100">
+    <div class="min-h-screen px-5 py-4">
+        <div class="max-w-[1400px] mx-auto">
+            <!-- Header -->
+            <header class="flex items-center justify-between mb-6">
+                <h1 class="text-2xl font-bold">Trading Dashboard</h1>
+                <div class="flex items-center gap-4">
+                    <select id="symbol-select" class="bg-gray-800 border border-gray-700 rounded px-3 py-2 text-sm">
+                        <option value="BTCUSDT">BTC/USDT</option>
+                        <option value="ETHUSDT">ETH/USDT</option>
+                        <option value="SOLUSDT">SOL/USDT</option>
+                        <option value="BNBUSDT">BNB/USDT</option>
+                        <option value="ADAUSDT">ADA/USDT</option>
+                    </select>
+                    <button id="refresh-btn" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded text-sm">
+                        Refresh
+                    </button>
+                </div>
+            </header>
+
+            <!-- KPI Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
+                <div class="bg-gray-800 rounded-lg p-4">
+                    <div class="text-gray-400 text-sm">Current Price</div>
+                    <div id="kpi-price" class="text-2xl font-bold">--</div>
+                    <div id="kpi-price-change" class="text-sm">--</div>
+                </div>
+                <div class="bg-gray-800 rounded-lg p-4">
+                    <div class="text-gray-400 text-sm">24h Volume</div>
+                    <div id="kpi-volume" class="text-2xl font-bold">--</div>
+                </div>
+                <div class="bg-gray-800 rounded-lg p-4">
+                    <div class="text-gray-400 text-sm">Total P&L</div>
+                    <div id="kpi-pnl" class="text-2xl font-bold">--</div>
+                </div>
+                <div class="bg-gray-800 rounded-lg p-4">
+                    <div class="text-gray-400 text-sm">Win Rate</div>
+                    <div id="kpi-winrate" class="text-2xl font-bold">--</div>
+                </div>
+                <div class="bg-gray-800 rounded-lg p-4">
+                    <div class="text-gray-400 text-sm">Sharpe Ratio</div>
+                    <div id="kpi-sharpe" class="text-2xl font-bold">--</div>
+                </div>
+            </div>
+
+            <!-- Layout Switcher -->
+            <div class="flex items-center gap-1 mb-3">
+                <button class="layout-btn active" data-layout="split">Split</button>
+                <button class="layout-btn" data-layout="candle">Candles</button>
+                <button class="layout-btn" data-layout="combined">Combined</button>
+            </div>
+
+            <!-- Split Layout (default) -->
+            <div id="layout-split" class="layout-section">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
+                    <div class="lg:col-span-2 bg-gray-800 rounded-lg p-4">
+                        <h3 class="text-base font-semibold mb-3">Price Action & Pattern Recognition</h3>
+                        <div id="candle-chart-split"></div>
+                    </div>
+                    <div class="bg-gray-800 rounded-lg p-4">
+                        <h3 class="text-base font-semibold mb-3">Cumulative P&L & Drawdown</h3>
+                        <div id="pnl-chart-split"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Candle Layout -->
+            <div id="layout-candle" class="layout-section hidden">
+                <div class="bg-gray-800 rounded-lg p-4 mb-4">
+                    <h3 class="text-base font-semibold mb-3">Price Action & Pattern Recognition</h3>
+                    <div id="candle-chart-full"></div>
+                </div>
+            </div>
+
+            <!-- Combined Layout -->
+            <div id="layout-combined" class="layout-section hidden">
+                <div class="bg-gray-800 rounded-lg p-4 mb-4">
+                    <h3 class="text-base font-semibold mb-3">Price Action, Patterns & Cumulative P&L</h3>
+                    <div id="combined-chart"></div>
+                </div>
+            </div>
+
+            <!-- Patterns Table -->
+            <div class="bg-gray-800 rounded-lg p-4 mb-4">
+                <h3 class="text-base font-semibold mb-3">Detected Patterns Log</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="text-left text-gray-400 border-b border-gray-700">
+                                <th class="pb-2">Time</th>
+                                <th class="pb-2">Pattern</th>
+                                <th class="pb-2">Type</th>
+                                <th class="pb-2">Description</th>
+                                <th class="pb-2">Strength</th>
+                                <th class="pb-2">Price</th>
+                            </tr>
+                        </thead>
+                        <tbody id="patterns-table">
+                            <tr><td colspan="6" class="py-4 text-center text-gray-500">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Pattern Legend -->
+            <div class="bg-gray-800 rounded-lg p-4">
+                <h3 class="text-base font-semibold mb-3">Легенда паттернов</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                    <div><span class="text-green-500">●</span> Hammer - Bullish reversal</div>
+                    <div><span class="text-red-500">●</span> Shooting Star - Bearish reversal</div>
+                    <div><span class="text-yellow-500">●</span> Doji - Indecision</div>
+                    <div><span class="text-green-500">●</span> Bullish Engulfing</div>
+                    <div><span class="text-red-500">●</span> Bearish Engulfing</div>
+                    <div><span class="text-green-500">●</span> Morning Star</div>
+                    <div><span class="text-red-500">●</span> Evening Star</div>
+                    <div><span class="text-green-500">●</span> Marubozu - Strong momentum</div>
+                </div>
+            </div>
+
+            <!-- Last Updated -->
+            <div class="text-center text-gray-500 text-sm mt-4">
+                Last updated: <span id="last-updated">--</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const symbolSelect = document.getElementById('symbol-select');
+        const refreshBtn = document.getElementById('refresh-btn');
+        const layoutBtns = document.querySelectorAll('.layout-btn');
+        const layoutSections = document.querySelectorAll('.layout-section');
+        
+        let currentSymbol = 'BTCUSDT';
+        let currentLayout = 'split';
+
+        // Format functions
+        const formatCurrency = (val) => val !== undefined ? new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(val) : '--';
+        const formatPct = (val) => val !== undefined ? `${val > 0 ? '+' : ''}${val.toFixed(2)}%` : '--';
+        const formatNum = (val) => val !== undefined ? new Intl.NumberFormat('en-US', { maximumFractionDigits: 2 }).format(val) : '--';
+
+        // Load data
+        async function loadData() {
+            const symbol = symbolSelect.value;
+            currentSymbol = symbol;
+            
+            try {
+                // Load summary
+                const summaryRes = await fetch(`/api/summary?symbol=${symbol}`);
+                const summary = await summaryRes.json();
+                
+                document.getElementById('kpi-price').textContent = formatCurrency(summary.currentPrice);
+                document.getElementById('kpi-price-change').textContent = formatPct(summary.priceChangePct24h);
+                document.getElementById('kpi-price-change').className = `text-sm ${summary.priceChangePct24h >= 0 ? 'text-green-500' : 'text-red-500'}`;
+                document.getElementById('kpi-volume').textContent = summary.volume24h ? `$${formatNum(summary.volume24h)}` : '--';
+                document.getElementById('kpi-pnl').textContent = formatCurrency(summary.totalPnl);
+                document.getElementById('kpi-pnl').className = `text-2xl font-bold ${summary.totalPnl >= 0 ? 'text-green-500' : 'text-red-500'}`;
+                document.getElementById('kpi-winrate').textContent = summary.winRate ? `${summary.winRate}%` : '--';
+                document.getElementById('kpi-sharpe').textContent = formatNum(summary.sharpeRatio);
+                
+                // Load charts based on layout
+                await loadCharts(symbol);
+                
+                // Load patterns
+                await loadPatterns(symbol);
+                
+                // Update timestamp
+                document.getElementById('last-updated').textContent = new Date().toLocaleTimeString();
+                
+            } catch (e) {
+                console.error('Error loading data:', e);
+            }
+        }
+
+        async function loadCharts(symbol) {
+            try {
+                if (currentLayout === 'split' || currentLayout === 'candle') {
+                    const candleRes = await fetch(`/api/chart/candlestick?symbol=${symbol}`);
+                    const candleData = await candleRes.json();
+                    
+                    if (currentLayout === 'split') {
+                        document.getElementById('candle-chart-split').innerHTML = candleData.chart;
+                    } else {
+                        document.getElementById('candle-chart-full').innerHTML = candleData.chart;
+                    }
+                }
+                
+                if (currentLayout === 'split') {
+                    const pnlRes = await fetch(`/api/chart/pnl?symbol=${symbol}`);
+                    const pnlData = await pnlRes.json();
+                    document.getElementById('pnl-chart-split').innerHTML = pnlData.chart;
+                }
+                
+                if (currentLayout === 'combined') {
+                    const combinedRes = await fetch(`/api/chart/combined?symbol=${symbol}`);
+                    const combinedData = await combinedRes.json();
+                    document.getElementById('combined-chart').innerHTML = combinedData.chart;
+                }
+            } catch (e) {
+                console.error('Error loading charts:', e);
+            }
+        }
+
+        async function loadPatterns(symbol) {
+            try {
+                const res = await fetch(`/api/patterns?symbol=${symbol}`);
+                const patterns = await res.json();
+                
+                const tbody = document.getElementById('patterns-table');
+                if (patterns.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" class="py-4 text-center text-gray-500">No patterns detected</td></tr>';
+                    return;
+                }
+                
+                tbody.innerHTML = patterns.map(p => `
+                    <tr class="border-b border-gray-700 hover:bg-gray-700">
+                        <td class="py-2">${p.time}</td>
+                        <td class="py-2 font-medium">${p.pattern}</td>
+                        <td class="py-2"><span class="${p.type === 'bullish' ? 'text-green-500' : 'text-red-500'}">${p.type}</span></td>
+                        <td class="py-2 text-gray-400">${p.description}</td>
+                        <td class="py-2">
+                            <div class="w-full bg-gray-700 rounded h-2">
+                                <div class="bg-blue-500 h-2 rounded" style="width: ${p.strength}%"></div>
+                            </div>
+                        </td>
+                        <td class="py-2">$${p.priceLevel.toFixed(2)}</td>
+                    </tr>
+                `).join('');
+            } catch (e) {
+                console.error('Error loading patterns:', e);
+            }
+        }
+
+        // Event listeners
+        symbolSelect.addEventListener('change', loadData);
+        refreshBtn.addEventListener('click', loadData);
+
+        layoutBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                layoutBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentLayout = btn.dataset.layout;
+                
+                layoutSections.forEach(s => s.classList.add('hidden'));
+                document.getElementById(`layout-${currentLayout}`).classList.remove('hidden');
+                
+                loadData();
+            });
+        });
+
+        // Initial load
+        loadData();
+    </script>
+</body>
+</html>

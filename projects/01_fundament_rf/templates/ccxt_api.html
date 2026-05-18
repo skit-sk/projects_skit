@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+{% from "macros.html" import json_debug_section %}
+{% block title %}CCXT API Explorer{% endblock %}
+{% block extra_head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/ccxt_api.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="ccxt-container">
+    <div class="ccxt-toolbar">
+        <div class="toolbar-group">
+            <label for="exchange-select">Биржа:</label>
+            <select id="exchange-select" onchange="onExchangeChange()">
+                <option value="">Загрузка...</option>
+            </select>
+        </div>
+        <div class="toolbar-group">
+            <label for="api-key-input">🔑 API Key:</label>
+            <input type="text" id="api-key-input" class="key-input" placeholder="из .env" autocomplete="off">
+            <label for="secret-input">Secret:</label>
+            <input type="password" id="secret-input" class="key-input" placeholder="из .env" autocomplete="off">
+            <label for="passphrase-input">Passphrase:</label>
+            <input type="password" id="passphrase-input" class="key-input" placeholder="из .env" autocomplete="off">
+        </div>
+        <div class="toolbar-group">
+            <label for="auth-filter">Фильтр:</label>
+            <select id="auth-filter" onchange="applyAuthFilter()">
+                <option value="all">Все методы</option>
+                <option value="public">○ публичные</option>
+                <option value="auth">● с API Key</option>
+            </select>
+        </div>
+        <div class="toolbar-group">
+            <label class="ws-checkbox-label">
+                <input type="checkbox" id="ws-filter" onchange="applyAuthFilter()"> только WS
+            </label>
+        </div>
+        <div class="toolbar-group">
+            <label for="depth-style">Depth Style:</label>
+            <select id="depth-style" onchange="onDepthStyleChange()">
+                <option value="split">Split</option>
+                <option value="stacked">Stacked</option>
+            </select>
+        </div>
+        <div class="toolbar-group">
+            <label for="depth-aggr">Aggregate:</label>
+            <select id="depth-aggr" onchange="onAggrChange()">
+                <option value="0">Off</option>
+                <option value="auto">Auto</option>
+                <option value="0.1">0.1 USDT</option>
+                <option value="1">1 USDT</option>
+                <option value="5">5 USDT</option>
+                <option value="10">10 USDT</option>
+                <option value="50">50 USDT</option>
+                <option value="100">100 USDT</option>
+                <option value="custom">Custom...</option>
+            </select>
+            <input type="number" id="depth-aggr-custom" class="aggr-custom-input" style="display:none" placeholder="USDT" min="0.001" step="any" onchange="onAggrChange()" value="1">
+        </div>
+        <div class="toolbar-group">
+            <label>▉ Bid</label>
+            <input type="color" id="color-bid" value="#16a34a" onchange="onColorChange()" style="width:28px;height:22px;padding:0;border:1px solid var(--border-color);border-radius:3px;cursor:pointer;background:none;">
+            <label>▉ Ask</label>
+            <input type="color" id="color-ask" value="#dc2626" onchange="onColorChange()" style="width:28px;height:22px;padding:0;border:1px solid var(--border-color);border-radius:3px;cursor:pointer;background:none;">
+            <label>▣ Bg</label>
+            <input type="color" id="color-bg" value="#f0f4ff" onchange="onColorChange()" style="width:28px;height:22px;padding:0;border:1px solid var(--border-color);border-radius:3px;cursor:pointer;background:none;">
+        </div>
+        <div class="toolbar-group">
+            <label>Flash Vol:</label>
+            <input type="number" id="flash-vol-ms" value="500" min="0" max="3000" step="100" style="width:60px" class="aggr-custom-input" onchange="onFlashTimeChange()">
+            <label>ms</label>
+            <label>Cumul:</label>
+            <input type="number" id="flash-cumul-ms" value="300" min="0" max="3000" step="100" style="width:60px" class="aggr-custom-input" onchange="onFlashTimeChange()">
+            <label>ms</label>
+        </div>
+    </div>
+
+    <div class="ccxt-split">
+        <div class="ccxt-left" id="tree-panel">
+            <div class="panel-header">📡 Methods</div>
+            <div id="method-tree">
+                <div class="loading">Выберите биржу...</div>
+            </div>
+        </div>
+
+        <div class="ccxt-divider" id="divider"></div>
+
+        <div class="ccxt-right" id="result-panel">
+            <div class="panel-header">🔍 Request
+                <span class="legend-toggle" onclick="toggleLegend()" title="Show code paths">ⓘ</span>
+                <div id="code-legend" class="code-legend" style="display:none">
+                    <b>Legend:</b> Section — JS function ↦ HTML element ← Python file:function
+                </div>
+            </div>
+            <div id="method-info">
+                <div class="placeholder">Выберите метод слева</div>
+            </div>
+            <div id="docs-section" class="docs-section" style="display:none">
+                <div class="docs-header" onclick="toggleDocs(this)">
+                    <span class="docs-toggle">▶</span>
+                    <span>📖 Documentation</span>
+                </div>
+                <div class="docs-body">
+                    <pre id="docs-content">Загрузка...</pre>
+                </div>
+            </div>
+            <div id="request-url" class="request-url" style="display:none"></div>
+            <div id="param-form" class="param-form" style="display:none"></div>
+            <div id="execute-area" style="display:none">
+                <button id="execute-btn" onclick="executeMethod()" class="execute-btn">▶ Execute</button>
+                <button id="stop-btn" onclick="stopWS()" class="stop-btn" style="display:none">❌ Stop</button>
+                <button id="pause-btn" onclick="togglePause()" class="pause-btn" style="display:none">⏸ Pause</button>
+                <span id="live-indicator" class="live-indicator" style="display:none"></span>
+                <span id="depth-area" style="display:none">
+                    <select id="depth-mode" class="depth-mode-select" onchange="onDepthModeChange()">
+                        <option value="follow">Follow</option>
+                        <option value="pinned">Pinned</option>
+                    </select>
+                    Depth: <select id="depth-select" onchange="onDepthChange()">
+                        <option value="5">5</option>
+                        <option value="15">15</option>
+                        <option value="50">50</option>
+                    </select>
+                </span>
+                <span id="timing-info" class="timing-info"></span>
+            </div>
+            <div id="ws-summary" class="ws-summary" style="display:none">
+                <div id="ws-summary-header" class="ws-summary-header"></div>
+                <div id="ws-summary-table" class="ws-table"></div>
+                <div id="depth-vis" class="depth-vis" style="display:none">
+                    <div class="depth-vis-toggle" onclick="toggleDepthVis(this)">
+                        <span class="depth-vis-icon">▼</span>
+                        <span id="depth-vis-label" class="depth-vis-label">Depth Visualization</span>
+                    </div>
+                    <div id="depth-vis-body" class="depth-vis-body"></div>
+                </div>
+            </div>
+            <div id="response-area" class="response-area" style="display:none">
+                {{ json_debug_section() }}
+            </div>
+            <div id="error-area" class="error-area" style="display:none"></div>
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/ccxt_api.js') }}"></script>
+{% endblock %}

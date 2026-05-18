@@ -1,0 +1,218 @@
+{% extends "base.html" %}
+{% from "macros.html" import emoji_entry, emoji_upd with context %}
+
+{% block title %}Главная - Fundament RF{% endblock %}
+
+{% block content %}
+<h2 style="text-align:center;">Объекты <button onclick="refreshAll()" id="refreshAllBtn" style="background:#3498db; border:none; font-size:12px; cursor:pointer; vertical-align:middle; padding:4px 8px; border-radius:4px; color:#fff;" title="Обновить все">🔄</button></h2>
+
+{% if objects %}
+<ul class="object-list">
+{% for obj in objects %}
+    {% set entry = obj.data.get('emoji_entry', {}) %}
+    {% set upd = obj.data.get('emoji_upd', {}) %}
+    <li data-id="{{ obj.id }}" style="position:relative; display:flex; flex-direction:column; gap:2px; background:var(--bg-card); padding:1rem; border-radius:4px; margin-bottom:0.5rem; box-shadow:0 1px 3px var(--shadow);">
+        <div style="display:flex; align-items:center; justify-content:space-between; width:100%; position:relative; z-index:2;">
+            <div style="flex:1; text-align:center; order:2;">
+                <a href="{{ url_for('web.card', obj_id=obj.id) }}" style="font-size:15px; font-weight:bold; color:var(--link-color); text-decoration:none;">{{ obj.name }}</a>
+                <span style="font-size:11px; color:#888; margin-left:8px;">x{{ obj.data.get('leverage', 10) }}</span>
+            </div>
+            <a href="{{ url_for('web.delete_object', obj_id=obj.id) }}" class="delete-btn" onclick="return confirm('Удалить?')" style="order:3;">×</a>
+        </div>
+        
+        {% if entry %}
+        <div class="emoji-summary">
+            {{ emoji_entry(entry, obj.data.get('leverage', 10)) }}
+        </div>
+        
+        {% if upd and upd.get('current_price') %}
+        <div class="emoji-summary">
+            {{ emoji_upd(entry, upd, obj.data.get('leverage', 10)) }}
+        </div>
+        {% endif %}
+        
+        {% set dev = obj.data.get('deviation_pct', []) %}
+        {% if dev|length > 1 %}
+        <div class="sparkline-group">
+          <span class="sparkline-item" data-values="{{ dev | reverse | list | tojson }}"><span class="sparkline-label">90d</span></span>
+          <span class="sparkline-item" data-values="{{ dev[:30] | reverse | list | tojson }}"><span class="sparkline-label">30d</span></span>
+          <span class="sparkline-item" data-values="{{ dev[:7] | reverse | list | tojson }}"><span class="sparkline-label">7d</span></span>
+        </div>
+        {% endif %}
+        
+        {% set created = obj.created_at|string %}
+        {% set updated = obj.data.get('chart_updated', '') %}
+        <div style="font-size:8px; color:#666; text-align:center;">
+            <span>entry: {{ entry.get('entry_date', '') }} | add: {{ created[:10] }} | upd: {% if updated %}{{ updated }}{% else %}—{% endif %}</span>
+            <button onclick="event.preventDefault(); event.stopPropagation(); refreshOne('{{ obj.id }}', this)" class="refresh-btn" style="background:none; border:none; font-size:8px; cursor:pointer; margin-left:4px; color:#3498db; vertical-align:middle; padding:2px 4px; border-radius:3px; z-index:100; position:relative;" title="Обновить">🔄</button>
+            <span class="refresh-timer" data-id="{{ obj.id }}" style="display:none; margin-left:4px; color:#e74c3c; font-weight:bold;"></span>
+        </div>
+        {% endif %}
+    </li>
+{% endfor %}
+</ul>
+{% else %}
+<p style="text-align:center;">Объектов пока нет.</p>
+{% endif %}
+
+<div class="add-form" style="background:var(--bg-card); padding:1rem; border-radius:4px; margin-top:1rem; box-shadow:0 1px 3px var(--shadow); text-align:center;">
+    <details style="text-align:center;">
+        <summary class="add-btn" style="text-align:center;">+ Добавить</summary>
+        <form method="post" action="{{ url_for('api.create_from_emoji') }}">
+            <textarea name="emoji_data" placeholder="" rows="3" style="width:100%; box-sizing:border-box;"></textarea>
+            <button type="submit" style="margin-top:0.5rem;">Добавить</button>
+        </form>
+    </details>
+</div>
+
+<style>
+.delete-btn { color:#dc2626; font-size:20px; text-decoration:none; margin-left:8px; }
+.refresh-btn { background:none; border:none; cursor:pointer; vertical-align:middle; }
+</style>
+
+<script>
+let refreshAllRunning = false;
+
+async function refreshAll() {
+    if (refreshAllRunning) return;
+    refreshAllRunning = true;
+
+    const btn = document.getElementById('refreshAllBtn');
+    const cards = document.querySelectorAll('.object-list li');
+    const total = cards.length;
+    const ids = [];
+    const symbols = [];
+    cards.forEach(c => {
+        if (c.dataset.id) {
+            ids.push(c.dataset.id);
+            const nameLink = c.querySelector('a[href^="/obj/"]');
+            if (nameLink) {
+                const match = nameLink.textContent.match(/^(\w+)/);
+                symbols.push(match ? match[1] : '?');
+            } else {
+                symbols.push('?');
+            }
+        }
+    });
+
+    btn.textContent = '⏳ 0/' + total;
+
+    for (let i = 0; i < total; i++) {
+        const objId = ids[i];
+        const card = cards[i];
+        const timerEl = card.querySelector('.refresh-timer');
+
+        btn.textContent = '⏳ ' + (i + 1) + '/' + total + ' ' + symbols[i];
+        btn.disabled = true;
+
+        if (timerEl) {
+            timerEl.style.display = 'inline';
+            timerEl.textContent = '⏳';
+        }
+
+        try {
+            const start = Date.now();
+            const res = await fetch('/graphics/chart/' + objId);
+            const json = await res.json();
+            const ms = Date.now() - start;
+
+            if (timerEl) {
+                timerEl.textContent = json.error ? '❌' : ms + 'мс';
+            }
+
+            if (!json.error) {
+                fetch('/processor_1d/create/' + objId, {method: 'POST'});
+            }
+        } catch(e) {
+            if (timerEl) {
+                timerEl.textContent = '❌';
+            }
+        }
+    }
+
+    btn.textContent = '✅';
+
+    setTimeout(() => {
+        refreshAllRunning = false;
+        btn.textContent = '🔄';
+        btn.disabled = false;
+        location.reload();
+    }, 10000);
+}
+
+async function refreshOne(objId, btn) {
+    const card = document.querySelector('li[data-id="' + objId + '"]');
+    const timerEl = card ? card.querySelector('.refresh-timer') : null;
+    const start = Date.now();
+    
+    function updateTimer() {
+        const elapsed = Date.now() - start;
+        if (timerEl) {
+            timerEl.style.display = 'inline';
+            timerEl.textContent = elapsed + 'мс';
+        }
+    }
+    
+    const timer = setInterval(updateTimer, 50);
+    
+    try {
+        const res = await fetch('/graphics/chart/' + objId);
+        const json = await res.json();
+        clearInterval(timer);
+        
+        const ms = Date.now() - start;
+        
+        if (timerEl) {
+            timerEl.style.display = 'inline';
+            timerEl.textContent = json.error ? '❌' : ms + 'мс';
+        }
+        
+        if (!json.error) {
+            fetch('/processor_1d/create/' + objId, {method: 'POST'});
+            timerEl.textContent = ms + 'мс';
+            setTimeout(() => {
+                btn.textContent = '🔄';
+                if (timerEl) timerEl.style.display = 'none';
+                location.reload();
+            }, 10000);
+        } else {
+            btn.textContent = '❌';
+            setTimeout(() => {
+                btn.textContent = '🔄';
+                if (timerEl) timerEl.style.display = 'none';
+            }, 10000);
+        }
+    } catch(e) {
+        clearInterval(timer);
+        if (timerEl) {
+            timerEl.textContent = '❌';
+            timerEl.style.display = 'inline';
+        }
+    }
+}
+</script>
+
+<script>
+document.querySelectorAll('.sparkline-item').forEach(function(el) {
+    var values;
+    try { values = JSON.parse(el.getAttribute('data-values')); } catch(e) { return; }
+    if (!values || values.length < 2) return;
+    
+    var w = 50, h = 12;
+    var min = Math.min.apply(null, values);
+    var max = Math.max.apply(null, values);
+    var range = max - min || 1;
+    
+    var pts = values.map(function(v, i) {
+        var x = i * (w / (values.length - 1));
+        var y = h - ((v - min) / range) * (h - 2) - 1;
+        return x + ',' + y;
+    }).join(' ');
+    
+    var color = values[values.length - 1] >= values[0] ? '#16a34a' : '#dc2626';
+    var svg = '<svg viewBox="0 0 ' + w + ' ' + h + '" style="width:50px;height:12px">' +
+        '<polyline fill="none" stroke="' + color + '" stroke-width="1.2" points="' + pts + '"/></svg>';
+    el.insertAdjacentHTML('afterbegin', svg);
+});
+</script>
+{% endblock %}

@@ -1,0 +1,12 @@
+{
+  "name": "tradingview-demos",
+  "version": "1.0.0",
+  "description": "TradingView Lightweight Charts & Advanced Charts demos gallery",
+  "scripts": {
+    "start": "python -m http.server 8080",
+    "dev": "python -m http.server 8080 --bind 0.0.0.0"
+  },
+  "dependencies": {
+    "lightweight-charts": "^5.2.0"
+  }
+}

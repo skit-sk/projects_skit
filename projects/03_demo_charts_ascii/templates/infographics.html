@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ symbol }} — ASCII Infographics</title>
+<style>
+  body { margin:0; background:#0d1117; color:#c9d1d9; font-family: 'Courier New', monospace; font-size:13px; }
+  header { padding:1rem 2rem; background:#161b22; border-bottom:1px solid #30363d; }
+  h1 { margin:0; font-size:1.4rem; }
+  .nav { padding:0.5rem 2rem; background:#0d1117; border-bottom:1px solid #30363d; }
+  .nav a { color:#58a6ff; text-decoration:none; margin-right:1rem; font-size:0.9rem; }
+  .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); gap:1rem; padding:1rem; }
+  .panel { background:#161b22; border:1px solid #30363d; border-radius:8px; padding:1rem; overflow-x:auto; }
+  .panel h3 { margin:0 0 0.5rem; font-size:1rem; color:#58a6ff; font-family: system-ui, sans-serif; }
+  pre { margin:0; line-height:1.2; white-space:pre; }
+  .empty { color:#8b949e; font-style:italic; }
+</style>
+</head>
+<body>
+<header>
+  <h1>{{ symbol }} — ASCII Infographics</h1>
+</header>
+<div class="nav">
+  <a href="/">← Home</a>
+  <a href="/interactive/{{ symbol }}">Plotly Interactive</a>
+  <a href="/chartjs/{{ symbol }}">Chart.js View</a>
+  <a href="/deckgl/{{ symbol }}">Deck.gl Heatmap</a>
+  <a href="/ascii-new/{{ symbol }}">New ASCII Types</a>
+</div>
+
+<div class="grid">
+  {% for name, content in files.items() %}
+  <div class="panel">
+    <h3>{{ name.replace('_', ' ').title() }}</h3>
+    {% if content.startswith('[') %}
+    <div class="empty">{{ content }}</div>
+    {% else %}
+    <pre>{{ content }}</pre>
+    {% endif %}
+  </div>
+  {% endfor %}
+</div>
+</body>
+</html>

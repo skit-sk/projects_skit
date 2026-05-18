@@ -1,0 +1,30 @@
+[
+  {
+    "uid": 12345,
+    "username": "test_user",
+    "first_name": "Test",
+    "text": "hello",
+    "time": 1778865674
+  },
+  {
+    "uid": 67890,
+    "username": "",
+    "first_name": "Anon",
+    "text": "some message",
+    "time": 1778865674
+  },
+  {
+    "uid": 8334836991,
+    "username": "",
+    "first_name": "А",
+    "text": "полный доступ",
+    "time": 1778865792
+  },
+  {
+    "uid": 8334836991,
+    "username": "",
+    "first_name": "А",
+    "text": "/ls",
+    "time": 1778865823
+  }
+]

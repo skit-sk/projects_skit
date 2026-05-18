@@ -1,0 +1,51 @@
+{
+  "aitunel": {
+    "api_key": "${AITUNEL_API_KEY}",
+    "base_url": "https://aitunel.com/v1",
+    "models": [
+      "gpt-4o",
+      "gpt-4o-mini",
+      "claude-3.5-sonnet"
+    ]
+  },
+  "routerai": {
+    "api_key": "${ROUTERAI_API_KEY}",
+    "base_url": "https://routerai.com/v1",
+    "models": [
+      "gpt-4o",
+      "claude-3-opus",
+      "gemini-pro"
+    ]
+  },
+  "apiyi": {
+    "api_key": "${APIYI_API_KEY}",
+    "base_url": "https://apiyi.com/v1",
+    "models": [
+      "gpt-4o-mini",
+      "claude-3-sonnet"
+    ]
+  },
+  "openrouter": {
+    "api_key": "${OPENROUTER_API_KEY}",
+    "base_url": "https://openrouter.ai/api/v1",
+    "models": [
+      "openai/gpt-4o",
+      "openai/gpt-4o-mini",
+      "anthropic/claude-3.5-sonnet",
+      "anthropic/claude-3-haiku",
+      "google/gemini-pro",
+      "google/gemini-flash",
+      "meta-llama/llama-3-70b-instruct",
+      "mistral/mistral-large",
+      "mistral/mistral-small"
+    ]
+  },
+  "opencode": {
+    "api_key": "${OPENCODE_API_KEY}",
+    "base_url": "https://opencode.ai/v1",
+    "models": [
+      "gpt-4o",
+      "gpt-4o-mini"
+    ]
+  }
+}

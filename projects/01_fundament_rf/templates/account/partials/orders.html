@@ -1,0 +1,74 @@
+{% if error %}
+<div style="font-size:10px; color:#888; margin-bottom:0.25rem;"><span class="section-timer"></span></div>
+<div class="error-state">❌ {{ error }}</div>
+{% else %}
+<div style="font-size:10px; color:#888; margin-bottom:0.25rem;"><span class="section-timer"></span></div>
+<h3>🟢 Spot Orders</h3>
+{% if spot %}
+<table class="account-table">
+    <thead>
+        <tr>
+            <th>Symbol</th>
+            <th>Type</th>
+            <th>Side</th>
+            <th>Price</th>
+            <th>Qty</th>
+            <th>Filled</th>
+            <th>Status</th>
+            <th>Time</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for o in spot %}
+        <tr>
+            <td><strong>{{ o.ticker }}</strong></td>
+            <td>{{ o.order_type }}</td>
+            <td style="color: {{ 'var(--color-profit)' if o.side == 'buy' else 'var(--color-loss)' }}">{{ o.side }}</td>
+            <td>{{ fmt_num(o.price, 5) }}</td>
+            <td>{{ fmt_num(o.quantity, 4) }}</td>
+            <td>{{ fmt_num(o.filled_qty, 4) }}</td>
+            <td>{{ o.status }}</td>
+            <td>{{ fmt_time(o.c_time) }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div class="empty-state">📭 Нет активных спот-ордеров</div>
+{% endif %}
+
+<h3 style="margin-top:1.5rem;">🔵 Futures Orders</h3>
+{% if futures %}
+<table class="account-table">
+    <thead>
+        <tr>
+            <th>Symbol</th>
+            <th>Type</th>
+            <th>Side</th>
+            <th>Price</th>
+            <th>Qty</th>
+            <th>Filled</th>
+            <th>Status</th>
+            <th>Time</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for o in futures %}
+        <tr>
+            <td><strong>{{ o.ticker }}</strong></td>
+            <td>{{ o.order_type }}</td>
+            <td style="color: {{ 'var(--color-profit)' if o.side == 'buy' else 'var(--color-loss)' }}">{{ o.side }}</td>
+            <td>{{ fmt_num(o.price, 5) }}</td>
+            <td>{{ fmt_num(o.quantity, 4) }}</td>
+            <td>{{ fmt_num(o.filled_qty, 4) }}</td>
+            <td>{{ o.status }}</td>
+            <td>{{ fmt_time(o.c_time) }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div class="empty-state">📭 Нет активных фьючерсных ордеров</div>
+{% endif %}
+{% endif %}
+{% include "account/partials/_debug_footer.html" %}

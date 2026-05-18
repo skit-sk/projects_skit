@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ symbol }} — Chart.js View</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  body { margin:0; background:#0d1117; color:#c9d1d9; font-family: system-ui, sans-serif; }
+  header { padding:1rem 2rem; background:#161b22; border-bottom:1px solid #30363d; }
+  h1 { margin:0; font-size:1.4rem; }
+  .grid { display:grid; grid-template-columns: 1fr 1fr; gap:1rem; padding:1rem; }
+  .panel { background:#161b22; border:1px solid #30363d; border-radius:8px; padding:1rem; }
+  .panel h3 { margin:0 0 0.5rem; font-size:1rem; color:#58a6ff; }
+  .full { grid-column: 1 / -1; }
+  .nav { padding:0.5rem 2rem; background:#0d1117; border-bottom:1px solid #30363d; }
+  .nav a { color:#58a6ff; text-decoration:none; margin-right:1rem; font-size:0.9rem; }
+  canvas { max-height:320px; }
+  .gauge-wrap { display:flex; justify-content:center; align-items:center; height:300px; }
+  .gauge-wrap canvas { max-height:260px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>{{ symbol }} — Chart.js Visualizations</h1>
+</header>
+<div class="nav">
+  <a href="/">← Home</a>
+  <a href="/infographics/{{ symbol }}">ASCII Infographics</a>
+  <a href="/interactive/{{ symbol }}">Plotly Interactive</a>
+  <a href="/deckgl/{{ symbol }}">Heatmaps</a>
+</div>
+
+<div class="grid">
+  <div class="panel full">
+    <h3>Radar — Multi-Metric Profile</h3>
+    <canvas id="radarChart"></canvas>
+  </div>
+  <div class="panel">
+    <h3>ROE Gauge</h3>
+    <div class="gauge-wrap"><canvas id="gaugeChart"></canvas></div>
+  </div>
+  <div class="panel">
+    <h3>Daily PnL Waterfall</h3>
+    <canvas id="waterfallChart"></canvas>
+  </div>
+</div>
+
+<script>
+const d = {{ data|tojson }};
+const symbol = d.symbol || '{{ symbol }}';
+
+function renderRadar() {
+  const ctx = document.getElementById('radarChart').getContext('2d');
+  const labels = ['Body%', 'Upper Wick', 'Lower Wick', 'Volatility', 'Range', 'ROE'];
+  const data = [
+    d.radar?.body || 0.5,
+    d.radar?.upper_wick || 0.3,
+    d.radar?.lower_wick || 0.2,
+    d.radar?.volatility || 0.4,
+    d.radar?.range || 0.6,
+    d.radar?.roe || 0.5,
+  ];
+  new Chart(ctx, {
+    type: 'radar',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: symbol,
+        data: data,
+        backgroundColor: 'rgba(88,166,255,0.2)',
+        borderColor: '#58a6ff',
+        pointBackgroundColor: '#58a6ff',
+        pointBorderColor: '#fff',
+        pointHoverBackgroundColor: '#fff',
+        pointHoverBorderColor: '#58a6ff'
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        r: {
+          angleLines: { color: '#30363d' },
+          grid: { color: '#30363d' },
+          pointLabels: { color: '#c9d1d9' },
+          ticks: { backdropColor: 'transparent', color: '#8b949e' },
+          suggestedMin: 0, suggestedMax: 1
+        }
+      },
+      plugins: {
+        legend: { labels: { color: '#c9d1d9' } }
+      }
+    }
+  });
+}
+
+function renderGauge() {
+  const ctx = document.getElementById('gaugeChart').getContext('2d');
+  const roe = d.roe_usdt || 0;
+  const maxRoe = Math.max(100, Math.abs(roe) * 1.5);
+  new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['ROE', 'Remaining'],
+      datasets: [{
+        data: [Math.abs(roe), Math.max(0, maxRoe - Math.abs(roe))],
+        backgroundColor: [roe >= 0 ? '#3fb950' : '#f85149', '#30363d'],
+        borderWidth: 0,
+        circumference: 180,
+        rotation: 270,
+      }]
+    },
+    options: {
+      responsive: true,
+      cutout: '70%',
+      plugins: {
+        legend: { display: false },
+        tooltip: { enabled: false }
+      }
+    },
+    plugins: [{
+      id: 'gaugeText',
+      afterDraw: (chart) => {
+        const {ctx, chartArea: {top, bottom, left, right}} = chart;
+        const cx = (left + right) / 2;
+        const cy = (top + bottom) / 2 + 20;
+        ctx.save();
+        ctx.fillStyle = '#c9d1d9';
+        ctx.font = 'bold 24px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(roe.toFixed(2) + '%', cx, cy);
+        ctx.restore();
+      }
+    }]
+  });
+}
+
+function renderWaterfall() {
+  const ctx = document.getElementById('waterfallChart').getContext('2d');
+  const pnls = d.pnl_daily || [];
+  const dates = d.dates || [];
+  if (!pnls.length) {
+    ctx.font = '14px sans-serif';
+    ctx.fillStyle = '#8b949e';
+    ctx.fillText('No daily PnL data', 10, 50);
+    return;
+  }
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: dates.slice(-pnls.length),
+      datasets: [{
+        label: 'Daily PnL (USDT)',
+        data: pnls,
+        backgroundColor: pnls.map(v => v >= 0 ? '#3fb950' : '#f85149'),
+        borderRadius: 4
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        x: { ticks: { color: '#8b949e' }, grid: { color: '#21262d' } },
+        y: { ticks: { color: '#8b949e' }, grid: { color: '#21262d' }, title: { display:true, text:'PnL USDT', color:'#8b949e' } }
+      },
+      plugins: { legend: { labels: { color: '#c9d1d9' } } }
+    }
+  });
+}
+
+renderRadar();
+renderGauge();
+renderWaterfall();
+</script>
+</body>
+</html>

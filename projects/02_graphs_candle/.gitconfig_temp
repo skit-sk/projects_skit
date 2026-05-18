@@ -1,0 +1,7 @@
+[user]
+	email = ai@test.com
+	name = AI
+[core]
+	autocrlf = input
+[init]
+	defaultBranch = main

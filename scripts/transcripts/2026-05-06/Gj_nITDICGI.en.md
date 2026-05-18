@@ -1,0 +1,183 @@
+---
+video_id: Gj_nITDICGI
+title: 'Gj_nITDICGI'
+url: https://www.youtube.com/watch?v=Gj_nITDICGI
+date: 2026-05-06
+language: en
+format: transcript-timestamps
+---
+
+# Transcript
+
+- **[00:00:00](https://www.youtube.com/watch?v=Gj_nITDICGI&t=0s)**  Резапривет, родозведи новой ВIP-каз-хедлайнерок.
+- **[00:00:02](https://www.youtube.com/watch?v=Gj_nITDICGI&t=2s)**  Вы просили привольного трейдера, я вам его нашел.
+- **[00:00:05](https://www.youtube.com/watch?v=Gj_nITDICGI&t=5s)**  Я рек привет.
+- **[00:00:06](https://www.youtube.com/watch?v=Gj_nITDICGI&t=6s)**  Я рек сделаю уже 7 выводов.
+- **[00:00:08](https://www.youtube.com/watch?v=Gj_nITDICGI&t=8s)**  Всем выводов собственно из пропзрейдинговой компании.
+- **[00:00:11](https://www.youtube.com/watch?v=Gj_nITDICGI&t=11s)**  Исхаush-хэдже.
+- **[00:00:12](https://www.youtube.com/watch?v=Gj_nITDICGI&t=12s)**  Так что есть трейдеры прибыльные на бумаги.
+- **[00:00:15](https://www.youtube.com/watch?v=Gj_nITDICGI&t=15s)**  Есть трейдеры прибыльные где-то там в отчетах,
+- **[00:00:17](https://www.youtube.com/watch?v=Gj_nITDICGI&t=17s)**  а есть тут выводит просто бабки и тратяты.
+- **[00:00:19](https://www.youtube.com/watch?v=Gj_nITDICGI&t=19s)**  Кстати, а сны как-то это сделал.
+- **[00:00:20](https://www.youtube.com/watch?v=Gj_nITDICGI&t=20s)**  Идавай сразу про ухо, хочу сразу откролнул.
+- **[00:00:23](https://www.youtube.com/watch?v=Gj_nITDICGI&t=23s)**  Показался ты собственно не была бол.
+- **[00:00:25](https://www.youtube.com/watch?v=Gj_nITDICGI&t=25s)**  Вот, я потом надезаю, что только плавает кровать.
+- **[00:00:28](https://www.youtube.com/watch?v=Gj_nITDICGI&t=28s)**  Я знаю, что там у тебя такой.
+- **[00:00:31](https://www.youtube.com/watch?v=Gj_nITDICGI&t=31s)**  А на кого еще торгуешь?
+- **[00:00:32](https://www.youtube.com/watch?v=Gj_nITDICGI&t=32s)**  Давай сразу.
+- **[00:00:33](https://www.youtube.com/watch?v=Gj_nITDICGI&t=33s)**  Какой рабочий капитан?
+- **[00:00:34](https://www.youtube.com/watch?v=Gj_nITDICGI&t=34s)**  У меня сейчас два пасту.
+- **[00:00:37](https://www.youtube.com/watch?v=Gj_nITDICGI&t=37s)**  Так фанта-каунта.
+- **[00:00:39](https://www.youtube.com/watch?v=Gj_nITDICGI&t=39s)**  И собственно сейчас я покажу.
+- **[00:00:40](https://www.youtube.com/watch?v=Gj_nITDICGI&t=40s)**  Приyingула на задне было понятие фанта-каунта.
+- **[00:00:43](https://www.youtube.com/watch?v=Gj_nITDICGI&t=43s)**  Вкрепче и в целом сынга еще сонос.
+- **[00:00:45](https://www.youtube.com/watch?v=Gj_nITDICGI&t=45s)**  Есть это понятие полностью разыта.
+- **[00:00:47](https://www.youtube.com/watch?v=Gj_nITDICGI&t=47s)**  Так, ну что?
+- **[00:00:48](https://www.youtube.com/watch?v=Gj_nITDICGI&t=48s)**  Чего у тебя здесь видим?
+- **[00:00:49](https://www.youtube.com/watch?v=Gj_nITDICGI&t=49s)**  Значит, соответственно это у тебя на копельное прибыль 11 тысяч.
+- **[00:00:55](https://www.youtube.com/watch?v=Gj_nITDICGI&t=55s)**  И соответственно, все это выведено.
+- **[00:00:57](https://www.youtube.com/watch?v=Gj_nITDICGI&t=57s)**  И если посмотреть фазы, а предыдущих фаз не видно.
+- **[00:01:00](https://www.youtube.com/watch?v=Gj_nITDICGI&t=60s)**  Да, но от зего-то на 3,5,7.
+- **[00:01:02](https://www.youtube.com/watch?v=Gj_nITDICGI&t=62s)**  Соответственно прибыли бы так.
+- **[00:01:04](https://www.youtube.com/watch?v=Gj_nITDICGI&t=64s)**  И предыдущие история 3,5,7.
+- **[00:01:06](https://www.youtube.com/watch?v=Gj_nITDICGI&t=66s)**  Все это периода получается раз две недели, правильно понимаю?
+- **[00:01:09](https://www.youtube.com/watch?v=Gj_nITDICGI&t=69s)**  Да, один период был практически месяц.
+- **[00:01:11](https://www.youtube.com/watch?v=Gj_nITDICGI&t=71s)**  И последнее по-моему, это веторе.
+- **[00:01:14](https://www.youtube.com/watch?v=Gj_nITDICGI&t=74s)**  И это собственно у нас с тобой второй счет.
+- **[00:01:16](https://www.youtube.com/watch?v=Gj_nITDICGI&t=76s)**  То есть, в это уже у тебя пятая фаза.
+- **[00:01:17](https://www.youtube.com/watch?v=Gj_nITDICGI&t=77s)**  Это, как понимаю, здесь полторы тысячи,
+- **[00:01:19](https://www.youtube.com/watch?v=Gj_nITDICGI&t=79s)**  а за предыдущь период вот он, видно, надо тысяч 500 тысяч 500.
+- **[00:01:23](https://www.youtube.com/watch?v=Gj_nITDICGI&t=83s)**  Ну, чего нормально, кстати, прикольнят.
+- **[00:01:24](https://www.youtube.com/watch?v=Gj_nITDICGI&t=84s)**  Получается, что делаешь на сотку полтора проценты месяц.
+- **[00:01:27](https://www.youtube.com/watch?v=Gj_nITDICGI&t=87s)**  И вообще типа, да, ну что у меня два, как раз это.
+- **[00:01:30](https://www.youtube.com/watch?v=Gj_nITDICGI&t=90s)**  Это токант у меня, знаешь, он у меня с изониджным диском.
+- **[00:01:34](https://www.youtube.com/watch?v=Gj_nITDICGI&t=94s)**  И есть другой, а ты показал это?
+- **[00:01:36](https://www.youtube.com/watch?v=Gj_nITDICGI&t=96s)**  Да, уже показал это.
+- **[00:01:37](https://www.youtube.com/watch?v=Gj_nITDICGI&t=97s)**  Есть другой, а он, который там у меня три вывода все.
+- **[00:01:40](https://www.youtube.com/watch?v=Gj_nITDICGI&t=100s)**  И там, ну, чуть-другой риск, чуть больше я закладу рискозелки.
+- **[00:01:44](https://www.youtube.com/watch?v=Gj_nITDICGI&t=104s)**  И ровно, поэтому, получается, больше правд.
+- **[00:01:46](https://www.youtube.com/watch?v=Gj_nITDICGI&t=106s)**  То есть, ну, это нормально.
+- **[00:01:48](https://www.youtube.com/watch?v=Gj_nITDICGI&t=108s)**  Ладно, давай собственно с компомбоковременно отложим еще вернемся.
+- **[00:01:51](https://www.youtube.com/watch?v=Gj_nITDICGI&t=111s)**  Расскажи, как так получилось, что очень прикольное,
+- **[00:01:53](https://www.youtube.com/watch?v=Gj_nITDICGI&t=113s)**  это, по сути, новое понимание, это значит,
+- **[00:01:55](https://www.youtube.com/watch?v=Gj_nITDICGI&t=115s)**  это будет, там воскищался с точки зрения.
+- **[00:01:56](https://www.youtube.com/watch?v=Gj_nITDICGI&t=116s)**  Ну, оперых представителей новую войсию волны, как бы третий.
+- **[00:02:00](https://www.youtube.com/watch?v=Gj_nITDICGI&t=120s)**  и наверное, это его на садине на сперах полноценно фабды трейдеров на канале.
+- **[00:02:04](https://www.youtube.com/watch?v=Gj_nITDICGI&t=124s)**  Кто сделал уже там себе выдох? Какая вообще сумма, проевта?
+- **[00:02:07](https://www.youtube.com/watch?v=Gj_nITDICGI&t=127s)**  Ну, ровно у меня 17-13 баксов, получается, сумма, проевта.
+- **[00:02:10](https://www.youtube.com/watch?v=Gj_nITDICGI&t=130s)**  На вложенный...
+- **[00:02:12](https://www.youtube.com/watch?v=Gj_nITDICGI&t=132s)**  Ну, 1200 баксов.
+- **[00:02:13](https://www.youtube.com/watch?v=Gj_nITDICGI&t=133s)**  А сколько провалел челень же прежде, чем пришелся?
+- **[00:02:15](https://www.youtube.com/watch?v=Gj_nITDICGI&t=135s)**  Слушай, на одном аккаунте провалил где-то три челленджа по-10 тысяч,
+- **[00:02:18](https://www.youtube.com/watch?v=Gj_nITDICGI&t=138s)**  то есть, я прям тесел там прямо историю, потому что я скальт, я же вернулся,
+- **[00:02:21](https://www.youtube.com/watch?v=Gj_nITDICGI&t=141s)**  я пришел сюда искальт, я начал, я начал, скажем, торговать пробие, чиста графика.
+- **[00:02:28](https://www.youtube.com/watch?v=Gj_nITDICGI&t=148s)**  Я в скальтнике так в востака.
+- **[00:02:29](https://www.youtube.com/watch?v=Gj_nITDICGI&t=149s)**  Я посад тесел, я услил там, ну, ну, ну, ну, ну, ну, зарядка трех счетов по 10 тысяч, 1,50 тысяч, 1,50 тысяч.
+- **[00:02:35](https://www.youtube.com/watch?v=Gj_nITDICGI&t=155s)**  Сейчас-то скажу, как-то было, давай, давай.
+- **[00:02:38](https://www.youtube.com/watch?v=Gj_nITDICGI&t=158s)**  На ябре либо декабрь, я уезжаю в Европу в Виталю в Сантморис Шицарик,
+- **[00:02:43](https://www.youtube.com/watch?v=Gj_nITDICGI&t=163s)**  в Ручу, в Шицарик, в Шицарик, в Багатом, звучит.
+- **[00:02:45](https://www.youtube.com/watch?v=Gj_nITDICGI&t=165s)**  Да, да.
+- **[00:02:45](https://www.youtube.com/watch?v=Gj_nITDICGI&t=165s)**  Как сентрайдеры?
+- **[00:02:47](https://www.youtube.com/watch?v=Gj_nITDICGI&t=167s)** 
+- **[00:02:47](https://www.youtube.com/watch?v=Gj_nITDICGI&t=167s)**  Слушай, мы все-таки, ну, еда в общем в Витале на машине, в Горр, в общем отдыхать.
+- **[00:02:52](https://www.youtube.com/watch?v=Gj_nITDICGI&t=172s)**  Я хотел в Теранов В Италии Пересесь на поезд, но я так и сделал.
+- **[00:02:56](https://www.youtube.com/watch?v=Gj_nITDICGI&t=176s)**  Опять сесть на поезд и поехать через Горр, через Альпы в Сантморис Шицарик,
+- **[00:03:02](https://www.youtube.com/watch?v=Gj_nITDICGI&t=182s)**  и там уже я был дыня и вернулся на том же поезде, то есть по-драмный поезд, офиген,
+- **[00:03:06](https://www.youtube.com/watch?v=Gj_nITDICGI&t=186s)**  у меня есть фотки прям, ну, можно, а приложить охеренное просто это просто сказка,
+- **[00:03:10](https://www.youtube.com/watch?v=Gj_nITDICGI&t=190s)**  то есть это каких видов просто жизнь видел.
+- **[00:03:12](https://www.youtube.com/watch?v=Gj_nITDICGI&t=192s)**  Это и сам путь и сама Шицарик, он просто, я не знаю, как на картинках,
+- **[00:03:16](https://www.youtube.com/watch?v=Gj_nITDICGI&t=196s)**  когда-то в 10 смотрел на этой открытке, вот там, пробно это увидел.
+- **[00:03:21](https://www.youtube.com/watch?v=Gj_nITDICGI&t=201s)**  Короче, я приехал на машине в Италию, мы остановились в Теранов,
+- **[00:03:25](https://www.youtube.com/watch?v=Gj_nITDICGI&t=205s)**  какой-то маленький отель, а они, как 100, 150 лет занимаются вина делим, именно это теталь.
+- **[00:03:32](https://www.youtube.com/watch?v=Gj_nITDICGI&t=212s)**  И заходит, я так смотрю, где дожка старенький, может, лет 70-70-80,
+- **[00:03:38](https://www.youtube.com/watch?v=Gj_nITDICGI&t=218s)**  и несет такую бутылку вина, и так аккуратно с ней, и я, я, слушаю, почему-то как аккуратно,
+- **[00:03:43](https://www.youtube.com/watch?v=Gj_nITDICGI&t=223s)**  говорит, а мне даже тоже есть фотка, где-то я оттепа, и тоже могу опомаскинуть.
+- **[00:03:46](https://www.youtube.com/watch?v=Gj_nITDICGI&t=226s)**  Там короче, она 6 авторого года, то лишь это самого года производства.
+- **[00:03:50](https://www.youtube.com/watch?v=Gj_nITDICGI&t=230s)**  То есть, чтобы ты лкос, то где-то под 50-кассерейю.
+- **[00:03:53](https://www.youtube.com/watch?v=Gj_nITDICGI&t=233s)**  Короче, он не дает погреть на поддерживание.
+- **[00:03:56](https://www.youtube.com/watch?v=Gj_nITDICGI&t=236s)**  Не надо, не держать.
+- **[00:03:57](https://www.youtube.com/watch?v=Gj_nITDICGI&t=237s)**  Ну, взял, сводка, кражи, и и отдак.
+- **[00:03:59](https://www.youtube.com/watch?v=Gj_nITDICGI&t=239s)**  Он уф...
+- **[00:04:00](https://www.youtube.com/watch?v=Gj_nITDICGI&t=240s)**  Я приходит веномления на почту, что оба яка он для педирован.
+- **[00:04:05](https://www.youtube.com/watch?v=Gj_nITDICGI&t=245s)**  Так и какое, что за нахир происходит?
+- **[00:04:09](https://www.youtube.com/watch?v=Gj_nITDICGI&t=249s)**  Я вспоминаю, что перед тем, как я у меня уехать, я оторговал параллельно сразу на 4 аккаунт.
+- **[00:04:15](https://www.youtube.com/watch?v=Gj_nITDICGI&t=255s)**  То есть там не были.
+- **[00:04:16](https://www.youtube.com/watch?v=Gj_nITDICGI&t=256s)**  По 150 тысяч еще какие-то аккаунты.
+- **[00:04:19](https://www.youtube.com/watch?v=Gj_nITDICGI&t=259s)**  Я везде отнилые лимитки, а на одном фанта такаунти нет менял.
+- **[00:04:23](https://www.youtube.com/watch?v=Gj_nITDICGI&t=263s)**  Я мне было позиции. Просто стояли лимитки.
+- **[00:04:25](https://www.youtube.com/watch?v=Gj_nITDICGI&t=265s)**  По умном нашор. Это крась был жесткий боковик, и биток вертолетил.
+- **[00:04:29](https://www.youtube.com/watch?v=Gj_nITDICGI&t=269s)**  Просто все стороны.
+- **[00:04:30](https://www.youtube.com/watch?v=Gj_nITDICGI&t=270s)**  И оно меня зацепило, пока я ехал, а я не видел даже.
+- **[00:04:34](https://www.youtube.com/watch?v=Gj_nITDICGI&t=274s)**  И когда приходит ввиду, мне не думать, да, но нафиг.
+- **[00:04:36](https://www.youtube.com/watch?v=Gj_nITDICGI&t=276s)**  А я шёл, к этому фанту, до месяц.
+- **[00:04:39](https://www.youtube.com/watch?v=Gj_nITDICGI&t=279s)**  Думаю, вот так это я похоронил свой первый фан.
+- **[00:04:41](https://www.youtube.com/watch?v=Gj_nITDICGI&t=281s)**  То есть не было ни одного вывода, а там был первый фан, но я вас слил.
+- **[00:04:44](https://www.youtube.com/watch?v=Gj_nITDICGI&t=284s)**  Сучку вас на истории. А чего бы, что тут гутылка про...
+- **[00:04:48](https://www.youtube.com/watch?v=Gj_nITDICGI&t=288s)**  Время не как-то.
+- **[00:04:49](https://www.youtube.com/watch?v=Gj_nITDICGI&t=289s)**  Да, он не даю, я так коифу и слушай бутылочка вина.
+- **[00:04:52](https://www.youtube.com/watch?v=Gj_nITDICGI&t=292s)**  Вы же думаете, а с рычек лисы фанта такаунти.
+- **[00:04:56](https://www.youtube.com/watch?v=Gj_nITDICGI&t=296s)**  Да, рычек, он так уходит прикое, это ввидом ли они думаю прикольно.
+- **[00:04:59](https://www.youtube.com/watch?v=Gj_nITDICGI&t=299s)**  Сейчас я расскажу тебе важную информацию, которая может сыграть ключу роль в твоих результатах на текущем рынке.
+- **[00:05:05](https://www.youtube.com/watch?v=Gj_nITDICGI&t=305s)**  Скажи, как много в твоем окружение таких же интузиастов, как ты,
+- **[00:05:09](https://www.youtube.com/watch?v=Gj_nITDICGI&t=309s)**  который хотят торговать в плюс, выйти на более-менее 100-миллин доход стрейдельга.
+- **[00:05:13](https://www.youtube.com/watch?v=Gj_nITDICGI&t=313s)**  А вотерь вопрос, а сколько из них реально животно доходы стрейдинга из месяца в месяц.
+- **[00:05:18](https://www.youtube.com/watch?v=Gj_nITDICGI&t=318s)**  Тут важное дополнение именно стрейдинга, неспорда же своих випок сигналов курсов и так далее.
+- **[00:05:24](https://www.youtube.com/watch?v=Gj_nITDICGI&t=324s)**  У меня такие есть, а у тебя могут появиться уже через 10 минут.
+- **[00:05:28](https://www.youtube.com/watch?v=Gj_nITDICGI&t=328s)**  Именно для этого мы создали соусу трейдеров Хедлайнеры.
+- **[00:05:31](https://www.youtube.com/watch?v=Gj_nITDICGI&t=331s)**  Место, где ты получаешь, не только гайфенный контент, еженедельный обзор,
+- **[00:05:35](https://www.youtube.com/watch?v=Gj_nITDICGI&t=335s)**  и инкактуально на литику, а что самое важное,
+- **[00:05:38](https://www.youtube.com/watch?v=Gj_nITDICGI&t=338s)**  ты получаешь возможность общаться с такими же, начинающими трейдрами,
+- **[00:05:42](https://www.youtube.com/watch?v=Gj_nITDICGI&t=342s)**  как ты и опытными трейдрами, которые уже прошли тот же путь, что ты.
+- **[00:05:47](https://www.youtube.com/watch?v=Gj_nITDICGI&t=347s)**  Жить на доход из стрейдинга возможно, но только если у тебя есть рлевая модель,
+- **[00:05:51](https://www.youtube.com/watch?v=Gj_nITDICGI&t=351s)**  но не блогера, который снимает обзор и в интернете и зарабатывается филлятки.
+- **[00:05:56](https://www.youtube.com/watch?v=Gj_nITDICGI&t=356s)**  А именно трейдера для которого трейдинг это основной источник.
+- **[00:06:00](https://www.youtube.com/watch?v=Gj_nITDICGI&t=360s)**  и находится из месяца вместе.
+- **[00:06:01](https://www.youtube.com/watch?v=Gj_nITDICGI&t=361s)**  А еще лучше, когда таких людей хотя бы 10.
+- **[00:06:03](https://www.youtube.com/watch?v=Gj_nITDICGI&t=363s)**  Нажен сообществы уже более 6 тысяч трейдеров,
+- **[00:06:07](https://www.youtube.com/watch?v=Gj_nITDICGI&t=367s)**  которые ежедневно делятся опытом и торгуют вместе с нами.
+- **[00:06:10](https://www.youtube.com/watch?v=Gj_nITDICGI&t=370s)**  Доступ абсолютно бесплатный.
+- **[00:06:12](https://www.youtube.com/watch?v=Gj_nITDICGI&t=372s)**  Все, что нужно сделать, перейти в наш бот в телеграме
+- **[00:06:15](https://www.youtube.com/watch?v=Gj_nITDICGI&t=375s)**  и про эти простую форму регистрации.
+- **[00:06:17](https://www.youtube.com/watch?v=Gj_nITDICGI&t=377s)**  Смотри, люди делятся на два типа.
+- **[00:06:19](https://www.youtube.com/watch?v=Gj_nITDICGI&t=379s)**  Техто собираются, что-то сделать.
+- **[00:06:21](https://www.youtube.com/watch?v=Gj_nITDICGI&t=381s)**  И те, кто берут и делают действую.
+- **[00:06:23](https://www.youtube.com/watch?v=Gj_nITDICGI&t=383s)**  Слушай, год назад,
+- **[00:06:25](https://www.youtube.com/watch?v=Gj_nITDICGI&t=385s)**  я так мимо на стоя не помню, когда был подкаст.
+- **[00:06:28](https://www.youtube.com/watch?v=Gj_nITDICGI&t=388s)**  Камбль, теперь раз записывали подкаст первую часть.
+- **[00:06:30](https://www.youtube.com/watch?v=Gj_nITDICGI&t=390s)**  Это было акцабреп.
+- **[00:06:31](https://www.youtube.com/watch?v=Gj_nITDICGI&t=391s)**  А уже в октябре уже в пустя полгода по столках.
+- **[00:06:34](https://www.youtube.com/watch?v=Gj_nITDICGI&t=394s)**  Ты работал.
+- **[00:06:35](https://www.youtube.com/watch?v=Gj_nITDICGI&t=395s)**  Кщинастав был такой разговор, что мы когда-то только
+- **[00:06:38](https://www.youtube.com/watch?v=Gj_nITDICGI&t=398s)**  крипто проповелся, то видел, что это нулевой вагон.
+- **[00:06:40](https://www.youtube.com/watch?v=Gj_nITDICGI&t=400s)**  Жензывается один из первых, как всему это приседнился.
+- **[00:06:43](https://www.youtube.com/watch?v=Gj_nITDICGI&t=403s)**  Его отобраны в ядюхе прошел год.
+- **[00:06:44](https://www.youtube.com/watch?v=Gj_nITDICGI&t=404s)**  Мы с тобой имеем, что там обрознгресей.
+- **[00:06:46](https://www.youtube.com/watch?v=Gj_nITDICGI&t=406s)**  Мы выдавы, ты за год разобрался, как это торговать.
+- **[00:06:50](https://www.youtube.com/watch?v=Gj_nITDICGI&t=410s)**  Она начала, ну как бы, стал сам.
+- **[00:06:51](https://www.youtube.com/watch?v=Gj_nITDICGI&t=411s)**  Привульным трейдером, чуизменилось.
+- **[00:06:53](https://www.youtube.com/watch?v=Gj_nITDICGI&t=413s)**  В твоем вообще, может быть, свои старты гейли,
+- **[00:06:56](https://www.youtube.com/watch?v=Gj_nITDICGI&t=416s)**  с твоим отношением, в чём вот эта специфика.
+- **[00:06:59](https://www.youtube.com/watch?v=Gj_nITDICGI&t=419s)**  Тарговли все-таки в пробком, по нему, чужой капиталами на свой.
+- **[00:07:01](https://www.youtube.com/watch?v=Gj_nITDICGI&t=421s)**  Я тебе скажу так, что за период пока я торговый на пробе,
+- **[00:07:04](https://www.youtube.com/watch?v=Gj_nITDICGI&t=424s)**  я вылдосиваю, а не скажу, где-то 4-5 правил,
+- **[00:07:08](https://www.youtube.com/watch?v=Gj_nITDICGI&t=428s)**  который я прямо юзую, прям жестко на пробе.
+- **[00:07:10](https://www.youtube.com/watch?v=Gj_nITDICGI&t=430s)**  То есть это то, что не работает в скальпинге.
+- **[00:07:13](https://www.youtube.com/watch?v=Gj_nITDICGI&t=433s)**  Это то, что работает на пробе.
+- **[00:07:15](https://www.youtube.com/watch?v=Gj_nITDICGI&t=435s)**  И как раз-то вот я в комьюнете на своих стремах,
+- **[00:07:18](https://www.youtube.com/watch?v=Gj_nITDICGI&t=438s)**  постоянно про это говорил.
+- **[00:07:19](https://www.youtube.com/watch?v=Gj_nITDICGI&t=439s)**  Может быть для наших ребят это информация не новая,
+- **[00:07:22](https://www.youtube.com/watch?v=Gj_nITDICGI&t=442s)**  но в принципе для тех, кто переходит в проб торговать,
+- **[00:07:26](https://www.youtube.com/watch?v=Gj_nITDICGI&t=446s)**  это прямо на базу.
+- **[00:07:27](https://www.youtube.com/watch?v=Gj_nITDICGI&t=447s)**  Первое, что я сделал, я перестал торговать альтой.
+- **[00:07:30](https://www.youtube.com/watch?v=Gj_nITDICGI&t=450s)**  Как бы это не прикольно не звучало для лисатьи.
+- **[00:07:33](https://www.youtube.com/watch?v=Gj_nITDICGI&t=453s)**  Да, скальперы реально торгуют альтупы,
+- **[00:07:35](https://www.youtube.com/watch?v=Gj_nITDICGI&t=455s)**  получается очень много, потому что там, да-да-да.
+- **[00:07:37](https://www.youtube.com/watch?v=Gj_nITDICGI&t=457s)**  Да, она сполчается на пробе, помимо того, что, ну,
+- **[00:07:41](https://www.youtube.com/watch?v=Gj_nITDICGI&t=461s)**  да, давай так, ну очень, очень, знаешь,
+- **[00:07:43](https://www.youtube.com/watch?v=Gj_nITDICGI&t=463s)**  такая не то, что стагнирующая,
+- **[00:07:44](https://www.youtube.com/watch?v=Gj_nITDICGI&t=464s)**  то прям с жесткий до онтренд.
+- **[00:07:46](https://www.youtube.com/watch?v=Gj_nITDICGI&t=466s)**  То есть рин, то есть деньги из линка уходят.
+- **[00:07:48](https://www.youtube.com/watch?v=Gj_nITDICGI&t=468s)**  Стаканы ультов, пустиги, просто там есть отхисть таканы.
+- **[00:07:51](https://www.youtube.com/watch?v=Gj_nITDICGI&t=471s)**  Еще бена, там еще хоть что-то есть.
+- **[00:07:53](https://www.youtube.com/watch?v=Gj_nITDICGI&t=473s)**  Откроешь, так как там установленный какой-то бедгета,
+- **[00:07:55](https://www.youtube.com/watch?v=Gj_nITDICGI&t=475s)**  там просто один лгоритм, который что-то пытается там, скажем так.

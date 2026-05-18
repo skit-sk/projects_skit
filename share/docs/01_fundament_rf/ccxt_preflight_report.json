@@ -1,0 +1,150 @@
+{
+  "exchange": "bitget",
+  "timestamp": "2026-05-12 20:15:49",
+  "total": 20,
+  "passed": 13,
+  "warned": 0,
+  "failed": 7,
+  "results": [
+    {
+      "method": "fetch_funding_rate",
+      "status": "❌",
+      "gen_ms": "-",
+      "rtt_ms": "-",
+      "note": "bitget fetchFundingRate() supports swap contracts only"
+    },
+    {
+      "method": "fetch_funding_rate_history",
+      "status": "✅",
+      "gen_ms": 13.34,
+      "rtt_ms": 2996.3,
+      "note": "list(1)"
+    },
+    {
+      "method": "fetch_funding_rates",
+      "status": "❌",
+      "gen_ms": "-",
+      "rtt_ms": "-",
+      "note": "HTTP 500: <!doctype html>\n<html lang=en>\n<title>500 Internal Server Error</title"
+    },
+    {
+      "method": "fetch_contract_ohlcv",
+      "status": "❌",
+      "gen_ms": "-",
+      "rtt_ms": "-",
+      "note": "bitget fetchContractOHLCV() is not supported yet"
+    },
+    {
+      "method": "fetch_currencies",
+      "status": "✅",
+      "gen_ms": 8.55,
+      "rtt_ms": 630.97,
+      "note": "dict(2076)"
+    },
+    {
+      "method": "fetch_markets",
+      "status": "✅",
+      "gen_ms": 11.95,
+      "rtt_ms": 2142.24,
+      "note": "list(1309)"
+    },
+    {
+      "method": "fetch_ohlcv",
+      "status": "✅",
+      "gen_ms": 9.66,
+      "rtt_ms": 3178.39,
+      "note": "list(1)"
+    },
+    {
+      "method": "fetch_ohlcv_ws",
+      "status": "❌",
+      "gen_ms": "-",
+      "rtt_ms": "-",
+      "note": "WS endpoint (REST unsupported)"
+    },
+    {
+      "method": "fetch_order_book",
+      "status": "✅",
+      "gen_ms": 8.4,
+      "rtt_ms": 3129.95,
+      "note": "dict(6)"
+    },
+    {
+      "method": "fetch_order_book_ws",
+      "status": "✅",
+      "gen_ms": "-",
+      "rtt_ms": "-",
+      "note": "WS stream SSE"
+    },
+    {
+      "method": "fetch_order_books",
+      "status": "❌",
+      "gen_ms": "-",
+      "rtt_ms": "-",
+      "note": "HTTP 500: <!doctype html>\n<html lang=en>\n<title>500 Internal Server Error</title"
+    },
+    {
+      "method": "fetch_ticker",
+      "status": "✅",
+      "gen_ms": 8.15,
+      "rtt_ms": 3111.42,
+      "note": "dict(22)"
+    },
+    {
+      "method": "fetch_ticker_ws",
+      "status": "✅",
+      "gen_ms": "-",
+      "rtt_ms": "-",
+      "note": "WS stream SSE"
+    },
+    {
+      "method": "fetch_tickers",
+      "status": "❌",
+      "gen_ms": "-",
+      "rtt_ms": "-",
+      "note": "HTTP 500: <!doctype html>\n<html lang=en>\n<title>500 Internal Server Error</title"
+    },
+    {
+      "method": "fetch_tickers_ws",
+      "status": "✅",
+      "gen_ms": "-",
+      "rtt_ms": "-",
+      "note": "WS stream SSE"
+    },
+    {
+      "method": "fetch_trades",
+      "status": "✅",
+      "gen_ms": 8.31,
+      "rtt_ms": 2960.05,
+      "note": "list(1)"
+    },
+    {
+      "method": "fetch_trades_ws",
+      "status": "✅",
+      "gen_ms": "-",
+      "rtt_ms": "-",
+      "note": "WS stream SSE"
+    },
+    {
+      "method": "fetch_order_book",
+      "status": "✅",
+      "gen_ms": 9.14,
+      "rtt_ms": 2902.01,
+      "note": "dict(6)"
+    },
+    {
+      "method": "fetch_order_book_ws",
+      "status": "✅",
+      "gen_ms": "-",
+      "rtt_ms": "-",
+      "note": "WS stream SSE"
+    },
+    {
+      "method": "fetch_order_books",
+      "status": "❌",
+      "gen_ms": "-",
+      "rtt_ms": "-",
+      "note": "HTTP 500: <!doctype html>\n<html lang=en>\n<title>500 Internal Server Error</title"
+    }
+  ]
+}

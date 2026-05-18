@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ symbol }} — Heatmaps (Plotly)</title>
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+<style>
+  body { margin:0; background:#0d1117; color:#c9d1d9; font-family: system-ui, sans-serif; }
+  header { padding:1rem 2rem; background:#161b22; border-bottom:1px solid #30363d; }
+  h1 { margin:0; font-size:1.4rem; }
+  .nav { padding:0.5rem 2rem; background:#0d1117; border-bottom:1px solid #30363d; }
+  .nav a { color:#58a6ff; text-decoration:none; margin-right:1rem; font-size:0.9rem; }
+  .grid { display:grid; grid-template-columns: 1fr 1fr; gap:1rem; padding:1rem; height:calc(100vh - 120px); }
+  .panel { background:#161b22; border:1px solid #30363d; border-radius:8px; overflow:hidden; position:relative; }
+  .panel h3 { position:absolute; top:0.5rem; left:0.75rem; margin:0; font-size:0.9rem; color:#58a6ff; z-index:2; background:rgba(13,17,23,0.8); padding:2px 6px; border-radius:4px; }
+  .error { padding:1rem; color:#f85149; }
+</style>
+</head>
+<body>
+<header>
+  <h1>{{ symbol }} — Heatmaps (Plotly)</h1>
+</header>
+<div class="nav">
+  <a href="/">← Home</a>
+  <a href="/infographics/{{ symbol }}">ASCII Infographics</a>
+  <a href="/interactive/{{ symbol }}">Plotly Interactive</a>
+  <a href="/chartjs/{{ symbol }}">Chart.js View</a>
+</div>
+
+<div class="grid">
+  <div class="panel" id="volPanel">
+    <h3>Volatility Matrix</h3>
+  </div>
+  <div class="panel" id="pnlPanel">
+    <h3>PnL % Matrix</h3>
+  </div>
+</div>
+
+<script>
+const d = {{ data|tojson }};
+
+function renderHeatmap(containerId, matrix, title, colorscale) {
+  const container = document.getElementById(containerId);
+  if (!matrix || !matrix.length) {
+    container.innerHTML += '<div class="error">No matrix data</div>';
+    return;
+  }
+
+  const z = matrix;
+  const x = z[0].map((_, i) => 'D' + (i + 1));
+  const y = z.map((_, i) => 'R' + (i + 1));
+
+  Plotly.newPlot(containerId, [{
+    z: z, x: x, y: y,
+    type: 'heatmap',
+    colorscale: colorscale,
+    showscale: true
+  }], {
+    template: 'plotly_dark',
+    paper_bgcolor: '#161b22',
+    plot_bgcolor: '#0d1117',
+    margin: {t: 40, b: 40, l: 60, r: 20},
+    xaxis: {title: 'Day bucket', color: '#8b949e'},
+    yaxis: {title: 'Row', color: '#8b949e'}
+  });
+}
+
+if (typeof Plotly !== 'undefined') {
+  renderHeatmap('volPanel', d.vol_matrix, 'Volatility', [
+    [0, '#0d1117'], [0.25, '#161b22'], [0.5, '#21262d'], [0.75, '#58a6ff'], [1, '#7ee787']
+  ]);
+  renderHeatmap('pnlPanel', d.pnl_matrix, 'PnL %', [
+    [0, '#f85149'], [0.25, '#f0883e'], [0.5, '#d2a8ff'], [0.75, '#58a6ff'], [1, '#3fb950']
+  ]);
+} else {
+  document.getElementById('volPanel').innerHTML += '<div class="error">Plotly.js failed to load from CDN</div>';
+}
+</script>
+</body>
+</html>

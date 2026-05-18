@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Fixed Size</title>
+    <style>
+        body { margin: 0; padding: 0; background: #131722; display: flex; justify-content: center; align-items: center; height: 150px; }
+        #container { width: 260px; height: 150px; border: 2px solid #26a69a; }
+    </style>
+</head>
+<body>
+    <div id="container"></div>
+    <script>
+        (async function() {
+            const response = await fetch('https://unpkg.com/lightweight-charts@5.2.0/dist/lightweight-charts.standalone.development.js');
+            const scriptText = await response.text();
+            const scriptEl = document.createElement('script');
+            scriptEl.textContent = scriptText;
+            document.head.appendChild(scriptEl);
+
+            const { createChart, LineSeries } = window.LightweightCharts;
+
+            const klinesRes = await fetch('https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1h&limit=80');
+            const klines = await klinesRes.json();
+            const lineData = klines.map(k => ({ time: k[0] / 1000, value: parseFloat(k[4]) }));
+
+            const chart = createChart(document.getElementById('container'), {
+                layout: { background: { type: 'solid', color: '#131722' }, textColor: '#d1d4dc' },
+                width: 260, height: 150,
+            });
+            chart.addSeries(LineSeries, { color: '#26a69a' }).setData(lineData);
+            chart.timeScale().fitContent();
+        })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Options Price</title>
+    <style>
+        body { margin: 0; padding: 0; background: #131722; }
+        #container { width: 100%; height: 100vh; }
+    </style>
+</head>
+<body>
+    <div id="container"></div>
+    <script>
+        (async function() {
+            const response = await fetch('https://unpkg.com/lightweight-charts@5.2.0/dist/lightweight-charts.standalone.development.js');
+            const scriptText = await response.text();
+            const scriptEl = document.createElement('script');
+            scriptEl.textContent = scriptText;
+            document.head.appendChild(scriptEl);
+
+            const { createOptionsChart, LineSeries } = window.LightweightCharts;
+
+            const chart = createOptionsChart(document.getElementById('container'), {
+                layout: { background: { type: 'solid', color: '#131722' }, textColor: '#d1d4dc' },
+                width: window.innerWidth,
+                height: window.innerHeight,
+            });
+
+            const series = chart.addSeries(LineSeries, { color: '#2962FF', lineWidth: 2 });
+
+            const data = [];
+            for (let i = 0; i < 100; i++) {
+                data.push({ time: i * 0.5, value: Math.sin(i / 10) * 10 + 100 });
+            }
+            series.setData(data);
+
+            chart.timeScale().fitContent();
+
+            window.addEventListener('resize', () => {
+                chart.applyOptions({ width: window.innerWidth, height: window.innerHeight });
+            });
+        })();
+    </script>
+</body>
+</html>

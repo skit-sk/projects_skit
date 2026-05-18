@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>demo_charts_ascii — CLI Graph Tools</title>
+<link rel="stylesheet" href="/static/css/style.css">
+<style>
+.panel-tabs { display: flex; gap: 2px; padding: 6px 8px; background: #0d1117; border-bottom: 1px solid #30363d; flex-wrap: wrap; }
+.tab-btn { padding: 4px 12px; background: #21262d; border: 1px solid #30363d; border-radius: 4px 4px 0 0; color: #8b949e; cursor: pointer; font-size: 12px; }
+.tab-btn.active { background: #161b22; color: #58a6ff; border-bottom-color: #58a6ff; }
+.tab-btn:hover { background: #30363d; }
+
+.chart-header { padding: 6px 12px; font-size: 11px; color: #8b949e; background: #0d1117; border-bottom: 1px solid #30363d; }
+.chart-legend { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+.chart-metrics { padding: 6px 12px; font-size: 11px; color: #8b949e; background: #0d1117; border-top: 1px solid #30363d; display: flex; gap: 16px; flex-wrap: wrap; }
+.metric b { color: #c9d1d9; }
+
+.plotext-chart { }
+.plotext-chart pre { margin: 0; }
+.plotext-chart iframe { width: 100%; height: 380px; border: none; background: #0d1117; }
+
+.summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 12px; }
+.summary-card { background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 12px; }
+.summary-card h4 { margin: 0 0 6px 0; font-size: 11px; text-transform: uppercase; color: #8b949e; letter-spacing: 0.5px; }
+.summary-card .value { font-size: 22px; font-weight: 600; }
+.summary-card .value.up { color: #3fb950; }
+.summary-card .value.down { color: #f85149; }
+.summary-card .sub { font-size: 11px; color: #8b949e; margin-top: 2px; }
+.summary-card .spark { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #7ee787; letter-spacing: 2px; }
+
+@media (max-width: 800px) {
+  .summary-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <h1>📊 demo_charts_ascii</h1>
+    <div class="toolbar">
+      <div class="tools-checkboxes">
+        <label class="tool-cb"><input type="checkbox" value="asciichart" checked> asciichart</label>
+        <label class="tool-cb"><input type="checkbox" value="plotext" checked> plotext</label>
+        <label class="tool-cb"><input type="checkbox" value="termgraph" checked> termgraph</label>
+        <label class="tool-cb"><input type="checkbox" value="summary" checked> 📊 Summary</label>
+      </div>
+      <button id="btn-run" onclick="runRender()">▶ RUN</button>
+      <span id="status"></span>
+    </div>
+  </header>
+
+  <main>
+    <aside id="file-tree">
+      <h3>📁 Файлы</h3>
+      {% for folder in tree %}
+      <div class="folder">
+        <div class="folder-name" onclick="toggleFolder(this)">📂 {{ folder.symbol }}</div>
+        <div class="folder-children" style="display:none">
+          {% for child in folder.children %}
+          <div class="file-item" data-path="{{ child.path }}" onclick="selectFile(this)">📄 {{ child.name }}</div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endfor %}
+    </aside>
+
+    <section id="output">
+      <div class="placeholder">Выберите файл слева и нажмите RUN</div>
+    </section>
+  </main>
+</div>
+
+<script>
+let selectedFile = null;
+
+function toggleFolder(el) {
+  const ch = el.nextElementSibling;
+  ch.style.display = ch.style.display === 'none' ? 'block' : 'none';
+}
+
+function selectFile(el) {
+  document.querySelectorAll('.file-item').forEach(f => f.classList.remove('active'));
+  el.classList.add('active');
+  selectedFile = el.dataset.path;
+  document.getElementById('status').textContent = '📁 ' + el.textContent.trim();
+}
+
+async function runRender() {
+  if (!selectedFile) { document.getElementById('status').textContent = '⚠️ Выберите файл'; return; }
+
+  const tools = [];
+  document.querySelectorAll('.tool-cb input:checked').forEach(cb => tools.push(cb.value));
+  if (tools.length === 0) { document.getElementById('status').textContent = '⚠️ Выберите инструмент'; return; }
+
+  const btn = document.getElementById('btn-run');
+  btn.disabled = true; btn.textContent = '⏳';
+  document.getElementById('status').textContent = 'Генерация...';
+
+  try {
+    const r = await fetch('/render', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({file_path: selectedFile, tools: tools}),
+    });
+    const data = await r.json();
+    renderOutput(data);
+    document.getElementById('status').textContent = '✅ Готово';
+  } catch (e) {
+    document.getElementById('status').textContent = '❌ ' + e.message;
+  } finally {
+    btn.disabled = false; btn.textContent = '▶ RUN';
+  }
+}
+
+function renderOutput(data) {
+  const output = document.getElementById('output');
+  output.innerHTML = '';
+
+  if (data.summary && !data.summary.error) {
+    output.appendChild(renderSummary(data.summary));
+  }
+
+  const order = ['plotext', 'asciichart', 'termgraph'];
+  for (const tool of order) {
+    if (!data[tool]) continue;
+    output.appendChild(renderToolPanel(tool, data[tool]));
+  }
+}
+
+function renderSummary(result) {
+  const panel = document.createElement('div');
+  panel.className = 'panel';
+  panel.innerHTML = `<div class="panel-title">📊 Summary</div>${buildSummaryCards(result)}`;
+  return panel;
+}
+
+function buildSummaryCards(result) {
+  const s = result.summary || {};
+  const sp = result.content ? result.content.match(/SPARKLINE.*\n\s*(.*)/) : null;
+  const spText = sp ? sp[1].trim() : '';
+
+  const cards = [
+    { label: 'Price', value: (s.last_close || 0).toFixed(4), sub: `Entry: $${(s.entry_price || s.first_close || 0).toFixed(4)}`, cls: 'up' },
+    { label: 'Change', value: `${(s.price_change_pct || 0).toFixed(1)}%`, sub: `${s.first_close || 0} → ${s.last_close || 0}`, cls: (s.price_change_pct || 0) >= 0 ? 'up' : 'down' },
+    { label: 'ROE', value: `${(s.current_roe_pct || 0).toFixed(1)}%`, sub: `PnL $${(s.current_pnl_usdt || 0).toFixed(2)}`, cls: (s.current_roe_pct || 0) >= 0 ? 'up' : 'down' },
+    { label: 'Win Rate', value: `${(s.win_rate || 0).toFixed(0)}%`, sub: `${s.profitable_days || 0}/${s.total_days || 0} days`, cls: (s.win_rate || 0) >= 50 ? 'up' : 'down' },
+    { label: 'Volatility', value: (s.avg_volatility || 0).toFixed(3), sub: `Max DD ${(s.max_drawdown_pct || 0).toFixed(1)}%`, cls: 'down' },
+    { label: `Streak ${(s.streak_profit || 0) > 0 ? '✅' : '❌'}`, value: `${Math.max(s.streak_profit || 0, s.streak_loss || 0)}d`, sub: `Profit ${s.streak_profit || 0}d · Loss ${s.streak_loss || 0}d`, cls: (s.streak_profit || 0) > 0 ? 'up' : 'down' },
+  ];
+
+  let html = '<div class="summary-grid">';
+  for (const c of cards) {
+    html += `<div class="summary-card"><h4>${c.label}</h4><div class="value ${c.cls}">${c.value}</div><div class="sub">${c.sub}</div></div>`;
+  }
+  if (spText) {
+    html += `<div class="summary-card" style="grid-column:1/-1"><h4>Price Sparkline</h4><div class="spark">${spText}</div></div>`;
+  }
+  html += '</div>';
+  return html;
+}
+
+function renderToolPanel(tool, result) {
+  const panel = document.createElement('div');
+  panel.className = 'panel';
+
+  const icons = {plotext: '📈', asciichart: '📊', termgraph: '📉'};
+  const title = document.createElement('div');
+  title.className = 'panel-title';
+  title.textContent = `${icons[tool] || '📌'} ${tool}`;
+  panel.appendChild(title);
+
+  if (result.error) {
+    const body = document.createElement('div');
+    body.className = 'panel-body';
+    body.innerHTML = `<div class="error">${result.error}</div>`;
+    panel.appendChild(body);
+    return panel;
+  }
+
+  const charts = result.charts || [];
+  if (charts.length > 1) {
+    const tabs = document.createElement('div');
+    tabs.className = 'panel-tabs';
+    charts.forEach((ch, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'tab-btn' + (i === 0 ? ' active' : '');
+      btn.textContent = ch.title || ch.id;
+      btn.dataset.tabtool = tool;
+      btn.dataset.tabid = ch.id;
+      tabs.appendChild(btn);
+    });
+    panel.appendChild(tabs);
+
+    charts.forEach((ch, i) => {
+      const body = document.createElement('div');
+      body.className = 'panel-body';
+      body.id = `${tool}-${ch.id}`;
+      body.style.display = i === 0 ? 'block' : 'none';
+
+      if (tool === 'plotext' && ch.html) {
+        const pre = document.createElement('pre');
+        pre.textContent = ch.html;
+        body.appendChild(pre);
+      } else if (ch.content) {
+        const pre = document.createElement('pre');
+        pre.textContent = ch.content;
+        body.appendChild(pre);
+      }
+      panel.appendChild(body);
+    });
+  } else if (charts.length === 1) {
+    const body = document.createElement('div');
+    body.className = 'panel-body';
+    const ch = charts[0];
+    if (tool === 'plotext' && ch.html) {
+      const pre = document.createElement('pre');
+      pre.textContent = ch.html;
+      body.appendChild(pre);
+    } else if (ch.content) {
+      const pre = document.createElement('pre');
+      pre.textContent = ch.content;
+      body.appendChild(pre);
+    }
+    panel.appendChild(body);
+  }
+
+  return panel;
+}
+
+document.addEventListener('click', function(e) {
+  const btn = e.target.closest('.tab-btn');
+  if (!btn) return;
+  const tool = btn.dataset.tabtool;
+  const id = btn.dataset.tabid;
+  const panel = btn.closest('.panel');
+  if (!panel || !tool || !id) return;
+  panel.querySelectorAll('.panel-body, .plotext-chart').forEach(el => el.style.display = 'none');
+  const target = panel.querySelector(`#${tool}-${id}`) || document.getElementById(`${tool}-${id}`);
+  if (target) target.style.display = 'block';
+  panel.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+});
+</script>
+</body>
+</html>

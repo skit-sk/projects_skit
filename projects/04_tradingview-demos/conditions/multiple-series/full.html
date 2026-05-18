@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiple Series | TradingView Demos</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', sans-serif; background: #131722; color: #d1d4dc; height: 100vh; display: flex; flex-direction: column; }
+        .header { display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; background: #1e222d; border-bottom: 1px solid #2a2e39; }
+        .header-left { display: flex; align-items: center; gap: 16px; }
+        .back-link { color: #2962ff; text-decoration: none; font-size: 14px; }
+        .back-link:hover { text-decoration: underline; }
+        .title { font-size: 18px; color: #fff; font-weight: 600; }
+        .data-badge { background: #2962ff; color: #fff; padding: 4px 12px; border-radius: 4px; font-size: 12px; }
+        .chart-container { flex: 0 0 70%; position: relative; }
+        #container { width: 100%; height: 100%; }
+        .info-panel { flex: 0 0 auto; background: #1e222d; border-top: 1px solid #2a2e39; transition: max-height 0.3s ease; max-height: 50px; overflow: hidden; }
+        .info-panel.expanded { max-height: 40vh; }
+        .info-toggle { display: flex; align-items: center; justify-content: center; padding: 12px; cursor: pointer; background: #2a2e39; border: none; width: 100%; color: #787b86; font-size: 12px; }
+        .info-toggle:hover { background: #363a45; }
+        .info-toggle::before { content: '▲ '; }
+        .info-panel.expanded .info-toggle::before { content: '▼ '; }
+        .info-content { padding: 20px; overflow-y: auto; max-height: calc(40vh - 40px); }
+        .info-section { margin-bottom: 20px; }
+        .info-section:last-child { margin-bottom: 0; }
+        .info-section h3 { font-size: 12px; color: #787b86; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .method-link { color: #2962ff; text-decoration: none; font-family: monospace; font-size: 14px; }
+        .method-link:hover { text-decoration: underline; }
+        .description { font-size: 14px; line-height: 1.5; color: #d1d4dc; }
+        .params-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        .params-table th, .params-table td { text-align: left; padding: 6px 10px; border: 1px solid #2a2e39; }
+        .params-table th { background: #2a2e39; color: #787b86; font-weight: normal; }
+        .params-table td code { font-family: monospace; }
+        .params-table td:nth-child(3) { color: #9aa1a9; font-size: 12px; }
+        .color-swatch { display: inline-block; width: 14px; height: 14px; border-radius: 3px; vertical-align: middle; margin-right: 6px; border: 1px solid #3a3e4a; }
+        .debug-data { font-family: monospace; font-size: 12px; background: #131722; padding: 12px; border-radius: 4px; white-space: pre-wrap; color: #0f0; }
+        .debug-data .key { color: #2962ff; }
+        .debug-data .str { color: #26a69a; }
+        .debug-data .num { color: #ef5350; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">
+            <a class="back-link" href="../../">← Gallery</a>
+            <span class="title">Multiple Series</span>
+        </div>
+        <span class="data-badge">BTCUSDT 1h</span>
+    </div>
+    <div class="chart-container"><div id="container"></div></div>
+    <div class="info-panel" id="infoPanel">
+        <button class="info-toggle" onclick="togglePanel()">INFO</button>
+        <div class="info-content">
+            <div class="info-section"><h3>Configuration</h3><div class="description">Несколько серий на одном графике. Candlestick + 2 Moving Averages (MA20, MA50). MA рассчитываются на клиенте из исторических данных.</div></div>
+            <div class="info-section">
+                <h3>Series</h3>
+                <table class="params-table">
+                    <tr><th>#</th><th>Type</th><th>Color</th><th>Description</th></tr>
+                    <tr><td>1</td><td><code>CandlestickSeries</code></td><td><span class="color-swatch" style="background:#26a69a"></span>up / <span class="color-swatch" style="background:#ef5350"></span>down</td><td>Японские свечи BTCUSDT OHLC</td></tr>
+                    <tr><td>2</td><td><code>LineSeries</code></td><td><span class="color-swatch" style="background:#2962FF"></span>#2962FF</td><td>MA20 (20-периодная скользящая средняя)</td></tr>
+                    <tr><td>3</td><td><code>LineSeries</code></td><td><span class="color-swatch" style="background:#ef5350"></span>#ef5350</td><td>MA50 (50-периодная скользящая средняя)</td></tr>
+                </table>
+            </div>
+            <div class="info-section">
+                <h3>Moving Average Calculation</h3>
+                <table class="params-table">
+                    <tr><th>MA</th><th>Formula</th><th>Description</th></tr>
+                    <tr><td>MA20</td><td>sum(last 20 closes) / 20</td><td>Краткосрочный тренд (чувствительна)</td></tr>
+                    <tr><td>MA50</td><td>sum(last 50 closes) / 50</td><td>Долгосрочный тренд (менее чувствительна)</td></tr>
+                </table>
+            </div>
+            <div class="info-section"><h3>Data Source</h3><div class="description"><span style="color:#26a69a">Binance</span> — BTC/USDT 1h, 100 candles</div></div>
+            <div class="info-section"><h3>Input Format</h3><div class="description"><code>CandlestickData</code> + <code>LineData</code> (MA values calculated client-side)</div></div>
+            <div class="info-section"><h3>Debug Data</h3><div class="debug-data" id="debugData">Loading...</div></div>
+        </div>
+    </div>
+    <script>
+        function togglePanel() { document.getElementById('infoPanel').classList.toggle('expanded'); }
+        (async function() {
+            const t0 = performance.now();
+            const response = await fetch('https://unpkg.com/lightweight-charts@5.2.0/dist/lightweight-charts.standalone.development.js');
+            const scriptEl = document.createElement('script');
+            scriptEl.textContent = await response.text();
+            document.head.appendChild(scriptEl);
+            const fetchTime = Math.round(performance.now() - t0);
+
+            const t1 = performance.now();
+            const { createChart, CandlestickSeries, LineSeries } = window.LightweightCharts;
+            const chart = createChart(document.getElementById('container'), {
+                layout: { background: { type: 'solid', color: '#131722' }, textColor: '#d1d4dc' },
+                width: window.innerWidth, height: window.innerHeight * 0.7,
+            });
+            const klinesRes = await fetch('https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1h&limit=100');
+            const klines = await klinesRes.json();
+            const candleData = klines.map(k => ({ time: k[0] / 1000, open: parseFloat(k[1]), high: parseFloat(k[2]), low: parseFloat(k[3]), close: parseFloat(k[4]) }));
+            chart.addSeries(CandlestickSeries, { upColor: '#26a69a', downColor: '#ef5350', borderVisible: false, wickUpColor: '#26a69a', wickDownColor: '#ef5350' }).setData(candleData);
+            const ma20 = klines.map((k, i) => { let sum = 0; for (let j = Math.max(0, i - 19); j <= i; j++) sum += parseFloat(klines[j][4]); return { time: k[0] / 1000, value: sum / Math.min(i + 1, 20) }; });
+            chart.addSeries(LineSeries, { color: '#2962FF', lineWidth: 1 }).setData(ma20);
+            const ma50 = klines.map((k, i) => { let sum = 0; for (let j = Math.max(0, i - 49); j <= i; j++) sum += parseFloat(klines[j][4]); return { time: k[0] / 1000, value: sum / Math.min(i + 1, 50) }; });
+            chart.addSeries(LineSeries, { color: '#ef5350', lineWidth: 1 }).setData(ma50);
+            chart.timeScale().fitContent();
+            const chartBuildTime = Math.round(performance.now() - t1);
+            const totalTime = Math.round(performance.now() - t0);
+
+            const debugEl = document.getElementById('debugData');
+            debugEl.innerHTML = '<span class="key">timing:</span>\n  fetch: <span class="num">' + fetchTime + 'ms</span>\n  chart_build: <span class="num">' + chartBuildTime + 'ms</span>\n  total: <span class="num">' + totalTime + 'ms</span>\n<span class="key">series_count:</span> <span class="num">3</span>\n<span class="key">candles:</span> <span class="num">' + candleData.length + '</span>\n<span class="key">ma20_points:</span> <span class="num">' + ma20.length + '</span>\n<span class="key">ma50_points:</span> <span class="num">' + ma50.length + '</span>';
+            window.addEventListener('resize', () => { chart.applyOptions({ width: window.innerWidth, height: window.innerHeight * 0.7 }); });
+        })();
+    </script>
+</body>
+</html>

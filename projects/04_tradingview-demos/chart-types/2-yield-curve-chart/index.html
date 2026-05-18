@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Yield Curve</title>
+    <style>
+        body { margin: 0; padding: 0; background: #131722; }
+        #container { width: 100%; height: 100vh; }
+    </style>
+</head>
+<body>
+    <div id="container"></div>
+    <script>
+        (async function() {
+            const response = await fetch('https://unpkg.com/lightweight-charts@5.2.0/dist/lightweight-charts.standalone.development.js');
+            const scriptText = await response.text();
+            const scriptEl = document.createElement('script');
+            scriptEl.textContent = scriptText;
+            document.head.appendChild(scriptEl);
+
+            const { createYieldCurveChart, LineSeries } = window.LightweightCharts;
+
+            const chart = createYieldCurveChart(document.getElementById('container'), {
+                layout: { background: { type: 'solid', color: '#131722' }, textColor: '#d1d4dc' },
+                yieldCurve: { baseResolution: 1, minimumTimeRange: 10, startTimeRange: 3 },
+                handleScroll: false,
+                handleScale: false,
+                width: window.innerWidth,
+                height: window.innerHeight,
+            });
+
+            const series = chart.addSeries(LineSeries, { color: '#2962FF', lineWidth: 2 });
+
+            series.setData([
+                { time: 1, value: 5.378 }, { time: 2, value: 5.372 }, { time: 3, value: 5.271 },
+                { time: 6, value: 5.094 }, { time: 12, value: 4.739 }, { time: 24, value: 4.237 },
+                { time: 36, value: 4.036 }, { time: 60, value: 3.887 }, { time: 84, value: 3.921 },
+                { time: 120, value: 4.007 }, { time: 240, value: 4.366 }, { time: 360, value: 4.290 },
+            ]);
+
+            chart.timeScale().fitContent();
+
+            window.addEventListener('resize', () => {
+                chart.applyOptions({ width: window.innerWidth, height: window.innerHeight });
+            });
+        })();
+    </script>
+</body>
+</html>

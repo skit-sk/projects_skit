@@ -1,0 +1,42 @@
+{% if debug %}
+<details class="api-debug" style="margin-top:1.5rem; font-size:12px; border:1px solid var(--border-color); border-radius:6px; padding:0.5rem;">
+    <summary style="cursor:pointer; color:#888; font-weight:bold;">🔍 API Debug — сырые данные и схема</summary>
+    {% for d in debug %}
+    <div class="api-endpoint" style="margin:0.75rem 0; padding:0.75rem; background:var(--bg-card); border-radius:6px; border:1px solid var(--border-color);">
+        <h4 style="margin:0 0 0.25rem; font-size:13px;">
+            <code>GET {{ d.endpoint }}</code>
+            {% if d.params %}<span style="font-weight:normal; color:#888;">{{ d.params }}</span>{% endif %}
+        </h4>
+        <details>
+            <summary style="cursor:pointer; font-size:11px; color:#888;">📦 Сырой JSON ответа</summary>
+            <pre style="font-size:10px; max-height:250px; overflow:auto; background:#1a1a1a; color:#d4d4d4; padding:0.5rem; border-radius:4px; margin:0.25rem 0;">{{ d.raw | tojson(indent=2) }}</pre>
+        </details>
+        <details>
+            <summary style="cursor:pointer; font-size:11px; color:#888;">📋 Схема данных</summary>
+            {% if d.schema %}
+            <table style="font-size:11px; width:100%; margin:0.25rem 0; border-collapse:collapse;">
+                <thead>
+                    <tr style="background:var(--border-color);">
+                        <th style="padding:4px 8px; text-align:left;">Поле</th>
+                        <th style="padding:4px 8px; text-align:left;">Тип</th>
+                        <th style="padding:4px 8px; text-align:left;">Пример</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for s in d.schema %}
+                    <tr style="border-bottom:1px solid var(--border-color);">
+                        <td style="padding:3px 8px;"><code>{{ s.field }}</code></td>
+                        <td style="padding:3px 8px;">{{ s.type }}</td>
+                        <td style="padding:3px 8px; font-size:10px; color:#888;">{{ s.sample }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <span style="color:#888; font-size:11px;">Нет данных для схемы</span>
+            {% endif %}
+        </details>
+    </div>
+    {% endfor %}
+</details>
+{% endif %}

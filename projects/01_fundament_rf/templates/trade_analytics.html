@@ -1,0 +1,553 @@
+{% extends "base.html" %}
+{% block title %}Trade Analytics — {{ symbol }}{% endblock %}
+{% block extra_head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/trade_analytics.css') }}">
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="ta-dashboard">
+  <div class="ta-header">
+    <h2>📊 Trade Analytics: {{ obj.name }}</h2>
+    <div class="ta-header-meta">
+      <span class="ta-badge" id="ta-status">🟢 {{ obj.data.emoji_upd.status }}</span>
+      <span class="ta-badge entry-badge">Entry: {{ obj.data.emoji_entry.entry_price }}</span>
+      <span class="ta-badge lev-badge">{{ obj.data.leverage }}x</span>
+      <select id="ta-symbol-select" class="ta-symbol-select" onchange="onSymbolChange(this.value)">
+        {% for o in objects %}
+        <option value="{{ o.id }}" {% if o.id == obj.id %}selected{% endif %} data-hasdata="{{ o.has_1d and o.has_raw }}">
+          {{ o.symbol }} — {{ o.name }}
+        </option>
+        {% endfor %}
+      </select>
+      <a href="/ma-analytics/{{ obj.id }}" class="ta-badge" style="background:#3b82f6;color:white;text-decoration:none;">📊 База MA →</a>
+    </div>
+  </div>
+
+  <div id="ta-loader" class="ta-loader">
+    <div class="spinner"></div>
+    <span id="ta-loader-text">Computing indicators...</span>
+  </div>
+
+  <div id="ta-content" style="display:none;">
+
+    <div class="ta-kpi-row" id="ta-kpi"></div>
+
+    <div class="ta-section">
+      <div class="ta-section-title">📈 Price — ROE — Volatility — Volume — Liquidations</div>
+      <div class="ta-chart-container" id="mainChart"></div>
+    </div>
+
+    <div class="ta-section">
+      <div class="ta-section-title">📉 Technical Indicators</div>
+      <div class="ta-chart-container" id="indicatorChart"></div>
+    </div>
+
+    <div class="ta-section">
+      <div class="ta-section-title">🔥 Liquidation Heatmap & Zones</div>
+      <div class="ta-liq-container" id="liqHeatmap"></div>
+    </div>
+
+    <div class="ta-section">
+      <div class="ta-section-title">📍 Pivot Points & Extremes</div>
+      <div class="ta-table-wrapper">
+        <table class="ta-table" id="pivotTable">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Price</th>
+              <th>ROE %</th>
+              <th>Volume</th>
+              <th>Volatility %</th>
+              <th>Type</th>
+            </tr>
+          </thead>
+          <tbody id="pivotTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const OBJ_ID = '{{ obj.id }}';
+const SYMBOL = '{{ symbol }}';
+
+async function loadData() {
+  const loader = document.getElementById('ta-loader');
+  const content = document.getElementById('ta-content');
+  const loaderText = document.getElementById('ta-loader-text');
+  const start = Date.now();
+
+  try {
+    const resp = await fetch('/trade-analytics/api/' + OBJ_ID);
+    const data = await resp.json();
+    if (data.error) {
+      loaderText.textContent = 'Error: ' + data.error;
+      return;
+    }
+    const ms = Date.now() - start;
+    loaderText.textContent = 'Loaded in ' + ms + 'ms';
+    setTimeout(() => {
+      loader.style.display = 'none';
+      content.style.display = 'block';
+    }, 300);
+
+    renderKPI(data);
+    renderMainChart(data);
+    renderIndicatorChart(data);
+    renderLiquidationHeatmap(data);
+    renderPivotTable(data);
+  } catch(e) {
+    loaderText.textContent = 'Failed: ' + e.message;
+  }
+}
+
+function renderKPI(data) {
+  const m = data.meta;
+  const e = data.extremes;
+  const liq = data.liquidation;
+  const s = data.summary || {};
+  const container = document.getElementById('ta-kpi');
+  const kpis = [
+    { icon: '💰', label: 'Entry Price', value: m.entry_price, sub: 'USDT' },
+    { icon: '📈', label: 'Current ROE', value: m.current_roe_pct.toFixed(2) + '%', cls: m.current_roe_pct >= 0 ? 'profit' : 'loss' },
+    { icon: '💵', label: 'PnL', value: (m.current_pnl_usdt >= 0 ? '+' : '') + m.current_pnl_usdt.toFixed(4), cls: m.current_pnl_usdt >= 0 ? 'profit' : 'loss', sub: 'USDT' },
+    { icon: '⚡', label: 'Leverage', value: m.leverage + 'x' },
+    { icon: '🌊', label: 'Avg Volatility', value: m.avg_volatility_pct.toFixed(2) + '%' },
+    { icon: '🎯', label: 'Win Rate', value: s.profitable_days + '/' + s.total_days, sub: ((s.profitable_days || 0) / (s.total_days || 1) * 100).toFixed(1) + '%' },
+    { icon: '📅', label: 'Days Held', value: m.total_days },
+    { icon: '🔥', label: 'Liq Risk Days', value: liq.days_at_risk, cls: liq.days_at_risk > 0 ? 'loss' : 'profit' },
+    { icon: '🏆', label: 'Best ROE', value: '+' + e.roe.max + '%', cls: 'profit' },
+    { icon: '📉', label: 'Worst ROE', value: e.roe.min + '%', cls: 'loss' },
+  ];
+  container.innerHTML = kpis.map(k => `
+    <div class="ta-kpi-card ${k.cls || ''}">
+      <div class="ta-kpi-icon">${k.icon}</div>
+      <div class="ta-kpi-body">
+        <div class="ta-kpi-label">${k.label}</div>
+        <div class="ta-kpi-value">${k.value}</div>
+        ${k.sub ? '<div class="ta-kpi-sub">' + k.sub + '</div>' : ''}
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderMainChart(data) {
+  const ohlc = data.ohlc;
+  const metrics = data.metrics;
+  const dates = data.dates;
+  const liq = data.liquidation;
+  const meta = data.meta;
+  const extremes = data.extremes;
+
+  const colors = {
+    candleUp: 'rgba(34,197,94,0.7)', candleDown: 'rgba(239,68,68,0.7)',
+    roe: '#8b5cf6', volatility: '#f59e0b',
+    liqBar: 'rgba(220,38,38,0.6)', volume: 'rgba(96,165,250,0.4)',
+    liqLine: 'rgba(220,38,38,0.8)', entryLine: '#9333ea',
+    maxLine: '#16a34a', minLine: '#dc2626'
+  };
+
+  const liqPrice = liq.price;
+  const entryPrice = meta.entry_price;
+  const maxPrice = extremes.price.max;
+  const minPrice = extremes.price.min;
+
+  const roeMin = Math.min(...metrics.roe_pct);
+  const roeMax = Math.max(...metrics.roe_pct);
+
+  const liqBars = liq.days.map(d => d.at_risk ? d.simulated_liq_volume : 0);
+
+  const traces = [];
+
+  traces.push({
+    type: 'bar', x: dates, y: liqBars,
+    name: 'Liq Volume (sim)',
+    marker: { color: colors.liqBar },
+    yaxis: 'y4',
+    width: 1,
+    hoverinfo: 'skip',
+  });
+
+  traces.push({
+    type: 'candlestick', x: dates,
+    open: ohlc.open, high: ohlc.high, low: ohlc.low, close: ohlc.close,
+    name: SYMBOL,
+    increasing: { line: { color: colors.candleUp }, fillcolor: colors.candleUp },
+    decreasing: { line: { color: colors.candleDown }, fillcolor: colors.candleDown },
+    yaxis: 'y',
+  });
+
+  traces.push({
+    type: 'scatter', x: dates, y: metrics.roe_pct,
+    name: 'ROE %',
+    line: { color: colors.roe, width: 2 },
+    yaxis: 'y2',
+  });
+
+  traces.push({
+    type: 'scatter', x: dates, y: metrics.volatility_pct,
+    name: 'Volatility %',
+    line: { color: colors.volatility, width: 1.5, dash: 'dot' },
+    yaxis: 'y3',
+  });
+
+  traces.push({
+    type: 'bar', x: dates, y: ohlc.volume,
+    name: 'Volume',
+    marker: { color: colors.volume },
+    yaxis: 'y4',
+  });
+
+  const hlines = [
+    { y: liqPrice, color: colors.liqLine, dash: 'dash', label: 'Liq ' + liqPrice.toFixed(4) },
+    { y: entryPrice, color: colors.entryLine, dash: 'dash', label: 'Entry ' + entryPrice.toFixed(4) },
+    { y: maxPrice, color: colors.maxLine, dash: 'dot', label: 'High ' + maxPrice.toFixed(4) },
+    { y: minPrice, color: colors.minLine, dash: 'dot', label: 'Low ' + minPrice.toFixed(4) },
+  ];
+  hlines.forEach(h => {
+    traces.push({
+      type: 'scatter', x: [dates[0], dates[dates.length - 1]], y: [h.y, h.y],
+      name: h.label,
+      line: { color: h.color, dash: h.dash, width: 1 },
+      hoverinfo: 'skip',
+      yaxis: 'y',
+    });
+  });
+
+  const layout = {
+    template: 'plotly_dark',
+    paper_bgcolor: '#1e1e1e',
+    plot_bgcolor: '#1a1a2e',
+    height: 550,
+    margin: { l: 60, r: 60, t: 40, b: 60 },
+    dragmode: 'zoom',
+    hovermode: 'x unified',
+    legend: { orientation: 'h', y: 1.08, x: 0, font: { size: 9 } },
+    xaxis: {
+      domain: [0, 1],
+      rangeslider: { visible: false },
+      tickangle: -45,
+      nticks: 20,
+      tickfont: { size: 9, color: '#aaa' },
+      gridcolor: '#2a2a3a',
+      zerolinecolor: '#333',
+    },
+    yaxis: {
+      title: 'Price (USDT)',
+      domain: [0.3, 1],
+      side: 'left',
+      tickformat: '.4f',
+      titlefont: { size: 10, color: '#ccc' },
+      tickfont: { color: '#aaa' },
+      gridcolor: '#2a2a3a',
+      zerolinecolor: '#333',
+    },
+    yaxis2: {
+      title: 'ROE %',
+      domain: [0.3, 1],
+      side: 'right',
+      overlaying: 'y',
+      tickformat: '.0f',
+      titlefont: { size: 10, color: colors.roe },
+      tickfont: { color: colors.roe },
+      gridcolor: '#2a2a3a',
+    },
+    yaxis3: {
+      title: 'Vol %',
+      domain: [0.3, 1],
+      side: 'right',
+      overlaying: 'y',
+      position: 0.97,
+      tickformat: '.1f',
+      showgrid: false,
+      titlefont: { size: 10, color: colors.volatility },
+      tickfont: { color: colors.volatility },
+    },
+    yaxis4: {
+      title: 'Volume',
+      domain: [0, 0.28],
+      side: 'right',
+      tickformat: '.0f',
+      titlefont: { size: 10 },
+    },
+    shapes: [
+      { type: 'rect', xref: 'paper', yref: 'paper', x0: 0, y0: 0.28, x1: 1, y1: 0.30, fillcolor: '#333', line: { width: 0 }, layer: 'below' },
+      { type: 'rect', xref: 'paper', yref: 'y', x0: 0, y0: liqPrice, x1: 1, y1: liqPrice * 0.97, fillcolor: 'rgba(220,38,38,0.08)', line: { width: 0 }, layer: 'below' },
+      { type: 'rect', xref: 'paper', yref: 'y', x0: 0, y0: liqPrice * 0.97, x1: 1, y1: liqPrice * 0.94, fillcolor: 'rgba(220,38,38,0.04)', line: { width: 0 }, layer: 'below' },
+    ],
+  };
+
+  Plotly.newPlot('mainChart', traces, layout, { responsive: true, displayModeBar: false });
+}
+
+function renderIndicatorChart(data) {
+  const dates = data.dates;
+  const ind = data.indicators;
+  const meta = data.meta;
+
+  const colors = {
+    rsi: '#60a5fa', rsiUpper: 'rgba(239,68,68,0.1)', rsiLower: 'rgba(34,197,94,0.1)',
+    macdPos: 'rgba(34,197,94,0.6)', macdNeg: 'rgba(239,68,68,0.6)',
+    macdSignal: '#f97316',
+    ema9: '#22d3ee', ema21: '#eab308', ema55: '#ec4899',
+    oi: '#a78bfa',
+  };
+
+  const traces = [];
+
+  const rsiValues = ind.rsi.map(v => v !== null ? v : undefined);
+
+  traces.push({
+    type: 'scatter', x: dates, y: rsiValues,
+    name: 'RSI(14)',
+    line: { color: colors.rsi, width: 1.5 },
+    yaxis: 'y',
+  });
+
+  traces.push({
+    type: 'scatter', x: dates, y: Array(dates.length).fill(70),
+    name: 'Overbought 70',
+    line: { color: 'rgba(239,68,68,0.4)', width: 1, dash: 'dash' },
+    yaxis: 'y',
+  });
+  traces.push({
+    type: 'scatter', x: dates, y: Array(dates.length).fill(30),
+    name: 'Oversold 30',
+    line: { color: 'rgba(34,197,94,0.4)', width: 1, dash: 'dash' },
+    yaxis: 'y',
+    fill: 'tonexty',
+    fillcolor: colors.rsiLower,
+  });
+
+  traces.push({
+    type: 'scatter', x: dates, y: Array(dates.length).fill(70),
+    fill: 'tonexty',
+    fillcolor: colors.rsiUpper,
+    hoverinfo: 'skip',
+    line: { width: 0 },
+    yaxis: 'y',
+    showlegend: false,
+  });
+
+  const macdHist = ind.macd.histogram.map(v => v !== null ? v : undefined);
+  const macdColors = macdHist.map(v => v >= 0 ? colors.macdPos : colors.macdNeg);
+
+  traces.push({
+    type: 'bar', x: dates, y: macdHist,
+    name: 'MACD Hist',
+    marker: { color: macdColors },
+    yaxis: 'y2',
+  });
+
+  const macdSignal = ind.macd.signal.map(v => v !== null ? v : undefined);
+  traces.push({
+    type: 'scatter', x: dates, y: macdSignal,
+    name: 'MACD Signal',
+    line: { color: colors.macdSignal, width: 1 },
+    yaxis: 'y2',
+  });
+
+  const ema9 = ind.ema9.map(v => v !== null ? v : undefined);
+  const ema21 = ind.ema21.map(v => v !== null ? v : undefined);
+  const ema55 = ind.ema55.map(v => v !== null ? v : undefined);
+
+  traces.push({
+    type: 'scatter', x: dates, y: ema9,
+    name: 'EMA9',
+    line: { color: colors.ema9, width: 1.5 },
+    yaxis: 'y3',
+  });
+  traces.push({
+    type: 'scatter', x: dates, y: ema21,
+    name: 'EMA21',
+    line: { color: colors.ema21, width: 1.5, dash: 'dot' },
+    yaxis: 'y3',
+  });
+  traces.push({
+    type: 'scatter', x: dates, y: ema55,
+    name: 'EMA55',
+    line: { color: colors.ema55, width: 1.5, dash: 'dash' },
+    yaxis: 'y3',
+  });
+
+  const oi = ind.open_interest;
+  traces.push({
+    type: 'scatter', x: dates, y: oi,
+    name: 'OI (sim)',
+    line: { color: colors.oi, width: 1, dash: 'dot' },
+    yaxis: 'y3',
+  });
+
+  const layout = {
+    template: 'plotly_dark',
+    paper_bgcolor: '#1e1e1e',
+    plot_bgcolor: '#1a1a2e',
+    height: 500,
+    margin: { l: 60, r: 60, t: 40, b: 60 },
+    hovermode: 'x unified',
+    legend: { orientation: 'h', y: 1.08, x: 0, font: { size: 9 } },
+    xaxis: {
+      domain: [0, 1],
+      tickangle: -45,
+      nticks: 20,
+      tickfont: { size: 9, color: '#aaa' },
+      gridcolor: '#2a2a3a',
+      zerolinecolor: '#333',
+    },
+    yaxis: {
+      title: 'RSI',
+      domain: [0.6, 1],
+      range: [0, 100],
+      side: 'left',
+      titlefont: { size: 10, color: colors.rsi },
+      tickfont: { color: colors.rsi },
+      gridcolor: '#2a2a3a',
+    },
+    yaxis2: {
+      title: 'MACD',
+      domain: [0.3, 0.58],
+      side: 'right',
+      titlefont: { size: 10, color: colors.macdSignal },
+      tickfont: { color: colors.macdSignal },
+      gridcolor: '#2a2a3a',
+    },
+    yaxis3: {
+      title: 'EMA / OI',
+      domain: [0, 0.28],
+      side: 'right',
+      titlefont: { size: 10, color: '#ccc' },
+      tickfont: { color: '#aaa' },
+      tickformat: '.4f',
+      gridcolor: '#2a2a3a',
+    },
+    shapes: [
+      { type: 'rect', xref: 'paper', yref: 'paper', x0: 0, y0: 0.58, x1: 1, y1: 0.60, fillcolor: '#333', line: { width: 0 }, layer: 'below' },
+      { type: 'rect', xref: 'paper', yref: 'paper', x0: 0, y0: 0.28, x1: 1, y1: 0.30, fillcolor: '#333', line: { width: 0 }, layer: 'below' },
+    ],
+    dragmode: 'zoom',
+  };
+
+  Plotly.newPlot('indicatorChart', traces, layout, { responsive: true, displayModeBar: false });
+
+  Plotly.relayout('indicatorChart', {
+    'xaxis.autorange': true,
+  });
+}
+
+function renderLiquidationHeatmap(data) {
+  const liq = data.liquidation;
+  const meta = data.meta;
+  const extremes = data.extremes;
+  const dates = data.dates;
+  const ohlc = data.ohlc;
+
+  const liqPrice = liq.price;
+  const entryPrice = meta.entry_price;
+  const maxPrice = extremes.price.max;
+  const minPrice = extremes.price.min;
+
+  const liqDays = liq.days;
+  const riskDates = liqDays.filter(d => d.at_risk).map(d => d.date);
+  const riskLevels = liqDays.filter(d => d.at_risk).map(d => Math.abs(d.distance_pct));
+
+  const prices = [minPrice, liqPrice, entryPrice, maxPrice];
+  const labels = [
+    'Min: ' + minPrice.toFixed(4),
+    'Liq: ' + liqPrice.toFixed(4),
+    'Entry: ' + entryPrice.toFixed(4),
+    'Max: ' + maxPrice.toFixed(4),
+  ];
+  const colors = ['rgba(220,38,38,0.8)', 'rgba(220,38,38,0.5)', 'rgba(147,51,234,0.5)', 'rgba(22,163,74,0.8)'];
+
+  const closePrices = ohlc.close;
+
+  let html = '<div class="ta-liq-grid">';
+
+  html += '<div class="ta-liq-row ta-liq-header"><span>Date</span><span>Close</span><span>Low</span><span>Risk</span><span>Dist %</span><span>Liq Vol</span></div>';
+
+  const recentDays = liqDays.slice(-30).reverse();
+  recentDays.forEach(d => {
+    const cls = d.at_risk ? 'risk' : 'safe';
+    const volDisplay = d.simulated_liq_volume > 0 ? d.simulated_liq_volume.toFixed(0) : '—';
+    html += `<div class="ta-liq-row ta-liq-${cls}">
+      <span>${d.date}</span>
+      <span>${closePrices[liqDays.indexOf(d)]?.toFixed(4) || ''}</span>
+      <span>${d.low.toFixed(4)}</span>
+      <span>${d.at_risk ? '⚠️ YES' : '✅ no'}</span>
+      <span class="${d.at_risk ? 'loss' : 'profit'}">${d.distance_pct.toFixed(2)}%</span>
+      <span>${volDisplay}</span>
+    </div>`;
+  });
+
+  html += '</div>';
+
+  html += '<div class="ta-liq-legend">';
+  html += '<div class="ta-liq-legend-title">🔥 Heatmap Zones (Price Levels)</div>';
+  html += '<div class="ta-liq-bars">';
+  prices.forEach((p, i) => {
+    const pct = ((p - minPrice) / (maxPrice - minPrice) * 100).toFixed(1);
+    html += `<div class="ta-liq-bar" style="width:${pct}%;background:${colors[i]};">
+      <span class="ta-liq-bar-label">${labels[i]}</span>
+    </div>`;
+  });
+  html += '</div></div>';
+
+  document.getElementById('liqHeatmap').innerHTML = html;
+}
+
+function renderPivotTable(data) {
+  const pivots = data.pivots;
+  const ohlc = data.ohlc;
+  const metrics = data.metrics;
+  const dates = data.dates;
+
+  const allPivots = [];
+  pivots.roe.forEach(p => allPivots.push({ ...p, key: 'roe_pct', displayKey: 'ROE' }));
+  pivots.price.forEach(p => allPivots.push({ ...p, key: 'price', displayKey: 'Price' }));
+  pivots.volume.forEach(p => allPivots.push({ ...p, key: 'volume', displayKey: 'Volume' }));
+  pivots.volatility.forEach(p => allPivots.push({ ...p, key: 'volatility_pct', displayKey: 'Volatility' }));
+
+  allPivots.sort((a, b) => a.index - b.index);
+
+  const tbody = document.getElementById('pivotTableBody');
+  if (allPivots.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="6">No pivot points found</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = allPivots.map(p => {
+    const idx = p.index;
+    const price = ohlc.close[idx]?.toFixed(4) || '';
+    const roe = metrics.roe_pct[idx]?.toFixed(2) || '';
+    const vol = ohlc.volume[idx]?.toFixed(0) || '';
+    const vola = metrics.volatility_pct[idx]?.toFixed(2) || '';
+    const val = p[p.key] !== undefined ? (typeof p[p.key] === 'number' ? p[p.key].toFixed(4) : p[p.key]) : '';
+    const typeLabel = p.type === 'peak' ? '🔺 Peak' : '🔻 Trough';
+    return `<tr class="${p.type}">
+      <td>${p.date}</td>
+      <td>${price}</td>
+      <td class="${roe >= 0 ? 'profit' : 'loss'}">${roe}%</td>
+      <td>${vol}</td>
+      <td>${vola}%</td>
+      <td>${typeLabel} <span class="pivot-key">${p.displayKey}: ${val}</span></td>
+    </tr>`;
+  }).join('');
+}
+
+function onSymbolChange(objId) {
+  const selected = document.querySelector(`#ta-symbol-select option[value="${objId}"]`);
+  if (!selected) return;
+  const hasData = selected.dataset.hasdata === 'True';
+  if (hasData) {
+    window.location.href = '/trade-analytics/dashboard/' + objId;
+  } else {
+    alert('No 1D/RAW data available for this asset');
+  }
+}
+
+document.addEventListener('DOMContentLoaded', loadData);
+</script>
+{% endblock %}

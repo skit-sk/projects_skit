@@ -1,0 +1,10 @@
+# Ignore runtime outputs except pre-generated infographics
+outputs/asciichart/
+outputs/plotext/
+outputs/summary/
+outputs/termgraph/
+__pycache__/
+*.pyc
+.venv/
+venv/
+.vercel

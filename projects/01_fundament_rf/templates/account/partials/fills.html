@@ -1,0 +1,197 @@
+{% if error %}
+<div style="font-size:10px; color:#888; margin-bottom:0.25rem;"><span class="section-timer"></span></div>
+<div class="error-state">❌ {{ error }}</div>
+{% else %}
+
+<form hx-get="/account-api/partial/fills" hx-target="#account-content" hx-trigger="submit" class="fills-filters" style="display:flex; gap:6px; flex-wrap:wrap; align-items:flex-end; margin:0 0 0.75rem; padding:0.6rem; background:var(--bg-card); border-radius:6px; border:1px solid var(--border-color); max-width:fit-content;">
+    <label style="font-size:9px; color:#888; display:flex; flex-direction:column;">Актив
+        <select name="symbol" style="font-size:11px; background:var(--input-bg); color:var(--text-main); border:1px solid var(--border-color); border-radius:4px; padding:3px 6px; margin-top:2px;">
+            <option value="">Все</option>
+            {% for sym in unique_symbols %}
+            <option value="{{ sym }}" {% if request_params.get('symbol') == sym %}selected{% endif %}>{{ sym }}</option>
+            {% endfor %}
+        </select>
+    </label>
+    <label style="font-size:9px; color:#888; display:flex; flex-direction:column;">Рынок
+        <select name="market" style="font-size:11px; background:var(--input-bg); color:var(--text-main); border:1px solid var(--border-color); border-radius:4px; padding:3px 6px; margin-top:2px;">
+            <option value="all" {% if request_params.get('market','all') == 'all' %}selected{% endif %}>Все</option>
+            <option value="spot" {% if request_params.get('market') == 'spot' %}selected{% endif %}>Спот</option>
+            <option value="futures" {% if request_params.get('market') == 'futures' %}selected{% endif %}>Фьючерсы</option>
+        </select>
+    </label>
+    <label style="font-size:9px; color:#888; display:flex; flex-direction:column;">Сторона
+        <select name="trade_side" style="font-size:11px; background:var(--input-bg); color:var(--text-main); border:1px solid var(--border-color); border-radius:4px; padding:3px 6px; margin-top:2px;">
+            <option value="all" {% if request_params.get('trade_side','all') == 'all' %}selected{% endif %}>Все</option>
+            <option value="open" {% if request_params.get('trade_side') == 'open' %}selected{% endif %}>Open</option>
+            <option value="close" {% if request_params.get('trade_side') == 'close' %}selected{% endif %}>Close</option>
+        </select>
+    </label>
+    <label style="font-size:9px; color:#888; display:flex; flex-direction:column;">Глубина
+        <select name="since" style="font-size:11px; background:var(--input-bg); color:var(--text-main); border:1px solid var(--border-color); border-radius:4px; padding:3px 6px; margin-top:2px;">
+            <option value="7d" {% if request_params.get('since','all') == '7d' %}selected{% endif %}>7 дней</option>
+            <option value="30d" {% if request_params.get('since') == '30d' %}selected{% endif %}>30 дней</option>
+            <option value="90d" {% if request_params.get('since') == '90d' %}selected{% endif %}>90 дней</option>
+            <option value="180d" {% if request_params.get('since') == '180d' %}selected{% endif %}>180 дней</option>
+            <option value="365d" {% if request_params.get('since') == '365d' %}selected{% endif %}>1 год</option>
+            <option value="all" {% if request_params.get('since','all') == 'all' %}selected{% endif %}>Всё</option>
+        </select>
+    </label>
+    <label style="font-size:9px; color:#888; display:flex; flex-direction:column;">Записей
+        <select name="limit" style="font-size:11px; background:var(--input-bg); color:var(--text-main); border:1px solid var(--border-color); border-radius:4px; padding:3px 6px; margin-top:2px;">
+            <option value="10" {% if request_params.get('limit','100') == '10' %}selected{% endif %}>10</option>
+            <option value="20" {% if request_params.get('limit') == '20' %}selected{% endif %}>20</option>
+            <option value="50" {% if request_params.get('limit') == '50' %}selected{% endif %}>50</option>
+            <option value="100" {% if request_params.get('limit','100') == '100' %}selected{% endif %}>100</option>
+        </select>
+    </label>
+    <input type="hidden" name="sort_by" value="{{ sort_by }}">
+    <input type="hidden" name="sort_dir" value="{{ sort_dir }}">
+    <button type="submit" style="font-size:11px; padding:6px 14px; background:#3498db; color:#fff; border:none; border-radius:4px; cursor:pointer;">🔍 Применить</button>
+</form>
+
+<div style="font-size:10px; color:#888; margin-bottom:0.25rem;"><span class="section-timer"></span></div>
+<div class="fills-counters" style="font-size:12px; margin:0 0 0.5rem; padding:0.5rem; background:var(--bg-card); border-radius:4px; border:1px solid var(--border-color); max-width:fit-content;">
+    📊 Спот: {{ spot_total }} · Futures: {{ futures_total }} · Всего на бирже: {{ grand_total }} · Показано: {{ fills|length }} из {{ total_filtered }}
+</div>
+
+<table class="account-table">
+    <thead>
+        <tr>
+            <th style="text-align:center;">#</th>
+            <th style="text-align:center; cursor:pointer; user-select:none;" onclick="sortFills('market')">Рынок{% if sort_by == 'market' %}<span style="font-size:10px;">{{ '↑' if sort_dir == 'asc' else '↓' }}</span>{% endif %}</th>
+            <th style="text-align:center; cursor:pointer; user-select:none;" onclick="sortFills('symbol')">Symbol{% if sort_by == 'symbol' %}<span style="font-size:10px;">{{ '↑' if sort_dir == 'asc' else '↓' }}</span>{% endif %}</th>
+            <th style="text-align:center; cursor:pointer; user-select:none;" onclick="sortFills('side')">Side{% if sort_by == 'side' %}<span style="font-size:10px;">{{ '↑' if sort_dir == 'asc' else '↓' }}</span>{% endif %}</th>
+            <th style="text-align:center; cursor:pointer; user-select:none;" onclick="sortFills('price')">Price{% if sort_by == 'price' %}<span style="font-size:10px;">{{ '↑' if sort_dir == 'asc' else '↓' }}</span>{% endif %}</th>
+            <th style="text-align:center; cursor:pointer; user-select:none;" onclick="sortFills('qty')">Qty{% if sort_by == 'qty' %}<span style="font-size:10px;">{{ '↑' if sort_dir == 'asc' else '↓' }}</span>{% endif %}</th>
+            <th style="text-align:center; cursor:pointer; user-select:none;" onclick="sortFills('value')">Value{% if sort_by == 'value' %}<span style="font-size:10px;">{{ '↑' if sort_dir == 'asc' else '↓' }}</span>{% endif %}</th>
+            <th style="text-align:center; white-space:normal;">Margin<br>Value</th>
+            <th style="text-align:center; cursor:pointer; user-select:none;" onclick="sortFills('profit')">Profit{% if sort_by == 'profit' %}<span style="font-size:10px;">{{ '↑' if sort_dir == 'asc' else '↓' }}</span>{% endif %}</th>
+            <th style="text-align:center;">PnL%</th>
+            <th style="text-align:center; white-space:normal; cursor:pointer; user-select:none;" onclick="sortFills('fee')">Fee<br>(USDT){% if sort_by == 'fee' %}<span style="font-size:10px;">{{ '↑' if sort_dir == 'asc' else '↓' }}</span>{% endif %}</th>
+            <th style="text-align:center;">Duration</th>
+            <th style="text-align:center; white-space:normal;">Trade<br>Side</th>
+            <th style="text-align:center; white-space:normal;">Trade<br>Scope</th>
+            <th style="text-align:center; cursor:pointer; user-select:none;" onclick="sortFills('time')">Time{% if sort_by == 'time' %}<span style="font-size:10px;">{{ '↑' if sort_dir == 'asc' else '↓' }}</span>{% endif %}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% set mu_map = margin_usdt_map or {} %}
+        {% for f in fills %}
+        {% set dur = duration_map.get((f.symbol, f.c_time)) %}
+        {% set pp = pnl_pct_map.get((f.symbol, f.c_time)) %}
+        {% set mu = mu_map.get((f.symbol, f.c_time), f.quote_volume / 10) %}
+        <tr>
+            <td style="text-align:center;">{{ loop.index }}</td>
+            <td style="text-align:center;"><span class="market-badge" style="font-size:11px; padding:1px 4px; border-radius:4px; background:{{ '#3498db' if f.market == 'futures' else '#10b981' }}; color:#fff;">{{ f.market }}</span></td>
+            <td style="text-align:center;"><strong>{{ f.ticker }}</strong></td>
+            <td style="text-align:center; color: {{ 'var(--color-profit)' if f.side == 'buy' else 'var(--color-loss)' }}">{{ f.side }}</td>
+            <td style="text-align:center;">{{ fmt_num(f.price, 5) }}</td>
+            <td style="text-align:center;">{{ fmt_num(f.filled_qty, 4) }}</td>
+            <td style="text-align:center;">{{ fmt_num(f.total_value, 2) }}</td>
+            <td style="text-align:center;">{{ fmt_num(mu, 4) }}</td>
+            <td style="text-align:center;" class="{{ 'pl-positive' if f.profit >= 0 else 'pl-negative' }}">{{ fmt_num(f.profit, 2) }}</td>
+            <td style="text-align:center;" class="{{ 'pl-positive' if pp and pp >= 0 else 'pl-negative' }}">{{ pp|round(2) ~ '%' if pp is not none else '-' }}</td>
+            <td style="text-align:center;">{{ fmt_num(f.fee_detail, 4) }}</td>
+            <td style="text-align:center;">{% if dur %}{{ (dur // 86400000) ~ 'д ' ~ ((dur % 86400000) // 3600000) ~ 'ч' }}{% else %}-{% endif %}</td>
+            <td style="text-align:center;">{{ f.trade_side }}</td>
+            <td style="text-align:center;">{{ f.trade_scope }}</td>
+            <td style="text-align:center;">{{ fmt_time(f.c_time) }}</td>
+        </tr>
+        {% endfor %}
+        {% if not fills %}
+        <tr><td colspan="15" class="empty-state">📭 Нет данных по сделкам</td></tr>
+        {% endif %}
+    </tbody>
+    <tfoot>
+        <tr style="font-weight:bold; border-top:2px solid var(--border-color); background:var(--bg-card);">
+            <td colspan="5" style="text-align:center;">Итого</td>
+            {% set distinct_symbols = fills|map(attribute='symbol')|unique|list|length %}
+            {% if distinct_symbols > 1 %}
+            <td style="text-align:center; color:#888;">—</td>
+            {% else %}
+            <td style="text-align:center;">{{ fmt_num(fills|sum(attribute='filled_qty'), 4) }}</td>
+            {% endif %}
+            <td style="text-align:center;">{{ fmt_num(fills|sum(attribute='total_value'), 2) }}</td>
+            <td style="text-align:center;">{{ fmt_num(fills|sum(attribute='quote_volume') / 10, 2) }}</td>
+            <td style="text-align:center;" class="{{ 'pl-positive' if fills|sum(attribute='profit') >= 0 else 'pl-negative' }}">{{ fmt_num(fills|sum(attribute='profit'), 2) }}</td>
+            <td style="text-align:center;">—</td>
+            <td style="text-align:center;">{{ fmt_num(fills|sum(attribute='fee_detail'), 4) }}</td>
+            <td style="text-align:center;">—</td>
+            <td colspan="2"></td>
+            <td style="text-align:center;"></td>
+        </tr>
+    </tfoot>
+</table>
+
+<h3 style="margin-top:1.5rem; font-size:13px;">📊 Aggregated by Symbol</h3>
+{% if aggregated %}
+<table class="account-table">
+    <thead>
+        <tr>
+            <th style="text-align:center;">Symbol</th>
+            <th style="text-align:center;">Trades</th>
+            <th style="text-align:center;">Buys / Sells</th>
+            <th style="text-align:center;">Total Qty</th>
+            <th style="text-align:center;">Avg Price</th>
+            <th style="text-align:center;">Total Value</th>
+            <th style="text-align:center; white-space:normal;">Margin<br>Value</th>
+            <th style="text-align:center;">Total Profit</th>
+            <th style="text-align:center;">Avg PnL%</th>
+            <th style="text-align:center;">Total Fee</th>
+            <th style="text-align:center; white-space:normal;">Avg<br>Duration</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for sym, data in aggregated.items() %}
+        <tr>
+            <td style="text-align:center;"><strong>{{ sym }}</strong></td>
+            <td style="text-align:center;">{{ data.count }}</td>
+            <td style="text-align:center;">{{ data.buys }} / {{ data.sells }}</td>
+            <td style="text-align:center;">{{ fmt_num(data.total_qty, 4) }}</td>
+            <td style="text-align:center;">{{ fmt_num(data.avg_price, 5) }}</td>
+            <td style="text-align:center;">{{ fmt_num(data.total_value, 2) }}</td>
+            <td style="text-align:center;">{{ fmt_num(data.total_margin_usdt, 2) }}</td>
+            <td style="text-align:center;" class="{{ 'pl-positive' if data.total_profit >= 0 else 'pl-negative' }}">{{ fmt_num(data.total_profit, 2) }}</td>
+            <td style="text-align:center;" class="{{ 'pl-positive' if data.avg_pnl_pct and data.avg_pnl_pct >= 0 else 'pl-negative' }}">{{ data.avg_pnl_pct|round(2) ~ '%' if data.avg_pnl_pct is not none else '-' }}</td>
+            <td style="text-align:center;">{{ fmt_num(data.total_fee, 4) }}</td>
+            <td style="text-align:center;">{% if data.total_duration_ms %}{{ (data.total_duration_ms // 86400000) ~ 'д' }}{% else %}-{% endif %}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr style="font-weight:bold; border-top:2px solid var(--border-color); background:var(--bg-card);">
+            <td style="text-align:center;">Итого</td>
+            <td style="text-align:center;">{{ agg_total.count }}</td>
+            <td style="text-align:center;">{{ agg_total.buys }} / {{ agg_total.sells }}</td>
+            <td style="text-align:center; color:#888;">—</td>
+            <td></td>
+            <td style="text-align:center;">{{ fmt_num(agg_total.total_value, 2) }}</td>
+            <td style="text-align:center;">{{ fmt_num(agg_total.total_margin_usdt, 2) }}</td>
+            <td style="text-align:center;" class="{{ 'pl-positive' if agg_total.total_profit >= 0 else 'pl-negative' }}">{{ fmt_num(agg_total.total_profit, 2) }}</td>
+            <td style="text-align:center;" class="{{ 'pl-positive' if agg_total.avg_pnl_pct >= 0 else 'pl-negative' }}">{{ agg_total.avg_pnl_pct|round(2) ~ '%' }}</td>
+            <td style="text-align:center;">{{ fmt_num(agg_total.total_fee, 4) }}</td>
+            <td style="text-align:center;">{% if agg_total.total_duration_ms %}{{ (agg_total.total_duration_ms // 86400000) ~ 'д' }}{% else %}-{% endif %}</td>
+        </tr>
+    </tfoot>
+</table>
+{% else %}
+<div class="empty-state">📭 Нет данных для агрегации</div>
+{% endif %}
+
+{% include "account/partials/_debug_footer.html" %}
+
+<script>
+function sortFills(col) {
+    const params = new URLSearchParams(window.location.search);
+    const currentSort = params.get('sort_by') || 'time';
+    const currentDir = params.get('sort_dir') || 'desc';
+    let newDir = 'asc';
+    if (currentSort === col) {
+        newDir = currentDir === 'asc' ? 'desc' : 'asc';
+    }
+    params.set('sort_by', col);
+    params.set('sort_dir', newDir);
+    htmx.ajax('GET', '/account-api/partial/fills?' + params.toString(), {target: '#account-content'});
+}
+</script>
+{% endif %}

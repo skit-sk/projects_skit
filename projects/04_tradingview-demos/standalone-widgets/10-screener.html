@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Screener — TradingView Widget</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #131722; height: 100vh; overflow: hidden; }
+        .tradingview-widget-container { height: 100%; width: 100%; }
+    </style>
+</head>
+<body>
+<div class="tradingview-widget-container">
+    <div class="tradingview-widget-container__widget"></div>
+</div>
+<script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-screener.js" async>
+{
+  "width": "100%",
+  "height": "100%",
+  "colorTheme": "dark",
+  "defaultColumn": "overview",
+  "defaultScreen": "general",
+  "market": "forex",
+  "showToolbar": true,
+  "isTransparent": false,
+  "autosize": true
+}
+</script>
+</body>
+</html>

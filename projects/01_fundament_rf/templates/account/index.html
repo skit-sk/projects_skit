@@ -1,0 +1,185 @@
+{% extends "base.html" %}
+{% block title %}🔐 Account — Fundament RF{% endblock %}
+
+{% block content %}
+<div class="account-page">
+<h2>🔐 Account <span id="load-timer" style="font-size:10px; color:#888; font-weight:normal;"></span></h2>
+
+<div class="account-tabs" style="display:flex; gap:4px; margin:1rem 0; flex-wrap:wrap;">
+    <button class="account-tab active"
+            hx-get="/account-api/partial/overview"
+            hx-target="#account-content"
+            hx-trigger="click"
+            hx-indicator="#account-loading"
+            onclick="document.querySelectorAll('.account-tab').forEach(t=>t.classList.remove('active')); this.classList.add('active');">
+        📊 Overview
+    </button>
+    <button class="account-tab"
+            hx-get="/account-api/partial/balance"
+            hx-target="#account-content"
+            hx-trigger="click"
+            hx-indicator="#account-loading"
+            onclick="document.querySelectorAll('.account-tab').forEach(t=>t.classList.remove('active')); this.classList.add('active');">
+        💰 Balance
+    </button>
+    <button class="account-tab"
+            hx-get="/account-api/partial/positions"
+            hx-target="#account-content"
+            hx-trigger="click"
+            hx-indicator="#account-loading"
+            onclick="document.querySelectorAll('.account-tab').forEach(t=>t.classList.remove('active')); this.classList.add('active');">
+        📍 Positions
+    </button>
+    <button class="account-tab"
+            hx-get="/account-api/partial/orders"
+            hx-target="#account-content"
+            hx-trigger="click"
+            hx-indicator="#account-loading"
+            onclick="document.querySelectorAll('.account-tab').forEach(t=>t.classList.remove('active')); this.classList.add('active');">
+        📋 Orders
+    </button>
+    <button class="account-tab"
+            hx-get="/account-api/partial/fills"
+            hx-target="#account-content"
+            hx-trigger="click"
+            hx-indicator="#account-loading"
+            onclick="document.querySelectorAll('.account-tab').forEach(t=>t.classList.remove('active')); this.classList.add('active');">
+        🔄 Fills
+    </button>
+</div>
+
+<div id="account-loading" class="htmx-indicator" style="text-align:center; padding:2rem; display:none;">
+    <span>⏳ Загрузка...</span>
+</div>
+
+<div id="account-content"
+     hx-get="/account-api/partial/overview"
+     hx-trigger="load"
+     hx-indicator="#account-loading">
+    <div style="text-align:center; padding:2rem;">⏳ Загрузка...</div>
+</div>
+
+<style>
+.account-page {
+    margin-left: -20%;
+}
+.account-tab {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-card);
+    color: var(--text-main);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.15s;
+}
+.account-tab:hover {
+    background: var(--border-color);
+}
+.account-tab.active {
+    background: #3498db;
+    color: #fff;
+    border-color: #3498db;
+}
+.account-table {
+    width: auto;
+    margin: 0.5rem 0;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+.account-table th {
+    background: var(--border-color);
+    padding: 3px 6px;
+    text-align: left;
+    border-bottom: 2px solid var(--border-color);
+    white-space: nowrap;
+}
+.account-table td {
+    padding: 3px 6px;
+    border-bottom: 1px solid var(--border-color);
+    white-space: nowrap;
+}
+.account-table tr:hover {
+    background: rgba(52,152,219,0.05);
+}
+.pl-positive { color: #22c55e; }
+.pl-negative { color: #ef4444; }
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+    margin: 1rem 0;
+}
+.kpi-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 14px;
+    border-left: 4px solid var(--border-color);
+}
+.kpi-card .kpi-label {
+    font-size: 11px;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.kpi-card .kpi-value {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 4px 0;
+}
+.kpi-card .kpi-sub {
+    font-size: 12px;
+    color: #888;
+}
+.empty-state {
+    text-align: center;
+    padding: 3rem;
+    color: #888;
+    font-size: 14px;
+}
+.error-state {
+    text-align: center;
+    padding: 2rem;
+    color: #ef4444;
+    background: rgba(239,68,68,0.1);
+    border: 1px solid rgba(239,68,68,0.3);
+    border-radius: 8px;
+    margin: 1rem 0;
+}
+</style>
+
+<script src="https://unpkg.com/htmx.org@1.9.11"></script>
+<script>
+(function() {
+    var h2timer = document.getElementById('load-timer');
+    var t0 = 0;
+
+    function setTimers(text) {
+        h2timer.textContent = text;
+        var els = document.querySelectorAll('#account-content .section-timer');
+        for (var i = 0; i < els.length; i++) els[i].textContent = text;
+    }
+
+    document.body.addEventListener('htmx:beforeRequest', function(evt) {
+        if (evt.detail.target && evt.detail.target.id === 'account-content') {
+            t0 = performance.now();
+            setTimers('⏳ ...');
+        }
+    });
+
+    document.body.addEventListener('htmx:afterOnLoad', function(evt) {
+        if (evt.detail.target && evt.detail.target.id === 'account-content') {
+            setTimers('✓ ' + Math.round(performance.now() - t0) + 'ms');
+        }
+    });
+
+    document.body.addEventListener('htmx:responseError', function(evt) {
+        if (evt.detail.target && evt.detail.target.id === 'account-content') {
+            setTimers('✗ ' + Math.round(performance.now() - (t0 || performance.now())) + 'ms');
+        }
+    });
+})();
+</script>
+</div>
+{% endblock %}

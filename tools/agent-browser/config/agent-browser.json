@@ -1,0 +1,13 @@
+{
+  "headed": false,
+  "screenshotDir": "./screenshots",
+  "screenshotFormat": "png",
+  "sessionName": "default",
+  "executablePath": null,
+  "ignoreHttpsErrors": true,
+  "debug": false,
+  "viewport": {
+    "width": 1280,
+    "height": 720
+  }
+}

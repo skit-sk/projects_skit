@@ -1,0 +1,40 @@
+{% macro emoji_upd(entry, upd, leverage=10) %}<span>🏗️{{ entry.number if entry.number is defined }} 🚏{{ entry.symbol if entry.symbol is defined else '—' }} 🧾{{ upd.current_price if upd.current_price is defined else '—' }} 📆{{ upd.last_updated[:10] if upd.last_updated is defined else entry.entry_date if entry.entry_date is defined }} 🕒{{ upd.entry_time if upd.entry_time is defined }}{{ 'дн' if upd.entry_time is defined }} 🧱{{ entry.volume if entry.volume is defined }} 🫧{{ upd.pnl_percent if upd.pnl_percent is defined }} 🪙{{ upd.pnl_usdt if upd.pnl_usdt is defined }} 📦{{ upd.result if upd.result is defined else entry.result if entry.result is defined }} ⬆️{{ leverage }}</span>{% endmacro %}
+
+{% macro emoji_entry(entry, leverage=10) %}<span>🏗️{{ entry.number if entry.number is defined }} 🚏{{ entry.symbol if entry.symbol is defined else '—' }} 🧾{{ entry.entry_price if entry.entry_price is defined else '—' }} 📆{{ entry.entry_date if entry.entry_date is defined }} 🕒{{ entry.entry_time if entry.entry_time is defined }}{{ 'дн' if entry.entry_time is defined }} 🧱{{ entry.volume if entry.volume is defined }} 🫧{{ entry.pnl_percent if entry.pnl_percent is defined }} 🪙{{ entry.pnl_usdt if entry.pnl_usdt is defined }} 📦{{ entry.result if entry.result is defined }} ⬆️{{ leverage }}</span>{% endmacro %}
+
+{% macro json_debug_section(tree_label='📄 JSON Tree', table_label='🗂 Table View') %}
+<div class="json-debug-section">
+    <div class="json-debug-header">
+        <label class="json-debug-toggle">
+            <input type="checkbox" id="tree-toggle" checked onchange="toggleJsonTree()">
+            {{ tree_label }}
+        </label>
+        <label class="json-debug-toggle">
+            <input type="checkbox" id="table-view" onchange="toggleJsonView()">
+            {{ table_label }}
+        </label>
+    </div>
+
+    <details class="json-debug-panel" open>
+        <summary class="json-debug-title">
+            <span class="json-debug-icon">📄</span>
+            <span>{{ tree_label }}</span>
+            <span class="code-path">— renderJsonTree ↦ json-viewer ← routes/ccxt_api.py:execute_method/ws-stream</span>
+        </summary>
+        <div class="json-debug-body" id="json-tree-section">
+            <div class="json-debug-content" id="json-viewer"></div>
+        </div>
+    </details>
+
+    <details class="json-debug-panel" open>
+        <summary class="json-debug-title">
+            <span class="json-debug-icon">🗂</span>
+            <span>{{ table_label }}</span>
+            <span class="code-path">— renderJsonTable ↦ json-table ← routes/ccxt_api.py:execute_method/ws-stream</span>
+        </summary>
+        <div class="json-debug-body" id="json-table-section">
+            <div class="json-debug-content" id="json-table"></div>
+        </div>
+    </details>
+</div>
+{% endmacro %}

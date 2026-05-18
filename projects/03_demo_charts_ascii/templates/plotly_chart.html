@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ symbol }} — Interactive Charts (Plotly)</title>
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+<style>
+  body { margin:0; background:#0d1117; color:#c9d1d9; font-family: system-ui, sans-serif; }
+  header { padding:1rem 2rem; background:#161b22; border-bottom:1px solid #30363d; }
+  h1 { margin:0; font-size:1.4rem; }
+  .grid { display:grid; grid-template-columns: 1fr 1fr; gap:1rem; padding:1rem; }
+  .panel { background:#161b22; border:1px solid #30363d; border-radius:8px; padding:0.5rem; }
+  .panel h3 { margin:0.5rem 0; font-size:1rem; color:#58a6ff; }
+  .full { grid-column: 1 / -1; }
+  .metric-bar { display:flex; gap:1rem; padding:0.5rem 1rem; background:#21262d; border-radius:6px; margin-bottom:0.5rem; flex-wrap:wrap; }
+  .metric { font-size:0.85rem; }
+  .metric span { color:#7ee787; font-weight:600; }
+  .nav { padding:0.5rem 2rem; background:#0d1117; border-bottom:1px solid #30363d; }
+  .nav a { color:#58a6ff; text-decoration:none; margin-right:1rem; font-size:0.9rem; }
+  .nav a:hover { text-decoration:underline; }
+</style>
+</head>
+<body>
+<header>
+  <h1>{{ symbol }} — Interactive Plotly Charts</h1>
+</header>
+<div class="nav">
+  <a href="/">← Home</a>
+  <a href="/infographics/{{ symbol }}">ASCII Infographics</a>
+  <a href="/chartjs/{{ symbol }}">Chart.js View</a>
+  <a href="/deckgl/{{ symbol }}">Heatmaps</a>
+</div>
+
+<div class="metric-bar">
+  <div class="metric">Symbol: <span>{{ symbol }}</span></div>
+  <div class="metric">Entry: <span>{{ data.entry_price }}</span></div>
+  <div class="metric">Current: <span>{{ data.current_price }}</span></div>
+  <div class="metric">ROE: <span>{{ data.roe_usdt }}%</span></div>
+  <div class="metric">PnL: <span>{{ data.pnl_usdt }} USDT</span></div>
+</div>
+
+<div class="grid">
+  <div class="panel full">
+    <h3>Candlestick + Moving Averages</h3>
+    <div id="candleChart" style="width:100%;height:450px;"></div>
+  </div>
+  <div class="panel">
+    <h3>Volume Bars</h3>
+    <div id="volumeChart" style="width:100%;height:300px;"></div>
+  </div>
+  <div class="panel">
+    <h3>RSI (14)</h3>
+    <div id="rsiChart" style="width:100%;height:300px;"></div>
+  </div>
+  <div class="panel">
+    <h3>MACD</h3>
+    <div id="macdChart" style="width:100%;height:300px;"></div>
+  </div>
+  <div class="panel">
+    <h3>Bollinger Bands</h3>
+    <div id="bbChart" style="width:100%;height:300px;"></div>
+  </div>
+</div>
+
+<script>
+const d = {{ data|tojson }};
+const symbol = d.symbol || '{{ symbol }}';
+const dates = d.dates || [];
+const close = d.close || [];
+const high = d.high || [];
+const low = d.low || [];
+const open = d.open || [];
+const volume = d.volume || [];
+const indicators = d.indicators || {};
+
+// Candlestick trace
+const candleTrace = {
+  x: dates, type: 'candlestick',
+  open: open, high: high, low: low, close: close,
+  name: 'OHLC', increasing: {line: {color: '#3fb950'}},
+  decreasing: {line: {color: '#f85149'}}
+};
+
+// MA traces
+const traces = [candleTrace];
+['sma5','sma20','sma200'].forEach((key, i) => {
+  const vals = indicators[key];
+  if (vals) {
+    const colors = ['#58a6ff','#d2a8ff','#f0883e'];
+    traces.push({x: dates, y: vals, mode:'lines', name: key.toUpperCase(), line:{color: colors[i], width:1.5}});
+  }
+});
+
+Plotly.newPlot('candleChart', traces, {
+  template: 'plotly_dark', paper_bgcolor:'#161b22', plot_bgcolor:'#0d1117',
+  margin:{t:30,b:40}, xaxis:{rangeslider:{visible:false}},
+  yaxis:{title:'Price'}, legend:{orientation:'h',y:1.1}
+});
+
+// Volume
+const volColors = close.map((c,i) => i>0 && c >= close[i-1] ? '#3fb950' : '#f85149');
+Plotly.newPlot('volumeChart', [{
+  x: dates, y: volume, type:'bar', marker:{color: volColors}, name:'Volume'
+}], {
+  template:'plotly_dark', paper_bgcolor:'#161b22', plot_bgcolor:'#0d1117',
+  margin:{t:20,b:40}, xaxis:{showgrid:false}, yaxis:{title:'Volatility'}
+});
+
+// RSI
+const rsi = indicators.rsi || [];
+Plotly.newPlot('rsiChart', [
+  {x: dates, y: rsi, mode:'lines', name:'RSI', line:{color:'#a371f7'}},
+  {x: dates, y: rsi.map(()=>70), mode:'lines', name:'Overbought', line:{color:'#f85149', dash:'dash'}},
+  {x: dates, y: rsi.map(()=>30), mode:'lines', name:'Oversold', line:{color:'#3fb950', dash:'dash'}}
+], {
+  template:'plotly_dark', paper_bgcolor:'#161b22', plot_bgcolor:'#0d1117',
+  margin:{t:20,b:40}, yaxis:{range:[0,100], title:'RSI'}
+});
+
+// MACD
+const macd = indicators.macd || [];
+const macdSig = indicators.macd_signal || [];
+const macdHist = indicators.macd_histogram || [];
+Plotly.newPlot('macdChart', [
+  {x: dates, y: macd, mode:'lines', name:'MACD', line:{color:'#58a6ff'}},
+  {x: dates, y: macdSig, mode:'lines', name:'Signal', line:{color:'#f0883e'}},
+  {x: dates, y: macdHist, type:'bar', name:'Histogram', marker:{color:'#7ee787'}}
+], {
+  template:'plotly_dark', paper_bgcolor:'#161b22', plot_bgcolor:'#0d1117',
+  margin:{t:20,b:40}
+});
+
+// Bollinger Bands
+const bbUpper = indicators.bb_upper || [];
+const bbLower = indicators.bb_lower || [];
+const bbMid = indicators.bb_middle || [];
+Plotly.newPlot('bbChart', [
+  {x: dates, y: close, mode:'lines', name:'Close', line:{color:'#58a6ff'}},
+  {x: dates, y: bbUpper, mode:'lines', name:'Upper', line:{color:'#f85149', dash:'dash'}},
+  {x: dates, y: bbLower, mode:'lines', name:'Lower', line:{color:'#3fb950', dash:'dash'}},
+  {x: dates, y: bbMid, mode:'lines', name:'Middle', line:{color:'#d2a8ff', dash:'dot'}}
+], {
+  template:'plotly_dark', paper_bgcolor:'#161b22', plot_bgcolor:'#0d1117',
+  margin:{t:20,b:40}, yaxis:{title:'Price'}
+});
+</script>
+</body>
+</html>

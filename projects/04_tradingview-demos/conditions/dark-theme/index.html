@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Dark Theme</title>
+    <style>
+        body { margin: 0; padding: 0; background: #131722; }
+        #container { width: 100%; height: 100vh; }
+    </style>
+</head>
+<body>
+    <div id="container"></div>
+    <script>
+        (async function() {
+            const response = await fetch('https://unpkg.com/lightweight-charts@5.2.0/dist/lightweight-charts.standalone.development.js');
+            const scriptText = await response.text();
+            const scriptEl = document.createElement('script');
+            scriptEl.textContent = scriptText;
+            document.head.appendChild(scriptEl);
+
+            const { createChart, AreaSeries } = window.LightweightCharts;
+
+            const chart = createChart(document.getElementById('container'), {
+                layout: { background: { type: 'solid', color: '#131722' }, textColor: '#d1d4dc' },
+                grid: { vertLines: { color: '#1e222d' }, horzLines: { color: '#1e222d' } },
+                crosshair: { vertLine: { color: '#787b86', labelBackgroundColor: '#2962ff' }, horzLine: { color: '#787b86', labelBackgroundColor: '#2962ff' } },
+                width: window.innerWidth,
+                height: window.innerHeight,
+            });
+
+            const series = chart.addSeries(AreaSeries, {
+                lineColor: '#2962FF',
+                topColor: 'rgba(41, 98, 255, 0.28)',
+                bottomColor: 'rgba(41, 98, 255, 0.05)',
+            });
+
+            const klinesRes = await fetch('https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1h&limit=100');
+            const klines = await klinesRes.json();
+
+            series.setData(klines.map(k => ({ time: k[0] / 1000, value: parseFloat(k[4]) })));
+
+            chart.timeScale().fitContent();
+
+            window.addEventListener('resize', () => {
+                chart.applyOptions({ width: window.innerWidth, height: window.innerHeight });
+            });
+        })();
+    </script>
+</body>
+</html>

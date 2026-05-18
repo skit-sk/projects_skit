@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Multiple Series</title>
+    <style>
+        body { margin: 0; padding: 0; background: #131722; }
+        #container { width: 100%; height: 100vh; }
+    </style>
+</head>
+<body>
+    <div id="container"></div>
+    <script>
+        (async function() {
+            const response = await fetch('https://unpkg.com/lightweight-charts@5.2.0/dist/lightweight-charts.standalone.development.js');
+            const scriptText = await response.text();
+            const scriptEl = document.createElement('script');
+            scriptEl.textContent = scriptText;
+            document.head.appendChild(scriptEl);
+
+            const { createChart, CandlestickSeries, LineSeries } = window.LightweightCharts;
+
+            const chart = createChart(document.getElementById('container'), {
+                layout: { background: { type: 'solid', color: '#131722' }, textColor: '#d1d4dc' },
+                width: window.innerWidth,
+                height: window.innerHeight,
+            });
+
+            const klinesRes = await fetch('https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1h&limit=100');
+            const klines = await klinesRes.json();
+
+            const candleData = klines.map(k => ({
+                time: k[0] / 1000,
+                open: parseFloat(k[1]),
+                high: parseFloat(k[2]),
+                low: parseFloat(k[3]),
+                close: parseFloat(k[4]),
+            }));
+
+            chart.addSeries(CandlestickSeries, {
+                upColor: '#26a69a', downColor: '#ef5350', borderVisible: false,
+                wickUpColor: '#26a69a', wickDownColor: '#ef5350',
+            }).setData(candleData);
+
+            const ma20 = klines.map((k, i) => {
+                let sum = 0;
+                for (let j = Math.max(0, i - 19); j <= i; j++) sum += parseFloat(klines[j][4]);
+                return { time: k[0] / 1000, value: sum / Math.min(i + 1, 20) };
+            });
+            chart.addSeries(LineSeries, { color: '#2962FF', lineWidth: 1 }).setData(ma20);
+
+            const ma50 = klines.map((k, i) => {
+                let sum = 0;
+                for (let j = Math.max(0, i - 49); j <= i; j++) sum += parseFloat(klines[j][4]);
+                return { time: k[0] / 1000, value: sum / Math.min(i + 1, 50) };
+            });
+            chart.addSeries(LineSeries, { color: '#ef5350', lineWidth: 1 }).setData(ma50);
+
+            chart.timeScale().fitContent();
+
+            window.addEventListener('resize', () => {
+                chart.applyOptions({ width: window.innerWidth, height: window.innerHeight });
+            });
+        })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+Flask>=3.0
+asciichart>=0.1
+plotext>=5.0
+termgraph>=0.5
+plotille

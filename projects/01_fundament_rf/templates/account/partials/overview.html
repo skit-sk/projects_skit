@@ -1,0 +1,50 @@
+{% if error %}
+<div style="font-size:10px; color:#888; margin-bottom:0.25rem;"><span class="section-timer"></span></div>
+<div class="error-state">
+    <strong>❌ {{ error }}</strong><br>
+    <span style="font-size:13px;">Укажите <code>BITGET_API_KEY</code>, <code>BITGET_SECRET_KEY</code> и <code>BITGET_PASSPHRASE</code> в <code>.env</code>.</span>
+</div>
+{% elif status and status.connected %}
+<div style="font-size:10px; color:#888; text-align:left; padding-left:20%;"><span class="section-timer"></span></div>
+<div class="kpi-grid">
+    <div class="kpi-card" style="border-left-color: #3498db;">
+        <div class="kpi-label">API Status</div>
+        <div class="kpi-value" style="color: #22c55e;">✅ Connected</div>
+        <div class="kpi-sub">{{ status.latency_ms }} ms latency</div>
+    </div>
+    <div class="kpi-card" style="border-left-color: {{ 'var(--color-profit)' if overview.total_equity_usdt >= 0 else 'var(--color-loss)' }}">
+        <div class="kpi-label">Total Equity (USDT)</div>
+        <div class="kpi-value">{{ fmt_num(overview.total_equity_usdt) }}</div>
+        <div class="kpi-sub">Spot + Futures</div>
+    </div>
+    <div class="kpi-card" style="border-left-color: #3498db;">
+        <div class="kpi-label">Spot Balance</div>
+        <div class="kpi-value">{{ fmt_num(overview.spot_total_usdt) }}</div>
+        <div class="kpi-sub">{{ overview.spot_assets|length }} assets</div>
+    </div>
+    <div class="kpi-card" style="border-left-color: #3498db;">
+        <div class="kpi-label">Futures Equity</div>
+        <div class="kpi-value">{{ fmt_num(overview.futures_equity_usdt) }}</div>
+        <div class="kpi-sub">{{ overview.mix_accounts|length }} account(s)</div>
+    </div>
+    <div class="kpi-card" style="border-left-color: {{ 'var(--color-profit)' if overview.futures_unrealized_pl >= 0 else 'var(--color-loss)' }}">
+        <div class="kpi-label">Futures Unrealized PnL</div>
+        <div class="kpi-value" style="color: {{ 'var(--color-profit)' if overview.futures_unrealized_pl >= 0 else 'var(--color-loss)' }}">
+            {{ '+ ' if overview.futures_unrealized_pl >= 0 else '' }}{{ fmt_num(overview.futures_unrealized_pl) }}
+        </div>
+        <div class="kpi-sub">Open PnL</div>
+    </div>
+    <div class="kpi-card" style="border-left-color: #3498db;">
+        <div class="kpi-label">Open Positions</div>
+        <div class="kpi-value">{{ overview.open_positions_count }}</div>
+        <div class="kpi-sub">Active trades</div>
+    </div>
+</div>
+{% else %}
+<div style="font-size:10px; color:#888; margin-bottom:0.25rem;"><span class="section-timer"></span></div>
+<div class="error-state">
+    <strong>❌ Connection failed</strong><br>
+    <span>{{ status.error if status else 'Unknown error' }}</span>
+</div>
+{% endif %}
+{% include "account/partials/_debug_footer.html" %}

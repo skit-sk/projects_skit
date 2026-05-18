@@ -1,0 +1,68 @@
+{% if error %}
+<div style="font-size:10px; color:#888; margin-bottom:0.25rem;"><span class="section-timer"></span></div>
+<div class="error-state">❌ {{ error }}</div>
+{% else %}
+<div style="font-size:10px; color:#888; margin-bottom:0.25rem;"><span class="section-timer"></span></div>
+<h3>💰 Spot Assets</h3>
+{% if spot %}
+<table class="account-table">
+    <thead>
+        <tr>
+            <th>Coin</th>
+            <th>Total</th>
+            <th>Available</th>
+            <th>Frozen</th>
+            <th>Locked</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for a in spot %}
+        <tr>
+            <td><strong>{{ a.coin }}</strong></td>
+            <td>{{ fmt_num(a.total) }}</td>
+            <td>{{ fmt_num(a.available) }}</td>
+            <td>{{ fmt_num(a.frozen) }}</td>
+            <td>{{ fmt_num(a.locked) }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div class="empty-state">📭 Нет данных по споту</div>
+{% endif %}
+
+<h3 style="margin-top:1.5rem;">📈 Futures Accounts</h3>
+{% if futures %}
+<table class="account-table">
+    <thead>
+        <tr>
+            <th>Margin Coin</th>
+            <th>Equity</th>
+            <th>USDT Equity</th>
+            <th>Available</th>
+            <th>Locked</th>
+            <th>Unrealized PnL</th>
+            <th>Mode</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for m in futures %}
+        <tr>
+            <td><strong>{{ m.margin_coin }}</strong></td>
+            <td>{{ fmt_num(m.equity) }}</td>
+            <td>{{ fmt_num(m.usdt_equity) }}</td>
+            <td>{{ fmt_num(m.available) }}</td>
+            <td>{{ fmt_num(m.locked) }}</td>
+            <td class="{{ 'pl-positive' if m.unrealized_pl >= 0 else 'pl-negative' }}">
+                {{ '+ ' if m.unrealized_pl >= 0 else '' }}{{ fmt_num(m.unrealized_pl) }}
+            </td>
+            <td>{{ m.margin_mode }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div class="empty-state">📭 Нет данных по фьючерсам</div>
+{% endif %}
+{% endif %}
+{% include "account/partials/_debug_footer.html" %}

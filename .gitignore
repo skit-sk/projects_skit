@@ -1,0 +1,49 @@
+# Secrets
+L_SKILL.md
+
+# Vercel
+.vercel
+
+# Python
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+
+# Data (trade JSONs)
+data/
+**/data/*.json
+!**/data/.gitkeep
+
+# Logs
+*.log
+
+# IDE
+.opencode/
+.vscode/
+.idea/
+
+# Data archives
+Candlestick-Patterns.zip
+
+# Old screenshot dirs
+screenshots_catalog/
+screenshots/
+
+# Session files
+session-*.md
+
+# OS
+.DS_Store
+Thumbs.db
+.gitignore browser binaries
+tools/playwright/browsers/
+.whisper_cache
+.hf_cache
+tools/playwright/lib/
+.agent-browser
+node_modules
+.cache/whisper/
+tasks/help_ai.md

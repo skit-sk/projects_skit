@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticker Tape — TradingView Widget</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #131722; height: 100vh; overflow: hidden; }
+        .tradingview-widget-container { height: 100%; width: 100%; }
+    </style>
+</head>
+<body>
+<div class="tradingview-widget-container">
+    <div class="tradingview-widget-container__widget"></div>
+</div>
+<script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+{
+  "colorTheme": "dark",
+  "isTransparent": false,
+  "displayMode": "adaptive",
+  "symbols": [
+    {"proName": "BINANCE:BTCUSDT", "title": "Bitcoin"},
+    {"proName": "BINANCE:ETHUSDT", "title": "Ethereum"}
+  ]
+}
+</script>
+</body>
+</html>

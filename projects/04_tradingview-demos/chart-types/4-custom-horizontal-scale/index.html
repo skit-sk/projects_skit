@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Custom Horizontal Scale</title>
+    <style>
+        body { margin: 0; padding: 0; background: #131722; }
+        #container { width: 100%; height: 100vh; }
+    </style>
+</head>
+<body>
+    <div id="container"></div>
+    <script>
+        (async function() {
+            try {
+                const response = await fetch('https://unpkg.com/lightweight-charts@5.2.0/dist/lightweight-charts.standalone.development.js');
+                const scriptText = await response.text();
+                const scriptEl = document.createElement('script');
+                scriptEl.textContent = scriptText;
+                document.head.appendChild(scriptEl);
+
+                const { createChart, LineSeries } = window.LightweightCharts;
+
+                const chart = createChart(document.getElementById('container'), {
+                    layout: { background: { type: 'solid', color: '#131722' }, textColor: '#d1d4dc' },
+                    grid: { vertLines: { color: '#1e222d' }, horzLines: { color: '#1e222d' } },
+                    width: window.innerWidth,
+                    height: window.innerHeight,
+                });
+
+                const series = chart.addSeries(LineSeries, { color: '#2962FF', lineWidth: 2 });
+
+                const fibData = [
+                    { time: 0, value: 0 }, { time: 1, value: 1 }, { time: 2, value: 1 },
+                    { time: 3, value: 2 }, { time: 4, value: 3 }, { time: 5, value: 5 },
+                    { time: 6, value: 8 }, { time: 7, value: 13 }, { time: 8, value: 21 },
+                    { time: 9, value: 34 }, { time: 10, value: 55 },
+                ];
+
+                series.setData(fibData);
+                chart.timeScale().fitContent();
+
+                window.addEventListener('resize', () => {
+                    chart.applyOptions({ width: window.innerWidth, height: window.innerHeight });
+                });
+            } catch(e) {
+                console.error(e);
+            }
+        })();
+    </script>
+</body>
+</html>
