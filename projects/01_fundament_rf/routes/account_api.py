@@ -126,6 +126,18 @@ def api_positions():
     if not client.has_credentials:
         return jsonify({'error': 'API keys not configured'}), 400
     positions = client.get_positions()
+    
+    # fill_counts
+    fill_data = client.fetch_all_fills(market='futures')
+    fill_counts = {}
+    for f in fill_data['fills']:
+        fill_counts[f.symbol] = fill_counts.get(f.symbol, 0) + 1
+    
+    # order_counts
+    order_counts = {}
+    for o in client.get_mix_orders():
+        order_counts[o.symbol] = order_counts.get(o.symbol, 0) + 1
+    
     return jsonify({
         'positions': [{
             'symbol': p.symbol,
@@ -139,7 +151,10 @@ def api_positions():
             'liquidation_price': p.liquidation_price,
             'risk_to_liquidation': p.risk_to_liquidation,
             'profitable': p.is_profitable,
+            'hold_side': p.hold_side,
         } for p in positions],
+        'fill_counts': fill_counts,
+        'order_counts': order_counts,
         'total_pl': sum(p.unrealized_pl for p in positions),
         'count': len(positions),
     })

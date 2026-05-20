@@ -1,46 +1,9 @@
-from session import get_quota, get_user, get_current_session
+from session import get_quota, get_user, get_current_session, get_session_full, _context_limit
 from config import DEFAULT_MODEL, TG_ALL_DIR
 
-MODEL_CONTEXT = {
-    # Claude — specific versions
-    "opus-4.7": 1_000_000, "opus-4.6": 1_000_000,
-    "sonnet-4.6": 1_000_000,
-    "opus-4.5": 200_000, "opus-4.1": 200_000, "opus-4": 200_000,
-    "sonnet-4.5": 200_000, "sonnet-4": 200_000,
-    "haiku-4": 200_000,
-    # Claude — generic fallback
-    "haiku": 200_000, "opus": 200_000, "sonnet": 200_000, "claude": 200_000,
-    # OpenAI GPT
-    "gpt-5.5": 1_000_000, "gpt-5.4": 1_000_000,
-    "gpt-5.3": 1_000_000, "gpt-5.2": 1_000_000, "gpt-5.1": 1_000_000,
-    "gpt-5-nano": 128_000, "gpt-5": 400_000, "gpt-4": 128_000,
-    # DeepSeek — all 1M
-    "deepseek-v4-flash-free": 1_000_000,
-    "deepseek-v4-flash": 1_000_000,
-    "deepseek-v4-pro": 1_000_000,
-    "deepseek-chat": 1_000_000, "deepseek-reasoner": 1_000_000,
-    "deepseek": 1_000_000,
-    # Gemini — all 1M
-    "gemini-3.1-pro": 1_000_000, "gemini-3-pro": 1_000_000,
-    "gemini-3": 1_000_000,
-    "gemini-2.5": 1_000_000, "gemini-2.0": 1_000_000,
-    "gemini": 1_000_000,
-    # Kimi
-    "kimi-k2.6": 256_000, "kimi-k2.5": 128_000,
-    "kimi": 128_000,
-    # Qwen
-    "qwen3": 131_072, "qwen": 128_000,
-    # MiniMax — all 1M
-    "minimax-m2": 1_000_000, "minimax-m1": 1_000_000,
-    "minimax": 1_000_000,
-    # GLM
-    "glm-5": 200_000,
-    "glm-4.7": 200_000, "glm-4.6": 200_000,
-    "glm-4.5": 128_000, "glm-4": 128_000,
-    # Other
-    "nemotron": 128_000, "mistral": 128_000,
-}
-DEFAULT_CONTEXT = 64_000
+def _context_hint(model):
+    """Deprecated — use session._context_limit instead"""
+    return _context_limit(model)
 
 
 def _provider_from_model(model):
@@ -60,15 +23,6 @@ def _short_model(model):
         parts = model.split("/")
         return f"{parts[-1]} | [{parts[0]}]"
     return f"{model} | [system]"
-
-
-def _context_hint(model):
-    if not model:
-        return DEFAULT_CONTEXT
-    for key, ctx in MODEL_CONTEXT.items():
-        if key in model.lower():
-            return ctx
-    return DEFAULT_CONTEXT
 
 
 def _fmt_size(bytes_val):
@@ -110,105 +64,207 @@ def _escape_html(text):
     return text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 
-def build_footer(uid, user=None, agent=None, parse_mode=None, fmt_style="link", live_tok=0):
-    if user is None:
-        user = get_user(uid)
-    if not user:
+def build_footer(uid, user=None, agent=None, parse_mode=None, fmt_style="link",
+                 live_tok=0, last_cost=0, gid=None, lid=None):
+    """Единый футер — вызывается из handler._reply и monitor.status_block4"""
+    data = get_session_full(uid)
+    if not data:
         return ""
 
-    fcount, fsize = get_quota(uid)
-    limits = user.get("limits")
-    model = _model_for_user(user)
-    short = _short_model(model)
-    ctx = _context_hint(model)
-
-    key, sess = get_current_session(uid)
-    sname = sess["name"] if sess else "-"
-
-    if agent is None and sess and sess.get("_build_mode"):
-        agent = "build"
-
-    if agent:
-        sname = f"{sname} [AM] {agent}"
-    msgs = sess["messages"] if sess else 0
-
-    tokens_used = sess.get("tokens", 0) if sess else 0
-    show_tok = max(tokens_used, live_tok)
-    if ctx:
-        ctx_part = f"+{_fmt_tokens(live_tok)} · 📊 {_fmt_tokens(show_tok)} · 📁 [{_fmt_tokens(ctx)}]"
+    from datetime import datetime, timezone
+    now = datetime.now(timezone.utc)
+    created_ts = data["session_created"]
+    age_s = int(now.timestamp() - created_ts) if created_ts else 0
+    if age_s >= 86400:
+        age_str = f"{age_s // 86400}d {age_s % 86400 // 3600}h"
+    elif age_s >= 3600:
+        age_str = f"{age_s // 3600}h {age_s % 3600 // 60}m"
     else:
-        ctx_part = f"+{_fmt_tokens(live_tok)} · 📊 {_fmt_tokens(show_tok)} · 📁 [-]"
-    if user.get("role") == "super":
+        age_str = f"{age_s // 60}m"
+
+    model = data["model"]
+    if "/" in model:
+        parts = model.split("/")
+        model_short = f"[{parts[-1]}] | [{parts[0]}]"
+    else:
+        model_short = f"[{model}]"
+
+    ctx = data["context"]
+    total_tok = max(data["tokens"], live_tok)
+    pct = (total_tok / ctx * 100) if ctx else 0
+    bar_len = 8
+    filled = min(int(pct / 100 * bar_len), bar_len)
+    bar = "█" * filled + "░" * (bar_len - filled)
+
+    last_in = data["last_input"]
+    last_out = data["last_output"]
+    cum_in = data["cum_input"]
+    cum_out = data["cum_output"]
+    total_cum = cum_in + cum_out
+    cost_in_last = data["last_msg"].get("cost_in", 0) if data.get("last_msg") else 0
+    cost_out_last = data["last_msg"].get("cost_out", 0) if data.get("last_msg") else 0
+    cost_in_cum = data["usage"].get("cost_in", 0) if data.get("usage") else 0
+    cost_out_cum = data["usage"].get("cost_out", 0) if data.get("usage") else 0
+    cost = data["cost"]
+    windows = cum_in // ctx if ctx else 0
+
+    sname = data["session_name"]
+    msgs = data["messages"]
+    fsize = data["storage_used"]
+    fcount = data["file_count"]
+
+    if data["role"] == "super" or data["msg_limit"] is None:
         msg_part = f"{msgs}/-"
         storage_part = f"{_fmt_size(fsize)}/-"
         file_part = f"{fcount}/-"
     else:
-        if limits:
-            msg_limit = limits.get("msg", 50)
-            storage_mb = limits.get("storage_mb", 500)
-            file_limit = limits.get("file_count", 1000)
-            storage_bytes = storage_mb * 1_000_000
-        else:
-            msg_limit = 50
-            storage_bytes = 500_000_000
-            file_limit = 1000
-        msg_part = f"{msgs}/{msg_limit}"
-        storage_part = f"{_fmt_size(fsize)}/{_fmt_size(storage_bytes)}"
-        file_part = f"{fcount}/{file_limit}"
+        msg_part = f"{msgs}/{data['msg_limit']}"
+        storage_part = f"{_fmt_size(fsize)}/{_fmt_size(data['storage_limit'])}"
+        file_part = f"{fcount}/{data['file_limit']}"
+
+    cost_str = f"${cost:.2f}" if cost else ""
+    last_cost_str = f"${last_cost:.2f}" if last_cost else ""
+
+    gid_use = gid if gid is not None else data.get("gid")
+    lid_use = lid if lid is not None else data.get("lid")
+    gid_lid = f" G#{gid_use} L#{lid_use}" if gid_use is not None and lid_use is not None else ""
+
+    if agent:
+        sname = f"{sname} [AM] {agent}"
+
+    lines = [
+        f"🤖 {model_short}",
+        f"🔤 ↙ {_fmt_tokens(last_in)}💲{cost_in_last:.6f} · ↗ {_fmt_tokens(last_out)}💲{cost_out_last:.6f} · {_fmt_tokens(total_tok)} / {_fmt_tokens(ctx)} · 💰${cost_in_last + cost_out_last:.4f} · {bar} {int(pct)}%",
+        f"↙ {_fmt_tokens(cum_in)}💲{cost_in_cum:.4f} · ↗ {_fmt_tokens(cum_out)}💲{cost_out_cum:.4f} · [{_fmt_tokens(total_cum)}]💰${cost_in_cum + cost_out_cum:.4f}{f' [{windows}w]' if windows > 0 else ''}{gid_lid}",
+        f"📁 {sname}  [{age_str}]",
+        f"💬 {msg_part} · 💾 {storage_part} · 📄 {file_part}",
+    ]
+
+    footer = "\n".join(lines)
 
     if parse_mode == "MarkdownV2":
-        model_line = f"🤖 {_escape_md(short)}"
-        ctx_line = _escape_md(f"💬 {msg_part} · 🔤 {ctx_part}")
-        sname_line = f"📁 {_escape_md(sname)}"
-        storage_line = _escape_md(f"💾 {storage_part} · 📄 {file_part}")
-        footer = f"{model_line}\n{ctx_line}\n{sname_line}\n{storage_line}"
-        if fmt_style == "spoiler":
-            footer = f"||{footer}||"
-        elif fmt_style == "mono":
-            footer = f"`{footer}`"
+        for ch in r"_*[]()~`>#+-=|{}.!":
+            footer = footer.replace(ch, f"\\{ch}")
     elif parse_mode == "HTML":
-        model_line = f"🤖 {_escape_html(short)}"
-        ctx_line = f"💬 {msg_part} · 🔤 {ctx_part}"
-        sname_line = f"📁 {_escape_html(sname)}"
-        storage_line = f"💾 {storage_part} · 📄 {file_part}"
-        footer = f"{model_line}\n{ctx_line}\n{sname_line}\n{storage_line}"
-        if fmt_style == "spoiler":
-            footer = f'<span class="tg-spoiler">{footer}</span>'
-        elif fmt_style == "mono":
-            footer = f"<code>{footer}</code>"
-    else:
-        footer = (
-            f"🤖 {short}\n"
-            f"💬 {msg_part} · 🔤 {ctx_part}\n"
-            f"📁 {sname}\n"
-            f"💾 {storage_part} · 📄 {file_part}"
-        )
+        footer = footer.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
     return footer
 
 
-def fmt_session_list(uid):
-    from session import list_users
+def fmt_session_list(uid, show_all=False):
+    from session import list_users, rebuild_ranks, get_session_full, get_user
+    from config import DEFAULT_MODEL
     users = list_users()
     sid = str(uid)
     u = users.get(sid)
     if not u:
         return "Нет данных"
-    lines = [f"📂 Сессии {u.get('name', uid)}:"]
+
+    uname = u.get('name', str(uid))
+    stats = session_stats if isinstance(session_stats := None, type(None)) else None
+    # get stats from the actual state
+    from datetime import datetime
+
+    # collect all sessions for the user
     sessions = u.get("sessions", {})
     current = sessions.get("current")
     sess_list = sessions.get("list", {})
     if not sess_list:
-        lines.append("  (нет сессий)")
-    else:
-        for key, s in sess_list.items():
-            marker = "✅" if key == current else "  "
-            msgs = s.get("messages", 0)
-            model = s.get("model") or _model_for_user(u)
-            short = _short_model(model)
-            from datetime import datetime
-            created = datetime.fromtimestamp(s.get("created", 0)).strftime("%d.%m %H:%M")
-            lines.append(f"  {marker} [{key}] \"{s.get('name', '')}\" — {msgs} msg · {short}")
+        return f"📂 Сессии {uname}\n  (нет сессий)"
+
+    # compute ranks
+    ranks = rebuild_ranks(uid).get(uid, {})
+
+    lines = [f"📂 Сессии {uname}"]
+    sep = "═" * 50
+    lines.append(sep)
+
+    active_sessions = []
+    archived_sessions = []
+
+    for key, s in sess_list.items():
+        st = s.get("status", "ACT")
+        name = s.get("name", "-")
+        created = s.get("created", 0)
+        msgs = s.get("messages", 0)
+        usage = s.get("usage", {}) or {}
+        cost = s.get("cost", 0) or 0
+
+        inp = usage.get("input", 0) or 0
+        out = usage.get("output", 0) or 0
+        total = inp + out
+        cost_str = f"${cost:.2f}" if cost else "$0.00"
+
+        gid = ranks.get(key, {}).get("gid", "-")
+        lid = ranks.get(key, {}).get("lid", "-")
+        gid_str = str(gid)
+        lid_str = str(lid)
+
+        created_str = datetime.fromtimestamp(created).strftime("%d.%m.%y %H:%M") if created else "-"
+        age_s = int(datetime.now().timestamp() - created) if created else 0
+        if age_s >= 86400:
+            age_str = f"{age_s // 86400}d {age_s % 86400 // 3600}h"
+        elif age_s >= 3600:
+            age_str = f"{age_s // 3600}h {age_s % 3600 // 60}m"
+        else:
+            age_str = f"{age_s // 60}m"
+
+        # status badge
+        badge = {"ACT": "ACT", "ERR": "ERR", "ORN": "ORN", "ARC": "ARC", "DED": "DED"}.get(st, st)
+
+        entry = {
+            "key": key,
+            "name": name,
+            "gid": gid_str,
+            "lid": lid_str,
+            "status": badge,
+            "msgs": msgs,
+            "inp": inp,
+            "out": out,
+            "total": total,
+            "cost": cost_str,
+            "created": created_str,
+            "age": age_str,
+            "is_active": st in ("ACT", "ERR"),
+            "is_current": key == current,
+        }
+
+        if st in ("ARC", "DED"):
+            archived_sessions.append(entry)
+        else:
+            active_sessions.append(entry)
+
+    # sort active by lid
+    active_sessions.sort(key=lambda x: int(x["lid"]) if x["lid"].isdigit() else 999)
+
+    # render active
+    for e in active_sessions:
+        marker = "✅" if e["is_current"] else "  "
+        inp_s = _fmt_tokens(e["inp"]) if e["inp"] else "-"
+        out_s = _fmt_tokens(e["out"]) if e["out"] else "-"
+        total_s = _fmt_tokens(e["total"]) if e["total"] else "-"
+        lines.append(
+            f"{marker}{e['name']}  [{e['created']}]  [{e['age']}]"
+        )
+        lines.append(
+            f" {e['gid']:>2} │ {e['lid']} │ {e['status']}│ {e['msgs']:>4} "
+            f"│ ↙ {inp_s} ↗ {out_s} [{total_s}]│ {e['cost']}│"
+        )
+
+    # render archived
+    if archived_sessions:
+        lines.append("─" * 50)
+        lines.append(" ═══ Архив ═══")
+        for e in archived_sessions:
+            inp_s = _fmt_tokens(e["inp"]) if e["inp"] else "-"
+            out_s = _fmt_tokens(e["out"]) if e["out"] else "-"
+            total_s = _fmt_tokens(e["total"]) if e["total"] else "-"
+            lines.append(f"{e['name']}  [{e['created']}]  [{e['age']}]")
+            lines.append(
+                f" - │ - │ {e['status']}│ {e['msgs']:>4} "
+                f"│ ↙ {inp_s} ↗ {out_s} [{total_s}]│ {e['cost']}│"
+            )
+
     return "\n".join(lines)
 
 

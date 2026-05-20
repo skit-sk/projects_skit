@@ -9,10 +9,11 @@ from session import (
     drop_session, get_current_session, increment_msg, get_quota,
     set_user_model, set_default_model, set_limit, ensure_super,
     get_session_opencode_id, set_session_opencode_id, get_session_agent,
-    update_session_tokens, set_build_mode, get_build_mode,
+    set_build_mode, get_build_mode,
     save_last_task, clear_last_task, reset_session_counters,
 )
-from security import run_opencode, pre_filter, _TOKEN_FINAL
+from security import run_opencode, pre_filter
+import monitor as _Mon
 from session import list_unauthorized, set_session_tokens
 from templates import build_footer, fmt_user_info, fmt_quota, fmt_session_list, _short_model
 
@@ -328,6 +329,15 @@ def cmd_message(uid, text):
         agent_label = agent
 
     save_last_task(uid, text, key)
+
+    # save session token baseline before this run
+    from session import get_session_full
+    sd = get_session_full(uid)
+    _Mon.set_offset(
+        uid, sd["tokens"],
+        inp=sd["cum_input"], out=sd["cum_output"], cost=sd["cost"]
+    )
+
     try:
         resp, parsed_sid, json_lines, err_msg = run_opencode(
             uid, text, opencode_id=opencode_id, model=model, work_dir=wd,
@@ -345,11 +355,39 @@ def cmd_message(uid, text):
 
     increment_msg(uid)
 
-    live = _TOKEN_FINAL.get(uid, 0)
+    live = _Mon.get_final(uid)
+    offset = _Mon._offsets.get(uid, 0)
+    delta = max(0, live - offset)
     if live:
         set_session_tokens(uid, key, live)
 
-    update_session_tokens(uid, key)
+    # Save usage/last_msg + cost for footer render
+    try:
+        from session import _load, _save
+        _sd = _load()
+        _sid = str(uid)
+        if _sid in _sd["users"] and key in _sd["users"][_sid]["sessions"]["list"]:
+            _s = _sd["users"][_sid]["sessions"]["list"][key]
+            estimated_input = max(len(text) // 4, 1)
+            if delta <= estimated_input:
+                estimated_input = max(delta // 2, 1) if delta > 1 else delta
+                output = delta - estimated_input
+            else:
+                output = max(0, delta - estimated_input)
+            COST_IN = 0.27 / 1_000_000
+            COST_OUT = 1.10 / 1_000_000
+            cost_in = round(estimated_input * COST_IN, 4)
+            cost_out = round(output * COST_OUT, 4)
+            _s["last_msg"] = {"input": estimated_input, "output": output, "cost_in": cost_in, "cost_out": cost_out}
+            _usage = _s.setdefault("usage", {"input": 0, "output": 0, "cost_in": 0, "cost_out": 0})
+            _usage["input"] += estimated_input
+            _usage["output"] += output
+            _usage["cost_in"] = round(_usage.get("cost_in", 0) + cost_in, 4)
+            _usage["cost_out"] = round(_usage.get("cost_out", 0) + cost_out, 4)
+            _s["cost"] = round(_usage.get("cost_in", 0) + _usage.get("cost_out", 0), 4)
+            _save(_sd)
+    except Exception:
+        pass
 
     after = set(wd.rglob("*.[pj][np]g"))
     new_images = [str(p) for p in (after - before)][:3]
@@ -726,6 +764,8 @@ COMMANDS = [
     ("📈 Торговля", [
         ("/sc_positions", "super", "Скриншот таблицы позиций Bitget"),
         ("/tg_positions", "super", "Текстовые строки позиций Bitget"),
+        ("/positions", "super", "Риск-сводка: маржа, P&L, экспозиция"),
+        ("/ws_ob <SYMBOL> [depth] [aggr]", "super", "Стакан (пример: /ws_ob BTC 50 1)"),
         ("/sc <SYMBOL> [tf] [range]", "super", "TradingView скриншот (пример: /sc BTCUSDT 1d 30)"),
         ("/wg <SYMBOL> [tf] [range]", "super", "Widget скриншот (пример: /wg BTCUSDT 4h)"),
     ]),

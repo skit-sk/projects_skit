@@ -1,4 +1,5 @@
 import re
+import asyncio
 import subprocess
 import json
 import signal
@@ -8,13 +9,12 @@ import select
 import time as _time
 import logging
 from config import DEFAULT_MODEL, TG_ALL_DIR
+import monitor as _mon
 
 _log = logging.getLogger("tg_bot")
 
 _active_processes: dict[int, subprocess.Popen] = {}
 _ACTIVE_START: dict[int, float] = {}
-_ACTIVE_TOKENS: dict[int, int] = {}
-_TOKEN_FINAL: dict[int, int] = {}
 
 
 def cancel_process(uid: int):
@@ -26,88 +26,6 @@ def cancel_process(uid: int):
         except Exception:
             pass
 
-
-def get_process_info(uid):
-    proc = _active_processes.get(uid)
-    if not proc or proc.returncode is not None:
-        return None
-    start = _ACTIVE_START.get(uid, _time.time())
-    elapsed = int(_time.time() - start)
-    mm, ss = divmod(elapsed, 60)
-    try:
-        r = subprocess.run(
-            ["ps", "-p", str(proc.pid), "-o", "%cpu=,%mem=,rss=", "--no-headers"],
-            capture_output=True, text=True, timeout=3
-        )
-        parts = r.stdout.strip().split()
-        if len(parts) >= 3:
-            cpu = float(parts[0])
-            rss_kb = int(parts[2])
-            mem_mb = rss_kb // 1024
-        else:
-            cpu = 0.0
-            mem_mb = 0
-    except Exception:
-        cpu = 0.0
-        mem_mb = 0
-    tokens = _ACTIVE_TOKENS.get(uid, 0)
-    return {
-        "mem_mb": mem_mb,
-        "cpu": cpu,
-        "time": f"{mm:02d}:{ss:02d}",
-        "tokens": tokens,
-    }
-
-
-def get_top5():
-    try:
-        r = subprocess.run(
-            ["ps", "-eo", "comm=,%cpu=,%mem=,rss=,etimes=", "--no-headers"],
-            capture_output=True, text=True, timeout=3
-        )
-        rows = r.stdout.strip().split("\n")
-        groups = {}
-        for row in rows:
-            parts = row.strip().split()
-            if len(parts) < 5:
-                continue
-            comm = parts[0][:20]
-            try:
-                cpu = float(parts[1])
-                rss_kb = int(parts[3])
-                mem_mb = rss_kb // 1024
-                etime = int(parts[4])
-            except (ValueError, IndexError):
-                continue
-            if comm not in groups:
-                groups[comm] = {"cpu": 0.0, "mem_mb": 0, "count": 0, "max_etime": 0}
-            g = groups[comm]
-            g["cpu"] += cpu
-            g["mem_mb"] += mem_mb
-            g["count"] += 1
-            if etime > g["max_etime"]:
-                g["max_etime"] = etime
-        sorted_g = sorted(groups.items(), key=lambda x: x[1]["cpu"], reverse=True)[:5]
-        entries = []
-        for comm, g in sorted_g:
-            mm, ss = divmod(g["max_etime"], 60)
-            hh, mm = divmod(mm, 60)
-            t_str = f"{hh:02d}:{mm:02d}:{ss:02d}" if hh else f"{mm:02d}:{ss:02d}"
-            entries.append((comm, g['cpu'], g['mem_mb'], g['count'], t_str))
-        if not entries:
-            return []
-        c_len = max(len(e[0]) for e in entries) + 2
-        head_name = "NAME"
-        header = f"  {head_name:{c_len}s} {'CPU':>7s} {'MEM':>6s} {'CNT':>4s} {'ELAPSED':>8s}"
-        sep = "  " + "━" * (c_len + 7 + 6 + 4 + 8 + 6)
-        rows = [
-            f"  {comm:{c_len}s} {cpu:6.1f}% {mem:5d}MB {cnt:4d} {t:>8s}"
-            for comm, cpu, mem, cnt, t in entries
-        ]
-        result = [header] + rows
-        return result
-    except Exception:
-        return []
 
 BLOCKED_PATTERNS = [
     r'\.env', r'\btoken\b', r'\bsecret\b', r'\bpassword\b',
@@ -182,10 +100,10 @@ _PERMISSION_MSG = (
 
 
 def _cleanup_process(user_id):
-    _TOKEN_FINAL[user_id] = _ACTIVE_TOKENS.get(user_id, 0)
+    _mon.finalize(user_id)
     _active_processes.pop(user_id, None)
     _ACTIVE_START.pop(user_id, None)
-    _ACTIVE_TOKENS.pop(user_id, None)
+    _mon.cleanup(user_id)
 
 
 def _abort(proc, user_id, msg):
@@ -277,6 +195,7 @@ def run_opencode(user_id, message, opencode_id=None, model=None, work_dir=None, 
 
     _active_processes[user_id] = proc
     _ACTIVE_START[user_id] = _time.time()
+    _mon.register(user_id, proc)
 
     text_parts = []
     all_lines = []
@@ -316,13 +235,22 @@ def run_opencode(user_id, message, opencode_id=None, model=None, work_dir=None, 
                                 t = data.get("part", {}).get("text", "")
                                 if t:
                                     text_parts.append(t)
+                                    total_chars = sum(len(p) for p in text_parts)
+                                    estimated = max(total_chars // 4, 1)
+                                    if estimated > _mon._tokens.get(user_id, 0):
+                                        _mon._tokens[user_id] = estimated
                             tok = (data.get("tokens") or
                                    data.get("step", {}).get("tokens") or
                                    data.get("part", {}).get("tokens"))
                             if isinstance(tok, dict):
-                                total = tok.get("total")
+                                total = int(tok.get("total", 0))
+                                inp = int(tok.get("input", 0))
+                                out = int(tok.get("output", 0))
+                                cost = float(tok.get("cost", 0) or data.get("cost", 0) or 0)
                                 if total:
-                                    _ACTIVE_TOKENS[user_id] = total
+                                    _mon.update_tokens(user_id, total, inp, out, cost)
+                            elif isinstance(tok, (int, float)) and tok > 0:
+                                _mon.update_tokens(user_id, int(tok))
                             if not parsed_session_id:
                                 sid = (data.get("sessionID") or
                                        data.get("part", {}).get("sessionID") or
@@ -364,20 +292,20 @@ def run_opencode(user_id, message, opencode_id=None, model=None, work_dir=None, 
     except subprocess.TimeoutExpired:
         proc.kill()
         proc.wait()
-        _TOKEN_FINAL[user_id] = _ACTIVE_TOKENS.get(user_id, 0)
+        _mon.finalize(user_id)
         _active_processes.pop(user_id, None)
         _ACTIVE_START.pop(user_id, None)
-        _ACTIVE_TOKENS.pop(user_id, None)
+        _mon.cleanup(user_id)
         return None, None, [], "Превышено время ожидания (300с)"
     except Exception:
         proc.kill()
         proc.wait()
         raise
     finally:
-        _TOKEN_FINAL[user_id] = _ACTIVE_TOKENS.get(user_id, 0)
+        _mon.finalize(user_id)
         _active_processes.pop(user_id, None)
         _ACTIVE_START.pop(user_id, None)
-        _ACTIVE_TOKENS.pop(user_id, None)
+        _mon.cleanup(user_id)
 
     stderr = _stderr_buf
     lines = all_lines

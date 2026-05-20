@@ -1,0 +1,108 @@
+{
+  "provider": "Яндекс.ОФД",
+  "version": "2.0",
+  "base_url": "https://api.ofd-ya.ru/ofdapi",
+  "auth_type": "bearer_token",
+  "endpoints": {
+    "inn": {
+      "method": "POST /v1/inn",
+      "desc": "ИНН организации по авторизованному токену",
+      "params": {}
+    },
+    "Check_FN": {
+      "method": "POST /v1/Check_FN",
+      "desc": "Состояние фискального накопителя",
+      "params": {"fiscalDriveNumber": "0000000000000000"}
+    },
+    "KKT_v1": {
+      "method": "POST /v1/KKT",
+      "desc": "Агрегированная информация о ККТ",
+      "params": {"date": "2026-05-01"}
+    },
+    "KKT_v2": {
+      "method": "POST /v2/KKT",
+      "desc": "Агрегированная информация о ККТ (v2)",
+      "params": {"date": "2026-05-01"}
+    },
+    "TP_v1": {
+      "method": "POST /v1/TP",
+      "desc": "Агрегированные данные по торговым точкам",
+      "params": {"date": "2026-05-01"}
+    },
+    "TP_v2": {
+      "method": "POST /v2/TP",
+      "desc": "Агрегированные данные по торговым точкам (v2)",
+      "params": {"date": "2026-05-01"}
+    },
+    "TradePoint": {
+      "method": "POST /v1/TradePoint",
+      "desc": "Список торговых точек из ЛК",
+      "params": {}
+    },
+    "KKTbyTradePoint": {
+      "method": "POST /v1/KKTbyTradePoint",
+      "desc": "ККТ по торговой точке",
+      "params": {"TP": 1}
+    },
+    "documents": {
+      "method": "POST /v1/documents",
+      "desc": "Кассовые чеки и БСО за сутки",
+      "params": {"fiscalDriveNumber": "0000000000000000", "date": "2026-05-01"}
+    },
+    "getDocCount": {
+      "method": "POST /v1/getDocCount",
+      "desc": "Количество чеков и БСО за сутки",
+      "params": {"fiscalDriveNumber": "0000000000000000", "date": "2026-05-01"}
+    },
+    "KKTShift_v1": {
+      "method": "POST /v1/KKTShift",
+      "desc": "Список смен за период",
+      "params": {"fiscalDriveNumber": "0000000000000000", "startDate": "2026-05-01", "endDate": "2026-05-07"}
+    },
+    "KKTShift_v2": {
+      "method": "POST /v2/KKTShift",
+      "desc": "Список смен за период (v2)",
+      "params": {"fiscalDriveNumber": "0000000000000000", "startDate": "2026-05-01", "endDate": "2026-05-07"}
+    },
+    "documentsShift": {
+      "method": "POST /v1/documentsShift",
+      "desc": "Документы по смене",
+      "params": {"fiscalDriveNumber": "0000000000000000", "shiftNumber": "1", "docType": ["receipt"]}
+    },
+    "closeShiftReport": {
+      "method": "POST /v1/closeShiftReport",
+      "desc": "Отчёт о закрытии смены",
+      "params": {"fiscalDriveNumber": "0000000000000000", "shiftNumber": "1"}
+    },
+    "getChequeLink_v1": {
+      "method": "POST /v1/getChequeLink",
+      "desc": "Ссылки на чеки по ФН и ФДН",
+      "params": {"fiscalDriveNumber": "0000000000000000", "fiscalDocumentNumber": "1"}
+    },
+    "getChequeLink_v2": {
+      "method": "POST /v2/getChequeLink",
+      "desc": "Конкретный документ по ФП, ФН, ФДН",
+      "params": {"fiscalDriveNumber": "0000000000000000", "fiscalDocumentNumber": "1", "fiscalSign": "0000000000"}
+    },
+    "getFiscalDoc_v1": {
+      "method": "POST /v1/getFiscalDoc",
+      "desc": "Фискальные документы по ККТ и ФП",
+      "params": {"kktRegId": "0000000000000000", "fiscalSign": "0000000000"}
+    },
+    "getFiscalDoc_v2": {
+      "method": "POST /v2/getFiscalDoc",
+      "desc": "Конкретный ФД по ФП, ФН, ФДН",
+      "params": {"fiscalDriveNumber": "0000000000000000", "fiscalDocumentNumber": "1", "fiscalSign": "0000000000"}
+    },
+    "getFiscalReport": {
+      "method": "POST /v1/getFiscalReport",
+      "desc": "Фискальные отчёты за период",
+      "params": {"fiscalDriveNumber": "0000000000000000", "startDate": "2026-05-01", "endDate": "2026-05-07", "fiscalDocType": "1"}
+    },
+    "getCrptTicket": {
+      "method": "POST /v1/getCrptTicket",
+      "desc": "Квитанция Честного знака",
+      "params": {"fiscalDriveNumber": "0000000000000000", "fiscalDocumentNumber": "1", "fiscalSign": "0000000000"}
+    }
+  }
+}

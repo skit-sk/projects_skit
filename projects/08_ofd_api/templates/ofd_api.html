@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% from "macros.html" import json_debug_section %}
+{% block title %}🧪 OFD API Explorer{% endblock %}
+{% block extra_head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/ccxt_api.css') }}">
+<link rel="stylesheet" href="{{ url_for('ofd_api.static', filename='css/ofd_api.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="ccxt-container">
+    <div class="ccxt-toolbar">
+        <div class="toolbar-group">
+            <label for="ofd-token-input">🔑 OFD API Token:</label>
+            <input type="text" id="ofd-token-input" class="key-input" style="width:200px" placeholder="из .env" autocomplete="off">
+        </div>
+        <div class="toolbar-group">
+            <label style="font-size:11px;color:var(--text-muted);">🧪 Песочница — OFD API (ОФД-Я)</label>
+        </div>
+    </div>
+
+    <div class="ccxt-split">
+        <div class="ccxt-left" id="tree-panel">
+            <div class="panel-header">📡 OFD Methods <span style="font-size:10px;color:var(--text-muted);font-weight:normal;">— api.ofd-ya.ru</span></div>
+            <div id="method-tree">
+                <div class="loading">Загрузка методов...</div>
+            </div>
+        </div>
+
+        <div class="ccxt-divider" id="divider"></div>
+
+        <div class="ccxt-right" id="result-panel">
+            <div class="panel-header">🔍 Request
+                <span id="code-legend" style="font-size:10px;color:var(--text-muted);font-weight:normal;margin-left:8px;">
+                    Method → ofd_api.js ← routes/ofd_api.py
+                </span>
+            </div>
+            <div id="method-info">
+                <div class="placeholder">Выберите метод слева</div>
+            </div>
+            <div id="docs-section" class="docs-section" style="display:none">
+                <div class="docs-header" onclick="toggleDocs(this)">
+                    <span class="docs-toggle">▶</span>
+                    <span>📖 Documentation</span>
+                </div>
+                <div class="docs-body">
+                    <pre id="docs-content">Загрузка...</pre>
+                </div>
+            </div>
+            <div id="request-url" class="request-url" style="display:none"></div>
+            <div id="param-form" class="param-form" style="display:none"></div>
+            <div id="execute-area" style="display:none">
+                <button id="execute-btn" onclick="executeMethod()" class="execute-btn">▶ Execute</button>
+                <span id="timing-info" class="timing-info"></span>
+            </div>
+            <div id="response-area" class="response-area" style="display:none">
+                {{ json_debug_section() }}
+            </div>
+            <div id="error-area" class="error-area" style="display:none"></div>
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/json_viewer.js') }}"></script>
+<script src="{{ url_for('ofd_api.static', filename='js/ofd_api.js') }}"></script>
+{% endblock %}

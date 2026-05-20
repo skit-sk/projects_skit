@@ -8,14 +8,23 @@ import signal
 from datetime import datetime
 from pathlib import Path
 from config import SUPER_USER, TG_ALL_DIR, WORKSPACE_DIR
+sys.path.insert(0, str(WORKSPACE_DIR / "projects" / "08_ofd_api" / "bot_ofd"))
 from commands import *
 from session import ensure_super, get_user, user_exists, get_quota, get_current_session, log_unauthorized
-from security import pre_filter, cancel_process, get_process_info, get_top5, _active_processes
+from security import pre_filter, cancel_process, _active_processes
+import monitor as _Monitor
+import task_state
+import task_control
+import task_stats
+from templates import _fmt_size, _fmt_tokens
 from templates import build_footer, _fmt_size, _fmt_tokens
 from telegram import InputMediaPhoto
-from send_queue import queue_pop
+from send_queue import queue_pop, queue_add
 from screenshot_browser import parse_request as parse_request_regular, take_screenshot as take_screenshot_regular, TF_LABEL
 from screenshot_widget import parse_request as parse_request_widget, take_screenshot as take_screenshot_widget
+import screenshot_widget
+from collage import make_collage
+import ip_audit
 from voice import transcribe_voice
 from youtube_transcribe import transcribe_youtube
 
@@ -67,7 +76,8 @@ async def _handle_tg_positions(update, uid):
         elapsed = int((_time.time() - t0) * 1000)
 
         if proc.returncode != 0:
-            await status_msg.edit_text(f"❌ Ошибка: {stderr.decode()[:200]}")
+            err_txt = stderr.decode()[:200] or f"(пустой stderr, stdout: {stdout.decode()[:200]})"
+            await status_msg.edit_text(f"❌ Ошибка скрипта (rc={proc.returncode}): {err_txt}")
             return
 
         user_dir = TG_ALL_DIR / f"TG_{uid}"
@@ -138,30 +148,307 @@ async def _handle_sc_positions(update, uid):
         _kill_process_group(proc.pid if proc else None)
 
 
-async def _reply(update, text, uid, agent=None, parse_mode=None, fmt_style="link", live_tok=0):
+async def _handle_positions(update, uid):
+    import time as _time, subprocess
+    t0 = _time.time()
+    status_msg = await update.message.reply_text("📊 Получаю сводку...")
+
+    script = SCRIPTS_DIR / "get_tg_rows.py"
+    if not script.exists():
+        await status_msg.edit_text(f"❌ Скрипт не найден: {script}")
+        return
+
+    proc = None
     try:
-        footer = build_footer(uid, agent=agent, parse_mode=parse_mode, fmt_style=fmt_style, live_tok=live_tok)
-    except Exception:
+        proc = await asyncio.create_subprocess_exec(
+            sys.executable, str(script),
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.PIPE,
+            preexec_fn=os.setpgrp
+        )
+        stdout, stderr = await asyncio.wait_for(proc.communicate(), timeout=60)
+        elapsed = int((_time.time() - t0) * 1000)
+
+        if proc.returncode != 0:
+            err_text = stderr.decode()[:200] or f"(пустой stderr, stdout: {stdout.decode()[:200]})"
+            await status_msg.edit_text(f"❌ Ошибка скрипта (rc={proc.returncode}): {err_text}")
+            return
+
+        user_dir = TG_ALL_DIR / f"TG_{uid}"
+        txt_path = user_dir / "positions_risk.txt"
+        if txt_path.exists():
+            text = txt_path.read_text(encoding="utf-8")
+            if len(text) > 3800:
+                text = text[:3500] + "\n\n... (обрезано)"
+            await status_msg.edit_text(f"{text}\n\n📊 Positions | {elapsed}ms")
+        else:
+            await status_msg.edit_text("✅ Сводка saved, но файл не найден")
+    except asyncio.TimeoutError:
+        await status_msg.edit_text("⏱ Превышено время ожидания (60с)")
+    except Exception as e:
+        await status_msg.edit_text(f"❌ Ошибка: {e}")
+    finally:
+        _kill_process_group(proc.pid if proc else None)
+
+
+async def _handle_positions_image(update, uid):
+    import time as _time
+    import json, urllib.request
+    t0 = _time.time()
+    status_msg = await update.message.reply_text("📊 Готовлю скриншот сводки...")
+
+    try:
+        # Получить данные с API
+        resp = urllib.request.urlopen(f"http://localhost:5000/account-api/api/positions", timeout=10)
+        data = json.loads(resp.read())
+        
+        if "error" in data:
+            await status_msg.edit_text(f"❌ {data['error']}")
+            return
+        
+        positions = data.get("positions", [])
+        fill_counts = data.get("fill_counts", {})
+        order_counts = data.get("order_counts", {})
+        
+        # Balance
+        balance = 0.0
+        try:
+            bresp = urllib.request.urlopen(f"http://localhost:5000/account-api/api/balance", timeout=5)
+            bdata = json.loads(bresp.read())
+            for item in bdata.get("spot", []):
+                if item.get("coin") == "USDT":
+                    balance = float(item.get("available", 0))
+                    break
+        except Exception:
+            pass
+        
+        from formatters.positions_risk import format_risk_summary
+        from rich.console import Console
+        from formatters.screenshot import render_rich_to_png
+        
+        # Build Rich Table with record=True
+        console = Console(record=True, width=100)
+        from rich.table import Table
+        table = Table(title=f"📊 Risk Summary (Balance: {balance:.2f} USDT)", width=100)
+        table.add_column("Ticker", style="bold", no_wrap=True)
+        table.add_column("Cnt", justify="right")
+        table.add_column("Side", no_wrap=True)
+        table.add_column("Margin", justify="right")
+        table.add_column("Bal%", justify="right")
+        table.add_column("Exp%", justify="right")
+        table.add_column("P&L", justify="right")
+        table.add_column("ROE%", justify="right")
+        table.add_column("Lev", justify="right")
+        table.add_column("LiqΔ%", justify="right")
+        
+        total_margin = 0.0
+        total_pl = 0.0
+        for pos in positions:
+            margin = float(pos.get("marginSize", 0))
+            pl = float(pos.get("unrealizedPL", 0))
+            lev = float(pos.get("leverage", 0))
+            total_margin += margin
+            total_pl += pl
+            bal_pct = (margin / balance * 100) if balance else 0
+            exp_pct = (margin * lev / balance * 100) if balance else 0
+            roe = (pl / margin * 100) if margin else 0
+            open_p = float(pos.get("openPriceAvg", 0))
+            liq_p = float(pos.get("liquidationPrice", 0))
+            liq_d = abs((open_p - liq_p) / open_p * 100) if open_p and liq_p else 0
+            side = "🟢 LONG" if pos.get("holdSide") == "long" else "🔴 SHORT"
+            
+            table.add_row(pos.get("symbol","?"), str(fill_counts.get(pos.get("symbol",""), 0)),
+                         side, f"{margin:.6f}", f"{bal_pct:.2f}", f"{exp_pct:.2f}",
+                         f"{pl:+.6f}", f"{'🔮' if roe>=100 else '💚' if roe>=30 else '🟢' if roe>=5 else '⚪' if roe>=-5 else '⚠️' if roe>=-30 else '🔶' if roe>=-100 else '🛑'}{roe:+.1f}",
+                         f"{int(lev)}x", f"{liq_d:.1f}")
+        
+        table.add_section()
+        total_roe = (total_pl / total_margin * 100) if total_margin else 0
+        table.add_row("TOTAL", str(len(positions)), "", f"{total_margin:.6f}",
+                     f"{total_margin/balance*100 if balance else 0:.2f}", "",
+                     f"{total_pl:+.6f}", f"{total_roe:+.1f}", "", "")
+        
+        console.print(table)
+        img_path = f"/tmp/positions_risk_{int(_time.time())}.png"
+        result = render_rich_to_png(console, img_path)
+        
+        if result:
+            await status_msg.delete()
+            with open(result, "rb") as f:
+                await update.message.reply_photo(photo=f, caption=f"📊 Positions | {int((_time.time()-t0)*1000)}ms")
+        else:
+            # Fallback to text
+            text = format_risk_summary(positions, balance, fill_counts, order_counts)
+            await status_msg.edit_text(f"{text}\n\n📊 Positions | {int((_time.time()-t0)*1000)}ms" if len(text) < 3500 else "❌ Ошибка создания изображения")
+    
+    except Exception as e:
+        await status_msg.edit_text(f"❌ Ошибка: {e}")
+
+
+def _normalize_symbol(raw: str) -> str | None:
+    """Привести символ к формату TICKERUSDT."""
+    s = raw.strip().upper()
+    if s.endswith("USDT"):
+        return s
+    if s.isalpha() and len(s) <= 10:
+        return f"{s}USDT"
+    return None
+
+
+async def _handle_ws_ob(update, uid, args):
+    import time as _time
+    t0 = _time.time()
+    
+    # Parse --image flag
+    want_image = "--image" in args
+    clean_args = [a for a in args if a != "--image"]
+    
+    if not clean_args:
+        status_msg = await update.message.reply_text("❌ Укажи символ. Пример: /ws_ob BTC")
+        return
+    
+    symbol = _normalize_symbol(clean_args[0])
+    if not symbol:
+        status_msg = await update.message.reply_text(f"❌ Некорректный символ: {clean_args[0]}")
+        return
+    
+    # Parse depth and aggregation
+    depth = 15
+    bucket_size = 0
+    VALID_DEPTHS = (5, 15, 50, 100)
+    VALID_AGGR = (0.05, 0.5, 1, 10, 50, 100, 1000)
+    
+    if len(clean_args) > 1:
+        try:
+            d = int(clean_args[1])
+            if d in VALID_DEPTHS:
+                depth = d
+        except ValueError:
+            pass
+    
+    if len(clean_args) > 2:
+        try:
+            bs = float(clean_args[2])
+            if bs in VALID_AGGR:
+                bucket_size = bs
+        except ValueError:
+            pass
+    
+    status_msg = await update.message.reply_text("📊 Получаю стакан...")
+    
+    # Fetch OB (aggregated if bucket_size > 0)
+    from formatters.orderbook import fetch_aggregated_ob
+    data = fetch_aggregated_ob(symbol, depth, bucket_size)
+    
+    if not data:
+        await status_msg.edit_text(f"❌ Нет данных стакана для {symbol}")
+        return
+    
+    elapsed = int((_time.time() - t0) * 1000)
+    asks = data.get("asks", [])
+    bids = data.get("bids", [])
+    
+    if not asks or not bids:
+        await status_msg.edit_text(f"❌ Нет данных стакана для {symbol}")
+        return
+    
+    from formatters.positions_risk import format_order_book
+    from rich.console import Console
+    from io import StringIO
+    
+    if want_image:
+        # Rich → HTML → PNG → send photo
+        from formatters.screenshot import render_rich_to_png
+        
+        table_title = f"📊 Order Book {symbol}"
+        if bucket_size:
+            table_title += f" (aggr: {bucket_size} USDT, depth: {depth})"
+        
+        console = Console(record=True, width=100)
+        from rich.table import Table
+        tbl = Table(title=table_title, width=100)
+        tbl.add_column("Bid Price", style="green", justify="right")
+        tbl.add_column("Bid Vol", style="green", justify="right")
+        tbl.add_column("│")
+        tbl.add_column("Ask Price", style="red", justify="right")
+        tbl.add_column("Ask Vol", style="red", justify="right")
+        
+        max_rows = max(len(asks), len(bids))
+        for i in range(max_rows):
+            b = bids[i] if i < len(bids) else ["", ""]
+            a = asks[i] if i < len(asks) else ["", ""]
+            tbl.add_row(str(b[0]) if b[0] else "", str(b[1]) if b[1] else "", "│",
+                       str(a[0]) if a[0] else "", str(a[1]) if a[1] else "")
+        
+        # Spread
+        if asks and bids and asks[0] and bids[0]:
+            def _fp(val):
+                if isinstance(val, str) and "–" in val:
+                    return float(val.split("–")[0])
+                return float(val)
+            try:
+                sp = _fp(asks[0][0]) - _fp(bids[0][0])
+                sp_pct = sp / _fp(bids[0][0]) * 100
+                tbl.add_section()
+                tbl.add_row("", "", f"Spread: {sp:.2f} ({sp_pct:.3f}%)", "", "")
+            except (ValueError, IndexError):
+                pass
+        
+        console.print(tbl)
+        img_path = f"/tmp/ob_{symbol}_{int(_time.time())}.png"
+        result = render_rich_to_png(console, img_path, title=table_title)
+        
+        if result:
+            await status_msg.delete()
+            with open(result, "rb") as f:
+                await update.message.reply_photo(photo=f, caption=f"{symbol} | {elapsed}ms")
+        else:
+            # Fallback to text
+            text = format_order_book(symbol, asks, bids, bucket_size)
+            await status_msg.edit_text(f"{text}\n\n{symbol} | {elapsed}ms")
+    else:
+        text = format_order_book(symbol, asks, bids, bucket_size)
+        full = f"{text}\n\n{symbol} | {elapsed}ms"
+        if len(full) > 3800:
+            full = full[:3500] + "\n\n... (обрезано)"
+        await status_msg.edit_text(full)
+
+
+async def _reply(update, text, uid, agent=None, parse_mode=None, fmt_style="link", live_tok=0, show_footer=False):
+    if show_footer:
+        try:
+            last_cost = 0
+            try:
+                from session import get_session_full
+                sd = get_session_full(uid)
+                if sd:
+                    last_cost = sd.get("last_msg", {}).get("cost", 0) or 0
+            except Exception:
+                pass
+            footer = build_footer(uid, agent=agent, parse_mode=parse_mode, fmt_style=fmt_style, live_tok=live_tok, last_cost=last_cost)
+        except Exception:
+            footer = ""
+    else:
         footer = ""
     parts = text.split("\n━━━\n", 1)
     if len(parts) >= 2 and parts[1].strip():
-        body, custom_footer = parts
         full = text
     else:
-        body = parts[0]
-        full = f"{text}\n\n━━━\n\n{footer}"
+        full = f"{text}\n\n━━━\n\n{footer}" if footer else text
+    chat_id = update.effective_chat.id
+    kwargs = {"parse_mode": parse_mode} if parse_mode else {}
     if len(full) <= 4000:
-        kwargs = {"parse_mode": parse_mode} if parse_mode else {}
         try:
-            await update.message.reply_text(full, **kwargs)
+            await update.effective_chat.send_message(full, **kwargs)
         except Exception as e:
             log.error(f"_reply: {e}")
             kwargs.pop("parse_mode", None)
             try:
-                await update.message.reply_text(f"✅ Ответ получен, но слишком длинный для Telegram.\n\n{footer}", **kwargs)
+                await update.effective_chat.send_message(f"✅ Ответ получен, но слишком длинный для Telegram.\n\n{footer}", **kwargs)
             except Exception as e:
                 log.warning(f"_reply fallback failed: {e}")
         return
+    body = text if not footer else parts[0]
     lines = body.split("\n")
     chunks = []
     buf = ""
@@ -176,12 +463,11 @@ async def _reply(update, text, uid, agent=None, parse_mode=None, fmt_style="link
     if buf:
         chunks.append(buf)
     total = len(chunks)
-    kwargs = {"parse_mode": parse_mode} if parse_mode else {}
     for i, chunk in enumerate(chunks):
         if i < total - 1:
-            await update.message.reply_text(f"{chunk}\n\n({i+1}/{total})", **kwargs)
+            await update.effective_chat.send_message(f"{chunk}\n\n({i+1}/{total})", **kwargs)
         else:
-            await update.message.reply_text(f"{chunk}\n\n{footer}", **kwargs)
+            await update.effective_chat.send_message(f"{chunk}\n\n{footer}", **kwargs)
 
 
 async def dispatch(update, context):
@@ -303,6 +589,8 @@ async def dispatch(update, context):
         "/unauthorized": lambda: cmd_unauthorized(uid),
         "/shutdown": lambda: _handle_shutdown(uid),
         "/sysinfo": lambda: cmd_sysinfo(uid),
+        "/stop": lambda: _handle_stop(uid),
+        "/restart": lambda: _handle_restart(uid),
     }
 
     if cmd == "/build":
@@ -323,6 +611,56 @@ async def dispatch(update, context):
 
     if cmd == "/sc_positions":
         await _handle_sc_positions(update, uid)
+        return
+
+    if cmd == "/positions":
+        if "--image" in args:
+            await _handle_positions_image(update, uid)
+        else:
+            await _handle_positions(update, uid)
+        return
+
+    if cmd == "/ws_ob":
+        await _handle_ws_ob(update, uid, args)
+        return
+
+    if cmd == "/wgc":
+        await _handle_widget_collage(update, context, uid, text)
+        return
+
+    if cmd == "/audit_ip":
+        await _handle_audit(update, uid, text)
+        return
+
+    if cmd == "/audit_deep":
+        args = text.split()[1:]
+        text_for_audit = f"/audit_ip --deep {' '.join(args)}" if args else "/audit_ip --deep"
+        await _handle_audit(update, uid, text_for_audit)
+        return
+
+    if cmd in ("/task_stats", "/task_errors"):
+        await _handle_task_stats(update, uid, text)
+        return
+
+    if cmd in ("/ofd_kkt", "/ofd_receipts", "/ofd_inn", "/ofd_shift",
+               "/ofd_stat", "/ofd_orgs", "/ofd_receipts"):
+        await _handle_ofd(update, uid, text)
+        return
+    if cmd == "/audit_inn":
+        await _handle_audit_inn(update, uid, text)
+        return
+
+    if cmd == "/status":
+        args = text.split()[1:] if len(text.split()) > 1 else []
+        if args and args[0] == "mode" and len(args) >= 2:
+            mode = args[1].lower()
+            if mode in ("compact", "normal", "full", "auto"):
+                _Monitor.set_status_mode(uid, mode)
+                await _reply(update, f"✅ Режим статуса: {mode}", uid)
+            else:
+                await _reply(update, "❌ Режимы: compact, normal, full, auto", uid)
+        else:
+            await _reply(update, "❌ /status mode <compact|normal|full|auto>", uid)
         return
 
     if cmd == "/format":
@@ -389,74 +727,84 @@ async def _handle_message(uid, text, update):
     loop = asyncio.get_event_loop()
     start_ts = time.time()
 
+    # Acquire opencode lock
+    ok, msg = await task_control.acquire(uid, text)
+    if not ok:
+        await _reply(update, msg, uid)
+        return
+
+    # Create task
+    current_task_id = task_state.task_create(uid, text)
+    task_state.task_start(current_task_id)
+
     status_msg = None
+    _cached_footer = ""
+    # Set offset BEFORE thread starts so 🔤 shows correct delta
+    from session import get_current_session
+    _k, _s = get_current_session(uid)
+    _initial_tok = _s.get("tokens", 0) if _s else 0
+    _Monitor.set_offset(uid, _initial_tok)
+
+    _timeout_flag = False
     thread_task = loop.run_in_executor(None, cmd_message, uid, text)
 
     while True:
         elapsed = int(time.time() - start_ts)
-        if elapsed > 300:
-            cancel_process(uid)
-            try:
-                if status_msg:
-                    await status_msg.edit_text(
-                        "⏱ Превышено время ожидания (300с).\n"
-                        "Попробуйте переключить модель через /setmodel"
-                    )
-            except Exception:
-                pass
-            result = (None, "⏱ Превышено время ожидания (300с). Попробуйте переключить модель через /setmodel", [], None)
-            break
+        if elapsed > 300 and not _timeout_flag:
+            _timeout_flag = True
         try:
             result = await asyncio.wait_for(asyncio.shield(thread_task), timeout=3)
             break
         except asyncio.TimeoutError:
             elapsed = int(time.time() - start_ts)
-            info = get_process_info(uid)
-            key, sess = get_current_session(uid)
-            sess = sess or {}
-            sess_tok = sess.get("tokens", 0) or 0
-            live_tok = info["tokens"] if info else 0
-            show_tok = max(sess_tok, live_tok)
+            block1 = await _Monitor.status_block1(uid, elapsed)
 
-            if True:
-                if info:
-                    line0 = (
-                        f"⏳ {info['time']} · ⚡ {info['cpu']:.1f}% · 🧠 {info['mem_mb']}MB"
-                        f" · 🔤 +{_fmt_tokens(live_tok)} · 📊 {_fmt_tokens(show_tok)}"
-                    )
-                else:
-                    line0 = f"⏳ {elapsed//60:02d}:{elapsed%60:02d} · 📊 {_fmt_tokens(sess_tok)} · ⏎ Saving..."
-                lines = [line0]
-                if info:
-                    top5 = get_top5()
-                    if top5:
-                        lines.append("📊 Top 5 proc:")
-                        for line in top5:
-                            lines.append(line)
-                footer = build_footer(uid, live_tok=live_tok)
-                if footer:
-                    lines.extend(["", "━━━", "", footer])
-                text = "\n".join(lines)
-                if status_msg is None:
-                    status_msg = await update.message.reply_text(text)
-                else:
-                    try:
-                        await status_msg.edit_text(text)
-                    except Exception as e:
-                        log.warning(f"status edit error: {e}")
+            # Check if process died unexpectedly
+            if elapsed > 10 and not _timeout_flag:
+                from security import _active_processes as _aprocs
+                _aproc = _aprocs.get(uid)
+                if _aproc and _aproc.returncode is not None:
+                    log.warning(f"Process died unexpectedly (rc={_aproc.returncode}) for uid={uid}")
+                    cancel_process(uid)
+                    task_state.task_fail(current_task_id, f"process died rc={_aproc.returncode}")
+                    task_control.release(uid, text)
+                    if status_msg:
+                        try:
+                            await status_msg.edit_text("💀 Process died unexpectedly")
+                        except Exception:
+                            pass
+                    result = (None, f"💀 Процесс завершился (rc={_aproc.returncode})", [], None)
+                    break
 
-    if status_msg:
-        try:
-            await status_msg.delete()
-        except Exception as e:
-            log.warning(f"status delete error: {e}")
+            block2 = await _Monitor.status_block2(uid, current_task_id, elapsed)
+            block3 = await _Monitor.status_block3()
+            if elapsed % 10 < 3:
+                _cached_footer = _Monitor.status_block4(uid, live_tok=0)
+            block4 = _cached_footer
+
+            lines = block1[:]
+            lines.extend(block2)
+            if block3:
+                lines.extend(["", *block3])
+                from system_info import get_uptime as _gup
+                lines.append(f"⏱ Uptime: {_gup()}")
+            if block4:
+                lines.extend(["", "━━━", "", block4])
+            if _timeout_flag:
+                lines.extend(["", "⏱ >300с · /stop"])
+            text = "\n".join(lines)
+            if status_msg is None:
+                status_msg = await update.message.reply_text(text)
+            else:
+                try:
+                    await status_msg.edit_text(text)
+                except Exception as e:
+                    log.warning(f"status edit error: {e}")
 
     try:
         log.info("_handle_message: cmd_message returned")
-        
-        # Get session tokens after opencode finished
-        _key, _sess = get_current_session(uid)
-        _final_tok = _sess.get("tokens", 0) if _sess else 0
+
+        _delta_tok = _Monitor.get_delta(uid)
         
         if len(result) == 4:
             resp, err, new_images, agent_label = result
@@ -466,13 +814,12 @@ async def _handle_message(uid, text, update):
 
         if err:
             log.info("_handle_message: replying with error")
-            await _reply(update, err, uid, agent=agent_label, live_tok=_final_tok)
+            await _reply(update, err, uid, agent=agent_label, live_tok=_delta_tok, show_footer=True)
             log.info("_handle_message: error reply done")
         elif resp:
             log.info("_handle_message: replying with response")
             if new_images:
-                footer = build_footer(uid, agent=agent_label, live_tok=_final_tok)
-                full = f"{resp}\n\n━━━\n\n{footer}"
+                footer = _Monitor.status_block4(uid, agent=agent_label, live_tok=_delta_tok)
                 full = f"{resp}\n\n━━━\n\n{footer}"
                 if len(full) <= 1000:
                     media = []
@@ -484,21 +831,35 @@ async def _handle_message(uid, text, update):
                                 media.append(InputMediaPhoto(media=f))
                     await update.message.reply_media_group(media=media)
                 else:
-                    await _reply(update, resp, uid, agent=agent_label, live_tok=_final_tok)
+                    await _reply(update, resp, uid, agent=agent_label, live_tok=_delta_tok, show_footer=True)
                     media = []
                     for img_path in new_images:
                         with open(img_path, "rb") as f:
                             media.append(InputMediaPhoto(media=f))
                     await update.message.reply_media_group(media=media)
             else:
-                await _reply(update, resp, uid, agent=agent_label, live_tok=_final_tok)
+                await _reply(update, resp, uid, agent=agent_label, live_tok=_delta_tok, show_footer=True)
             log.info("_handle_message: response reply done")
+        if resp:
+            log.info("📨 FINAL:\n%s", resp[:500])
+        elif err:
+            log.info("📨 FINAL ERR:\n%s", err[:500])
+
+        # task complete + release
+        task_state.task_complete(current_task_id)
+        task_control.release(uid, text)
     except Exception as e:
         log.error(f"_handle_message: reply failed: {e}")
         try:
             await update.message.reply_text("✅ Готово (ошибка форматирования).")
         except Exception:
             pass
+
+    if status_msg:
+        try:
+            await status_msg.delete()
+        except Exception as e:
+            log.warning(f"status delete error: {e}")
 
 
 async def _handle_screenshot(update, context, uid, symbol, tf, range_val="", use_widget=False):
@@ -535,6 +896,116 @@ async def _handle_screenshot(update, context, uid, symbol, tf, range_val="", use
     except Exception as e:
         log.error(f"_handle_screenshot reply_photo: {e}")
         await update.message.reply_text(f"✅ Скриншот сохранён, но не отправлен: {e}", uid)
+
+
+async def _handle_widget_collage(update, context, uid, text):
+    parts = text.split()
+    if len(parts) < 2:
+        await _reply(update, "❌ /wgc <SYMBOL>\nПример: /wgc BTCUSDT", uid)
+        return
+
+    symbol_raw = parts[1].upper()
+    if ":" not in symbol_raw:
+        symbol_raw = f"BITGET:{symbol_raw}"
+
+    tfs = ["1d", "4h", "1h"]
+    await _reply(update, f"📸 Делаю коллаж {symbol_raw} (1d+4h+1h)...", uid)
+
+    user_dir = TG_ALL_DIR / f"TG_{uid}"
+    user_dir.mkdir(parents=True, exist_ok=True)
+    t0 = time.time()
+
+    screenshots = []
+    for tf in tfs:
+        path, err = await take_screenshot_widget(symbol_raw, screenshot_widget.TF_MAP[tf], str(user_dir))
+        if err:
+            await _reply(update, f"❌ {symbol_raw} {tf}: {err}", uid)
+            return
+        screenshots.append(path)
+
+    safe = symbol_raw.lower().replace(":", "_")
+    collage_path = os.path.join(str(user_dir), f"collage_{safe}.png")
+    make_collage(screenshots, collage_path)
+
+    elapsed = int((time.time() - t0) * 1000)
+    ts = datetime.now().strftime("%d.%m.%y %H:%M:%S")
+
+    with open(collage_path, "rb") as f:
+        await update.message.reply_photo(
+            photo=f,
+            caption=f"📊 {symbol_raw} (1d · 4h · 1h) | {ts} | {elapsed}ms"
+        )
+
+    log.info(f"Collage sent: {collage_path} ({elapsed}ms)")
+
+
+async def _handle_ofd(update, uid, text):
+    from yandex_ofd import YandexOfdClient
+    import json
+    parts = text.split()
+    cmd = parts[0].lower() if parts else ""
+
+    try:
+        client = YandexOfdClient()
+    except Exception as e:
+        await _reply(update, f"❌ OFD client error: {e}", uid)
+        return
+
+    try:
+        if cmd == "/ofd_kkt":
+            data = client.kkt_list()
+            await _reply(update, f"📟 **ККТ:**\n{json.dumps(data, indent=2, ensure_ascii=False)[:3500]}", uid)
+        elif cmd == "/ofd_inn":
+            inn = parts[1] if len(parts) > 1 else "010500776503"
+            data = client.inn(inn)
+            await _reply(update, f"🔍 **ИНН {inn}:**\n{json.dumps(data, indent=2, ensure_ascii=False)[:3500]}", uid)
+        elif cmd == "/ofd_receipts":
+            fn = parts[1] if len(parts) > 1 else ""
+            date = parts[2] if len(parts) > 2 else ""
+            with_items = "items" in parts
+            if not fn or not date:
+                await _reply(update, "❌ /ofd_receipts <fn> <date> [items]", uid)
+                return
+            data = client.get_daily_receipts(fn, date, with_items=with_items)
+            text = json.dumps(data, indent=2, ensure_ascii=False)[:3500]
+            await _reply(update, f"📋 **Чеки {date}:**\n{text}", uid)
+        elif cmd == "/ofd_shift":
+            fn = parts[1] if len(parts) > 1 else ""
+            if not fn:
+                await _reply(update, "❌ /ofd_shift <fn>", uid)
+                return
+            data = client.shifts(fn)
+            await _reply(update, f"📊 **Смены:**\n{json.dumps(data, indent=2, ensure_ascii=False)[:3500]}", uid)
+        elif cmd == "/ofd_stat":
+            fn = parts[1] if len(parts) > 1 else ""
+            if not fn:
+                await _reply(update, "❌ /ofd_stat <fn>", uid)
+                return
+            data = client.get_doc_count(fn)
+            await _reply(update, f"📈 **Статистика:**\n{json.dumps(data, indent=2, ensure_ascii=False)[:3500]}", uid)
+        elif cmd == "/ofd_orgs":
+            import glob, json
+            orgs = []
+            for p in glob.glob("TG_ALL/tg_ofd/orgs/*.json"):
+                orgs.append(json.load(open(p)))
+            text = "\n".join(f"🏢 {o.get('name','?')} ({o.get('inn','?')})" for o in orgs)
+            await _reply(update, f"**Организации:**\n{text}" if text else "❌ нет организаций", uid)
+    except Exception as e:
+        await _reply(update, f"❌ Ошибка OFD: {e}", uid)
+
+
+async def _handle_audit_inn(update, uid, text):
+    import json
+    from audit_inn import audit_inn
+    parts = text.split()
+    inn = parts[1] if len(parts) > 1 else "010500776503"
+    await _reply(update, f"🔍 Аудит ИНН {inn}...", uid)
+    try:
+        data = audit_inn(inn)
+        text = json.dumps(data, indent=2, ensure_ascii=False)[:3500]
+        await _reply(update, f"📋 **Аудит ИНН {inn}:**\n{text}", uid)
+    except Exception as e:
+        await _reply(update, f"❌ Ошибка аудита: {e}", uid)
 
 
 async def _handle_youtube(update, uid, url):
@@ -630,6 +1101,31 @@ def _handle_shutdown(uid):
         import os
         os._exit(0)
     return result
+
+
+def _handle_stop(uid):
+    """Принудительная остановка текущего процесса opencode."""
+    import logging
+    log = logging.getLogger("tg_bot")
+    if uid not in _active_processes:
+        return "⏹ Нет активного процесса для остановки."
+    cancel_process(uid)
+    log.warning("Process stopped by /stop for uid=%s", uid)
+    return "⏹ Процесс остановлен. Можно отправить новый запрос."
+
+
+def _handle_restart(uid):
+    """Перезапуск бота (super only)."""
+    import logging, subprocess, os, signal
+    log = logging.getLogger("tg_bot")
+    if not is_super(uid):
+        return "❌ Только super."
+    log.warning("Bot restart requested by uid=%s", uid)
+    # запускаем restart в фоне, текущий процесс умрёт сам
+    script = os.path.join(os.path.dirname(__file__), "..", "..", "scripts", "tg_bot.sh")
+    subprocess.Popen(["bash", script, "restart"],
+                     stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    return "🔄 Бот перезапускается..."
 
 
 def _call_models(uid, arg):

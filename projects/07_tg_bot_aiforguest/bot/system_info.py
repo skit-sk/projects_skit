@@ -152,3 +152,13 @@ def get_system_status():
         pass
 
     return "\n".join(lines)
+
+
+def get_uptime():
+    """Системный uptime в формате dd hh:mm:ss"""
+    try:
+        with open('/proc/uptime', 'r') as f:
+            secs = int(float(f.read().split()[0]))
+        return _fmt_time(secs)
+    except Exception:
+        return "—"

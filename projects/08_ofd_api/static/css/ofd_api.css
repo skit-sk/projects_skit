@@ -1,0 +1,10 @@
+/* ===== OFD API — minimal overrides, inherits ccxt_api.css ===== */
+
+/* OFD API color accent — purple */
+.method-item.active {
+    background: #8b5cf6 !important;
+}
+
+.ofd-toolbar .toolbar-group label {
+    font-size: 11px;
+}

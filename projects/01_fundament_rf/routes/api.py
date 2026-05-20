@@ -78,6 +78,7 @@ def create_object():
 @bp.route('/objects/from-emoji', methods=['POST'])
 def create_from_emoji():
     raw = request.form.get('emoji_data', '')
+    section = request.form.get('section', 'auto')
     cleaned = re.sub(r'\s+', ' ', raw).strip()
     blocks = re.split(r'(?=🏗️)', cleaned)
     
@@ -87,6 +88,9 @@ def create_from_emoji():
             continue
         data = parse_emoji_data(block)
         emoji = data.get('emoji_entry', {})
+        
+        if section != 'auto':
+            data['_manual_section'] = section
         
         if 'number' in emoji and 'symbol' in emoji:
             name = f"{emoji['symbol']} #{emoji['number']}"
@@ -99,6 +103,23 @@ def create_from_emoji():
         storage.save(obj)
 
     return redirect(url_for('web.index'))
+
+
+@bp.route('/objects/<obj_id>/copy-to-monitoring', methods=['POST'])
+def copy_to_monitoring(obj_id):
+    try:
+        obj = storage.load(obj_id)
+        new_data = dict(obj.data)
+        new_data['_manual_section'] = 'monitoring'
+        new_obj = FundObj(
+            obj_type=obj.obj_type,
+            name=obj.name,
+            data=new_data,
+        )
+        storage.save(new_obj)
+        return jsonify({'ok': True, 'new_id': new_obj.id})
+    except FileNotFoundError:
+        return jsonify({'error': 'Not found'}), 404
 
 
 @bp.route('/objects/<obj_id>', methods=['DELETE'])
