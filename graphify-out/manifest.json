@@ -140,12 +140,12 @@
     "hash": "bac05562f77f1259ed815132cf4e5a43"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/session.py": {
-    "mtime": 1779242792.4945736,
-    "hash": "99fc84b555ee0b428ecf6f686ec70b20"
+    "mtime": 1779279954.1563177,
+    "hash": "2a7890fdaf457ec513e359be62197873"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/monitor.py": {
-    "mtime": 1779246843.831818,
-    "hash": "5a810a352d10763a0ccf98ff001e2a1c"
+    "mtime": 1779287376.9783738,
+    "hash": "e2a589c61fb702dd968ad90bb6f22c70"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/collage.py": {
     "mtime": 1779081960.6183343,
@@ -156,36 +156,36 @@
     "hash": "dc31f5cbf7241b9e4a3546a662f8d26a"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/handler.py": {
-    "mtime": 1779247026.6888874,
-    "hash": "61f93d72850c9b4536a6576ec7df7967"
+    "mtime": 1779308272.0373168,
+    "hash": "7348e7356840c4e7fb65b2202d74f708"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/ip_audit.py": {
-    "mtime": 1779166967.5339463,
-    "hash": "1407b98c2331a6a91a7a653b405c1be4"
+    "mtime": 1779248659.3233845,
+    "hash": "43294ae888d8a31c36673805968d3106"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/task_state.py": {
-    "mtime": 1779230070.0301223,
-    "hash": "6cac92fbcdb60b52a3e1dc51e1260811"
+    "mtime": 1779290065.089744,
+    "hash": "25372b1662e450543ed1ad8a751f4518"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/commands.py": {
-    "mtime": 1779247091.315327,
-    "hash": "48a0ef3f3b8cc1b54c5f78f06da2ca43"
+    "mtime": 1779280729.798315,
+    "hash": "7876f423e9933afd46f90b9284491552"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/voice.py": {
     "mtime": 1779076140.1078618,
     "hash": "3f040369f0172e02f954277d60367755"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/security.py": {
-    "mtime": 1779237750.8466077,
-    "hash": "d0585992eb36f8a39945f3f8f498576b"
+    "mtime": 1779248560.6111424,
+    "hash": "5591faf92757386d151150a859aa009a"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/system_info.py": {
-    "mtime": 1779246798.0017993,
-    "hash": "b8aabba9f77858c33f5163c1d5bef450"
+    "mtime": 1779248599.2600136,
+    "hash": "d7187865a0ed5d5cf91d8efe34af90bb"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/templates.py": {
-    "mtime": 1779242999.4741144,
-    "hash": "94e447e7f6bcd2a9d9b05d329461c86b"
+    "mtime": 1779290043.341249,
+    "hash": "f1aa98f8867c6c87a83c398c458af575"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/send_examples.py": {
     "mtime": 1779057815.8624423,
@@ -351,6 +351,26 @@
     "mtime": 1776804269.8593946,
     "hash": "e7cc044100ae26ec638bc0a6c7e6b47d"
   },
+  "/home/user_aioc/workspace/projects/08_ofd_api/routes.py": {
+    "mtime": 1779311993.0007896,
+    "hash": "030cf2254981b4d45affdd112754057d"
+  },
+  "/home/user_aioc/workspace/projects/08_ofd_api/__init__.py": {
+    "mtime": 1779307790.7684307,
+    "hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/home/user_aioc/workspace/projects/08_ofd_api/static/js/ofd_api.js": {
+    "mtime": 1779307790.7734308,
+    "hash": "dd081f215523b17ccae9d5084f5b6fef"
+  },
+  "/home/user_aioc/workspace/projects/08_ofd_api/bot_ofd/yandex_ofd.py": {
+    "mtime": 1779310419.1891716,
+    "hash": "81038be1226d914897349de8f0b0623c"
+  },
+  "/home/user_aioc/workspace/projects/08_ofd_api/bot_ofd/audit_inn.py": {
+    "mtime": 1779306454.3638768,
+    "hash": "75c95e10800bc189b0557bfd54e8c4b6"
+  },
   "/home/user_aioc/workspace/projects/04_tradingview-demos/update_widgets.py": {
     "mtime": 1778014364.5064783,
     "hash": "37a0dee301984b1f44c7400c99a60230"
@@ -380,8 +400,8 @@
     "hash": "6caee07675c93cd94d1305990b8ca4d4"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/app.py": {
-    "mtime": 1778955942.8608847,
-    "hash": "b2342b0aeda45df8d37be0583ba570aa"
+    "mtime": 1779308808.906448,
+    "hash": "ce868051fe452930a45cd0821c44cb53"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/api/bitget_ws.py": {
     "mtime": 1778699181.6236172,
@@ -432,8 +452,8 @@
     "hash": "f2af786362d2836b18b6966f1203c58c"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/routes/api.py": {
-    "mtime": 1778970415.9830437,
-    "hash": "a68a773ebc91a14ca915d1938e4aab69"
+    "mtime": 1779312835.2480037,
+    "hash": "e68f5c3e6d4680c0f2b565fe2c50937f"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/routes/ccxt_api.py": {
     "mtime": 1778969434.2004228,
@@ -464,8 +484,8 @@
     "hash": "edf76c4ba5061d623cdb0d1c48b7cbc4"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/routes/web.py": {
-    "mtime": 1778541040.9492922,
-    "hash": "8a17eb22ba108e0eba69f1e1df7cb681"
+    "mtime": 1779312819.828655,
+    "hash": "2ff0cdd432364ecb51506bc6d2892b90"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/routes/dashboard.py": {
     "mtime": 1777677403.372532,
@@ -474,6 +494,10 @@
   "/home/user_aioc/workspace/projects/01_fundament_rf/static/js/ccxt_api.js": {
     "mtime": 1779068214.0819185,
     "hash": "f704b63a96ea5a6d59e42ed8aa1dce5c"
+  },
+  "/home/user_aioc/workspace/projects/01_fundament_rf/static/js/json_viewer.js": {
+    "mtime": 1779248293.302167,
+    "hash": "0967a24f218e8323cc04df7cf0e2e21c"
   },
   "/home/user_aioc/workspace/MEMPALACE_OPENCODE_INTEGRATION.md": {
     "mtime": 1777637635.8260553,
@@ -1612,7 +1636,7 @@
     "hash": "a1f72973a9c0f36d84e3f9e59ec017e6"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/positions_risk.txt": {
-    "mtime": 1779245714.1956024,
+    "mtime": 1779267717.0138364,
     "hash": "2bbe06b2af0e85f5e0d5ff1a5e7534a0"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/tgandcompany.md": {
@@ -1624,7 +1648,7 @@
     "hash": "a1f72973a9c0f36d84e3f9e59ec017e6"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/positions_risk.txt": {
-    "mtime": 1779245714.1956024,
+    "mtime": 1779267717.0138364,
     "hash": "2bbe06b2af0e85f5e0d5ff1a5e7534a0"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/audits/audit_194_79_46_206_s2.md": {
@@ -1870,6 +1894,18 @@
   "/home/user_aioc/workspace/projects/02_graphs_candle/venv_uv/share/jupyter/labextensions/jupyterlab-plotly/static/1.9daa5160b7fc741623bf.js.LICENSE.txt": {
     "mtime": 1778026606.0664752,
     "hash": "6dd85c5bae3d3cf3b9ee55dbc5282285"
+  },
+  "/home/user_aioc/workspace/projects/08_ofd_api/README.md": {
+    "mtime": 1779280096.1004272,
+    "hash": "fdcc6d5576dfcf3ba28aec09d03392c5"
+  },
+  "/home/user_aioc/workspace/projects/08_ofd_api/docs/providers.md": {
+    "mtime": 1779281718.7139583,
+    "hash": "a52b3ed79aadad1e4820ab3ed862380e"
+  },
+  "/home/user_aioc/workspace/projects/08_ofd_api/templates/ofd_api.html": {
+    "mtime": 1779307790.7714307,
+    "hash": "d703f11647bb7167ed7a8f62f8265e2d"
   },
   "/home/user_aioc/workspace/projects/06_screenshots_project/catalog.html": {
     "mtime": 1778027717.38489,
@@ -2556,16 +2592,16 @@
     "hash": "3a8fe33a74a345fe2ba507fd8fc04b23"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/templates/ccxt_api.html": {
-    "mtime": 1779067658.4733982,
-    "hash": "25c326b7c042434625cea56a9ede3501"
+    "mtime": 1779248305.1894326,
+    "hash": "2bf6089587bfd5ebe83e34e50e7df7d7"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/templates/metrics.html": {
     "mtime": 1777408903.2430828,
     "hash": "1963f3dcef4532c6deead9f8559deb8a"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/templates/index.html": {
-    "mtime": 1779070640.8728428,
-    "hash": "e3b4871e71338cee897f5bbeaa897a5a"
+    "mtime": 1779312809.8494294,
+    "hash": "5370c93f2b0325ba6ec2a9914370632d"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/templates/ma_analytics.html": {
     "mtime": 1778431607.2339516,
@@ -2588,8 +2624,8 @@
     "hash": "7d352b824555e0e0b6f20eb18820e8c3"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/templates/base.html": {
-    "mtime": 1779073812.0310934,
-    "hash": "a1a312924a958b4cd37f898678e1b451"
+    "mtime": 1779248467.0520508,
+    "hash": "7d54f88353be05169c2a7b7982dadfcb"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/templates/macros.html": {
     "mtime": 1779052036.4115858,
@@ -2638,6 +2674,10 @@
   "/home/user_aioc/workspace/10. \u041f\u0418\u0420-20032023-\u042d\u041e\u041c1.pdf": {
     "mtime": 1778844092.088913,
     "hash": "4eea03dac71b23e37f21d926c5b74501"
+  },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/projects/08_ofd_api/docs/API_OFD_YA.pdf": {
+    "mtime": 1779306439.9335394,
+    "hash": "9c7724e9972b9febf73f91b5eb265c8d"
   },
   "/home/user_aioc/workspace/dotusdt_tv_1d_fresh.png": {
     "mtime": 1778876680.6324723,
