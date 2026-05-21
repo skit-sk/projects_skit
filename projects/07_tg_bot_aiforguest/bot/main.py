@@ -117,6 +117,26 @@ def main():
         log.warning("Pending task for %d: %s (session: %s)",
                      uid, task.get("text", "?")[:80], task.get("session", "?"))
 
+    from task_state import cleanup_stale, task_create, task_start, task_complete, _load
+    import time
+
+    data = cleanup_stale(max_age=0)
+    log.info("cleanup_stale: old running/queued tasks cleared")
+    time.sleep(1.1)
+
+    data = _load()
+    all_tasks = data.get("tasks", {})
+    ok = sum(1 for t in all_tasks.values() if t.get("status") == "completed")
+    fail = sum(1 for t in all_tasks.values() if t.get("status") == "failed")
+
+    tid = task_create(config.SUPER_USER,
+        f"🔄 Bot restart | ✅ {ok} · ❌ {fail} | "
+        f"sys.path fix · margin_size · futures balance"
+    )
+    task_start(tid)
+    time.sleep(1.1)
+    task_complete(tid)
+
     app = Application.builder().token(config.TOKEN).build()
 
     app.add_handler(MessageHandler(filters.VOICE, dispatch))

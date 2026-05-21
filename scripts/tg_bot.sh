@@ -1,7 +1,9 @@
 #!/bin/bash
 set -e
 
-PROJECT_DIR="$(cd "$(dirname "$0")/../projects/07_tg_bot_aiforguest" && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+PROJECT_DIR="$(cd "$SCRIPT_DIR/../projects/07_tg_bot_aiforguest" && pwd)"
+METRICS_PY="$SCRIPT_DIR/../tools/scripts/metrics_logger.py"
 PID_FILE="/tmp/tg_bot_aiforguest.pid"
 LOG_FILE="$PROJECT_DIR/bot.log"
 
@@ -16,6 +18,8 @@ case "${1:-}" in
       kill -9 "$pid" 2>/dev/null || true
     done
     rm -f "$PID_FILE"
+    # стартуем логгер метрик, если ещё не запущен
+    python3 "$METRICS_PY" start 2>/dev/null || true
     echo "🚀 Запуск бота..."
     cd "$PROJECT_DIR"
     source "$(dirname "$0")/source_env.sh" 2>/dev/null || true
@@ -73,8 +77,30 @@ case "${1:-}" in
       sleep 2
     done
     ;;
+  logger)
+    case "${2:-}" in
+      start)
+        python3 "$METRICS_PY" start
+        ;;
+      stop)
+        python3 "$METRICS_PY" stop
+        ;;
+      status)
+        python3 "$METRICS_PY" status
+        ;;
+      restart)
+        python3 "$METRICS_PY" stop
+        sleep 1
+        python3 "$METRICS_PY" start
+        ;;
+      *)
+        echo "Использование: $0 logger {start|stop|status|restart}"
+        exit 1
+        ;;
+    esac
+    ;;
   *)
-    echo "Использование: $0 {start|stop|status|restart|logs|watch}"
+    echo "Использование: $0 {start|stop|status|restart|logs|watch|logger}"
     exit 1
     ;;
 esac

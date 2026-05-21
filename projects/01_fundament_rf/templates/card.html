@@ -1,14 +1,20 @@
 {% extends "base.html" %}
-{% from "macros.html" import emoji_entry, emoji_upd with context %}
+{% from "macros.html" import emoji_entry, emoji_upd, tg_row with context %}
 
 {% block title %}{{ obj.name }} - Fundament RF{% endblock %}
 
 {% block content %}
 <div class="card" style="max-width:100%; overflow:hidden; padding:0.5rem;">
-    <h2>{{ obj.name }} <button onclick="refreshCard('{{ obj.id }}', this)" id="refreshCardBtn" style="background:none; border:none; font-size:12px; cursor:pointer; vertical-align:middle; padding:2px 6px; border-radius:4px; color:#3498db;" title="Обновить">🔄</button><span id="cardRefreshTimer" style="display:none; margin-left:4px; color:#e74c3c; font-weight:bold;"></span></h2>
+    <h2>
+      {{ obj.name }}
+      <button onclick="syncCard('{{ obj.id }}')" style="background:#e67e22; border:none; font-size:12px; cursor:pointer; vertical-align:middle; padding:2px 6px; border-radius:4px; color:#fff;" title="Sync Exchange">🔄 Sync</button>
+      <button onclick="location.reload()" style="background:#3498db; border:none; font-size:12px; cursor:pointer; vertical-align:middle; padding:2px 6px; border-radius:4px; color:#fff;" title="Read JSON">📂 Read JSON</button>
+      <span id="cardRefreshTimer" style="display:none; margin-left:4px; color:#e74c3c; font-weight:bold;"></span>
+    </h2>
 
     {% set entry = obj.data.get('emoji_entry', {}) %}
     {% set upd = obj.data.get('emoji_upd', {}) %}
+    {% set live_pos = obj.data.get('live_position', {}) %}
     {% set ohlc_data = obj.data.get('ohlc', {}) %}
     {% set stats = obj.data.get('stats', {}) %}
 
@@ -17,6 +23,7 @@
     {% endif %}
 
     {% if entry and entry.get('symbol') and entry.get('entry_price') and entry.get('entry_date') %}
+    {{ tg_row(obj, entry, upd, live_pos, show_spark=False) }}
     <div id="cardData" data-obj-id="{{ obj.id }}">
 
         <!-- Block 1: Position -->
@@ -784,45 +791,34 @@
     }
 })();
 
-async function refreshCard(objId, btn) {
+(function(){
+    var objId = document.getElementById('cardData');
+    if (objId) {
+        var saved = sessionStorage.getItem('timer_card_' + objId.dataset.objId);
+        var el = document.getElementById('cardRefreshTimer');
+        if (saved && el) { el.style.display = 'inline'; el.textContent = saved; }
+    }
+})();
+
+async function syncCard(objId) {
     const timerEl = document.getElementById('cardRefreshTimer');
-    const start = Date.now();
-
-    function updateTimer() {
-        const elapsed = Date.now() - start;
-        if (timerEl) {
-            timerEl.style.display = 'inline';
-            timerEl.textContent = elapsed + 'мс';
-        }
-    }
-
-    const timer = setInterval(updateTimer, 50);
-
+    if (!timerEl) return;
+    timerEl.style.display = 'inline';
+    timerEl.textContent = '⏳';
     try {
-        const res = await fetch('/graphics/chart/' + objId);
-        const json = await res.json();
-        clearInterval(timer);
-
-        const ms = Date.now() - start;
-
-        if (timerEl) {
-            timerEl.style.display = 'inline';
-            timerEl.textContent = json.error ? '❌' : ms + 'мс';
-        }
-
-        if (!json.error) {
-            fetch('/processor_1d/create/' + objId, {method: 'POST'});
-            setTimeout(() => location.reload(), 800);
-        }
+        const start = Date.now();
+        await fetch('/api/sync-card/' + objId, {method:'POST'});
+        const elapsed = (Date.now() - start) + 'мс ✅';
+        timerEl.textContent = elapsed;
+        sessionStorage.setItem('timer_card_' + objId, elapsed);
+        setTimeout(() => location.reload(), 3000);
     } catch(e) {
-        clearInterval(timer);
-        if (timerEl) { timerEl.textContent = '❌'; timerEl.style.display = 'inline'; }
+        timerEl.textContent = '❌';
     }
+}
 
-    setTimeout(() => {
-        btn.textContent = '🔄';
-        if (timerEl) timerEl.style.display = 'none';
-    }, 10000);
+async function refreshCard(objId, btn) {
+    await syncCard(objId);
 }
 
 async function loadOhlcChart(objId) {

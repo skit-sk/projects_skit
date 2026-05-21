@@ -3,7 +3,12 @@
 
 {% block content %}
 <div class="account-page">
-<h2>🔐 Account <span id="load-timer" style="font-size:10px; color:#888; font-weight:normal;"></span></h2>
+<h2>
+  🔐 Account
+  <span id="load-timer" style="font-size:10px; color:#888; font-weight:normal;"></span>
+  <button onclick="syncAll()" style="background:#e67e22; border:none; font-size:12px; cursor:pointer; padding:2px 8px; border-radius:4px; color:#fff; margin-left:8px;">🔄 Sync Exchange</button>
+  <button onclick="reloadFromJSON()" style="background:#3498db; border:none; font-size:12px; cursor:pointer; padding:2px 8px; border-radius:4px; color:#fff;">📂 Read JSON</button>
+</h2>
 
 <div class="account-tabs" style="display:flex; gap:4px; margin:1rem 0; flex-wrap:wrap;">
     <button class="account-tab active"
@@ -155,6 +160,25 @@
     var h2timer = document.getElementById('load-timer');
     var t0 = 0;
 
+    function saveActiveTab() {
+        var active = document.querySelector('.account-tab.active');
+        if (active) sessionStorage.setItem('accountTab', active.textContent.trim());
+    }
+
+    function restoreActiveTab() {
+        var saved = sessionStorage.getItem('accountTab');
+        if (saved) {
+            var tabs = document.querySelectorAll('.account-tab');
+            for (var i = 0; i < tabs.length; i++) {
+                if (tabs[i].textContent.trim() === saved) {
+                    tabs[i].click();
+                    sessionStorage.removeItem('accountTab');
+                    return;
+                }
+            }
+        }
+    }
+
     function setTimers(text) {
         h2timer.textContent = text;
         var els = document.querySelectorAll('#account-content .section-timer');
@@ -179,6 +203,20 @@
             setTimers('✗ ' + Math.round(performance.now() - (t0 || performance.now())) + 'ms');
         }
     });
+
+    window.syncAll = async function() {
+        saveActiveTab();
+        showProgress(true);
+        try { await fetch('/api/sync-all', {method:'POST'}); } catch(e) {}
+        location.reload();
+    };
+
+    window.reloadFromJSON = function() {
+        saveActiveTab();
+        location.reload();
+    };
+
+    document.addEventListener('DOMContentLoaded', restoreActiveTab);
 })();
 </script>
 </div>

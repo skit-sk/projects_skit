@@ -1,4 +1,6 @@
 import asyncio
+import json
+import os
 import subprocess
 import time as _time
 from collections import defaultdict
@@ -118,103 +120,11 @@ def get_process(uid: int) -> subprocess.Popen | None:
     return _processes.get(uid)
 
 
-# ── Info ──
-
-async def info(uid: int) -> dict | None:
-    proc = _processes.get(uid)
-    if not proc or proc.returncode is not None:
-        return None
-    start = _starts.get(uid, _time.time())
-    elapsed = int(_time.time() - start)
-    mm, ss = divmod(elapsed, 60)
-    try:
-        rproc = await asyncio.create_subprocess_exec(
-            "ps", "-p", str(proc.pid), "-o", "%cpu=,%mem=,rss=", "--no-headers",
-            stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
-        )
-        stdout, _ = await asyncio.wait_for(rproc.communicate(), timeout=5)
-        parts = stdout.decode().strip().split()
-        if len(parts) >= 3:
-            cpu = float(parts[0])
-            rss_kb = int(parts[2])
-            mem_mb = rss_kb // 1024
-        else:
-            cpu = 0.0
-            mem_mb = 0
-    except Exception:
-        cpu = 0.0
-        mem_mb = 0
-
-    tok = _tokens.get(uid, 0)
-    off = _offsets.get(uid, 0)
-    delta = max(0, tok - off)
-    return {
-        "mem_mb": mem_mb,
-        "cpu": cpu,
-        "time": f"{mm:02d}:{ss:02d}",
-        "tokens": tok,
-        "delta": delta,
-    }
-
-
-async def top5() -> list:
-    try:
-        rproc = await asyncio.create_subprocess_exec(
-            "ps", "-eo", "comm=,%cpu=,%mem=,rss=,etimes=", "--no-headers",
-            stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
-        )
-        stdout, _ = await asyncio.wait_for(rproc.communicate(), timeout=5)
-        rows = stdout.decode().strip().split("\n")
-    except Exception:
-        return []
-
-    groups = {}
-    for row in rows:
-        parts = row.strip().split()
-        if len(parts) < 5:
-            continue
-        comm = parts[0][:20]
-        try:
-            cpu = float(parts[1])
-            rss_kb = int(parts[3])
-            mem_mb = rss_kb // 1024
-            etime = int(parts[4])
-        except (ValueError, IndexError):
-            continue
-        if comm not in groups:
-            groups[comm] = {"cpu": 0.0, "mem_mb": 0, "count": 0, "max_etime": 0}
-        g = groups[comm]
-        g["cpu"] += cpu
-        g["mem_mb"] += mem_mb
-        g["count"] += 1
-        if etime > g["max_etime"]:
-            g["max_etime"] = etime
-
-    sorted_g = sorted(groups.items(), key=lambda x: x[1]["cpu"], reverse=True)[:5]
-    if not sorted_g:
-        return []
-
-    entries = []
-    for comm, g in sorted_g:
-        mm, ss = divmod(g["max_etime"], 60)
-        hh, mm = divmod(mm, 60)
-        t_str = f"{hh:02d}:{mm:02d}:{ss:02d}" if hh else f"{mm:02d}:{ss:02d}"
-        entries.append((comm, g["cpu"], g["mem_mb"], g["count"], t_str))
-
-    c_len = max(len(e[0]) for e in entries) + 2
-    head_name = "NAME"
-    header = f"  {head_name:{c_len}s} {'CPU':>7s} {'MEM':>6s} {'CNT':>4s} {'ELAPSED':>8s}"
-    rows = [
-        f"  {comm:{c_len}s} {cpu:6.1f}% {mem:5d}MB {cnt:4d} {t:>8s}"
-        for comm, cpu, mem, cnt, t in entries
-    ]
-    return [header] + rows
-
-
 # ── Imports from templates ──
 # _fmt_tokens, _fmt_size, _short_model, _context_hint
 
 _user_status_mode: dict[int, str] = {}  # "auto" | "compact" | "normal" | "full"
+_user_name_cache: dict[int, str] = {}
 
 
 def set_status_mode(uid: int, mode: str):
@@ -243,7 +153,7 @@ def get_task_data(force=False):
     try:
         from task_state import _load, cleanup_stale
         data = _load()
-        data = cleanup_stale(data)
+        data = cleanup_stale(data, max_age=300, save=False)
     except Exception:
         data = {"tasks": {}}
 
@@ -266,17 +176,43 @@ def get_task_data(force=False):
     return data, summary
 
 
-# ── DISK / NET read + speed ──
+# ── Metrics log reader ──
 
-_DISK_PREV = {"read": 0, "write": 0, "ts": 0, "max_read": 0, "max_write": 0}
-_NET_PREV = {"rx": 0, "tx": 0, "ts": 0, "max_rx": 0, "max_tx": 0}
+_METRICS_CACHE: list[dict] = []
+_METRICS_TS: float = 0
 
-def _read_proc(path):
+
+def _read_metrics_log(n: int = 2) -> list[dict]:
+    global _METRICS_CACHE, _METRICS_TS
+    now = _time.time()
+    if now - _METRICS_TS < 2:
+        return _METRICS_CACHE[-n:] if _METRICS_CACHE else []
+    _METRICS_TS = now
     try:
-        with open(path) as f:
-            return f.read()
+        log = "/tmp/opencode/metrics.log"
+        if not os.path.exists(log):
+            return []
+        with open(log) as f:
+            raw = f.read().strip().split("\n")
+        points = []
+        for line in raw:
+            try:
+                entry = json.loads(line)
+                if "_type" not in entry:
+                    points.append(entry)
+            except json.JSONDecodeError:
+                continue
+        _METRICS_CACHE = points
+        return points[-n:] if points else []
     except Exception:
-        return ""
+        return []
+
+
+# ── DISK / NET max speed trackers (updated from metrics.log) ──
+
+_DISK_PREV = {"max_read": 0, "max_write": 0}
+_NET_PREV = {"max_rx": 0, "max_tx": 0}
+
 
 def _fmt_speed(v):
     v = int(v)
@@ -288,117 +224,146 @@ def _fmt_speed(v):
         return f"{v/1000:.0f}K"
     return str(v)
 
-async def _get_disk_io():
-    global _DISK_PREV
-    raw = await asyncio.to_thread(_read_proc, "/proc/diskstats")
-    read_sectors = write_sectors = 0
-    for ln in raw.split("\n"):
-        parts = ln.strip().split()
-        if len(parts) >= 14:
-            name = parts[2]
-            if name and not name[0].isdigit() and not name.startswith("loop"):
-                read_sectors += int(parts[5])
-                write_sectors += int(parts[9])
-    now = _time.time()
-    dt = now - _DISK_PREV["ts"] if _DISK_PREV["ts"] else 1
-    r_speed = (read_sectors - _DISK_PREV["read"]) * 512 / dt if _DISK_PREV["ts"] else 0
-    w_speed = (write_sectors - _DISK_PREV["write"]) * 512 / dt if _DISK_PREV["ts"] else 0
-    r_speed = max(0, r_speed)
-    w_speed = max(0, w_speed)
-    _DISK_PREV["max_read"] = max(_DISK_PREV["max_read"], r_speed)
-    _DISK_PREV["max_write"] = max(_DISK_PREV["max_write"], w_speed)
-    _DISK_PREV["read"] = read_sectors
-    _DISK_PREV["write"] = write_sectors
-    _DISK_PREV["ts"] = now
-    return {
-        "read": read_sectors * 512,
-        "write": write_sectors * 512,
-        "r_speed": _DISK_PREV["max_read"],
-        "w_speed": _DISK_PREV["max_write"],
-    }
-
-async def _get_net_io():
-    global _NET_PREV
-    raw = await asyncio.to_thread(_read_proc, "/proc/net/dev")
-    rx_total = tx_total = 0
-    for ln in raw.split("\n")[2:]:
-        if ":" in ln:
-            parts = ln.strip().split()
-            rx_total += int(parts[1])
-            tx_total += int(parts[9])
-    now = _time.time()
-    dt = now - _NET_PREV["ts"] if _NET_PREV["ts"] else 1
-    rx_speed = (rx_total - _NET_PREV["rx"]) / dt if _NET_PREV["ts"] else 0
-    tx_speed = (tx_total - _NET_PREV["tx"]) / dt if _NET_PREV["ts"] else 0
-    rx_speed = max(0, rx_speed)
-    tx_speed = max(0, tx_speed)
-    _NET_PREV["max_rx"] = max(_NET_PREV["max_rx"], rx_speed)
-    _NET_PREV["max_tx"] = max(_NET_PREV["max_tx"], tx_speed)
-    _NET_PREV["rx"] = rx_total
-    _NET_PREV["tx"] = tx_total
-    _NET_PREV["ts"] = now
-    return {
-        "rx": rx_total,
-        "tx": tx_total,
-        "rx_speed": _NET_PREV["max_rx"],
-        "tx_speed": _NET_PREV["max_tx"],
-    }
 
 async def status_block1(uid: int, elapsed: int) -> list:
-    inf = await info(uid)
+    pts = _read_metrics_log(2)
+    if not pts:
+        return [f"⏳ {elapsed//60:02d}:{elapsed%60:02d} · ⏎ Waiting for metrics..."]
+
+    p = pts[-1]
+    cpu = p.get("cpu", 0)
+    mem_u = p.get("mem", {}).get("u", 0)
+    dsk = p.get("dsk", {})
+    net = p.get("net", {})
+
+    # скорости из дельты между 2 точками
+    if len(pts) >= 2 and pts[-1]["ts"] - pts[-2]["ts"] > 1:
+        dt = pts[-1]["ts"] - pts[-2]["ts"]
+        dsk_r_spd = (pts[-1]["dsk"]["rt"] - pts[-2]["dsk"]["rt"]) / dt
+        dsk_w_spd = (pts[-1]["dsk"]["wt"] - pts[-2]["dsk"]["wt"]) / dt
+        net_rx_spd = (pts[-1]["net"]["rx"] - pts[-2]["net"]["rx"]) / dt
+        net_tx_spd = (pts[-1]["net"]["tx"] - pts[-2]["net"]["tx"]) / dt
+    else:
+        dsk_r_spd = dsk_w_spd = net_rx_spd = net_tx_spd = 0
+
     from session import get_session_full
     sd = get_session_full(uid)
 
-    disk = await _get_disk_io()
-    net = await _get_net_io()
-
     lines = []
-
-    # Строка 1: ⏳ · ⚡ · 🧠 · 💾 · 🌐
-    if inf:
-        line1 = (
-            f"⏳ {inf['time']} · ⚡ {inf['cpu']:.1f}% · 🧠 {inf['mem_mb']}MB"
-            f" · 💾 R:{_fmt_speed(disk['read'])} W:{_fmt_speed(disk['write'])}"
-            f" · 🌐 RX:{_fmt_speed(net['rx'])} TX:{_fmt_speed(net['tx'])}"
-        )
-    else:
-        line1 = f"⏳ {elapsed//60:02d}:{elapsed%60:02d} · ⏎ Saving..."
+    line1 = (
+        f"⏳ {elapsed//60:02d}:{elapsed%60:02d} · ⚡ {cpu:.1f}% · 🧠 {mem_u}MB"
+        f" · 💾 R:{_fmt_speed(dsk.get('rt',0))} W:{_fmt_speed(dsk.get('wt',0))}"
+        f" · 🌐 RX:{_fmt_speed(net.get('rx',0))} TX:{_fmt_speed(net.get('tx',0))}"
+    )
     lines.append(line1)
 
-    # Строка 2: 💿 Rmax Wmax · 📡 RXmax TXmax
+    dsk_r_mx = _DISK_PREV.get("max_read", 0)
+    dsk_w_mx = _DISK_PREV.get("max_write", 0)
+    net_rx_mx = _NET_PREV.get("max_rx", 0)
+    net_tx_mx = _NET_PREV.get("max_tx", 0)
+    if dsk_r_spd > dsk_r_mx:
+        _DISK_PREV["max_read"] = dsk_r_spd
+        dsk_r_mx = dsk_r_spd
+    if dsk_w_spd > dsk_w_mx:
+        _DISK_PREV["max_write"] = dsk_w_spd
+        dsk_w_mx = dsk_w_spd
+    if net_rx_spd > net_rx_mx:
+        _NET_PREV["max_rx"] = net_rx_spd
+        net_rx_mx = net_rx_spd
+    if net_tx_spd > net_tx_mx:
+        _NET_PREV["max_tx"] = net_tx_spd
+        net_tx_mx = net_tx_spd
+
     line2 = (
-        f"💿 Rmax:{_fmt_speed(disk['r_speed'])}/s Wmax:{_fmt_speed(disk['w_speed'])}/s"
-        f" · 📡 RXmax:{_fmt_speed(net['rx_speed'])}/s TXmax:{_fmt_speed(net['tx_speed'])}/s"
+        f"💿 Rmax:{_fmt_speed(dsk_r_mx)}/s Wmax:{_fmt_speed(dsk_w_mx)}/s"
+        f" · 📡 RXmax:{_fmt_speed(net_rx_mx)}/s TXmax:{_fmt_speed(net_tx_mx)}/s"
     )
     lines.append(line2)
 
-    # Строка 3: ↙💲 · ↗💲 · 🔤💲 · 📊💲
     sess_tok = sd["tokens"] if sd else 0
-    if inf:
-        live_tok = inf["delta"]
-        live_cum = inf["tokens"]
-        from templates import _fmt_tokens as _ft
-        cost_avg = 0.000000685
-        tok_cost = round(live_tok * cost_avg, 4)
-        sess_cost = round(sess_tok * cost_avg, 4)
-        line3 = (
-            f"↙ 0💲0.00 · ↗ {_ft(live_tok)}💲{tok_cost:.2f}"
-            f" · 🔤 +{_ft(live_tok)}💲{tok_cost:.2f}"
-            f" · 📊 {_ft(sess_tok)}💲{sess_cost:.2f}"
-        )
-    else:
-        line3 = f"📊 {_fmt_size(sess_tok)} · ⏎ Saving..."
+    from templates import _fmt_tokens as _ft
+    cost_avg = 0.000000685
+    tok_cost = round(cpu * cost_avg, 4)
+    sess_cost = round(sess_tok * cost_avg, 4)
+    line3 = (
+        f"↙ 0💲0.00 · ↗ {_ft(int(cpu))}💲{tok_cost:.2f}"
+        f" · 🔤 +{_ft(int(cpu))}💲{tok_cost:.2f}"
+        f" · 📊 {_ft(sess_tok)}💲{sess_cost:.2f}"
+    )
     lines.append(line3)
 
     return lines
 
 
 async def status_block3() -> list:
-    """Top 5 proc"""
-    t5 = await top5()
-    if not t5:
+    pts = _read_metrics_log(1)
+    if not pts or "top" not in pts[0]:
+        t5 = await top5()  # fallback
+        if not t5:
+            return []
+        return ["📊 Top 5 proc:"] + t5
+
+    top_data = pts[0]["top"]
+    if not top_data:
         return []
-    return ["📊 Top 5 proc:"] + t5
+
+    c_len = max(len(e[0]) for e in top_data) + 2
+    head_name = "NAME"
+    header = f"  {head_name:{c_len}s} {'CPU':>7s} {'MEM':>6s} {'CNT':>4s} {'ELAPSED':>8s}"
+    rows = []
+    for comm, cpu, mem, cnt, etime in top_data:
+        mm, ss = divmod(etime, 60)
+        hh, mm = divmod(mm, 60)
+        t_str = f"{hh:02d}:{mm:02d}:{ss:02d}" if hh else f"{mm:02d}:{ss:02d}"
+        rows.append(f"  {comm:{c_len}s} {cpu:6.1f}% {mem:5d}MB {cnt:4d} {t_str:>8s}")
+    return ["📊 Top 5 proc:", header] + rows
+
+
+async def top5() -> list:
+    """Fallback: если metrics.log нет top-данных."""
+    try:
+        rproc = await asyncio.create_subprocess_exec(
+            "ps", "-eo", "comm=,%cpu=,%mem=,rss=,etimes=", "--no-headers",
+            stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
+        )
+        stdout, _ = await asyncio.wait_for(rproc.communicate(), timeout=5)
+        rows = stdout.decode().strip().split("\n")
+    except Exception:
+        return []
+
+    groups = {}
+    for row in rows:
+        parts = row.strip().split()
+        if len(parts) < 5:
+            continue
+        comm = parts[0][:20]
+        try:
+            cpu = float(parts[1])
+            rss_kb = int(parts[3])
+            mem_mb = rss_kb // 1024
+            etime = int(parts[4])
+        except (ValueError, IndexError):
+            continue
+        g = groups.setdefault(comm, {"cpu": 0.0, "mem_mb": 0, "count": 0, "max_etime": 0})
+        g["cpu"] += cpu
+        g["mem_mb"] += mem_mb
+        g["count"] += 1
+        if etime > g["max_etime"]:
+            g["max_etime"] = etime
+
+    sorted_g = sorted(groups.items(), key=lambda x: x[1]["cpu"], reverse=True)[:5]
+    if not sorted_g:
+        return []
+
+    c_len = max(max(len(comm) for comm, _ in sorted_g), 4) + 2
+    head = f"  {'NAME':{c_len}s} {'CPU':>7s} {'MEM':>6s} {'CNT':>4s} {'ELAPSED':>8s}"
+    rows = []
+    for comm, g in sorted_g:
+        mm, ss = divmod(g["max_etime"], 60)
+        hh, mm = divmod(mm, 60)
+        t_str = f"{hh:02d}:{mm:02d}:{ss:02d}" if hh else f"{mm:02d}:{ss:02d}"
+        rows.append(f"  {comm:{c_len}s} {g['cpu']:6.1f}% {g['mem_mb']:5d}MB {g['count']:4d} {t_str:>8s}")
+    return [head] + rows
 
 
 def _resolve_mode(uid: int, elapsed: int) -> str:
@@ -494,12 +459,13 @@ async def status_block2(uid: int, task_id: str | None, elapsed: int,
             )
             shown = 0
             for tid2, t2 in sorted_tasks:
-                if shown >= 6:
+                if shown >= 4:
                     break
                 st = t2.get("status", "")
                 emoji = {"completed": "✅", "running": "🔄",
                          "queued": "🔄", "failed": "❌"}.get(st, "⏭")
-                uname = get_user_name(t2.get("uid", 0))
+                uname = _user_name_cache.get(t2.get("uid", 0)) or get_user_name(t2.get("uid", 0))
+                _user_name_cache[t2.get("uid", 0)] = uname
                 label2 = t2.get("cmd", "")[:50]
                 gnum = tid2.split("-")[3] if len(tid2.split("-")) >= 4 else "?"
                 ctime = datetime.fromtimestamp(

@@ -1,9 +1,14 @@
 {% extends "base.html" %}
+{% from "macros.html" import tg_row %}
 
 {% block title %}Главная - Fundament RF{% endblock %}
 
 {% block content %}
-<h2 style="text-align:center;">Объекты <button onclick="refreshAll()" id="refreshAllBtn" style="background:#3498db; border:none; font-size:12px; cursor:pointer; vertical-align:middle; padding:4px 8px; border-radius:4px; color:#fff;" title="Обновить все">🔄</button></h2>
+<h2 style="text-align:center;">
+  Объекты
+  <button onclick="syncAll()" style="background:#e67e22; border:none; font-size:12px; cursor:pointer; vertical-align:middle; padding:4px 8px; border-radius:4px; color:#fff;" title="Sync Exchange">🔄 Sync Exchange</button>
+  <button onclick="reloadFromJSON()" style="background:#3498db; border:none; font-size:12px; cursor:pointer; vertical-align:middle; padding:4px 8px; border-radius:4px; color:#fff;" title="Read JSON">📂 Read JSON</button>
+</h2>
 
 <div class="archive-tabs" style="display:flex;gap:4px;margin:0.5rem 0;flex-wrap:wrap;justify-content:center;">
   <span class="archive-tab active" data-tab="live" onclick="switchTab('live')">📈 Live ({{ live_objects|length }})</span>
@@ -17,44 +22,24 @@
 {% for obj in live_objects %}
     {% set entry = obj.data.get('emoji_entry', {}) %}
     {% set upd = obj.data.get('emoji_upd', {}) %}
-    {% set pos = positions_by_ticker.get(entry.symbol.upper(), {}) %}
-    {% set hold_side = pos.get('hold_side', '') %}
-    {% set arrow_up = (hold_side == 'long') if hold_side else (upd.pnl_percent >= 0 if upd and upd.get('pnl_percent') else entry.pnl_percent >= 0) %}
+    {% set live_pos = positions_by_ticker.get(entry.symbol.upper(), {}) %}
     {% set is_profit = (upd.pnl_percent >= 0 if upd and upd.get('pnl_percent') else entry.pnl_percent >= 0) %}
     <li data-id="{{ obj.id }}" style="display:flex;flex-direction:column;gap:2px;background:var(--bg-card);padding:0.75rem 1rem;border-radius:4px;margin-bottom:0.5rem;box-shadow:0 1px 3px var(--shadow);">
         <div style="display:flex;align-items:center;justify-content:space-between;width:100%;">
             <div style="flex:1;text-align:center;">
                 <a href="{{ url_for('web.card', obj_id=obj.id) }}" style="font-size:14px;font-weight:bold;color:var(--link-color);text-decoration:none;">{{ obj.name }}</a>
-                <span style="font-size:11px;color:#888;margin-left:8px;">x{{ obj.data.get('leverage', 10) }}</span>
+                <span style="font-size:11px;color:#888;margin-left:8px;">x{{ live_pos.get('leverage', obj.data.get('leverage', 10)) }}</span>
             </div>
             <a href="{{ url_for('web.delete_object', obj_id=obj.id) }}" class="delete-btn" onclick="return confirm('Удалить?')" style="font-size:18px;">×</a>
         </div>
         {% if entry %}
-        <div class="tg-row {{ 'profit' if is_profit else 'loss' }}" style="margin:2px 0;padding:2px 8px;">
-          <span class="tg-arrow">{{ '↑' if arrow_up else '↓' }}</span>
-          {% set dev = obj.data.get('deviation_pct', []) %}
-          {% if dev|length > 1 %}
-          <span class="tg-spark" data-values="{{ dev | reverse | list | tojson }}"></span>
-          {% endif %}
-          <span class="tg-data">
-            <span class="tf">🏗️{{ entry.number }}</span>
-            <span class="tf">🚏{{ entry.symbol }}</span>
-            <span class="tf">🧾{{ "%.4f"|format(upd.current_price) if upd and upd.get('current_price') else "%.4f"|format(entry.entry_price) }}</span>
-            <span class="tf">📆{{ upd.last_updated[:10] if upd and upd.get('last_updated') else entry.entry_date }}</span>
-            <span class="tf">{{ '🕒' + (pos.get('days_open', entry.entry_time)|string) + 'дн' }}</span>
-            <span class="tf">🧱{{ entry.volume }}</span>
-            <span class="tf">🫧{{ "%+.2f"|format(upd.pnl_percent) if upd and upd.get('pnl_percent') else "%+.2f"|format(entry.pnl_percent) }}</span>
-            <span class="tf">🪙{{ "%+.4f"|format(upd.pnl_usdt) if upd and upd.get('pnl_usdt') else "%+.4f"|format(entry.pnl_usdt) }}</span>
-            <span class="tf">📦{{ '🟢' if is_profit else '🔴' }}</span>
-            <span class="tf tg-lev">⬆️{{ pos.get('leverage', obj.data.get('leverage', 10)) }}x</span>
-          </span>
-        </div>
+        {{ tg_row(obj, entry, upd, live_pos) }}
         {% set created = obj.created_at|string %}
         {% set updated = obj.data.get('chart_updated', '') %}
         {% set upd_time = upd.get('last_updated', '') if upd else '' %}
         <div style="font-size:8px;color:#666;text-align:center;">
             <span>📅 entry {{ entry.get('entry_date', '') }} · 📊 emoji {% if upd_time %}{{ upd_time }}{% else %}—{% endif %} · 📈 chart {% if updated %}{{ updated }}{% else %}—{% endif %}</span>
-            <button onclick="event.preventDefault();event.stopPropagation();refreshOne('{{ obj.id }}',this)" class="refresh-btn" style="background:none;border:none;font-size:8px;cursor:pointer;margin-left:4px;color:#3498db;vertical-align:middle;padding:2px 4px;border-radius:3px;z-index:100;position:relative;" title="Обновить">🔄</button>
+            <button onclick="event.preventDefault();event.stopPropagation();refreshOne('{{ obj.id }}',this)" class="refresh-btn" style="background:none;border:none;font-size:8px;cursor:pointer;margin-left:4px;color:#3498db;vertical-align:middle;padding:2px 4px;border-radius:3px;z-index:100;position:relative;" title="Sync">🔄</button>
             <span class="refresh-timer" data-id="{{ obj.id }}" style="display:none;margin-left:4px;color:#e74c3c;font-weight:bold;"></span>
         </div>
         {% endif %}
@@ -74,46 +59,26 @@
     {% set flags = item.flags %}
     {% set entry = obj.data.get('emoji_entry', {}) %}
     {% set upd = obj.data.get('emoji_upd', {}) %}
-    {% set pos = positions_by_ticker.get(entry.symbol.upper(), {}) %}
-    {% set hold_side = pos.get('hold_side', '') %}
-    {% set arrow_up = (hold_side == 'long') if hold_side else (upd.pnl_percent >= 0 if upd and upd.get('pnl_percent') else entry.pnl_percent >= 0) %}
+    {% set live_pos = positions_by_ticker.get(entry.symbol.upper(), {}) %}
     {% set is_profit = (upd.pnl_percent >= 0 if upd and upd.get('pnl_percent') else entry.pnl_percent >= 0) %}
     <li data-id="{{ obj.id }}" style="display:flex;flex-direction:column;gap:2px;background:var(--bg-card);padding:0.75rem 1rem;border-radius:4px;margin-bottom:0.5rem;box-shadow:0 1px 3px var(--shadow);">
         <div style="display:flex;align-items:center;justify-content:space-between;width:100%;">
             <div style="flex:1;text-align:center;">
                 <a href="{{ url_for('web.card', obj_id=obj.id) }}" style="font-size:14px;font-weight:bold;color:var(--link-color);text-decoration:none;">{{ obj.name }}</a>
-                <span style="font-size:11px;color:#888;margin-left:8px;">x{{ obj.data.get('leverage', 10) }}</span>
+                <span style="font-size:11px;color:#888;margin-left:8px;">x{{ live_pos.get('leverage', obj.data.get('leverage', 10)) }}</span>
                 <span style="margin-left:6px;font-size:10px;color:#e74c3c;">⚠️</span>
             </div>
             <a href="{{ url_for('web.delete_object', obj_id=obj.id) }}" class="delete-btn" onclick="return confirm('Удалить?')" style="font-size:18px;">×</a>
         </div>
         {% if entry %}
-        <div class="tg-row {{ 'profit' if is_profit else 'loss' }}" style="margin:2px 0;padding:2px 8px;">
-          <span class="tg-arrow">{{ '↑' if arrow_up else '↓' }}</span>
-          {% set dev = obj.data.get('deviation_pct', []) %}
-          {% if dev|length > 1 %}
-          <span class="tg-spark" data-values="{{ dev | reverse | list | tojson }}"></span>
-          {% endif %}
-          <span class="tg-data">
-            <span class="tf">🏗️{{ entry.number }}</span>
-            <span class="tf">🚏{{ entry.symbol }}</span>
-            <span class="tf">🧾{{ "%.4f"|format(upd.current_price) if upd and upd.get('current_price') else "%.4f"|format(entry.entry_price) }}</span>
-            <span class="tf">📆{{ upd.last_updated[:10] if upd and upd.get('last_updated') else entry.entry_date }}</span>
-            <span class="tf">{{ '🕒' + (pos.get('days_open', entry.entry_time)|string) + 'дн' }}</span>
-            <span class="tf">🧱{{ entry.volume }}</span>
-            <span class="tf">🫧{{ "%+.2f"|format(upd.pnl_percent) if upd and upd.get('pnl_percent') else "%+.2f"|format(entry.pnl_percent) }}</span>
-            <span class="tf">🪙{{ "%+.4f"|format(upd.pnl_usdt) if upd and upd.get('pnl_usdt') else "%+.4f"|format(entry.pnl_usdt) }}</span>
-            <span class="tf">📦{{ '🟢' if is_profit else '🔴' }}</span>
-            <span class="tf tg-lev">⬆️{{ pos.get('leverage', obj.data.get('leverage', 10)) }}x</span>
-          </span>
-        </div>
+        {{ tg_row(obj, entry, upd, live_pos) }}
         <div style="font-size:9px;color:#e74c3c;text-align:center;">⚠️ {{ ' · '.join(flags) }}</div>
         {% set created = obj.created_at|string %}
         {% set updated = obj.data.get('chart_updated', '') %}
         {% set upd_time = upd.get('last_updated', '') if upd else '' %}
         <div style="font-size:8px;color:#666;text-align:center;">
             <span>📅 entry {{ entry.get('entry_date', '') }} · 📊 emoji {% if upd_time %}{{ upd_time }}{% else %}—{% endif %} · 📈 chart {% if updated %}{{ updated }}{% else %}—{% endif %}</span>
-            <button onclick="event.preventDefault();event.stopPropagation();refreshOne('{{ obj.id }}',this)" class="refresh-btn" style="background:none;border:none;font-size:8px;cursor:pointer;margin-left:4px;color:#3498db;vertical-align:middle;padding:2px 4px;border-radius:3px;z-index:100;position:relative;" title="Обновить">🔄</button>
+            <button onclick="event.preventDefault();event.stopPropagation();refreshOne('{{ obj.id }}',this)" class="refresh-btn" style="background:none;border:none;font-size:8px;cursor:pointer;margin-left:4px;color:#3498db;vertical-align:middle;padding:2px 4px;border-radius:3px;z-index:100;position:relative;" title="Sync">🔄</button>
             <span class="refresh-timer" data-id="{{ obj.id }}" style="display:none;margin-left:4px;color:#e74c3c;font-weight:bold;"></span>
         </div>
         {% endif %}
@@ -305,24 +270,18 @@ async function refreshAll() {
 async function refreshOne(objId, btn) {
     const card = document.querySelector('li[data-id="' + objId + '"]');
     const timerEl = card ? card.querySelector('.refresh-timer') : null;
-    const start = Date.now();
-    function ut() { if (timerEl) timerEl.textContent = Math.round(Date.now()-start) + 'мс'; }
-    const timer = setInterval(ut, 50);
+    if (!timerEl) return;
+    timerEl.style.display = 'inline';
+    timerEl.textContent = '⏳';
+    btn.textContent = '⏳';
     try {
-        const res = await fetch('/graphics/chart/' + objId);
-        const json = await res.json();
-        clearInterval(timer);
-        const ms = Date.now() - start;
-        if (timerEl) timerEl.textContent = json.error ? '❌' : ms + 'мс';
-        if (!json.error) {
-            fetch('/processor_1d/create/' + objId, {method:'POST'});
-            if (timerEl) timerEl.textContent = ms + 'мс';
-            setTimeout(() => { btn.textContent = '🔄'; if (timerEl) timerEl.style.display = 'none'; location.reload(); }, 10000);
-        } else {
-            btn.textContent = '❌';
-            setTimeout(() => { btn.textContent = '🔄'; if (timerEl) timerEl.style.display = 'none'; }, 10000);
-        }
-    } catch(e) { clearInterval(timer); if (timerEl) { timerEl.textContent = '❌'; timerEl.style.display = 'inline'; } }
+        const start = Date.now();
+        await fetch('/api/sync-card/' + objId, {method:'POST'});
+        timerEl.textContent = (Date.now() - start) + 'мс ✅';
+    } catch(e) {
+        timerEl.textContent = '❌';
+    }
+    btn.textContent = '🔄';
 }
 
 function switchTab(tab) {

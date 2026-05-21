@@ -6,83 +6,27 @@ bp = Blueprint('web', __name__)
 storage = get_storage()
 
 
-def _load_live_positions():
-    """Загрузить live позиции из Bitget + сопоставить с картами."""
-    from account import BitgetAccountClient
-
-    client = BitgetAccountClient()
-    if not client.has_credentials:
-        return [], []
-
-    try:
-        positions = client.get_positions()
-    except Exception:
-        return [], []
-
-    all_cards = get_storage().list()
-
-    position_card_data = []
-    for p in positions:
-        found = None
-        for obj in all_cards:
-            sym = obj.data.get('emoji_entry', {}).get('symbol', '')
-            if sym.upper() == p.ticker.upper():
-                found = {
-                    "number": obj.data.get('emoji_entry', {}).get('number', ''),
-                    "symbol": sym,
-                    "deviation_pct": obj.data.get('deviation_pct', []),
-                }
-                break
-        position_card_data.append(found)
-
-    return positions, position_card_data
-
-
 @bp.route('/')
 def index():
     objects = storage.list()
-    positions, position_card_data = _load_live_positions()
-    
-    # Build positions_by_ticker
+
     positions_by_ticker = {}
-    for p in positions:
-        ticker = p.ticker.upper()
-        positions_by_ticker[ticker] = {
-            "hold_side": p.hold_side,
-            "days_open": p.days_open,
-            "leverage": p.leverage,
-            "unrealized_pl": p.unrealized_pl,
-            "margin_size": p.margin_size,
-            "current_price": p.current_price,
-            "liquidation_price": p.liquidation_price,
-        }
-    
-    # Split objects by state
-    from copy import deepcopy
-    
+    for obj in objects:
+        lp = obj.data.get('live_position')
+        if lp and lp.get('hold_side'):
+            sym = obj.data.get('emoji_entry', {}).get('symbol', '').upper()
+            positions_by_ticker[sym] = lp
+
     live_objects = []
     monitoring_objects = []
     archived_objects = []
-    
-    # Fetch balance for risk calculations
-    balance = 0.0
-    try:
-        from account import BitgetAccountClient
-        bc = BitgetAccountClient()
-        if bc.has_credentials:
-            acc = bc.get_account_info()
-            accounts = acc.get("data", [])
-            if accounts:
-                balance = float(accounts[0].get("available", 0))
-    except Exception:
-        balance = 0.0
-    
+
     for obj in objects:
         entry = obj.data.get('emoji_entry', {})
         sym = entry.get('symbol', '').upper()
-        pos = positions_by_ticker.get(sym)
+        lp = positions_by_ticker.get(sym)
         manual = obj.data.get('_manual_section', '')
-        
+
         if manual:
             if manual == 'live':
                 live_objects.append(obj)
@@ -91,42 +35,22 @@ def index():
             elif manual == 'archived':
                 archived_objects.append(obj)
             continue
-        
-        if not pos:
+
+        if not lp:
             archived_objects.append(obj)
             continue
-        
-        # Calculate risk flags
-        pnl = float(pos.get('unrealized_pl', 0))
-        margin = float(pos.get('margin_size', 0))
-        lev = float(pos.get('leverage', 0))
-        liq = float(pos.get('liquidation_price', 0))
-        price = float(pos.get('current_price', 0))
-        
-        flags = []
-        roe = (pnl / margin * 100) if margin else 0
-        exp_pct = (margin * lev / balance * 100) if balance else 0
-        liq_delta = abs((price - liq) / price * 100) if price and liq else 0
-        
-        if roe < -50:
-            flags.append(f"PnL {roe:.0f}% < -50%")
-        if liq_delta < 5 and liq_delta > 0:
-            flags.append(f"LiqΔ {liq_delta:.1f}% < 5%")
-        if exp_pct > 50:
-            flags.append(f"Exp {exp_pct:.0f}% > 50%")
-        
+
+        flags = lp.get('risk_flags', [])
         if flags:
             monitoring_objects.append({"obj": obj, "flags": flags})
         else:
             live_objects.append(obj)
-    
+
     return render_template('index.html',
         objects=objects,
         live_objects=live_objects,
         monitoring_objects=monitoring_objects,
         archived_objects=archived_objects,
-        positions=positions,
-        position_card_data=position_card_data,
         positions_by_ticker=positions_by_ticker,
     )
 

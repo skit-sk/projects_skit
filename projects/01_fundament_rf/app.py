@@ -3,7 +3,7 @@ import os
 sys.path.insert(0, os.path.expanduser('~/.local/lib/python3.12/site-packages'))
 
 from flask import Flask
-from routes import api, web, graphics, processor_1d, dashboard, trade_analytics, ma_analytics, ccxt_api, account_api
+from routes import api, web, graphics, processor_1d, dashboard, trade_analytics, ma_analytics, ccxt_api, account_api, processor
 
 # Register OFD API blueprint from 08_ofd project
 _ofd_dir = os.path.join(os.path.dirname(__file__), '..', '08_ofd_api')
@@ -31,6 +31,7 @@ app.register_blueprint(trade_analytics.bp)
 app.register_blueprint(ma_analytics.bp)
 app.register_blueprint(ccxt_api.bp)
 app.register_blueprint(account_api.bp)
+app.register_blueprint(processor.bp)
 app.register_blueprint(ofd_api_bp)
 
 

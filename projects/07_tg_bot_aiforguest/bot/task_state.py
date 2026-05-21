@@ -61,7 +61,7 @@ def _load() -> dict:
     return {"counter_global": 0, "counter_type": {}, "users": {}, "tasks": {}, "stats": {}, "errors": {"global": {"count": 0, "by_code": {}}, "by_user": {}, "last_errors": []}}
 
 
-def cleanup_stale(data: dict | None = None, max_age: int = 3600) -> dict:
+def cleanup_stale(data: dict | None = None, max_age: int = 3600, save: bool = True) -> dict:
     if data is None:
         data = _load()
     now = int(time.time() * 1000)
@@ -78,17 +78,18 @@ def cleanup_stale(data: dict | None = None, max_age: int = 3600) -> dict:
     if changed:
         if _log:
             _log.info(f"cleanup_stale: {cnt} tasks marked failed")
-        _save(data)
+        if save:
+            _save(data, force=True)
     return data
 
 
 _last_save: float = 0  # debounce
 
 
-def _save(data):
+def _save(data, force=False):
     global _last_save
     now = time.time()
-    if now - _last_save < 1.0:
+    if not force and now - _last_save < 1.0:
         return  # debounce: не чаще 1 раза в секунду
     _last_save = now
 
@@ -151,7 +152,7 @@ def task_start(task_id: str):
     if task:
         task["status"] = "running"
         task["start_ms"] = int(time.time() * 1000)
-        _save(data)
+        _save(data, force=True)
 
 
 def task_complete(task_id: str):

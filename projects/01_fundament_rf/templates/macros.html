@@ -2,6 +2,35 @@
 
 {% macro emoji_entry(entry, leverage=10) %}<span>🏗️{{ entry.number if entry.number is defined }} 🚏{{ entry.symbol if entry.symbol is defined else '—' }} 🧾{{ entry.entry_price if entry.entry_price is defined else '—' }} 📆{{ entry.entry_date if entry.entry_date is defined }} 🕒{{ entry.entry_time if entry.entry_time is defined }}{{ 'дн' if entry.entry_time is defined }} 🧱{{ entry.volume if entry.volume is defined }} 🫧{{ entry.pnl_percent if entry.pnl_percent is defined }} 🪙{{ entry.pnl_usdt if entry.pnl_usdt is defined }} 📦{{ entry.result if entry.result is defined }} ⬆️{{ leverage }}</span>{% endmacro %}
 
+{% macro tg_row(obj, entry, upd, live_pos, show_spark=True) %}
+  {% set price = upd.current_price if upd and upd.get('current_price') else entry.entry_price %}
+  {% set date = upd.last_updated[:10] if upd and upd.get('last_updated') else entry.entry_date %}
+  {% set days = live_pos.days_open if live_pos and live_pos.get('days_open') else entry.entry_time %}
+  {% set pnl_pct = upd.pnl_percent if upd and upd.get('pnl_percent') else entry.pnl_percent %}
+  {% set pnl_usdt = upd.pnl_usdt if upd and upd.get('pnl_usdt') else entry.pnl_usdt %}
+  {% set lev = live_pos.leverage if live_pos and live_pos.get('leverage') else obj.data.get('leverage', 10) %}
+  {% set is_profit = pnl_pct >= 0 %}
+  {% set dev = obj.data.get('deviation_pct', []) %}
+  <div class="tg-row {{ 'profit' if is_profit else 'loss' }}">
+    <span class="tg-arrow">{{ '↑' if is_profit else '↓' }}</span>
+    {% if show_spark and dev|length > 1 %}
+    <span class="tg-spark" data-values="{{ dev | reverse | list | tojson }}"></span>
+    {% endif %}
+    <span class="tg-data">
+      <span class="tf">🏗️{{ entry.number }}</span>
+      <span class="tf">🚏{{ entry.symbol }}</span>
+      <span class="tf">🧾{{ "%.4f"|format(price) }}</span>
+      <span class="tf">📆{{ date }}</span>
+      <span class="tf">🕒{{ days }}дн</span>
+      <span class="tf">🧱{{ entry.volume }}</span>
+      <span class="tf">🫧{{ "%+.2f"|format(pnl_pct) }}</span>
+      <span class="tf">🪙{{ "%+.4f"|format(pnl_usdt) }}</span>
+      <span class="tf">📦{{ '🟢' if is_profit else '🔴' }}</span>
+      <span class="tf tg-lev">⬆️{{ lev }}x</span>
+    </span>
+  </div>
+{% endmacro %}
+
 {% macro json_debug_section(tree_label='📄 JSON Tree', table_label='🗂 Table View') %}
 <div class="json-debug-section">
     <div class="json-debug-header">

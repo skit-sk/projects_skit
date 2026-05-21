@@ -34,6 +34,10 @@ def get_balance():
     try:
         resp = urllib.request.urlopen(f"{BASE_URL}/account-api/api/balance", timeout=5)
         bal_data = json.loads(resp.read())
+        if "futures" in bal_data:
+            for item in bal_data["futures"]:
+                if item.get("margin_coin") == "USDT":
+                    return float(item.get("available", 0))
         if "spot" in bal_data:
             for item in bal_data["spot"]:
                 if item.get("coin") == "USDT":

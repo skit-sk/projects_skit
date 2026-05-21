@@ -32,6 +32,8 @@ log = logging.getLogger("tg_bot")
 
 WORKSPACE = WORKSPACE_DIR
 SCRIPTS_DIR = WORKSPACE / "tools" / "scripts"
+if str(SCRIPTS_DIR) not in sys.path:
+    sys.path.insert(0, str(SCRIPTS_DIR))
 
 def _kill_process_group(proc_pid):
     """Kill the process group of a spawned process (not other users' processes).
@@ -215,10 +217,15 @@ async def _handle_positions_image(update, uid):
         try:
             bresp = urllib.request.urlopen(f"http://localhost:5000/account-api/api/balance", timeout=5)
             bdata = json.loads(bresp.read())
-            for item in bdata.get("spot", []):
-                if item.get("coin") == "USDT":
+            for item in bdata.get("futures", []):
+                if item.get("margin_coin") == "USDT":
                     balance = float(item.get("available", 0))
                     break
+            if not balance:
+                for item in bdata.get("spot", []):
+                    if item.get("coin") == "USDT":
+                        balance = float(item.get("available", 0))
+                        break
         except Exception:
             pass
         
@@ -244,18 +251,18 @@ async def _handle_positions_image(update, uid):
         total_margin = 0.0
         total_pl = 0.0
         for pos in positions:
-            margin = float(pos.get("marginSize", 0))
-            pl = float(pos.get("unrealizedPL", 0))
+            margin = float(pos.get("margin_size", 0))
+            pl = float(pos.get("unrealized_pl", 0))
             lev = float(pos.get("leverage", 0))
             total_margin += margin
             total_pl += pl
             bal_pct = (margin / balance * 100) if balance else 0
             exp_pct = (margin * lev / balance * 100) if balance else 0
             roe = (pl / margin * 100) if margin else 0
-            open_p = float(pos.get("openPriceAvg", 0))
-            liq_p = float(pos.get("liquidationPrice", 0))
+            open_p = float(pos.get("open_price_avg", 0))
+            liq_p = float(pos.get("liquidation_price", 0))
             liq_d = abs((open_p - liq_p) / open_p * 100) if open_p and liq_p else 0
-            side = "🟢 LONG" if pos.get("holdSide") == "long" else "🔴 SHORT"
+            side = "🟢 LONG" if pos.get("hold_side") == "long" else "🔴 SHORT"
             
             table.add_row(pos.get("symbol","?"), str(fill_counts.get(pos.get("symbol",""), 0)),
                          side, f"{margin:.6f}", f"{bal_pct:.2f}", f"{exp_pct:.2f}",
@@ -590,7 +597,6 @@ async def dispatch(update, context):
         "/shutdown": lambda: _handle_shutdown(uid),
         "/sysinfo": lambda: cmd_sysinfo(uid),
         "/stop": lambda: _handle_stop(uid),
-        "/restart": lambda: _handle_restart(uid),
     }
 
     if cmd == "/build":
@@ -632,12 +638,6 @@ async def dispatch(update, context):
         await _handle_audit(update, uid, text)
         return
 
-    if cmd == "/audit_deep":
-        args = text.split()[1:]
-        text_for_audit = f"/audit_ip --deep {' '.join(args)}" if args else "/audit_ip --deep"
-        await _handle_audit(update, uid, text_for_audit)
-        return
-
     if cmd in ("/task_stats", "/task_errors"):
         await _handle_task_stats(update, uid, text)
         return
@@ -648,6 +648,18 @@ async def dispatch(update, context):
         return
     if cmd == "/audit_inn":
         await _handle_audit_inn(update, uid, text)
+        return
+
+    if cmd == "/restart":
+        await _handle_restart(update, uid)
+        return
+
+    if cmd == "/metrics":
+        await _handle_metrics(update, uid, args)
+        return
+
+    if cmd == "/task":
+        await _handle_task_report(update, uid, args)
         return
 
     if cmd == "/status":
@@ -744,8 +756,14 @@ async def _handle_message(uid, text, update):
     _k, _s = get_current_session(uid)
     _initial_tok = _s.get("tokens", 0) if _s else 0
     _Monitor.set_offset(uid, _initial_tok)
+    try:
+        from metrics import mark_task_start
+        mark_task_start(uid, current_task_id, text, task_state._cmd_code(text))
+    except Exception:
+        pass
 
     _timeout_flag = False
+    _edit_count = 0
     thread_task = loop.run_in_executor(None, cmd_message, uid, text)
 
     while True:
@@ -793,13 +811,41 @@ async def _handle_message(uid, text, update):
             if _timeout_flag:
                 lines.extend(["", "⏱ >300с · /stop"])
             text = "\n".join(lines)
-            if status_msg is None:
-                status_msg = await update.message.reply_text(text)
+            if len(text) > 3800:
+                text = text[:3500] + "\n\n... (truncated)"
+
+            if status_msg is None or _edit_count >= 40:
+                if status_msg:
+                    try:
+                        await asyncio.wait_for(status_msg.delete(), timeout=2)
+                    except Exception:
+                        pass
+                try:
+                    status_msg = await asyncio.wait_for(
+                        update.message.reply_text(text), timeout=5
+                    )
+                    _edit_count = 0
+                except asyncio.TimeoutError:
+                    log.warning("status reply_text timeout — breaking loop")
+                    break
             else:
                 try:
-                    await status_msg.edit_text(text)
-                except Exception as e:
+                    await asyncio.wait_for(status_msg.edit_text(text), timeout=2)
+                    _edit_count += 1
+                except (asyncio.TimeoutError, Exception) as e:
                     log.warning(f"status edit error: {e}")
+                    try:
+                        await asyncio.wait_for(status_msg.delete(), timeout=2)
+                    except Exception:
+                        pass
+                    try:
+                        status_msg = await asyncio.wait_for(
+                            update.message.reply_text(text), timeout=5
+                        )
+                        _edit_count = 0
+                    except asyncio.TimeoutError:
+                        log.warning("status reply_text timeout — breaking loop")
+                        break
 
     try:
         log.info("_handle_message: cmd_message returned")
@@ -846,18 +892,63 @@ async def _handle_message(uid, text, update):
             log.info("📨 FINAL ERR:\n%s", err[:500])
 
         # task complete + release
-        task_state.task_complete(current_task_id)
+        elapsed_ms = task_state.task_complete(current_task_id) or 0
         task_control.release(uid, text)
+
+        # completion summary
+        try:
+            from metrics import mark_task_end, read_task_samples, build_metrics_block
+            from templates import _fmt_tokens as _ft
+            _cost_val = _Monitor._cost_finals.get(uid, 0.0)
+            mark_task_end(uid, current_task_id, elapsed_ms, _delta_tok, _cost_val)
+
+            sec = elapsed_ms // 1000
+            elapsed_str = f"{sec // 60}м {sec % 60}с" if sec >= 60 else f"{sec}с"
+            inp = _Monitor._input_finals.get(uid, 0)
+            out = _Monitor._output_finals.get(uid, 0)
+            total_tok = inp + out or 1
+            cost_in = _cost_val * (inp / total_tok)
+            cost_out = _cost_val * (out / total_tok)
+
+            lines = [f"━━━ ✅ Задача выполнена ━━━", ""]
+            lines.append(f"📋 {cmd_label[:120] if 'cmd_label' in dir() else text[:120]}")
+            lines.append(f"🤖 {agent_label or 'opencode-go'} · ⏱ {elapsed_str} · 💲{_cost_val:.4f}")
+            lines.append("")
+
+            mdata = read_task_samples(current_task_id)
+            if mdata and len(mdata) >= 2:
+                lines.extend(build_metrics_block(mdata))
+                lines.append("")
+
+            lines.append(f"🔤 +{_ft(_delta_tok)}💲{_cost_val:.4f} · ⏱ {elapsed_str}")
+            lines.append(f"↙ {_ft(inp)}💲{cost_in:.4f} · ↗ {_ft(out)}💲{cost_out:.4f}")
+
+            summary = "\n".join(lines)
+            await asyncio.wait_for(update.message.reply_text(summary), timeout=5)
+        except Exception as e:
+            log.warning(f"completion summary error: {e}")
+            try:
+                await asyncio.wait_for(update.message.reply_text(
+                    f"━━━ ✅ Задача выполнена ━━━\n\n"
+                    f"📋 {text[:120]}\n"
+                    f"⏱ {elapsed_str} · 💲{_cost_val:.4f}\n\n"
+                    f"📊 Подробный отчёт недоступен (metrics: {e})"
+                ), timeout=5)
+            except Exception:
+                pass
     except Exception as e:
         log.error(f"_handle_message: reply failed: {e}")
         try:
-            await update.message.reply_text("✅ Готово (ошибка форматирования).")
+            await asyncio.wait_for(
+                update.message.reply_text("✅ Готово (ошибка форматирования)."),
+                timeout=5
+            )
         except Exception:
             pass
 
     if status_msg:
         try:
-            await status_msg.delete()
+            await asyncio.wait_for(status_msg.delete(), timeout=3)
         except Exception as e:
             log.warning(f"status delete error: {e}")
 
@@ -994,18 +1085,266 @@ async def _handle_ofd(update, uid, text):
         await _reply(update, f"❌ Ошибка OFD: {e}", uid)
 
 
+async def _handle_audit(update, uid, text):
+    from ip_audit import (
+        scan_stage1, scan_stage2, scan_stage3_ports, scan_stage3_vuln,
+        whois_lookup, geo_lookup, shodan_lookup, ping_host,
+        fmt_beauty_stage, fmt_full_md, fmt_third_party,
+        resolve_hostname,
+    )
+    import time
+
+    def _is_ip(s):
+        parts = s.split(".")
+        return len(parts) == 4 and all(p.isdigit() for p in parts)
+
+    parts = text.split()
+    deep = "--deep" in parts
+    raw = next((p for p in parts if not p.startswith("/") and p != "--deep"), "")
+
+    if not raw:
+        await _reply(update, "❌ Укажи IP или домен.\n  /audit_ip 8.8.8.8\n  /audit_ip google.com\n  /audit_ip --deep 8.8.8.8", uid)
+        return
+
+    if _is_ip(raw):
+        ip = raw
+        hostname = None
+    else:
+        hostname = raw.lower()
+        ip, err = resolve_hostname(hostname)
+        if err:
+            await _reply(update, f"❌ {err}", uid)
+            return
+
+    status = await update.message.reply_text(f"🔍 Сканирую {hostname or ip}...")
+
+    alive = await ping_host(ip)
+
+    whois, geo, shodan = await asyncio.gather(
+        asyncio.to_thread(whois_lookup, ip),
+        asyncio.to_thread(geo_lookup, ip),
+        shodan_lookup(ip),
+    )
+
+    if not deep:
+        s1 = await scan_stage1(ip)
+        report = fmt_beauty_stage(ip, "Top-50 сканирование", s1, whois, hostname=hostname)
+        third = fmt_third_party(ip, geo, shodan, hostname=hostname)
+        if third:
+            report += f"\n{third}"
+        report += "\n💡 **Полный аудит:** `/audit_ip --deep <...>`"
+        await status.edit_text(report[:4000])
+        return
+
+    t0 = time.time()
+    stages = []
+
+    await status.edit_text(f"🔍 Stage 1 — Top-50 портов {hostname or ip}...")
+    s1 = await scan_stage1(ip)
+    t1 = time.time()
+    stages.append(("Stage 1 (top-50)", s1))
+
+    await status.edit_text(f"🔍 Stage 2 — Top-1000 + версии {hostname or ip}...")
+    s2 = await scan_stage2(ip)
+    t2 = time.time()
+    stages.append(("Stage 2 (top-1000)", s2))
+
+    await status.edit_text(f"🔍 Stage 3 — Все порты + CVE {hostname or ip}...")
+    s3p, s3v = await asyncio.gather(
+        scan_stage3_ports(ip), scan_stage3_vuln(ip)
+    )
+    t3 = time.time()
+    stages.append(("Stage 3 (all 65535)", s3p))
+
+    timings = [t1 - t0, t2 - t1, t3 - t2]
+    report = fmt_full_md(ip, stages, whois, s3v, timings, ping=alive, hostname=hostname)
+    third = fmt_third_party(ip, geo, shodan, hostname=hostname)
+    if third:
+        report += f"\n\n{third}"
+    await status.edit_text(report[:4000])
+
+
 async def _handle_audit_inn(update, uid, text):
-    import json
     from audit_inn import audit_inn
     parts = text.split()
     inn = parts[1] if len(parts) > 1 else "010500776503"
     await _reply(update, f"🔍 Аудит ИНН {inn}...", uid)
     try:
         data = audit_inn(inn)
-        text = json.dumps(data, indent=2, ensure_ascii=False)[:3500]
-        await _reply(update, f"📋 **Аудит ИНН {inn}:**\n{text}", uid)
+        lines = [f"━━━ ✅ Аудит ИНН {inn} ━━━\n"]
+
+        valid = data.get("valid", "")
+        if valid and valid.startswith("⛔"):
+            lines.append(f"{valid}")
+            await _reply(update, "\n".join(lines), uid)
+            return
+
+        lines.append(f"{valid} **{data['egrul'].get('name', '?')}**")
+        short = data["egrul"].get("short", "")
+        if short:
+            lines[1] = f"{valid} **{data['egrul']['name']}** ({short})"
+        head = data["egrul"].get("head", "")
+        if head:
+            lines.append(f"👤 {head}")
+        lines.append(f"🆔 {data['egrul'].get('ogrn', '?')} · 📅 {data['egrul'].get('reg_date', '?')}")
+        addr = data["egrul"].get("address", "")
+        if addr:
+            lines.append(f"🏠 {addr}")
+        kpp = data["egrul"].get("kpp", "")
+        if kpp:
+            lines.append(f"📊 КПП: {kpp}")
+        lines.append("")
+
+        # Service statuses
+        lines.append("📊 Статусы источников:")
+        egrul_st = data["egrul"]["status"]
+        egrul_note = "название, адрес, руководитель, КПП"
+        if data["egrul"].get("name"):
+            egrul_note = f"найден: {data['egrul']['name'][:50]}"
+        lines.append(f"{egrul_st} ЕГРЮЛ — {egrul_note}")
+
+        fssp = data.get("fssp", {})
+        if fssp:
+            f_note = fssp.get("note", "")[:100]
+            lines.append(f"{fssp['status']} ФССП — {f_note}")
+
+        bankr = data.get("bankruptcy", {})
+        if bankr:
+            b_note = bankr.get("note", "")[:100]
+            cases = bankr.get("bankruptcies", [])
+            if cases:
+                b_note = f"найдено {len(cases)} дел"
+            lines.append(f"{bankr['status']} Банкротства — {b_note}")
+
+        await _reply(update, "\n".join(lines), uid)
     except Exception as e:
         await _reply(update, f"❌ Ошибка аудита: {e}", uid)
+
+
+async def _handle_task_report(update, uid, args):
+    if not args:
+        await _reply(update, "❌ Укажи task_id\nПример: /task 248207602-XOCX-M01-171", uid)
+        return
+    task_id = args[0]
+    try:
+        from metrics import read_task_samples, build_metrics_block
+        from templates import _fmt_tokens as _ft
+        mdata = read_task_samples(task_id)
+        if not mdata:
+            await _reply(update, f"❌ Задача {task_id} не найдена в metrics.log", uid)
+            return
+        block1 = f"━━━ ✅ Задача выполнена ━━━\n\n📋 {task_id}"
+        if len(mdata) >= 2:
+            metrics_lines = build_metrics_block(mdata)
+            block2 = "\n\n━━━ 📊 Метрики задачи ━━━\n\n" + "\n".join(metrics_lines)
+        else:
+            block2 = ""
+        # ищем task_end маркер для токенов и времени
+        import json
+        end_entry = None
+        with open("/tmp/opencode/metrics.log") as f:
+            for line in f:
+                try:
+                    e = json.loads(line)
+                except Exception:
+                    continue
+                if e.get("_type") == "task_end" and e.get("task_id") == task_id:
+                    end_entry = e
+        if end_entry:
+            sec = (end_entry.get("elapsed_ms", 0) or 0) // 1000
+            elapsed_str = f"{sec // 60}м {sec % 60}с" if sec >= 60 else f"{sec}с"
+            dt = end_entry.get("delta_tok", 0)
+            c = end_entry.get("cost", 0.0)
+            block3 = f"\n\n━━━ 📊 Токены и время ━━━\n\n⏱ {elapsed_str} · 🔤 +{_ft(dt)}💲{c:.4f}"
+        else:
+            block3 = ""
+        await _reply(update, block1 + block2 + block3, uid)
+    except Exception as e:
+        await _reply(update, f"❌ Ошибка: {e}", uid)
+
+
+async def _handle_metrics(update, uid, args):
+    import json, os
+    from pathlib import Path
+
+    log_path = Path("/tmp/opencode/metrics.log")
+    if not log_path.exists():
+        await _reply(update, "❌ metrics.log не найден. Запусти метрики.", uid)
+        return
+
+    # парсим временной диапазон
+    default_minutes = 3
+    if args:
+        try:
+            raw = args[0].lower()
+            if raw.endswith("h"):
+                default_minutes = int(raw[:-1]) * 60
+            elif raw.endswith("m"):
+                default_minutes = int(raw[:-1])
+            else:
+                default_minutes = int(raw)
+        except ValueError:
+            pass
+    want_points = default_minutes * 60 // 3
+
+    lines = log_path.read_text().strip().split("\n")
+    points = [json.loads(l) for l in lines[-want_points:] if l.strip()]
+    if len(points) < 2:
+        await _reply(update, "❌ Недостаточно точек для графика.", uid)
+        return
+
+    await _reply(update, f"📊 Строю график ({len(points)} точек)...", uid)
+
+    try:
+        import plotly.graph_objects as go
+        from plotly.subplots import make_subplots
+
+        ts = [p["ts"] for p in points]
+        cpu = [p["cpu"] for p in points]
+        mem_u = [p["mem"]["u"] for p in points]
+        mem_f = [p["mem"]["f"] for p in points]
+        mem_c = [p["mem"]["c"] for p in points]
+        proc = [p["proc"] for p in points]
+        load = [p["load"][0] for p in points]
+
+        fig = make_subplots(
+            rows=4, cols=1,
+            shared_xaxes=True,
+            vertical_spacing=0.06,
+            subplot_titles=("CPU (%)", "Memory (MB)", "Processes", "Load Avg"),
+        )
+
+        fig.add_trace(go.Scatter(x=ts, y=cpu, name="CPU", line=dict(color="#ff6b6b")), row=1, col=1)
+        fig.add_trace(go.Scatter(x=ts, y=mem_u, name="Used", line=dict(color="#ffa726")), row=2, col=1)
+        fig.add_trace(go.Scatter(x=ts, y=mem_f, name="Free", line=dict(color="#66bb6a")), row=2, col=1)
+        fig.add_trace(go.Scatter(x=ts, y=mem_c, name="Cache", line=dict(color="#42a5f5")), row=2, col=1)
+        fig.add_trace(go.Scatter(x=ts, y=proc, name="Procs", line=dict(color="#ab47bc")), row=3, col=1)
+        fig.add_trace(go.Scatter(x=ts, y=load, name="Load 1m", line=dict(color="#ef5350")), row=4, col=1)
+
+        fig.update_layout(
+            height=600, margin=dict(l=20, r=20, t=30, b=20),
+            template="plotly_dark", showlegend=False,
+            paper_bgcolor="#1a1a2e", plot_bgcolor="#1a1a2e"
+        )
+        fig.update_xaxes(showticklabels=False, row=1, col=1)
+        fig.update_xaxes(showticklabels=False, row=2, col=1)
+        fig.update_xaxes(showticklabels=False, row=3, col=1)
+        fig.update_xaxes(row=4, col=1)
+
+        img_path = f"/tmp/metrics_{int(time.time())}.png"
+        fig.write_image(img_path, width=800, height=600, scale=1)
+
+        with open(img_path, "rb") as f:
+            from datetime import datetime
+            caption = f"📊 Метрики ({len(points)} точек | {default_minutes}мин)"
+            await update.message.reply_photo(photo=f, caption=caption)
+
+        os.unlink(img_path)
+
+    except ImportError as e:
+        await _reply(update, f"❌ plotly не установлен: {e}", uid)
+    except Exception as e:
+        await _reply(update, f"❌ Ошибка графика: {e}", uid)
 
 
 async def _handle_youtube(update, uid, url):
@@ -1114,18 +1453,42 @@ def _handle_stop(uid):
     return "⏹ Процесс остановлен. Можно отправить новый запрос."
 
 
-def _handle_restart(uid):
-    """Перезапуск бота (super only)."""
-    import logging, subprocess, os, signal
-    log = logging.getLogger("tg_bot")
+async def _handle_restart(update, uid):
+    from task_state import task_create, task_start
+
     if not is_super(uid):
-        return "❌ Только super."
-    log.warning("Bot restart requested by uid=%s", uid)
-    # запускаем restart в фоне, текущий процесс умрёт сам
+        await _reply(update, "❌ Только super.", uid)
+        return
+
+    tid = task_create(uid, "🔄 Bot restart — завершение сессии...")
+    task_start(tid)
+
+    status = await update.message.reply_text(
+        "🔄 **Bot restart...**\n\n"
+        "⏱ Через 3 секунды бот перезапустится\n"
+        "┣ Очистка старых задач — ✅\n"
+        "┣ Сохранение состояния — ✅\n"
+        "┗ Отчёт после перезапуска — ⏳\n\n"
+        "━━━\n"
+        "После рестарта отправь `/menu` для проверки"
+    )
+
+    await asyncio.sleep(2)
+
+    import subprocess, os
     script = os.path.join(os.path.dirname(__file__), "..", "..", "scripts", "tg_bot.sh")
     subprocess.Popen(["bash", script, "restart"],
                      stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    return "🔄 Бот перезапускается..."
+
+    await asyncio.sleep(1)
+    try:
+        await status.edit_text(
+            "🔄 **Бот перезапускается...**\n\n"
+            "⏱ Через 2-3с новый процесс встанет на polling\n"
+            "📋 После запуска — `/menu`"
+        )
+    except Exception:
+        pass
 
 
 def _call_models(uid, arg):

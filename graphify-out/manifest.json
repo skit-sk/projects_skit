@@ -95,17 +95,21 @@
     "mtime": 1778947743.4092119,
     "hash": "3ebf874d08fef8d9cc6a085ac5d717cc"
   },
+  "/home/user_aioc/workspace/tools/scripts/metrics_logger.py": {
+    "mtime": 1779395735.9442267,
+    "hash": "834086e014fcd92b1f6ff51b094a9c21"
+  },
   "/home/user_aioc/workspace/tools/scripts/get_tg_rows.py": {
-    "mtime": 1779245706.9854412,
-    "hash": "0f4110adcc98c215b5be317819c8e126"
+    "mtime": 1779315417.7973113,
+    "hash": "6da5caade3ef19ae7a15ccc1c8c96aa5"
   },
   "/home/user_aioc/workspace/tools/scripts/screenshot_positions.py": {
     "mtime": 1779080993.0596702,
     "hash": "62f800c9af374506dfd8eef97af19648"
   },
   "/home/user_aioc/workspace/tools/scripts/formatters/positions_risk.py": {
-    "mtime": 1779246941.8629987,
-    "hash": "964c32430cebcfec150ac5f7bb8a28fc"
+    "mtime": 1779315413.9572248,
+    "hash": "0bfe0671c6ff87f6132520b8a8d88eb8"
   },
   "/home/user_aioc/workspace/tools/scripts/formatters/orderbook.py": {
     "mtime": 1779246912.5903473,
@@ -144,8 +148,8 @@
     "hash": "2a7890fdaf457ec513e359be62197873"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/monitor.py": {
-    "mtime": 1779287376.9783738,
-    "hash": "e2a589c61fb702dd968ad90bb6f22c70"
+    "mtime": 1779396364.1638227,
+    "hash": "355fedec9d4eb9afc53a14d3d24eb5b1"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/collage.py": {
     "mtime": 1779081960.6183343,
@@ -156,20 +160,20 @@
     "hash": "dc31f5cbf7241b9e4a3546a662f8d26a"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/handler.py": {
-    "mtime": 1779308272.0373168,
-    "hash": "7348e7356840c4e7fb65b2202d74f708"
+    "mtime": 1779406168.8488505,
+    "hash": "c530eeb3203a3a0f8befcbf1097fde39"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/ip_audit.py": {
-    "mtime": 1779248659.3233845,
-    "hash": "43294ae888d8a31c36673805968d3106"
+    "mtime": 1779397066.4020772,
+    "hash": "2147d0b10f605865303090dfa0c6923a"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/task_state.py": {
-    "mtime": 1779290065.089744,
-    "hash": "25372b1662e450543ed1ad8a751f4518"
+    "mtime": 1779396361.592767,
+    "hash": "04a13745228976b1a9ad70e65ad751ba"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/commands.py": {
-    "mtime": 1779280729.798315,
-    "hash": "7876f423e9933afd46f90b9284491552"
+    "mtime": 1779314947.5337088,
+    "hash": "9e75732a51e3b8e51d43e7cc713ff353"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/voice.py": {
     "mtime": 1779076140.1078618,
@@ -195,6 +199,10 @@
     "mtime": 1779080225.5214958,
     "hash": "7d17cd9d8bfbf53ef92bb657d7ad148d"
   },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/metrics.py": {
+    "mtime": 1779394997.0344727,
+    "hash": "c53733799a7d4b69892dd2a8cfcdac68"
+  },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/task_stats.py": {
     "mtime": 1779224408.8616774,
     "hash": "d5c698bfd36b8585c22dfe5e9a86b074"
@@ -204,8 +212,8 @@
     "hash": "e7b74f64c42c07fb7720a18361900c1c"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/main.py": {
-    "mtime": 1779165461.252292,
-    "hash": "acb27fcd5265272d0af44d86c18d1b50"
+    "mtime": 1779364954.2004585,
+    "hash": "a03ad9f5084846c48a38aabe9c2d8497"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/__init__.py": {
     "mtime": 1778851294.318197,
@@ -363,13 +371,21 @@
     "mtime": 1779307790.7734308,
     "hash": "dd081f215523b17ccae9d5084f5b6fef"
   },
+  "/home/user_aioc/workspace/projects/08_ofd_api/bot_ofd/audit_bankruptcy.py": {
+    "mtime": 1779406148.855398,
+    "hash": "3b3bac7657a63b24829c98b3e2680e95"
+  },
   "/home/user_aioc/workspace/projects/08_ofd_api/bot_ofd/yandex_ofd.py": {
     "mtime": 1779310419.1891716,
     "hash": "81038be1226d914897349de8f0b0623c"
   },
   "/home/user_aioc/workspace/projects/08_ofd_api/bot_ofd/audit_inn.py": {
-    "mtime": 1779306454.3638768,
-    "hash": "75c95e10800bc189b0557bfd54e8c4b6"
+    "mtime": 1779406204.9846683,
+    "hash": "11fd6ebdae237927d6e81acdd542f63e"
+  },
+  "/home/user_aioc/workspace/projects/08_ofd_api/bot_ofd/audit_fssp.py": {
+    "mtime": 1779406140.943219,
+    "hash": "5a94a201b400f18977c2a725b2d00c05"
   },
   "/home/user_aioc/workspace/projects/04_tradingview-demos/update_widgets.py": {
     "mtime": 1778014364.5064783,
@@ -384,8 +400,8 @@
     "hash": "1bc0d2ede84767aa5e1b1b5899002f7b"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/storage.py": {
-    "mtime": 1778541029.0990353,
-    "hash": "3f181e755772a46595cffafa770eb7ce"
+    "mtime": 1779402898.993809,
+    "hash": "d971dcad8f29adc7eea103371c7a625d"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/migrate_to_card.py": {
     "mtime": 1777694139.2261844,
@@ -400,8 +416,8 @@
     "hash": "6caee07675c93cd94d1305990b8ca4d4"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/app.py": {
-    "mtime": 1779308808.906448,
-    "hash": "ce868051fe452930a45cd0821c44cb53"
+    "mtime": 1779402786.1513119,
+    "hash": "8ddbb7f1b08d6eca23b9a6d7f34ac67e"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/api/bitget_ws.py": {
     "mtime": 1778699181.6236172,
@@ -459,9 +475,13 @@
     "mtime": 1778969434.2004228,
     "hash": "e75803ba6c0749b0b4184d8bbf13467a"
   },
+  "/home/user_aioc/workspace/projects/01_fundament_rf/routes/processor.py": {
+    "mtime": 1779402782.755237,
+    "hash": "b701aa3d6e859fea64eddb031202c1ff"
+  },
   "/home/user_aioc/workspace/projects/01_fundament_rf/routes/account_api.py": {
-    "mtime": 1779245450.9857204,
-    "hash": "d8af14a441ef2326df5369104c26d9d3"
+    "mtime": 1779404444.3195255,
+    "hash": "6764dfe9bdd1cabdf83cb909e9a98b02"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/routes/trade_analytics.py": {
     "mtime": 1778970818.7788234,
@@ -484,8 +504,8 @@
     "hash": "edf76c4ba5061d623cdb0d1c48b7cbc4"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/routes/web.py": {
-    "mtime": 1779312819.828655,
-    "hash": "2ff0cdd432364ecb51506bc6d2892b90"
+    "mtime": 1779402887.3605506,
+    "hash": "0f0b97652f2511327b05f80630de4299"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/routes/dashboard.py": {
     "mtime": 1777677403.372532,
@@ -1636,8 +1656,8 @@
     "hash": "a1f72973a9c0f36d84e3f9e59ec017e6"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/positions_risk.txt": {
-    "mtime": 1779267717.0138364,
-    "hash": "2bbe06b2af0e85f5e0d5ff1a5e7534a0"
+    "mtime": 1779393385.2404754,
+    "hash": "e8d0c5975dc686c1f1e3ad0ba5c37e9d"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/tgandcompany.md": {
     "mtime": 1778861904.7620175,
@@ -1648,8 +1668,8 @@
     "hash": "a1f72973a9c0f36d84e3f9e59ec017e6"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/positions_risk.txt": {
-    "mtime": 1779267717.0138364,
-    "hash": "2bbe06b2af0e85f5e0d5ff1a5e7534a0"
+    "mtime": 1779393385.2404754,
+    "hash": "e8d0c5975dc686c1f1e3ad0ba5c37e9d"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/audits/audit_194_79_46_206_s2.md": {
     "mtime": 1779247246.4097843,
@@ -2600,16 +2620,16 @@
     "hash": "1963f3dcef4532c6deead9f8559deb8a"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/templates/index.html": {
-    "mtime": 1779312809.8494294,
-    "hash": "5370c93f2b0325ba6ec2a9914370632d"
+    "mtime": 1779404387.7753394,
+    "hash": "63550534197f038af30b8f956ccb58b8"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/templates/ma_analytics.html": {
     "mtime": 1778431607.2339516,
     "hash": "8edfebf65bd3b052859a53ad07922757"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/templates/card.html": {
-    "mtime": 1777426671.829132,
-    "hash": "18d7f408a4935fc69eca8a2a6c4520dc"
+    "mtime": 1779404425.5021296,
+    "hash": "dd0ddd6cd1258fb96d46f365d7c3cbcf"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/templates/dashboard.html": {
     "mtime": 1777673383.2836058,
@@ -2624,20 +2644,20 @@
     "hash": "7d352b824555e0e0b6f20eb18820e8c3"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/templates/base.html": {
-    "mtime": 1779248467.0520508,
-    "hash": "7d54f88353be05169c2a7b7982dadfcb"
+    "mtime": 1779404383.540251,
+    "hash": "45cc0091a613a2d285d518302a69976b"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/templates/macros.html": {
-    "mtime": 1779052036.4115858,
-    "hash": "1c0f3897941410718a8087b50338f98d"
+    "mtime": 1779402795.1755106,
+    "hash": "8efa8094467d9b47b6fff102692f5972"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/templates/graphics/all.html": {
-    "mtime": 1778972534.143842,
-    "hash": "82deb4ee4f9ec0221e7cc5ae6fad56d7"
+    "mtime": 1779404402.1446397,
+    "hash": "22ec2b5089b2ac99b30de4ffbf41ed4f"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/templates/account/index.html": {
-    "mtime": 1778969071.0931919,
-    "hash": "ef5acf99ec4ccfce564e52fb1793f745"
+    "mtime": 1779403669.0312018,
+    "hash": "1343a621ebaf1828860a53885cef4101"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/templates/account/partials/balance.html": {
     "mtime": 1778969124.0243948,
@@ -3132,8 +3152,8 @@
     "hash": "50058ba15bbfbdd3190669adf46e2548"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/positions_table.png": {
-    "mtime": 1779098615.566253,
-    "hash": "140eb2719bd3a5927a5f67882c4efe17"
+    "mtime": 1779386390.8050375,
+    "hash": "f1d68fa499806f8fb5690d4bb35c3a12"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/6_checkipamazon.png": {
     "mtime": 1778869330.949819,
@@ -3252,8 +3272,8 @@
     "hash": "43849f88b221943554dd966cbcccd7ac"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/positions_table.png": {
-    "mtime": 1779098615.6832557,
-    "hash": "140eb2719bd3a5927a5f67882c4efe17"
+    "mtime": 1779386390.9320402,
+    "hash": "f1d68fa499806f8fb5690d4bb35c3a12"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/klinika_city2.jpg": {
     "mtime": 1779078409.4651058,

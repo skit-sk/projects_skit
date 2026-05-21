@@ -2,6 +2,7 @@ import json
 import os
 import uuid
 import shutil
+import time
 from datetime import datetime
 from pathlib import Path
 from models import FundObj
@@ -9,6 +10,28 @@ from models import FundObj
 
 _storage_instance = None
 _metrics_instance = None
+_positions_cache = {}
+_positions_cache_ts = 0.0
+
+
+def get_positions_cache(ttl=10):
+    global _positions_cache, _positions_cache_ts
+    now = time.time()
+    if now - _positions_cache_ts < ttl:
+        return _positions_cache
+    _positions_cache_ts = now
+    _positions_cache = {}
+    for obj in get_storage().list():
+        lp = obj.data.get("live_position")
+        if lp:
+            sym = obj.data.get("emoji_entry", {}).get("symbol", "").upper()
+            _positions_cache[sym] = lp
+    return _positions_cache
+
+
+def clear_positions_cache():
+    global _positions_cache_ts
+    _positions_cache_ts = 0.0
 
 
 def get_storage():

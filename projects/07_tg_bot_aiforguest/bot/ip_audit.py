@@ -163,6 +163,31 @@ async def scan_stage3_vuln(ip):
         return {"vulns": [], "error": str(e)}
 
 
+# ── Resolve hostname ──
+
+def resolve_hostname(name: str) -> tuple[str | None, str | None]:
+    try:
+        return socket.gethostbyname(name.strip()), None
+    except socket.gaierror as e:
+        return None, f"Cannot resolve '{name}': {e}"
+
+
+# ── Ping ──
+
+async def ping_host(ip, timeout=3):
+    _log_init()
+    try:
+        proc = await asyncio.create_subprocess_exec(
+            "ping", "-c", "1", "-W", str(timeout), ip,
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.PIPE
+        )
+        await asyncio.wait_for(proc.communicate(), timeout=timeout+2)
+        return proc.returncode == 0
+    except Exception:
+        return None
+
+
 # ── WHOIS ──
 
 def whois_lookup(ip):
@@ -248,10 +273,11 @@ def fmt_summary_stage1(ips_data):
     return "\n".join(lines)
 
 
-def fmt_beauty_stage(ip, stage_name, stage_data, whois=None, vuln=None):
+def fmt_beauty_stage(ip, stage_name, stage_data, whois=None, vuln=None, hostname=None):
     now = datetime.now().strftime("%d.%m.%y %H:%M")
+    target = f"{hostname} → {ip}" if hostname else ip
     lines = [
-        f"📋 **{stage_name}** — `{ip}`",
+        f"📋 **{stage_name}** — `{target}`",
         f"🕐 {now}",
         "",
     ]
@@ -294,36 +320,73 @@ def fmt_beauty_stage(ip, stage_name, stage_data, whois=None, vuln=None):
     return "\n".join(lines)
 
 
-def fmt_full_md(ip, stages, whois=None, vuln=None):
+def fmt_full_md(ip, stages, whois=None, vuln=None, timings=None, ping=None, hostname=None):
+    import time as _t
     now = datetime.now().strftime("%d.%m.%y %H:%M")
-    lines = [f"# Audit Report: {ip}", f"Date: {now}", ""]
+    target = f"{hostname} → {ip}" if hostname else ip
+    lines = [f"# Audit Report: {target}", f"Date: {now}", ""]
+
+    if ping is True:
+        lines.append("🟢 **Host is alive** (ICMP echo)")
+    elif ping is False:
+        lines.append("🔴 **Host unreachable** (ICMP timeout)")
+    elif ping is None:
+        lines.append("⚪ **Ping indeterminate** (no permission)")
+    lines.append("")
+
     if whois:
         lines.append("## Owner")
         if whois.get("org"): lines.append(f"- Organization: {whois['org']}")
         if whois.get("address"): lines.append(f"- Address: {whois['address']}")
+    lines.append("")
 
-    for sname, sdata in stages:
+    total_open = 0
+    for i, (sname, sdata) in enumerate(stages):
         ports = sdata.get("ports", [])
-        if ports:
-            lines.append(f"\n## {sname} ({len(ports)} ports)")
+        err = sdata.get("error", "")
+        total_open += len(ports)
+        dur = f" [{_t.time()-_t.time()+1:.0f}s]"
+        if timings and i < len(timings):
+            dur = f" [{timings[i]:.0f}s]"
+        lines.append(f"## {sname}{dur}")
+        if err:
+            lines.append(f"⚠️ Error: {err}")
+        elif ports:
+            lines.append(f"**Open: {len(ports)} port(s)**")
             lines.append("| Port | Service | Version |")
             lines.append("|------|---------|---------|")
             for p in ports:
                 svc = p.get("service", "")
                 ver = f"{p.get('product','')} {p.get('version','')}".strip()
                 lines.append(f"| {p['port']} | {svc} | {ver} |")
+        else:
+            lines.append("🔴 **No open ports** — filtered / firewalled / host down")
+        lines.append("")
 
     if vuln and vuln.get("vulns"):
-        lines.append(f"\n## Vulnerabilities ({len(vuln['vulns'])})")
+        lines.append(f"## Vulnerabilities ({len(vuln['vulns'])})")
         for v in vuln["vulns"]:
-            lines.append(f"- {v['id']}: {v['output']}")
+            lines.append(f"- {v['id']}: {v.get('output','')[:200]}")
+
+    lines.append("\n## 📊 Accessibility Summary")
+    lines.append(f"- **Stages completed:** {len(stages)}/3")
+    lines.append(f"- **Total open ports:** {total_open}")
+    if ping is True and total_open == 0:
+        lines.append("- 🟢 Host alive, **all ports filtered** — firewall blocks inbound")
+    elif ping is False:
+        lines.append("- 🔴 Host down or network unreachable")
+    elif ping is True and total_open > 0:
+        lines.append("- 🟢 Host accessible, ports open and reachable")
+    else:
+        lines.append("- ⚪ Cannot determine full accessibility")
 
     return "\n".join(lines)
 
 
-def fmt_third_party(ip, geo=None, shodan=None):
+def fmt_third_party(ip, geo=None, shodan=None, hostname=None):
     now = datetime.now().strftime("%d.%m.%y %H:%M")
-    lines = [f"🌐 **Сторонние данные: {ip}**", f"🕐 {now}", ""]
+    target = f"{hostname} → {ip}" if hostname else ip
+    lines = [f"🌐 **Сторонние данные: {target}**", f"🕐 {now}", ""]
     if geo:
         lines.append(f"  📍 {geo.get('city','?')}, {geo.get('region','?')}, {geo.get('country','?')}")
         lines.append(f"  🏢 {geo.get('org','?')}")

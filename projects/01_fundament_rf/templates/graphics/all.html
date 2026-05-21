@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% from "macros.html" import tg_row %}
 {% block title %}Все графики — Fundament RF{% endblock %}
 {% block extra_head %}
 {% set visible = namespace(val=0) %}
@@ -22,7 +23,24 @@
 {% block content %}
 {% from "macros.html" import emoji_entry, emoji_upd with context %}
 
-<h1>📊 Все графики <button onclick="refreshAll()" style="background:#3498db; border:none; font-size:14px; cursor:pointer; padding:4px 8px; border-radius:4px; color:#fff;" title="Обновить все">🔄</button></h1>
+<h1>
+  📊 Все графики
+  <button onclick="syncAll()" style="background:#e67e22; border:none; font-size:14px; cursor:pointer; padding:4px 8px; border-radius:4px; color:#fff;" title="Sync Exchange">🔄 Sync Exchange</button>
+  <button onclick="reloadFromJSON()" style="background:#3498db; border:none; font-size:14px; cursor:pointer; padding:4px 8px; border-radius:4px; color:#fff;" title="Read JSON">📂 Read JSON</button>
+</h1>
+<style>
+  .chart-card .tg-row { font-size:9px; white-space:nowrap; overflow:hidden; }
+  .chart-card .tg-row .tf:nth-child(1) { width:24px; }
+  .chart-card .tg-row .tf:nth-child(2) { width:38px; }
+  .chart-card .tg-row .tf:nth-child(3) { width:58px; }
+  .chart-card .tg-row .tf:nth-child(4) { width:66px; }
+  .chart-card .tg-row .tf:nth-child(5) { width:32px; }
+  .chart-card .tg-row .tf:nth-child(6) { width:30px; }
+  .chart-card .tg-row .tf:nth-child(7) { width:44px; }
+  .chart-card .tg-row .tf:nth-child(8) { width:52px; }
+  .chart-card .tg-row .tf:nth-child(9) { width:20px; }
+  .chart-card .tg-row .tf:nth-child(10) { width:36px; }
+</style>
 <p style="margin-bottom:1rem; color:var(--text-muted);">Отклонение цены от входа по всем сделкам</p>
 
 <div class="charts-grid" id="chartsGrid">
@@ -31,11 +49,13 @@
   {% if entry and entry.get('symbol') and entry.get('entry_price') and entry.get('entry_date') %}
   <div class="chart-card" data-id="{{ obj.id }}" data-symbol="{{ entry.symbol }}" data-entry-price="{{ entry.entry_price }}" data-entry-date="{{ entry.entry_date }}">
     <h2><a href="/card/{{ obj.id }}">{{ obj.name }} <span style="font-size:11px; color:#888;">x{{ obj.data.get('leverage', 10) }}</span></a></h2>
-    <div class="emoji-summary">{{ emoji_entry(entry, obj.data.get('leverage', 10)) }}</div>
     {% set upd = obj.data.get('emoji_upd', {}) %}
-    {% if upd and upd.get('current_price') %}
-    <div class="emoji-summary">{{ emoji_upd(entry, upd, obj.data.get('leverage', 10)) }}</div>
-    {% endif %}
+    {% set live_pos = obj.data.get('live_position', {}) %}
+    {{ tg_row(obj, entry, upd, live_pos, show_spark=False) }}
+    <div style="text-align:center;font-size:9px;color:#888;margin:2px 0;">
+      <span class="graphics-timer" data-id="{{ obj.id }}"></span>
+      <button onclick="syncOneCard('{{ obj.id }}',this)" style="background:none;border:none;cursor:pointer;font-size:9px;color:#3498db;padding:0 2px;" title="Sync">🔄</button>
+    </div>
     <div class="loader" data-started="true"><span class="spinner"></span> Загрузка... <span class="load-time">0</span> мс</div>
     <div class="chart-header"></div>
     <div class="chart-summary" style="color:var(--text-muted); font-size:11px;"></div>
@@ -144,5 +164,25 @@
     }
   }
   init();
+
+  async function syncAll() {
+    await fetch('/api/sync-all', {method:'POST'});
+    location.reload();
+  }
+
+  async function syncOneCard(objId, btn) {
+    var timerEl = document.querySelector('.graphics-timer[data-id="' + objId + '"]');
+    if (!timerEl) return;
+    timerEl.textContent = '⏳';
+    btn.textContent = '⏳';
+    try {
+      var start = Date.now();
+      await fetch('/api/sync-card/' + objId, {method:'POST'});
+      timerEl.textContent = (Date.now() - start) + 'мс ✅';
+    } catch(e) {
+      timerEl.textContent = '❌';
+    }
+    btn.textContent = '🔄';
+  }
 </script>
 {% endblock %}

@@ -245,14 +245,25 @@ def partial_overview():
     client = _get_client()
     if not client.has_credentials:
         return render_template('account/partials/overview.html', error='API keys not configured', status=None, overview=None, debug=[])
-    status = client.test_auth()
-    overview = client.get_overview() if status.connected else None
-    debug = _build_debug(client, [
-        ('/api/v2/public/time', None),
-        ('/api/v2/spot/account/assets', None),
-        ('/api/v2/mix/account/accounts', {'productType': 'USDT-FUTURES'}),
-    ]) if status.connected else []
-    return render_template('account/partials/overview.html', error='', status=status, overview=overview, fmt_num=_fmt_num, fmt_dt=_fmt_dt, debug=debug)
+    from storage import get_storage
+    cards = get_storage().list()
+    total_pnl = 0
+    open_pos = 0
+    for obj in cards:
+        lp = obj.data.get('live_position')
+        if lp and lp.get('hold_side'):
+            open_pos += 1
+            total_pnl += lp.get('unrealized_pl', 0)
+    return render_template('account/partials/overview.html', error='',
+        status={'connected': True, 'server_time': datetime.datetime.now().isoformat(), 'latency_ms': 0, 'error': ''},
+        overview={
+            'open_positions_count': open_pos,
+            'total_equity_usdt': 0,
+            'spot_total_usdt': 0,
+            'futures_equity_usdt': 0,
+            'futures_unrealized_pl': total_pnl,
+        },
+        fmt_num=_fmt_num, fmt_dt=_fmt_dt, debug=[])
 
 
 @bp.route('/partial/balance')
@@ -271,53 +282,46 @@ def partial_balance():
 
 @bp.route('/partial/positions')
 def partial_positions():
-    client = _get_client()
-    if not client.has_credentials:
-        return render_template('account/partials/positions.html', error='', positions=None, debug=[])
-    positions = client.get_positions()
-    fill_data = client.fetch_all_fills(market='futures')
-    fill_counts = {}
-    last_trade_ts = {}
-    for f in fill_data['fills']:
-        fill_counts[f.symbol] = fill_counts.get(f.symbol, 0) + 1
-        prev = last_trade_ts.get(f.symbol, 0)
-        if f.c_time > prev:
-            last_trade_ts[f.symbol] = f.c_time
-    now_ms = int(time.time() * 1000)
-    last_trade_days = {s: (now_ms - ts) / 86400000 for s, ts in last_trade_ts.items()}
-    order_counts = {}
-    for o in client.get_mix_orders():
-        order_counts[o.symbol] = order_counts.get(o.symbol, 0) + 1
-    
-    # Find matching cards for TG-row
     from storage import get_storage
-    all_cards = get_storage().list()
+    cards = get_storage().list()
+    positions = []
     position_card_data = []
-    for p in positions:
-        found = None
-        for obj in all_cards:
-            sym = obj.data.get('emoji_entry', {}).get('symbol', '')
-            if sym.upper() == p.ticker.upper():
-                found = {
-                    "number": obj.data.get('emoji_entry', {}).get('number', ''),
-                    "symbol": sym,
-                    "entry_price": obj.data.get('emoji_entry', {}).get('entry_price', ''),
-                    "entry_date": obj.data.get('emoji_entry', {}).get('entry_date', ''),
-                    "entry_time": obj.data.get('emoji_entry', {}).get('entry_time', 0),
-                    "volume": obj.data.get('emoji_entry', {}).get('volume', 0),
-                    "pnl_percent": obj.data.get('emoji_entry', {}).get('pnl_percent', 0),
-                    "pnl_usdt": obj.data.get('emoji_entry', {}).get('pnl_usdt', 0),
-                    "result": obj.data.get('emoji_entry', {}).get('result', ''),
-                    "deviation_pct": obj.data.get('deviation_pct', []),
-                    "close_prices": obj.data.get('close_prices', []),
-                }
-                break
-        position_card_data.append(found)
-    
-    debug = _build_debug(client, [
-        ('/api/v2/mix/position/all-position', {'productType': 'USDT-FUTURES'}),
-    ])
-    return render_template('account/partials/positions.html', error='', positions=positions, fill_counts=fill_counts, last_trade_days=last_trade_days, order_counts=order_counts, position_card_data=position_card_data, fmt_num=_fmt_num, debug=debug)
+    for obj in cards:
+        entry = obj.data.get('emoji_entry', {})
+        lp = obj.data.get('live_position')
+        if not lp or not lp.get('hold_side'):
+            continue
+        positions.append({
+            "ticker": entry.get('symbol', ''),
+            "hold_side": lp.get('hold_side'),
+            "leverage": lp.get('leverage', 10),
+            "margin_size": lp.get('margin_size', 0),
+            "unrealized_pl": lp.get('unrealized_pl', 0),
+            "pl_percent": lp.get('pl_percent', 0),
+            "mark_price": lp.get('mark_price', 0),
+            "open_price_avg": entry.get('entry_price', 0),
+            "days_open": lp.get('days_open', 0),
+            "liquidation_price": lp.get('liquidation_price', 0),
+            "risk_to_liquidation": lp.get('risk_to_liquidation', 0),
+            "open_date": entry.get('entry_date', ''),
+            "unrealized_pl": lp.get('unrealized_pl', 0),
+        })
+        position_card_data.append({
+            "number": entry.get('number', ''),
+            "symbol": entry.get('symbol', ''),
+            "deviation_pct": obj.data.get('deviation_pct', []),
+            "entry_price": entry.get('entry_price', ''),
+            "entry_date": entry.get('entry_date', ''),
+            "entry_time": entry.get('entry_time', 0),
+            "volume": entry.get('volume', 0),
+            "pnl_percent": entry.get('pnl_percent', 0),
+            "pnl_usdt": entry.get('pnl_usdt', 0),
+            "result": entry.get('result', ''),
+            "close_prices": obj.data.get('close_prices', []),
+        })
+    return render_template('account/partials/positions.html', error='', positions=positions,
+        fill_counts={}, last_trade_days={}, order_counts={},
+        position_card_data=position_card_data, fmt_num=_fmt_num, debug=[])
 
 
 @bp.route('/partial/orders')

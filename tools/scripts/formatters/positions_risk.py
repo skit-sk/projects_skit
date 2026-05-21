@@ -69,8 +69,8 @@ def format_risk_summary(
     all_flags: list[str] = []
 
     for pos in positions:
-        margin = float(pos.get("marginSize", 0))
-        pl = float(pos.get("unrealizedPL", 0))
+        margin = float(pos.get("margin_size", 0))
+        pl = float(pos.get("unrealized_pl", 0))
         leverage = float(pos.get("leverage", 0))
         value = margin * leverage
 
@@ -85,11 +85,11 @@ def format_risk_summary(
         ror = (pl / balance * 100) if balance else 0
 
         # LiqDelta% = (openPriceAvg - liqPrice) / openPriceAvg * 100
-        open_price = float(pos.get("openPriceAvg", 0))
+        open_price = float(pos.get("open_price_avg", 0))
         liq_price = float(pos.get("liquidationPrice", 0))
         liq_delta = abs((open_price - liq_price) / open_price * 100) if open_price and liq_price else 0
 
-        side = pos.get("holdSide", "").lower()
+        side = pos.get("hold_side", "").lower()
         side_str = "🟢 LONG" if side == "long" else "🔴 SHORT"
 
         cnt = fill_counts.get(pos.get("symbol", ""), 0)
