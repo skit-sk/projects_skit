@@ -1,12 +1,12 @@
 # Graph Report - workspace  (2026-05-22)
 
 ## Corpus Check
-- 130 files · ~3,215,184 words
+- 130 files · ~3,217,183 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 3208 nodes · 8566 edges · 142 communities detected
-- Extraction: 95% EXTRACTED · 5% INFERRED · 0% AMBIGUOUS · INFERRED: 416 edges (avg confidence: 0.79)
+- 3223 nodes · 8610 edges · 145 communities detected
+- Extraction: 95% EXTRACTED · 5% INFERRED · 0% AMBIGUOUS · INFERRED: 429 edges (avg confidence: 0.79)
 - Token cost: 0 input · 0 output
 
 ## Community Hubs (Navigation)
@@ -61,10 +61,10 @@
 - [[_COMMUNITY_Community 49|Community 49]]
 - [[_COMMUNITY_Community 50|Community 50]]
 - [[_COMMUNITY_Community 51|Community 51]]
+- [[_COMMUNITY_Community 52|Community 52]]
 - [[_COMMUNITY_Community 53|Community 53]]
 - [[_COMMUNITY_Community 54|Community 54]]
 - [[_COMMUNITY_Community 55|Community 55]]
-- [[_COMMUNITY_Community 56|Community 56]]
 - [[_COMMUNITY_Community 57|Community 57]]
 - [[_COMMUNITY_Community 58|Community 58]]
 - [[_COMMUNITY_Community 59|Community 59]]
@@ -99,8 +99,8 @@
 - [[_COMMUNITY_Community 89|Community 89]]
 - [[_COMMUNITY_Community 90|Community 90]]
 - [[_COMMUNITY_Community 91|Community 91]]
-- [[_COMMUNITY_Community 92|Community 92]]
 - [[_COMMUNITY_Community 93|Community 93]]
+- [[_COMMUNITY_Community 94|Community 94]]
 - [[_COMMUNITY_Community 95|Community 95]]
 - [[_COMMUNITY_Community 96|Community 96]]
 - [[_COMMUNITY_Community 97|Community 97]]
@@ -132,26 +132,29 @@
 - [[_COMMUNITY_Community 125|Community 125]]
 - [[_COMMUNITY_Community 126|Community 126]]
 - [[_COMMUNITY_Community 127|Community 127]]
+- [[_COMMUNITY_Community 128|Community 128]]
 - [[_COMMUNITY_Community 129|Community 129]]
 - [[_COMMUNITY_Community 130|Community 130]]
 - [[_COMMUNITY_Community 131|Community 131]]
-- [[_COMMUNITY_Community 132|Community 132]]
+- [[_COMMUNITY_Community 133|Community 133]]
+- [[_COMMUNITY_Community 134|Community 134]]
 - [[_COMMUNITY_Community 135|Community 135]]
 - [[_COMMUNITY_Community 136|Community 136]]
-- [[_COMMUNITY_Community 137|Community 137]]
-- [[_COMMUNITY_Community 138|Community 138]]
-- [[_COMMUNITY_Community 139|Community 139]]
-- [[_COMMUNITY_Community 163|Community 163]]
-- [[_COMMUNITY_Community 164|Community 164]]
-- [[_COMMUNITY_Community 165|Community 165]]
+- [[_COMMUNITY_Community 147|Community 147]]
+- [[_COMMUNITY_Community 148|Community 148]]
+- [[_COMMUNITY_Community 149|Community 149]]
+- [[_COMMUNITY_Community 150|Community 150]]
 - [[_COMMUNITY_Community 166|Community 166]]
 - [[_COMMUNITY_Community 167|Community 167]]
+- [[_COMMUNITY_Community 168|Community 168]]
 - [[_COMMUNITY_Community 169|Community 169]]
-- [[_COMMUNITY_Community 171|Community 171]]
+- [[_COMMUNITY_Community 170|Community 170]]
 - [[_COMMUNITY_Community 172|Community 172]]
-- [[_COMMUNITY_Community 173|Community 173]]
 - [[_COMMUNITY_Community 174|Community 174]]
 - [[_COMMUNITY_Community 175|Community 175]]
+- [[_COMMUNITY_Community 176|Community 176]]
+- [[_COMMUNITY_Community 177|Community 177]]
+- [[_COMMUNITY_Community 178|Community 178]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `n()` - 360 edges
@@ -174,10 +177,10 @@
   projects/07_tg_bot_aiforguest/bot/handler.py → tools/scripts/formatters/positions_risk.py
 - `_handle_ws_ob()` --calls--> `fetch_aggregated_ob()`  [INFERRED]
   projects/07_tg_bot_aiforguest/bot/handler.py → tools/scripts/formatters/orderbook.py
-- `api_chart_combined()` --calls--> `detect_patterns()`  [INFERRED]
+- `api_chart_candlestick()` --calls--> `detect_patterns()`  [INFERRED]
   graphs_candle/main.py → projects/02_graphs_candle/data/patterns.py
 
-## Communities (181 total, 30 thin omitted)
+## Communities (184 total, 30 thin omitted)
 
 ### Community 1 - 02_graphs_candle
 Cohesion: 0.03
@@ -188,264 +191,264 @@ Cohesion: 0.07
 Nodes (61): aggregateLevels(), applyAuthFilter(), applyBookSide(), arrow(), autoBucketSize(), bufPush(), buildMethodTree(), buildParamForm() (+53 more)
 
 ### Community 3 - 07_tg_bot_aiforguest
-Cohesion: 0.06
-Nodes (45): main(), _queue_worker(), _run_polling(), _compact_stat(), _fmt_speed(), _get_disk_io(), _get_net_io(), get_status_mode() (+37 more)
+Cohesion: 0.05
+Nodes (51): main(), _queue_worker(), _run_polling(), _compact_stat(), _fmt_speed(), _get_disk_io(), _get_net_io(), get_status_mode() (+43 more)
 
 ### Community 4 - 02_graphs_candle
 Cohesion: 0.03
 Nodes (55): n(), "node_modules/base64-arraybuffer/dist/base64-arraybuffer.umd.js"(), "node_modules/d3-path/dist/d3-path.js"(), "node_modules/d3-time/dist/d3-time.js"(), "node_modules/d3-time-format/dist/d3-time-format.js"(), "node_modules/d3-timer/dist/d3-timer.js"(), "node_modules/draw-svg-path/index.js"(), "node_modules/es5-ext/function/is-function.js"() (+47 more)
 
 ### Community 5 - 02_graphs_candle
+Cohesion: 0.05
+Nodes (56): Af(), Ah(), ap(), Bf(), bp(), cf(), cp(), df() (+48 more)
+
+### Community 6 - 02_graphs_candle
 Cohesion: 0.04
 Nodes (54): i(), "node_modules/bitmap-sdf/index.js"(), "node_modules/call-bind/callBound.js"(), "node_modules/color-normalize/index.js"(), "node_modules/es5-ext/number/to-integer.js"(), "node_modules/es5-ext/object/assign/shim.js"(), "node_modules/es5-ext/object/copy.js"(), "node_modules/es5-ext/object/normalize-options.js"() (+46 more)
 
-### Community 6 - 01_fundament_rf
-Cohesion: 0.08
-Nodes (47): all_charts(), calc_deviation(), chart(), _get_1m_price(), _get_current_price(), _get_daily_price(), _get_storage(), _parse_date() (+39 more)
-
 ### Community 7 - 02_graphs_candle
-Cohesion: 0.05
-Nodes (50): activate(), _cancelCloseTimer(), _cancelOpenTimer(), contains(), _eventKeyDown(), _evtDblClick(), _evtDragEnter(), _evtDrop() (+42 more)
+Cohesion: 0.06
+Nodes (48): addClass(), addMenu(), addTab(), _adjustCurrentForInsert(), _adjustCurrentForMove(), clearFlag(), connect(), constructor() (+40 more)
 
 ### Community 8 - 01_fundament_rf
 Cohesion: 0.08
 Nodes (12): from_dict(), FundObj, get_metrics_storage(), get_storage(), JSONStorage, MetricsStorage, copy_to_monitoring(), create_from_emoji() (+4 more)
 
-### Community 9 - 02_graphs_candle
-Cohesion: 0.06
-Nodes (47): _activateNextItem(), _activatePreviousItem(), activeIndex(), addItem(), addItems(), _adjustCurrentForRemove(), alignment(), clearItems() (+39 more)
-
-### Community 10 - 07_tg_bot_aiforguest
-Cohesion: 0.08
-Nodes (45): make_collage(), _call_models(), dispatch(), _handle_audit_inn(), _handle_file(), _handle_message(), _handle_metrics(), _handle_ofd() (+37 more)
-
-### Community 11 - 07_tg_bot_aiforguest
+### Community 9 - 07_tg_bot_aiforguest
 Cohesion: 0.12
-Nodes (46): cmd_cd(), cmd_message(), cmd_start(), add_user(), auto_session(), clear_last_task(), _context_limit(), create_session() (+38 more)
+Nodes (45): _check_user(), cmd_adduser(), cmd_approve(), cmd_approve_model(), cmd_broadcast(), cmd_build(), cmd_cd(), cmd_clean() (+37 more)
 
-### Community 12 - 02_graphs_candle
-Cohesion: 0.07
-Nodes (37): addWidget(), attachWidget(), columnCount(), columnSpacing(), _createHandle(), detachWidget(), direction(), fit() (+29 more)
-
-### Community 13 - 02_graphs_candle
-Cohesion: 0.04
-Nodes (46): "node_modules/color-normalize/node_modules/color-parse/index.js"(), "node_modules/color-normalize/node_modules/color-rgba/index.js"(), "node_modules/earcut/src/earcut.js"(), "node_modules/get-canvas-context/index.js"(), "node_modules/glslify/browser.js"(), "node_modules/probe-image-size/lib/common.js"(), "node_modules/probe-image-size/lib/parse_sync/ico.js"(), "node_modules/raf/index.js"() (+38 more)
-
-### Community 14 - 01_fundament_rf
+### Community 10 - 01_fundament_rf
 Cohesion: 0.11
 Nodes (22): _annotate_pivots(), BacktestMetrics, _calc_metrics(), compute_all_ma(), compute_ema(), compute_ma(), compute_macd(), compute_rsi() (+14 more)
 
-### Community 15 - 03_demo_charts_ascii
+### Community 11 - 02_graphs_candle
+Cohesion: 0.04
+Nodes (46): "node_modules/color-normalize/node_modules/color-parse/index.js"(), "node_modules/color-normalize/node_modules/color-rgba/index.js"(), "node_modules/earcut/src/earcut.js"(), "node_modules/get-canvas-context/index.js"(), "node_modules/glslify/browser.js"(), "node_modules/probe-image-size/lib/common.js"(), "node_modules/probe-image-size/lib/parse_sync/ico.js"(), "node_modules/raf/index.js"() (+38 more)
+
+### Community 12 - 03_demo_charts_ascii
 Cohesion: 0.05
 Nodes (40): anomaly_line(), ascii_indicator(), bg256(), c256(), _capture_plotext_output(), frame_box(), gradient_color(), plotext_candle() (+32 more)
 
-### Community 16 - 03_demo_charts_ascii
+### Community 13 - 03_demo_charts_ascii
 Cohesion: 0.06
 Nodes (43): ensure_symbol_dir(), _find_json_recursive(), generate_all(), generate_single(), load_1d_data(), load_all_cards(), load_fundament_data(), model_box() (+35 more)
 
-### Community 17 - 07_tg_bot_aiforguest
-Cohesion: 0.1
-Nodes (41): _check_user(), cmd_adduser(), cmd_approve(), cmd_approve_model(), cmd_broadcast(), cmd_build(), cmd_clean(), cmd_deny() (+33 more)
+### Community 14 - 07_tg_bot_aiforguest
+Cohesion: 0.12
+Nodes (42): cmd_message(), cmd_start(), add_user(), auto_session(), clear_last_task(), create_session(), drop_session(), dropsession_by_key() (+34 more)
 
-### Community 18 - 02_graphs_candle
+### Community 15 - 02_graphs_candle
 Cohesion: 0.06
-Nodes (38): absoluteSizes(), activateWidget(), addButtonEnabled(), addClass(), addMenu(), addTab(), _adjustCurrentForInsert(), _adjustCurrentForMove() (+30 more)
+Nodes (39): absoluteSizes(), collapse(), _computeWidgetSize(), contains(), _eventKeyDown(), _evtClick(), _evtDblClick(), _evtDragEnter() (+31 more)
 
-### Community 19 - 02_graphs_candle
+### Community 16 - 02_graphs_candle
 Cohesion: 0.06
-Nodes (40): ap(), Bf(), bp(), cf(), cp(), df(), ep(), ff() (+32 more)
+Nodes (37): activeIndex(), addItem(), addItems(), _adjustCurrentForRemove(), alignment(), clearItems(), clearTabs(), currentIndex() (+29 more)
 
-### Community 20 - 02_graphs_candle
+### Community 17 - 02_graphs_candle
 Cohesion: 0.05
 Nodes (38): remove(), "src/components/annotations3d/convert.js"(), "src/components/annotations3d/draw.js"(), "src/components/annotations/draw.js"(), "src/components/fx/index.js"(), "src/components/legend/draw.js"(), "src/components/rangeslider/draw.js"(), "src/components/shapes/display_labels.js"() (+30 more)
 
-### Community 21 - scripts
-Cohesion: 0.1
-Nodes (29): kill_flask(), run(), main(), _load(), queue_add(), queue_pop(), _save(), collect() (+21 more)
-
-### Community 22 - 02_graphs_candle
+### Community 18 - 02_graphs_candle
 Cohesion: 0.06
 Nodes (32): "node_modules/bit-twiddle/twiddle.js"(), "node_modules/color-parse/index.js"(), "node_modules/es5-ext/object/assign/is-implemented.js"(), "node_modules/es6-symbol/is-implemented.js"(), "node_modules/for-each/index.js"(), "node_modules/@plotly/d3-sankey-circular/dist/d3-sankey-circular.js"(), "node_modules/polybooljs/lib/linked-list.js"(), "node_modules/regl-error2d/index.js"() (+24 more)
 
+### Community 19 - 02_graphs_candle
+Cohesion: 0.05
+Nodes (34): "node_modules/binary-search-bounds/search-bounds.js"(), "node_modules/dunder-proto/get.js"(), "node_modules/es6-iterator/string.js"(), "node_modules/is-generator-function/index.js"(), "node_modules/set-function-length/index.js"(), "node_modules/svg-path-sdf/index.js"(), s(), "src/components/errorbars/compute_error.js"() (+26 more)
+
+### Community 20 - 02_graphs_candle
+Cohesion: 0.06
+Nodes (35): "node_modules/es5-ext/object/create.js"(), "node_modules/es5-ext/object/_iterate.js"(), "node_modules/es6-iterator/for-of.js"(), "node_modules/es6-iterator/get.js"(), "node_modules/es6-iterator/is-iterable.js"(), "node_modules/@plotly/d3-sankey/build/d3-sankey.js"(), "node_modules/polybooljs/index.js"(), "node_modules/polybooljs/lib/geojson.js"() (+27 more)
+
+### Community 21 - 02_graphs_candle
+Cohesion: 0.06
+Nodes (33): a(), "node_modules/call-bind-apply-helpers/index.js"(), "node_modules/d3-dispatch/dist/d3-dispatch.js"(), "node_modules/d/index.js"(), "node_modules/define-data-property/index.js"(), "node_modules/detect-kerning/index.js"(), "node_modules/fast-isnumeric/index.js"(), "node_modules/gl-util/context.js"() (+25 more)
+
+### Community 22 - 02_graphs_candle
+Cohesion: 0.06
+Nodes (33): f(), "node_modules/css-font/stringify.js"(), "node_modules/elementary-circuits-directed-graph/johnson.js"(), "node_modules/es6-symbol/polyfill.js"(), "node_modules/object.assign/implementation.js"(), "node_modules/probe-image-size/lib/parse_sync/tiff.js"(), "node_modules/stream-parser/index.js"(), "node_modules/which-typed-array/index.js"() (+25 more)
+
 ### Community 23 - 02_graphs_candle
 Cohesion: 0.06
-Nodes (33): "node_modules/binary-search-bounds/search-bounds.js"(), "node_modules/es6-iterator/string.js"(), "node_modules/is-generator-function/index.js"(), "node_modules/set-function-length/index.js"(), "node_modules/svg-path-sdf/index.js"(), s(), "src/components/errorbars/compute_error.js"(), "src/components/fx/click.js"() (+25 more)
+Nodes (33): m(), "node_modules/stream-browserify/node_modules/readable-stream/lib/internal/streams/end-of-stream.js"(), "node_modules/topojson-client/dist/topojson-client.js"(), "node_modules/util/support/types.js"(), "src/components/errorbars/calc.js"(), "src/lib/clean_number.js"(), "src/lib/nested_property.js"(), "src/lib/notifier.js"() (+25 more)
 
-### Community 24 - 02_graphs_candle
-Cohesion: 0.06
-Nodes (35): "node_modules/dunder-proto/get.js"(), "node_modules/es5-ext/object/create.js"(), "node_modules/es5-ext/object/_iterate.js"(), "node_modules/es6-iterator/get.js"(), "node_modules/es6-iterator/is-iterable.js"(), "node_modules/@plotly/d3-sankey/build/d3-sankey.js"(), "node_modules/polybooljs/index.js"(), "node_modules/polybooljs/lib/geojson.js"() (+27 more)
-
-### Community 25 - 02_graphs_candle
-Cohesion: 0.06
-Nodes (34): a(), "node_modules/call-bind-apply-helpers/index.js"(), "node_modules/d3-dispatch/dist/d3-dispatch.js"(), "node_modules/d/index.js"(), "node_modules/define-data-property/index.js"(), "node_modules/detect-kerning/index.js"(), "node_modules/es6-iterator/for-of.js"(), "node_modules/fast-isnumeric/index.js"() (+26 more)
-
-### Community 26 - 03_demo_charts_ascii
+### Community 24 - 03_demo_charts_ascii
 Cohesion: 0.09
 Nodes (30): api_data(), api_indicators(), ascii_new(), build_file_tree(), debug_deps(), _find_card_dir(), _get_chart_data(), index() (+22 more)
 
+### Community 25 - 02_graphs_candle
+Cohesion: 0.06
+Nodes (32): "node_modules/d3-collection/dist/d3-collection.js"(), "node_modules/d/auto-bind.js"(), "node_modules/es5-ext/array/from/shim.js"(), "node_modules/is-typed-array/index.js"(), "node_modules/object-keys/implementation.js"(), "node_modules/polybooljs/lib/intersecter.js"(), "node_modules/probe-image-size/lib/parse_sync/svg.js"(), "src/components/fx/calc.js"() (+24 more)
+
+### Community 26 - 02_graphs_candle
+Cohesion: 0.06
+Nodes (32): J(), "node_modules/buffer/index.js"(), "node_modules/d3-geo-projection/dist/d3-geo-projection.js"(), "node_modules/d3-shape/dist/d3-shape.js"(), "node_modules/get-intrinsic/index.js"(), "src/components/annotations/attributes.js"(), "src/components/colorbar/attributes.js"(), "src/components/fx/attributes.js"() (+24 more)
+
 ### Community 27 - 02_graphs_candle
-Cohesion: 0.06
-Nodes (33): m(), "node_modules/stream-browserify/node_modules/readable-stream/lib/internal/streams/end-of-stream.js"(), "src/components/errorbars/calc.js"(), "src/components/errorbars/defaults.js"(), "src/lib/clean_number.js"(), "src/lib/nested_property.js"(), "src/lib/notifier.js"(), "src/lib/preserve_drawing_buffer.js"() (+25 more)
-
-### Community 28 - 02_graphs_candle
-Cohesion: 0.06
-Nodes (33): J(), "node_modules/buffer/index.js"(), "node_modules/d3-shape/dist/d3-shape.js"(), "src/components/annotations/attributes.js"(), "src/components/colorbar/attributes.js"(), "src/components/fx/attributes.js"(), "src/components/fx/layout_attributes.js"(), "src/components/legend/attributes.js"() (+25 more)
-
-### Community 29 - 02_graphs_candle
 Cohesion: 0.06
 Nodes (32): addCommand(), addKeyBinding(), caption(), className(), closable(), dataset(), _detachDragImage(), emit() (+24 more)
 
+### Community 28 - 02_graphs_candle
+Cohesion: 0.1
+Nodes (30): activate(), _activateNextItem(), _activatePreviousItem(), _cancelCloseTimer(), _cancelOpenTimer(), clearMenus(), close(), _closeChildMenu() (+22 more)
+
+### Community 29 - 01_fundament_rf
+Cohesion: 0.16
+Nodes (4): JSONStorage, main(), open(), "src/lib/show_no_webgl_msg.js"()
+
 ### Community 30 - 02_graphs_candle
 Cohesion: 0.06
-Nodes (32): f(), "node_modules/css-font/stringify.js"(), "node_modules/elementary-circuits-directed-graph/johnson.js"(), "node_modules/es6-symbol/polyfill.js"(), "node_modules/object.assign/implementation.js"(), "node_modules/probe-image-size/lib/parse_sync/tiff.js"(), "node_modules/stream-parser/index.js"(), "node_modules/which-typed-array/index.js"() (+24 more)
+Nodes (31): l(), "node_modules/assert/build/internal/errors.js"(), "node_modules/base64-js/index.js"(), "node_modules/es6-iterator/array.js"(), "src/components/fx/hoverlabel_defaults.js"(), "src/components/modebar/defaults.js"(), "src/plots/cartesian/tick_label_defaults.js"(), "src/plots/smith/layout_defaults.js"() (+23 more)
 
 ### Community 31 - 02_graphs_candle
-Cohesion: 0.06
-Nodes (32): "node_modules/d3-collection/dist/d3-collection.js"(), "node_modules/es5-ext/array/from/shim.js"(), "node_modules/is-typed-array/index.js"(), "node_modules/object-keys/implementation.js"(), "node_modules/polybooljs/lib/intersecter.js"(), "node_modules/probe-image-size/lib/parse_sync/svg.js"(), "node_modules/probe-image-size/lib/parse_sync/webp.js"(), "node_modules/topojson-client/dist/topojson-client.js"() (+24 more)
+Cohesion: 0.09
+Nodes (22): addWidget(), attachWidget(), columnCount(), columnSpacing(), _createHandle(), detachWidget(), direction(), fit() (+14 more)
 
-### Community 32 - 02_graphs_candle
-Cohesion: 0.06
-Nodes (31): l(), "node_modules/base64-js/index.js"(), "node_modules/d/auto-bind.js"(), "node_modules/es6-iterator/array.js"(), "src/components/fx/hoverlabel_defaults.js"(), "src/components/modebar/defaults.js"(), "src/plots/cartesian/tick_label_defaults.js"(), "src/plots/smith/layout_defaults.js"() (+23 more)
+### Community 32 - 07_tg_bot_aiforguest
+Cohesion: 0.11
+Nodes (28): make_collage(), cmd_view(), _handle_audit_inn(), _handle_file(), _handle_message(), _handle_metrics(), _handle_ofd(), _handle_positions() (+20 more)
 
 ### Community 33 - 02_graphs_candle
-Cohesion: 0.08
-Nodes (30): Af(), Ah(), bh(), Dh(), Fh(), gh(), Ih(), kf() (+22 more)
+Cohesion: 0.07
+Nodes (29): c(), "node_modules/call-bind/index.js"(), "node_modules/define-properties/index.js"(), "node_modules/es5-ext/object/set-prototype-of/shim.js"(), "node_modules/is-callable/index.js"(), "node_modules/probe-image-size/lib/miaf_utils.js"(), "node_modules/probe-image-size/lib/parse_sync/webp.js"(), "src/components/grid/index.js"() (+21 more)
 
 ### Community 34 - 02_graphs_candle
 Cohesion: 0.07
-Nodes (30): c(), "node_modules/assert/build/internal/errors.js"(), "node_modules/call-bind/index.js"(), "node_modules/define-properties/index.js"(), "node_modules/es5-ext/object/set-prototype-of/shim.js"(), "node_modules/is-callable/index.js"(), "node_modules/probe-image-size/lib/miaf_utils.js"(), "src/components/legend/defaults.js"() (+22 more)
+Nodes (29): d(), "node_modules/assert/build/internal/assert/assertion_error.js"(), "node_modules/assert/build/internal/util/comparisons.js"(), "node_modules/d3-array/dist/d3-array.js"(), "node_modules/d3-format/dist/d3-format.js"(), "node_modules/regl-scatter2d/bundle.js"(), "node_modules/tinycolor2/tinycolor.js"(), "node_modules/@turf/helpers/dist/cjs/index.cjs"() (+21 more)
 
-### Community 35 - 02_graphs_candle
-Cohesion: 0.07
-Nodes (28): d(), "node_modules/assert/build/internal/assert/assertion_error.js"(), "node_modules/assert/build/internal/util/comparisons.js"(), "node_modules/d3-array/dist/d3-array.js"(), "node_modules/d3-format/dist/d3-format.js"(), "node_modules/d3-geo-projection/dist/d3-geo-projection.js"(), "node_modules/get-intrinsic/index.js"(), "node_modules/regl-scatter2d/bundle.js"() (+20 more)
+### Community 35 - 01_fundament_rf
+Cohesion: 0.13
+Nodes (25): _arc_path(), donut_chart(), _empty_donut(), get_mini_color(), get_roe_color(), heatmap_mini_cells(), kpi_card(), kpi_row() (+17 more)
 
-### Community 36 - 08_ofd_api
+### Community 36 - 07_tg_bot_aiforguest
+Cohesion: 0.14
+Nodes (23): cmd_sandbox(), cmd_users(), Footer — делегирует build_footer, Footer — делегирует build_footer, Footer — делегирует build_footer, status_block4(), _context_limit(), get_quota() (+15 more)
+
+### Community 37 - 08_ofd_api
 Cohesion: 0.12
 Nodes (6): api_execute(), build_methods_tree(), get_client(), load_provider(), OFD API Explorer — Flask Blueprint., YandexOfdClient
 
-### Community 37 - 01_fundament_rf
+### Community 38 - 01_fundament_rf
 Cohesion: 0.11
 Nodes (5): BitgetAPIClient, main(), OrderData, Данные ордера с формулами PnL как в fundament_rf, TelegramOrderProcessor
 
-### Community 38 - 01_fundament_rf
+### Community 39 - 01_fundament_rf
+Cohesion: 0.16
+Nodes (26): batch_process(), _build_chart_data(), _calculate_day(), _calculate_ranges(), _calculate_summary(), create_1d(), delete_1d_raw(), _fetch_candles() (+18 more)
+
+### Community 40 - 01_fundament_rf
 Cohesion: 0.14
 Nodes (15): BitgetAPIClient, current_date(), current_price(), days_diff(), days_open(), emoji_entry_line(), emoji_upd_line(), is_profitable() (+7 more)
 
-### Community 39 - 02_graphs_candle
+### Community 41 - 03_demo_charts_ascii
+Cohesion: 0.1
+Nodes (24): anomaly_line(), _c256(), _clamp_width(), gauge_chart(), gradient_bar(), pareto_chart(), radar_chart(), ascii_visuals.py — Pure-ASCII advanced chart primitives.  New chart types:   rad (+16 more)
+
+### Community 42 - 02_graphs_candle
 Cohesion: 0.07
 Nodes (27): "(disabled):node_modules/util/util.js"(), keys(), listCommands(), listPlugins(), "node_modules/es5-ext/object/keys/is-implemented.js"(), "node_modules/has-symbols/shams.js"(), "node_modules/object-keys/index.js"(), "node_modules/probe-image-size/sync.js"() (+19 more)
 
-### Community 40 - 01_fundament_rf
+### Community 43 - 01_fundament_rf
 Cohesion: 0.16
 Nodes (8): BitgetAccountClient, AccountOverview, ApiStatus, AssetBalance, Fill, MixAccount, Order, Position
 
-### Community 41 - ui-ux-design-pro
+### Community 44 - ui-ux-design-pro
 Cohesion: 0.14
 Nodes (19): auditCommand(), auditFile(), extractFont(), extractPrimaryColor(), extractStyleName(), generateArchitecturalPalette(), generateEnhancedMarkdown(), generateSystemCommand() (+11 more)
 
-### Community 42 - 03_demo_charts_ascii
+### Community 45 - 03_demo_charts_ascii
 Cohesion: 0.19
 Nodes (15): generate(), plot(), plot_multi(), enrich_summary(), legend(), load_data(), sparkline(), generate() (+7 more)
 
-### Community 43 - 03_demo_charts_ascii
-Cohesion: 0.11
-Nodes (22): anomaly_line(), _c256(), _clamp_width(), gauge_chart(), gradient_bar(), pareto_chart(), ascii_visuals.py — Pure-ASCII advanced chart primitives.  New chart types:   rad, bars = [(label, delta), ...]     Draws cumulative waterfall with green/red delta (+14 more)
+### Community 46 - 01_fundament_rf
+Cohesion: 0.16
+Nodes (19): api_balance(), api_fills(), api_orders(), api_overview(), api_positions(), api_status(), _build_debug(), _extract_schema() (+11 more)
 
-### Community 44 - 07_tg_bot_aiforguest
-Cohesion: 0.17
-Nodes (19): cmd_sandbox(), cmd_users(), Footer — делегирует build_footer, Footer — делегирует build_footer, Footer — делегирует build_footer, status_block4(), get_quota(), list_users() (+11 more)
-
-### Community 45 - 03_demo_charts_ascii
+### Community 47 - 03_demo_charts_ascii
 Cohesion: 0.14
 Nodes (21): compute_all_indicators(), compute_anomalies(), compute_bollinger(), compute_macd(), compute_mas(), compute_rsi(), _ema(), indicator_summary() (+13 more)
 
-### Community 46 - 01_fundament_rf
+### Community 48 - 01_fundament_rf
 Cohesion: 0.17
 Nodes (15): get_storage(), load_candles_from_storage(), load_or_fetch_candles(), MADataLoader, analytics_page(), api_data(), fetch_history(), index() (+7 more)
 
-### Community 47 - 07_tg_bot_aiforguest
+### Community 49 - 07_tg_bot_aiforguest
 Cohesion: 0.21
 Nodes (19): _handle_audit(), fmt_beauty_stage(), fmt_full_md(), fmt_third_party(), geo_lookup(), _log_init(), _parse_nmap_vuln(), _parse_nmap_xml() (+11 more)
 
-### Community 48 - 02_graphs_candle
-Cohesion: 0.17
-Nodes (18): api_chart_candlestick(), api_chart_svg_candlestick(), api_chart_svg_combined(), api_patterns(), create_candlestick_chart(), Create an interactive candlestick chart with pattern markers.          Args:, generate_svg_candlestick(), generate_svg_combined() (+10 more)
-
-### Community 49 - 01_fundament_rf
-Cohesion: 0.2
-Nodes (15): api_balance(), api_fills(), api_orders(), api_overview(), api_positions(), api_status(), _build_debug(), _extract_schema() (+7 more)
-
 ### Community 51 - 02_graphs_candle
+Cohesion: 0.11
+Nodes (20): Lh(), Ph(), size(), "src/components/drawing/index.js"(), "src/components/errorbars/plot.js"(), "src/components/fx/hover.js"(), "src/components/legend/style.js"(), "src/components/updatemenus/draw.js"() (+12 more)
+
+### Community 52 - 01_fundament_rf
+Cohesion: 0.22
+Nodes (18): all_charts(), calc_deviation(), chart(), _get_1m_price(), _get_current_price(), _get_daily_price(), _get_storage(), _parse_date() (+10 more)
+
+### Community 53 - 02_graphs_candle
+Cohesion: 0.11
+Nodes (19): coerce(), _coerceValue(), _compareValue(), _createValue(), _maybeNotify(), "src/components/calendars/index.js"(), "src/components/colorbar/defaults.js"(), "src/components/fx/defaults.js"() (+11 more)
+
+### Community 54 - 02_graphs_candle
 Cohesion: 0.13
 Nodes (18): "node_modules/assert/build/assert.js"(), "node_modules/es6-iterator/index.js"(), "node_modules/events/events.js"(), "node_modules/normalize-svg-path/index.js"(), "node_modules/parse-svg-path/index.js"(), "node_modules/polybooljs/lib/segment-chainer.js"(), "node_modules/probe-image-size/lib/exif_utils.js"(), "node_modules/stream-browserify/node_modules/readable-stream/lib/internal/streams/buffer_list.js"() (+10 more)
 
-### Community 53 - main.py
-Cohesion: 0.14
-Nodes (11): api_chart_svg_pnl(), api_pnl(), api_summary(), generate_svg_pnl(), Generate SVG P&L chart., generate_test_pnl(), Generate synthetic P&L data based on candles., api_chart_svg_pnl() (+3 more)
+### Community 57 - 07_tg_bot_aiforguest
+Cohesion: 0.17
+Nodes (15): _handle_stop(), Принудительная остановка текущего процесса opencode., Принудительная остановка текущего процесса opencode., Принудительная остановка текущего процесса opencode., Принудительная остановка текущего процесса opencode., _abort(), cancel_process(), _cleanup_process() (+7 more)
 
-### Community 54 - 02_graphs_candle
-Cohesion: 0.12
-Nodes (17): coerce(), _coerceValue(), _createValue(), "src/components/calendars/index.js"(), "src/components/colorbar/defaults.js"(), "src/components/fx/defaults.js"(), "src/components/fx/layout_global_defaults.js"(), "src/lib/coerce.js"() (+9 more)
+### Community 58 - main.py
+Cohesion: 0.15
+Nodes (10): api_chart_svg_pnl(), api_pnl(), generate_svg_pnl(), Generate SVG P&L chart., generate_test_pnl(), Generate synthetic P&L data based on candles., api_chart_svg_pnl(), api_pnl() (+2 more)
 
-### Community 55 - 01_fundament_rf
-Cohesion: 0.18
-Nodes (6): clear_positions_cache(), get_metrics_storage(), get_positions_cache(), MetricsStorage, radar_chart(), Draw a radar chart with named axes. Metrics values in 0..1.
+### Community 59 - 02_graphs_candle
+Cohesion: 0.21
+Nodes (14): api_chart_svg_candlestick(), api_chart_svg_combined(), api_patterns(), generate_svg_candlestick(), generate_svg_combined(), SVG Candlestick chart generation - simplified version., Generate SVG candlestick chart., detect_patterns() (+6 more)
 
-### Community 56 - 01_fundament_rf
-Cohesion: 0.23
-Nodes (14): api_all(), api_by_symbol(), api_calendar(), api_distribution(), api_donut(), api_equity(), api_heatmap(), api_kpi() (+6 more)
-
-### Community 57 - 01_fundament_rf
+### Community 60 - 01_fundament_rf
 Cohesion: 0.21
 Nodes (9): esc(), flashCell(), renderJsonTable(), renderJsonTableIfEnabled(), renderJsonTree(), renderLeaf(), renderNode(), setCellSpan() (+1 more)
 
-### Community 58 - 02_graphs_candle
+### Community 61 - scripts
+Cohesion: 0.18
+Nodes (13): format_order_book(), format_risk_summary(), Risk Summary formatter — Rich Table → plain text for Telegram., 7-цветная шкала для ROE% и ROR%., Order Book → Rich Table → plain text., Сформировать список risk flags., Rich Table → plain text для Telegram., _risk_flags() (+5 more)
+
+### Community 62 - 02_graphs_candle
 Cohesion: 0.13
 Nodes (15): add(), "node_modules/d3-geo/dist/d3-geo.js"(), "node_modules/world-calendars/dist/calendars/chinese.js"(), "node_modules/world-calendars/dist/calendars/coptic.js"(), "node_modules/world-calendars/dist/calendars/discworld.js"(), "node_modules/world-calendars/dist/calendars/ethiopian.js"(), "node_modules/world-calendars/dist/calendars/hebrew.js"(), "node_modules/world-calendars/dist/calendars/islamic.js"() (+7 more)
 
-### Community 59 - 02_graphs_candle
-Cohesion: 0.13
-Nodes (15): holdKeyBindingExecution(), "node_modules/d3-force/dist/d3-force.js"(), "node_modules/es6-weak-map/is-implemented.js"(), "node_modules/es6-weak-map/polyfill.js"(), "node_modules/flatten-vertex-data/index.js"(), set(), "src/lib/array.js"(), "src/lib/keyed_container.js"() (+7 more)
-
-### Community 60 - 02_graphs_candle
+### Community 63 - 02_graphs_candle
 Cohesion: 0.13
 Nodes (15): deregisterPlugin(), get(), getPluginDescription(), isEnabled(), isPluginActivated(), isToggleable(), isToggled(), "src/components/colorscale/calc.js"() (+7 more)
 
-### Community 62 - 02_graphs_candle
+### Community 64 - 02_graphs_candle
+Cohesion: 0.13
+Nodes (15): holdKeyBindingExecution(), "node_modules/d3-force/dist/d3-force.js"(), "node_modules/es6-weak-map/is-implemented.js"(), "node_modules/es6-weak-map/polyfill.js"(), "node_modules/flatten-vertex-data/index.js"(), set(), "src/lib/array.js"(), "src/lib/keyed_container.js"() (+7 more)
+
+### Community 66 - 02_graphs_candle
+Cohesion: 0.15
+Nodes (14): bh(), Dh(), Fh(), Ih(), Nh(), Rh(), "src/traces/funnelarea/plot.js"(), "src/traces/icicle/calc.js"() (+6 more)
+
+### Community 67 - 02_graphs_candle
 Cohesion: 0.21
 Nodes (8): Market data fetcher using CCXT (Bitget)., Data module for fetching and processing market data., Pattern, PatternType, Pattern detection for candlestick charts., Types of candlestick patterns., Represents a detected candlestick pattern., Enum
 
-### Community 63 - 02_graphs_candle
-Cohesion: 0.2
-Nodes (12): _clearModifierTimer(), _clearPendingState(), _clearTimer(), execute(), _executeKeyBinding(), hasCommand(), _onPendingTimeout(), processKeydownEvent() (+4 more)
+### Community 68 - scripts
+Cohesion: 0.26
+Nodes (13): collect(), _loop(), _read_cpu(), _read_disk(), _read_loadavg(), _read_meminfo(), _read_net(), _read_pid() (+5 more)
 
-### Community 64 - 02_graphs_candle
-Cohesion: 0.14
-Nodes (14): size(), "src/components/drawing/index.js"(), "src/components/errorbars/plot.js"(), "src/components/fx/hover.js"(), "src/components/legend/style.js"(), "src/components/updatemenus/draw.js"(), "src/lib/dom.js"(), "src/lib/index.js"() (+6 more)
-
-### Community 66 - 07_tg_bot_aiforguest
+### Community 69 - 07_tg_bot_aiforguest
 Cohesion: 0.29
 Nodes (12): _append(), build_metrics_block(), _fmt_compact(), _fmt_disk(), _fmt_mem(), _fmt_net(), _line(), mark_task_end() (+4 more)
 
-### Community 67 - 02_graphs_candle
-Cohesion: 0.19
-Nodes (7): api_chart_pnl(), Candlestick chart visualization using Plotly., Charts module for visualization., create_pnl_chart(), P&L chart visualization using Plotly., Create an interactive P&L chart with equity curve and drawdown.          Args:, api_chart_pnl()
-
-### Community 68 - 01_fundament_rf
-Cohesion: 0.31
-Nodes (11): _arc_path(), donut_chart(), _empty_donut(), get_mini_color(), get_roe_color(), heatmap_mini_cells(), kpi_card(), kpi_row() (+3 more)
-
-### Community 69 - 05_transcript
-Cohesion: 0.44
-Nodes (11): build_markdown(), download_subtitles(), fetch_playlist_entries(), get_title(), main(), markdown_front_matter(), process_playlist(), process_single_video() (+3 more)
-
 ### Community 71 - 02_graphs_candle
 Cohesion: 0.17
-Nodes (10): dispose(), saveLayout(), "src/plots/gl3d/scene.js"(), "src/traces/cone/convert.js"(), "src/traces/isosurface/convert.js"(), "src/traces/mesh3d/convert.js"(), "src/traces/scatter3d/convert.js"(), "src/traces/streamtube/convert.js"() (+2 more)
+Nodes (12): Eh(), id(), "src/traces/funnelarea/calc.js"(), "src/traces/icicle/draw_descendants.js"(), "src/traces/icicle/index.js"(), "src/traces/sunburst/calc.js"(), "src/traces/sunburst/fx.js"(), "src/traces/treemap/draw_ancestors.js"() (+4 more)
 
 ### Community 72 - 02_graphs_candle
-Cohesion: 0.17
-Nodes (12): Eh(), id(), "src/traces/funnelarea/calc.js"(), "src/traces/icicle/draw_descendants.js"(), "src/traces/icicle/index.js"(), "src/traces/sunburst/calc.js"(), "src/traces/sunburst/fx.js"(), "src/traces/treemap/draw_ancestors.js"() (+4 more)
+Cohesion: 0.24
+Nodes (12): _clearModifierTimer(), _clearPendingState(), _clearTimer(), execute(), _executeKeyBinding(), hasCommand(), _onPendingTimeout(), processKeydownEvent() (+4 more)
 
 ### Community 73 - 08_ofd_api
 Cohesion: 0.26
@@ -455,89 +458,93 @@ Nodes (8): buildMethodTree(), buildParamForm(), executeMethod(), loadDocs(), sav
 Cohesion: 0.36
 Nodes (11): audit_inn(), fetch_bankruptcy(), fetch_egrul(), fetch_fssp(), _get(), get_bo(), get_egrul(), get_fssp() (+3 more)
 
-### Community 75 - transcript_pipeline.py
+### Community 75 - 05_transcript
 Cohesion: 0.44
 Nodes (11): build_markdown(), download_subtitles(), fetch_playlist_entries(), get_title(), main(), markdown_front_matter(), process_playlist(), process_single_video() (+3 more)
 
-### Community 76 - translate_pipeline
+### Community 76 - transcript_pipeline.py
+Cohesion: 0.44
+Nodes (11): build_markdown(), download_subtitles(), fetch_playlist_entries(), get_title(), main(), markdown_front_matter(), process_playlist(), process_single_video() (+3 more)
+
+### Community 77 - translate_pipeline
 Cohesion: 0.36
 Nodes (9): build_markdown_with_timestamps(), download_audio_segment(), ensure_dir(), extract_video_id(), format_timestamp(), get_audio_duration(), get_video_title(), main() (+1 more)
-
-### Community 77 - runner.py
-Cohesion: 0.62
-Nodes (9): cmd_restart(), cmd_start(), cmd_status(), cmd_stop(), handler(), is_running(), kill_flask(), log() (+1 more)
 
 ### Community 78 - 02_graphs_candle
 Cohesion: 0.2
 Nodes (11): addFirst(), _addListeners(), _attachDragImage(), children(), insertBefore(), isEmpty(), "node_modules/@plotly/d3/d3.js"(), "node_modules/@plotly/mapbox-gl/dist/mapbox-gl-unminified.js"() (+3 more)
 
-### Community 80 - scripts
-Cohesion: 0.24
-Nodes (9): aggregate_levels(), fetch_aggregated_ob(), fetch_order_book_raw(), normalize_symbol(), Order Book utilities — normalize symbol, fetch from Bitget, aggregate levels., Получить стакан через публичный REST API Bitget., Группировка уровней стакана в корзины по цене.          Вход: [["76670.49", "1.5, Запросить стакан, агрегировать, гарантировать глубину depth корзин.          Есл (+1 more)
+### Community 79 - 02_graphs_candle
+Cohesion: 0.25
+Nodes (11): describedBy(), isHidden(), "node_modules/native-promise-only/lib/npo.src.js"(), "node_modules/stream-browserify/node_modules/readable-stream/lib/internal/streams/async_iterator.js"(), reject(), resolve(), "src/lib/throttle.js"(), "src/plot_api/plot_api.js"() (+3 more)
 
-### Community 81 - 07_tg_bot_aiforguest
-Cohesion: 0.31
-Nodes (9): _abort(), _cleanup_process(), _extract_cmd_from_line(), _is_rate_limit(), _is_rate_limit_text(), post_check(), pre_filter(), Извлекает команду из JSON-строки вывода opencode (+1 more)
-
-### Community 82 - 02_graphs_candle
+### Community 80 - 02_graphs_candle
 Cohesion: 0.2
-Nodes (10): deactivatePlugin(), "node_modules/d3-hierarchy/dist/d3-hierarchy.js"(), "node_modules/d3-quadtree/dist/d3-quadtree.js"(), "node_modules/@plotly/point-cluster/quad.js"(), "node_modules/stream-browserify/node_modules/readable-stream/lib/internal/streams/pipeline.js"(), pop(), removeLast(), "src/lib/geo_location_utils.js"() (+2 more)
+Nodes (8): activateWidget(), addButtonEnabled(), mode(), restoreLayout(), selectWidget(), tabBars(), tabsMovable(), widgets()
+
+### Community 81 - 01_fundament_rf
+Cohesion: 0.27
+Nodes (4): clear_positions_cache(), get_metrics_storage(), get_positions_cache(), MetricsStorage
+
+### Community 82 - runner.py
+Cohesion: 0.62
+Nodes (9): cmd_restart(), cmd_start(), cmd_status(), cmd_stop(), handler(), is_running(), kill_flask(), log() (+1 more)
 
 ### Community 83 - scripts
 Cohesion: 0.24
-Nodes (9): format_order_book(), format_risk_summary(), Risk Summary formatter — Rich Table → plain text for Telegram., 7-цветная шкала для ROE% и ROR%., Order Book → Rich Table → plain text., Сформировать список risk flags., Rich Table → plain text для Telegram., _risk_flags() (+1 more)
+Nodes (9): aggregate_levels(), fetch_aggregated_ob(), fetch_order_book_raw(), normalize_symbol(), Order Book utilities — normalize symbol, fetch from Bitget, aggregate levels., Получить стакан через публичный REST API Bitget., Группировка уровней стакана в корзины по цене.          Вход: [["76670.49", "1.5, Запросить стакан, агрегировать, гарантировать глубину depth корзин.          Есл (+1 more)
 
-### Community 84 - 01_fundament_rf
-Cohesion: 0.42
-Nodes (7): card(), delete_object(), get_object(), index(), _load_live_positions(), range_variants_demo(), Загрузить live позиции из Bitget + сопоставить с картами.
+### Community 84 - 07_tg_bot_aiforguest
+Cohesion: 0.2
+Nodes (9): _handle_positions_image(), _handle_ws_ob(), _normalize_symbol(), Привести символ к формату TICKERUSDT., Привести символ к формату TICKERUSDT., Привести символ к формату TICKERUSDT., Rich Table → HTML с ANSI → Playwright → PNG для Telegram., Rich Console (record=True) → export HTML → Playwright screenshot → PNG. (+1 more)
 
-### Community 87 - 01_fundament_rf
+### Community 85 - 02_graphs_candle
+Cohesion: 0.2
+Nodes (10): deactivatePlugin(), "node_modules/d3-hierarchy/dist/d3-hierarchy.js"(), "node_modules/d3-quadtree/dist/d3-quadtree.js"(), "node_modules/@plotly/point-cluster/quad.js"(), "node_modules/stream-browserify/node_modules/readable-stream/lib/internal/streams/pipeline.js"(), pop(), removeLast(), "src/lib/geo_location_utils.js"() (+2 more)
+
+### Community 86 - 02_graphs_candle
+Cohesion: 0.24
+Nodes (6): api_chart_pnl(), Charts module for visualization., create_pnl_chart(), P&L chart visualization using Plotly., Create an interactive P&L chart with equity curve and drawdown.          Args:, api_chart_pnl()
+
+### Community 88 - 01_fundament_rf
 Cohesion: 0.27
 Nodes (5): env_keys(), execute_method(), _get_env_key(), get_methods(), _is_auth_required()
 
-### Community 89 - flask-runner
+### Community 89 - 01_fundament_rf
+Cohesion: 0.42
+Nodes (7): card(), delete_object(), get_object(), index(), _load_live_positions(), range_variants_demo(), Загрузить live позиции из Bitget + сопоставить с картами.
+
+### Community 91 - flask-runner
 Cohesion: 0.56
 Nodes (9): cmd_restart(), cmd_start(), cmd_status(), cmd_stop(), handler(), is_running(), kill_flask(), log() (+1 more)
 
-### Community 90 - 05_transcript
-Cohesion: 0.61
-Nodes (7): download_subtitles(), fetch_playlist_entries(), get_title(), main(), process_video(), video_id_from_url(), vtt_to_text()
-
-### Community 92 - 02_graphs_candle
-Cohesion: 0.25
-Nodes (5): MarketDataFetcher, Fetches market data from Bitget using CCXT., Get available trading symbols., Fetch OHLCV candlestick data.                  Args:             symbol: Trading, Get trading summary for a symbol.
-
 ### Community 93 - 02_graphs_candle
 Cohesion: 0.22
-Nodes (9): clearData(), _onTabDetachRequested(), setData(), "src/traces/choroplethmap/plot.js"(), "src/traces/choroplethmapbox/plot.js"(), "src/traces/densitymap/plot.js"(), "src/traces/densitymapbox/plot.js"(), "src/traces/scattermap/plot.js"() (+1 more)
+Nodes (9): init(), "src/components/colorbar/draw.js"(), "src/components/shapes/display_outlines.js"(), "src/plots/cartesian/dragbox.js"(), "src/plots/geo/geo.js"(), "src/plots/mapbox/mapbox.js"(), "src/plots/polar/polar.js"(), "src/plots/ternary/ternary.js"() (+1 more)
 
-### Community 95 - 02_graphs_candle
+### Community 94 - 02_graphs_candle
 Cohesion: 0.22
 Nodes (9): clear(), length(), "node_modules/stream-browserify/node_modules/readable-stream/lib/_stream_readable.js"(), $p(), "src/components/dragelement/unhover.js"(), "src/components/selections/select.js"(), "src/lib/clear_gl_canvases.js"(), "src/traces/scattergl/plot.js"() (+1 more)
 
-### Community 96 - 02_graphs_candle
-Cohesion: 0.31
-Nodes (9): describedBy(), "node_modules/native-promise-only/lib/npo.src.js"(), "node_modules/stream-browserify/node_modules/readable-stream/lib/internal/streams/async_iterator.js"(), reject(), resolve(), "src/lib/throttle.js"(), "src/plot_api/plot_api.js"(), "src/plots/cartesian/transition_axes.js"() (+1 more)
-
-### Community 97 - 02_graphs_candle
+### Community 95 - 02_graphs_candle
 Cohesion: 0.22
-Nodes (9): init(), "src/components/colorbar/draw.js"(), "src/components/shapes/display_outlines.js"(), "src/plots/cartesian/dragbox.js"(), "src/plots/map/map.js"(), "src/plots/mapbox/mapbox.js"(), "src/plots/polar/polar.js"(), "src/plots/ternary/ternary.js"() (+1 more)
+Nodes (9): clearData(), _onTabDetachRequested(), setData(), "src/traces/choroplethmap/plot.js"(), "src/traces/choroplethmapbox/plot.js"(), "src/traces/densitymap/plot.js"(), "src/traces/densitymapbox/plot.js"(), "src/traces/scattermap/plot.js"() (+1 more)
 
-### Community 98 - transcript_pipeline.py
+### Community 96 - 02_graphs_candle
+Cohesion: 0.25
+Nodes (5): MarketDataFetcher, Fetches market data from Bitget using CCXT., Get available trading symbols., Fetch OHLCV candlestick data.                  Args:             symbol: Trading, Get trading summary for a symbol.
+
+### Community 97 - 05_transcript
+Cohesion: 0.61
+Nodes (7): download_subtitles(), fetch_playlist_entries(), get_title(), main(), process_video(), video_id_from_url(), vtt_to_text()
+
+### Community 99 - transcript_pipeline.py
 Cohesion: 0.47
 Nodes (8): build_markdown(), download_subtitles(), get_title(), main(), markdown_front_matter(), summarize_text(), video_id_from_url(), vtt_to_text()
 
-### Community 99 - 07_tg_bot_aiforguest
-Cohesion: 0.39
-Nodes (7): cmd_sysinfo(), _fmt_bytes(), _fmt_time(), get_system_status(), get_uptime(), Системный uptime в формате dd hh:mm:ss, _read_proc()
-
 ### Community 100 - 02_graphs_candle
 Cohesion: 0.25
-Nodes (8): createGraph(), hasGraphElement(), hideGraph(), renderModel(), showImage(), "src/plots/map/layers.js"(), "src/plots/mapbox/layers.js"(), updateImage()
-
-### Community 101 - 02_graphs_candle
-Cohesion: 0.25
-Nodes (4): _getCurrentTabindex(), onUpdateRequest(), removeMenu(), _updateOverflowIndex()
+Nodes (8): dispose(), "src/plots/map/map.js"(), "src/traces/cone/convert.js"(), "src/traces/isosurface/convert.js"(), "src/traces/mesh3d/convert.js"(), "src/traces/scatter3d/convert.js"(), "src/traces/streamtube/convert.js"(), "src/traces/volume/convert.js"()
 
 ### Community 102 - ccxt_preflight.py
 Cohesion: 0.46
@@ -555,94 +562,102 @@ Nodes (6): generate_html(), get_title(), main(), Get title from filename., Gener
 Cohesion: 0.67
 Nodes (5): ensure_dir(), extract_video_id(), fetch_subtitles(), main(), vtt_to_text()
 
+### Community 106 - 02_graphs_candle
+Cohesion: 0.29
+Nodes (7): addLast(), assign(), _h(), insertAfter(), "node_modules/object-assign/index.js"(), "node_modules/object.assign/polyfill.js"(), removeFirst()
+
 ### Community 107 - 02_graphs_candle
 Cohesion: 0.33
 Nodes (5): api_chart_combined(), create_combined_chart(), Combined chart visualization using Plotly., Create a combined chart with candlesticks, patterns, and P&L.          Args:, api_chart_combined()
 
 ### Community 108 - 02_graphs_candle
-Cohesion: 0.29
-Nodes (7): addLast(), assign(), _h(), insertAfter(), "node_modules/object-assign/index.js"(), "node_modules/object.assign/polyfill.js"(), removeFirst()
+Cohesion: 0.33
+Nodes (5): api_chart_candlestick(), create_candlestick_chart(), Candlestick chart visualization using Plotly., Create an interactive candlestick chart with pattern markers.          Args:, api_chart_candlestick()
 
-### Community 109 - 02_graphs_candle
-Cohesion: 0.29
-Nodes (7): isAttached(), isDisposed(), isHidden(), isVisible(), layout(), "src/plots/plots.js"(), testFlag()
-
-### Community 110 - 04_tradingview-demos
+### Community 109 - 04_tradingview-demos
 Cohesion: 0.38
 Nodes (6): generate_html(), get_title(), main(), Get title from filename., Generate new HTML with dynamic iframe., Update all widget files.
 
-### Community 112 - yt_transcript_ytdlp.py
+### Community 111 - 01_fundament_rf
+Cohesion: 0.38
+Nodes (6): _obj_to_dict(), Sync всех карт (параллельно в тредах), Convert Bitget API objects to plain dicts for JSON serialization., Sync всех карт + account данных (параллельно в тредах), sync_all(), _sync_all_cards()
+
+### Community 112 - translate_pipeline
+Cohesion: 0.6
+Nodes (5): build_client(), extract_video_id(), load_providers(), main(), translate_text()
+
+### Community 113 - yt_transcript_ytdlp.py
 Cohesion: 0.6
 Nodes (5): ensure_dir(), extract_video_id(), fetch_subtitles(), main(), vtt_to_text()
-
-### Community 113 - 02_graphs_candle
-Cohesion: 0.4
-Nodes (6): Lh(), Ph(), "src/traces/icicle/partition.js"(), "src/traces/sunburst/attributes.js"(), "src/traces/sunburst/plot.js"(), "src/traces/treemap/partition.js"()
 
 ### Community 114 - 03_demo_charts_ascii
 Cohesion: 0.6
 Nodes (4): build_file_tree(), index(), render(), serve_file()
 
 ### Community 115 - 07_tg_bot_aiforguest
+Cohesion: 0.8
+Nodes (4): _load(), queue_add(), queue_pop(), _save()
+
+### Community 116 - 07_tg_bot_aiforguest
 Cohesion: 0.5
 Nodes (3): _get_model(), transcribe_voice(), transcribe_youtube()
 
-### Community 116 - 07_tg_bot_aiforguest
+### Community 117 - 07_tg_bot_aiforguest
 Cohesion: 0.8
 Nodes (4): acquire(), release(), _task_key(), _type_by_cmd()
 
-### Community 117 - 02_graphs_candle
+### Community 120 - 02_graphs_candle
+Cohesion: 0.4
+Nodes (5): isAttached(), isDisposed(), isVisible(), layout(), testFlag()
+
+### Community 121 - 02_graphs_candle
 Cohesion: 0.5
 Nodes (3): generate_test_candles(), Generate test data when API is unavailable., Generate synthetic candlestick data for testing.
 
-### Community 120 - scripts
-Cohesion: 0.7
-Nodes (4): get_balance(), get_positions_json(), get_super_users(), main()
-
-### Community 121 - 01_fundament_rf
+### Community 123 - 01_fundament_rf
 Cohesion: 0.8
 Nodes (3): kill_flask(), restart(), start_flask()
 
-### Community 122 - translate_pipeline
+### Community 124 - translate_pipeline
 Cohesion: 0.83
 Nodes (3): ensure_dir(), _extract_video_id(), main()
-
-### Community 125 - 01_fundament_rf
-Cohesion: 0.83
-Nodes (3): kill_flask(), restart(), start_flask()
-
-### Community 126 - remove_system_reminder_from_zips.py
-Cohesion: 0.83
-Nodes (3): main(), process_archive(), remove_block_from_text()
 
 ### Community 127 - 02_graphs_candle
 Cohesion: 0.5
 Nodes (4): Ch(), "src/traces/icicle/attributes.js"(), "src/traces/sunburst/defaults.js"(), "src/traces/treemap/attributes.js"()
 
-### Community 130 - 02_graphs_candle
-Cohesion: 0.67
-Nodes (3): activatePlugin(), resolveOptionalService(), resolveRequiredService()
+### Community 129 - remove_system_reminder_from_zips.py
+Cohesion: 0.83
+Nodes (3): main(), process_archive(), remove_block_from_text()
 
-### Community 131 - 02_graphs_candle
+### Community 130 - 01_fundament_rf
+Cohesion: 0.83
+Nodes (3): kill_flask(), restart(), start_flask()
+
+### Community 134 - 02_graphs_candle
 Cohesion: 0.67
 Nodes (3): "node_modules/maplibre-gl/dist/maplibre-gl.js"(), wh(), xh()
 
+### Community 135 - 02_graphs_candle
+Cohesion: 0.67
+Nodes (3): activatePlugin(), resolveOptionalService(), resolveRequiredService()
+
 ## Knowledge Gaps
-- **176 isolated node(s):** `Build default params from method signature metadata.`, `Try alternative parameters on failure.`, `Start a server detached from terminal`, `Risk Summary formatter — Rich Table → plain text for Telegram.`, `7-цветная шкала для ROE% и ROR%.` (+171 more)
+- **181 isolated node(s):** `Build default params from method signature metadata.`, `Try alternative parameters on failure.`, `Start a server detached from terminal`, `Risk Summary formatter — Rich Table → plain text for Telegram.`, `7-цветная шкала для ROE% и ROR%.` (+176 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **30 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `open()` connect `Community 21` to `Community 0`, `Community 3`, `Community 7`, `Community 10`, `Community 11`, `Community 16`, `Community 26`, `Community 37`, `Community 38`, `Community 42`, `Community 50`, `Community 55`, `Community 61`, `Community 65`, `Community 66`, `Community 69`, `Community 76`, `Community 77`, `Community 78`, `Community 79`, `Community 85`, `Community 90`, `Community 91`, `Community 99`, `Community 103`, `Community 105`, `Community 110`, `Community 112`, `Community 120`, `Community 125`, `Community 126`?**
-  _High betweenness centrality (0.378) - this node is a cross-community bridge._
-- **Why does `set()` connect `Community 59` to `Community 0`, `Community 131`, `Community 5`, `Community 9`, `Community 138`, `Community 139`, `Community 12`, `Community 11`, `Community 17`, `Community 18`, `Community 22`, `Community 29`, `Community 48`, `Community 49`, `Community 54`, `Community 58`, `Community 64`, `Community 71`, `Community 78`, `Community 82`, `Community 85`, `Community 87`, `Community 94`, `Community 95`, `Community 96`, `Community 109`?**
-  _High betweenness centrality (0.160) - this node is a cross-community bridge._
-- **Why does `BitgetAccountClient` connect `Community 40` to `Community 49`, `Community 52`, `Community 6`, `Community 84`?**
-  _High betweenness centrality (0.056) - this node is a cross-community bridge._
+- **Why does `open()` connect `Community 29` to `Community 0`, `Community 129`, `Community 130`, `Community 3`, `Community 136`, `Community 9`, `Community 13`, `Community 14`, `Community 24`, `Community 28`, `Community 32`, `Community 38`, `Community 40`, `Community 45`, `Community 50`, `Community 55`, `Community 61`, `Community 65`, `Community 68`, `Community 69`, `Community 75`, `Community 77`, `Community 78`, `Community 81`, `Community 82`, `Community 84`, `Community 97`, `Community 98`, `Community 103`, `Community 105`, `Community 109`, `Community 112`, `Community 113`, `Community 115`, `Community 122`?**
+  _High betweenness centrality (0.366) - this node is a cross-community bridge._
+- **Why does `set()` connect `Community 64` to `Community 0`, `Community 128`, `Community 132`, `Community 6`, `Community 134`, `Community 7`, `Community 9`, `Community 14`, `Community 15`, `Community 16`, `Community 150`, `Community 27`, `Community 31`, `Community 46`, `Community 50`, `Community 51`, `Community 53`, `Community 59`, `Community 62`, `Community 78`, `Community 79`, `Community 85`, `Community 88`, `Community 92`, `Community 94`?**
+  _High betweenness centrality (0.191) - this node is a cross-community bridge._
+- **Why does `partial_fills()` connect `Community 46` to `Community 48`, `Community 64`, `Community 43`, `Community 29`?**
+  _High betweenness centrality (0.088) - this node is a cross-community bridge._
 - **What connects `Build default params from method signature metadata.`, `Try alternative parameters on failure.`, `Start a server detached from terminal` to the rest of the system?**
-  _176 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _181 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 0` be split into smaller, more focused modules?**
   _Cohesion score 0.0 - nodes in this community are weakly interconnected._
 - **Should `Community 1` be split into smaller, more focused modules?**
