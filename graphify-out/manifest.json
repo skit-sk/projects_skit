@@ -104,16 +104,16 @@
     "hash": "cc912dd2294282145868da297878700c"
   },
   "/home/user_aioc/workspace/tools/scripts/screenshot_analytics.py": {
-    "mtime": 1779584201.2456982,
-    "hash": "46a32e04e8557d949f44ba2c103631fe"
+    "mtime": 1779584960.4533832,
+    "hash": "fb299064d704947622814655fe275f4a"
   },
   "/home/user_aioc/workspace/tools/scripts/screenshot_positions.py": {
     "mtime": 1779582374.7668254,
     "hash": "da35458695b8ce7c4d2d20d7310d91c2"
   },
   "/home/user_aioc/workspace/tools/scripts/screenshot_graphs.py": {
-    "mtime": 1779584215.0110075,
-    "hash": "a1525539927202f91cc114fc831ea491"
+    "mtime": 1779584497.8253655,
+    "hash": "cf74b60e4ddb21e4227c1f188651ed05"
   },
   "/home/user_aioc/workspace/tools/scripts/formatters/positions_risk.py": {
     "mtime": 1779569657.3106546,
@@ -168,8 +168,8 @@
     "hash": "dc31f5cbf7241b9e4a3546a662f8d26a"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/handler.py": {
-    "mtime": 1779584257.5809646,
-    "hash": "9c1c2ede555ed7168242a9d7189a6b95"
+    "mtime": 1779584977.1467748,
+    "hash": "f00998c6cd6468ef22373754e5d84e7c"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/ip_audit.py": {
     "mtime": 1779397066.4020772,
@@ -1736,24 +1736,24 @@
     "hash": "1be60bbe14bd165d533331213bb8ae07"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/positions_tg_rows.txt": {
-    "mtime": 1779562902.1691718,
-    "hash": "cc8e1ab17a9041897fba35bec676ae06"
+    "mtime": 1779585128.479309,
+    "hash": "2b34b171c6e400dc7298fa5f04575eb9"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/positions_risk.txt": {
-    "mtime": 1779562902.1691718,
-    "hash": "db251fde0ab08905056c1fa05420e876"
+    "mtime": 1779585128.479309,
+    "hash": "fbbb6d37c8eeee0a7c2956921e3ad889"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/tgandcompany.md": {
     "mtime": 1778861904.7620175,
     "hash": "7f985d244b2fb1e9c524b4effca9fffe"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/positions_tg_rows.txt": {
-    "mtime": 1779562902.1701717,
-    "hash": "cc8e1ab17a9041897fba35bec676ae06"
+    "mtime": 1779585128.480309,
+    "hash": "2b34b171c6e400dc7298fa5f04575eb9"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/positions_risk.txt": {
-    "mtime": 1779562902.1701717,
-    "hash": "db251fde0ab08905056c1fa05420e876"
+    "mtime": 1779585128.479309,
+    "hash": "fbbb6d37c8eeee0a7c2956921e3ad889"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/audits/audit_194_79_46_206_s2.md": {
     "mtime": 1779247246.4097843,
@@ -3240,8 +3240,8 @@
     "hash": "50058ba15bbfbdd3190669adf46e2548"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/CRV_main_chart.png": {
-    "mtime": 1779583385.652383,
-    "hash": "d2e6cac3c398ea017b22be3204d91886"
+    "mtime": 1779585162.621103,
+    "hash": "df9a79301ca57411f6b059452402bd00"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/positions_table.png": {
     "mtime": 1779562745.9967232,
@@ -3260,12 +3260,12 @@
     "hash": "793529af93b4ce14974d4b18854a1358"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/CAKE_indicators.png": {
-    "mtime": 1779583417.0350866,
-    "hash": "8faec494fc8aca2d60a88b1d049bf42d"
+    "mtime": 1779585018.156735,
+    "hash": "76f796c91556a94ad43c93cc28ef805c"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/FIL_main_chart.png": {
-    "mtime": 1779583390.8955007,
-    "hash": "70f14522ea4174c064bf0d1cd486f68e"
+    "mtime": 1779585169.2232566,
+    "hash": "ef17ed21f345fabac2e1b576ab48eaaa"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/tv_bitget:skyaiusdt_60.png": {
     "mtime": 1778894046.004372,
@@ -3280,16 +3280,24 @@
     "hash": "9af66c641b358bad7ca4054d8264a246"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/API3_main_chart.png": {
-    "mtime": 1779583396.1136177,
-    "hash": "556e4c7c09c05ac4426fca7fa958067f"
+    "mtime": 1779584758.1876068,
+    "hash": "9d21a860db14ec21ac7564f58f902001"
+  },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/ATOM_tg_line.png": {
+    "mtime": 1779584459.546505,
+    "hash": "14cdfb71b4f1357b7c87e60c7a0401a5"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/graphs_all.png": {
-    "mtime": 1779584302.9139836,
-    "hash": "5f9220bc4a6ce7dc13f4b5b7816510ba"
+    "mtime": 1779584672.9625719,
+    "hash": "fc3147735bef3e2d20b81b55179e4518"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/tv_bitget_skyaiusdt_60.png": {
     "mtime": 1778953392.9966862,
     "hash": "6bffbf85a231c89b304cfb57efbb68d8"
+  },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/ATOM_analytics.png": {
+    "mtime": 1779584459.6655078,
+    "hash": "3570023ea28490111936cb72e94f140f"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/tv_btcusdt_1D.png": {
     "mtime": 1778877870.6925108,
@@ -3300,20 +3308,20 @@
     "hash": "76f489802b8554f420dccbe1f4a8edde"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/ATOM_indicators.png": {
-    "mtime": 1779583411.82597,
-    "hash": "c738b361a4ea4b27c03d562aa6d71d4e"
+    "mtime": 1779584459.5295045,
+    "hash": "6d7118f7dcea8dc2ed118ba31a0c79fe"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/SKYAI_indicators.png": {
     "mtime": 1779583401.395736,
     "hash": "0c30d6c5d468e5291bfbcf1b10047f1a"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/XRP_indicators.png": {
-    "mtime": 1779583710.0986633,
-    "hash": "a3e1671e570e45dbd8fbc67906aeb2a9"
+    "mtime": 1779585156.4049585,
+    "hash": "cfd97dbfa050bd18427bef19054af62b"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/CRV_indicators.png": {
-    "mtime": 1779583385.7553854,
-    "hash": "d1e4c57fdc9889a2a9d900055443abff"
+    "mtime": 1779585162.8101075,
+    "hash": "940fd01eb21771d3dccfd86050f3ce67"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/2ip_t.jpg": {
     "mtime": 1778869013.7816565,
@@ -3340,16 +3348,16 @@
     "hash": "4fa1333f8c6596d0fe77d0d59a221997"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/ADA_indicators.png": {
-    "mtime": 1779583370.170036,
-    "hash": "6887bb1043fac90846e0b4a6d54c5442"
+    "mtime": 1779585143.7696648,
+    "hash": "33e73e169c97973502fe4ab62a03ca49"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/FIL_indicators.png": {
-    "mtime": 1779583391.002503,
-    "hash": "2d140f2ffa8e44fede3b41b48e52ac22"
+    "mtime": 1779585169.3942604,
+    "hash": "a61effda45115fea496d00575a11c24f"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/CKB_indicators.png": {
-    "mtime": 1779583375.352152,
-    "hash": "51e2c6d13d37d3022c5847cab1be61ce"
+    "mtime": 1779585150.102812,
+    "hash": "7fde72180ffe8c8738e8d88ebe06e8f8"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/tv_etcusdt_240.png": {
     "mtime": 1778881790.3922603,
@@ -3360,36 +3368,36 @@
     "hash": "ddabd699a52a2578e8c44282bcdb90dd"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/CAKE_main_chart.png": {
-    "mtime": 1779583416.9330845,
-    "hash": "c2bf95dc62cbf21a8a1ea3f6e64e482f"
+    "mtime": 1779585018.0487325,
+    "hash": "f7d6f4318cdcb5ce9e4619762faad39a"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/tv_ethusdt_1D.png": {
     "mtime": 1778877990.7109346,
     "hash": "922f8a2e7261c9941b42c4dc9597f3ae"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/CKB_main_chart.png": {
-    "mtime": 1779583375.25415,
-    "hash": "9f54c4d1edc5c235bdf140ca52f38895"
+    "mtime": 1779585149.9948096,
+    "hash": "1495fe3ff21383dfb45135a148c06979"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/1_ifconfig.png": {
     "mtime": 1778869316.3344896,
     "hash": "66c6510def11b34a6916a53492236e20"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/DOT_main_chart.png": {
-    "mtime": 1779583406.4428492,
-    "hash": "fcbf5634fd2e73fe7bd771d2474d3760"
+    "mtime": 1779585066.1148555,
+    "hash": "41f38b1fa899f2aa270e36d4d23684e6"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/tv_xrpusdt_60.png": {
     "mtime": 1778881606.8891442,
     "hash": "9882ca6303cd67d8ed414cb1a1371c1d"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/ETC_main_chart.png": {
-    "mtime": 1779584291.6197298,
-    "hash": "e955f6c15a5b25cda19c030f88ac7b03"
+    "mtime": 1779585137.2135122,
+    "hash": "320db29ca7eb49e7a2561cfc55175781"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/ADA_main_chart.png": {
-    "mtime": 1779583370.0730338,
-    "hash": "703ab12632161877b4a1af01eb297c08"
+    "mtime": 1779585143.652662,
+    "hash": "52bad410118183df0607b7a67b36ac7c"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/tv_xrpusdt_1D.png": {
     "mtime": 1778880721.2012546,
@@ -3404,12 +3412,12 @@
     "hash": "4339165fd4b6464f896edc2be3cacb97"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/XRP_main_chart.png": {
-    "mtime": 1779583709.9646602,
-    "hash": "10f2d465f5afa695fa43f2e8a0174597"
+    "mtime": 1779585156.2929559,
+    "hash": "8a4ed2f6ad532dfdf94762e0d0a818ea"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/ETC_indicators.png": {
-    "mtime": 1779584291.7137318,
-    "hash": "3924d2935e810d0a0a7a01c285a9bd4b"
+    "mtime": 1779585137.3145146,
+    "hash": "1a59fb54586b08ae657c26131d948f56"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/5_icanhazip.png": {
     "mtime": 1778869330.764815,
@@ -3420,8 +3428,8 @@
     "hash": "1493dbb68cac776f80a6c98571fb628f"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/API3_indicators.png": {
-    "mtime": 1779583396.22062,
-    "hash": "561858a831a3a7aff04996224024c735"
+    "mtime": 1779584758.3046095,
+    "hash": "bd385c8a1f9c2b487ee843ed79143cf5"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/4_whatismyip.png": {
     "mtime": 1778869330.5378098,
@@ -3436,12 +3444,12 @@
     "hash": "d2f77c0a5b5b678b7029427e84f851b4"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/ATOM_main_chart.png": {
-    "mtime": 1779583411.695967,
-    "hash": "d652cf2cb00e01cf54379e55136cb2f9"
+    "mtime": 1779584459.4235022,
+    "hash": "876217e30c3edd4241e8a494f78bcbdd"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/DOT_indicators.png": {
-    "mtime": 1779583406.559852,
-    "hash": "e9962849579584030740a6da24f63269"
+    "mtime": 1779585066.223858,
+    "hash": "f1312a9c8ea8fc1f3763219f4017931f"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/2ip.jpg": {
     "mtime": 1778869008.057527,
@@ -3456,8 +3464,8 @@
     "hash": "e6964203f434a2b0722daac2c6a5d173"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/CRV_main_chart.png": {
-    "mtime": 1779583385.9023886,
-    "hash": "d2e6cac3c398ea017b22be3204d91886"
+    "mtime": 1779585163.0161123,
+    "hash": "df9a79301ca57411f6b059452402bd00"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/grapheteria_nodes.png": {
     "mtime": 1779065358.704227,
@@ -3472,16 +3480,24 @@
     "hash": "ceade098c41f2c76c38bac2e492ef171"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/CAKE_indicators.png": {
-    "mtime": 1779583417.3190932,
-    "hash": "8faec494fc8aca2d60a88b1d049bf42d"
+    "mtime": 1779585018.414741,
+    "hash": "76f796c91556a94ad43c93cc28ef805c"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/klinika_city2.jpg": {
     "mtime": 1779078409.4651058,
     "hash": "d546d9d24061ea5d5b36eb33cdcd89f0"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/FIL_main_chart.png": {
-    "mtime": 1779583391.1465063,
-    "hash": "70f14522ea4174c064bf0d1cd486f68e"
+    "mtime": 1779585169.6042655,
+    "hash": "ef17ed21f345fabac2e1b576ab48eaaa"
+  },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/CKB_analytics.png": {
+    "mtime": 1779585150.4558203,
+    "hash": "da1f3790bcd9588460706787d55bdb1d"
+  },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/CAKE_analytics.png": {
+    "mtime": 1779585018.5317438,
+    "hash": "1c6c8ce90c2c14b55ffa4ce8bfa333c2"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/tv_bitget_xrp_240.png": {
     "mtime": 1779098594.267774,
@@ -3508,12 +3524,16 @@
     "hash": "c82ae4f925ad714c607504e43fc1cf3c"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/API3_main_chart.png": {
-    "mtime": 1779583396.3686233,
-    "hash": "556e4c7c09c05ac4426fca7fa958067f"
+    "mtime": 1779584758.4616132,
+    "hash": "9d21a860db14ec21ac7564f58f902001"
+  },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ATOM_tg_line.png": {
+    "mtime": 1779584459.897513,
+    "hash": "14cdfb71b4f1357b7c87e60c7a0401a5"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/graphs_all.png": {
-    "mtime": 1779584302.9149837,
-    "hash": "5f9220bc4a6ce7dc13f4b5b7816510ba"
+    "mtime": 1779584672.964572,
+    "hash": "fc3147735bef3e2d20b81b55179e4518"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/clawx_chat.png": {
     "mtime": 1779065365.7783833,
@@ -3527,6 +3547,10 @@
     "mtime": 1779065365.9793878,
     "hash": "0925435bb1ef594c8ea5d622c6b87576"
   },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ATOM_analytics.png": {
+    "mtime": 1779584460.0135155,
+    "hash": "3570023ea28490111936cb72e94f140f"
+  },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/sim_copilot.gif": {
     "mtime": 1779065363.6973374,
     "hash": "d3601e921a926b4188d328da3f87d883"
@@ -3535,25 +3559,29 @@
     "mtime": 1779095624.9409816,
     "hash": "6667298ef2bb5eafa383dcd031d356c2"
   },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/CRV_analytics.png": {
+    "mtime": 1779585163.2371173,
+    "hash": "dafb671af7b5829f6e362ed0687224fa"
+  },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ATOM_indicators.png": {
-    "mtime": 1779583412.053975,
-    "hash": "c738b361a4ea4b27c03d562aa6d71d4e"
+    "mtime": 1779584459.8915129,
+    "hash": "6d7118f7dcea8dc2ed118ba31a0c79fe"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/SKYAI_indicators.png": {
     "mtime": 1779583401.6447415,
     "hash": "0c30d6c5d468e5291bfbcf1b10047f1a"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/XRP_indicators.png": {
-    "mtime": 1779583710.3766696,
-    "hash": "a3e1671e570e45dbd8fbc67906aeb2a9"
+    "mtime": 1779585156.6509643,
+    "hash": "cfd97dbfa050bd18427bef19054af62b"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/CRV_indicators.png": {
-    "mtime": 1779583386.0283916,
-    "hash": "d1e4c57fdc9889a2a9d900055443abff"
+    "mtime": 1779585163.131115,
+    "hash": "940fd01eb21771d3dccfd86050f3ce67"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ETC_analytics.png": {
-    "mtime": 1779584292.263744,
-    "hash": "05841f1bf1922e08a62d3b6b626ece9b"
+    "mtime": 1779585137.6665227,
+    "hash": "d8e83a123bb2a78e5878cd70dff25ed2"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/sim_knowledge.gif": {
     "mtime": 1779065364.9343646,
@@ -3572,16 +3600,16 @@
     "hash": "6ff46f9259b48cb6d79ac71cf252b8db"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ADA_indicators.png": {
-    "mtime": 1779583370.4120414,
-    "hash": "6887bb1043fac90846e0b4a6d54c5442"
+    "mtime": 1779585144.035671,
+    "hash": "33e73e169c97973502fe4ab62a03ca49"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/FIL_indicators.png": {
-    "mtime": 1779583391.2555087,
-    "hash": "2d140f2ffa8e44fede3b41b48e52ac22"
+    "mtime": 1779585169.7402685,
+    "hash": "a61effda45115fea496d00575a11c24f"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/CKB_indicators.png": {
-    "mtime": 1779583375.6041577,
-    "hash": "51e2c6d13d37d3022c5847cab1be61ce"
+    "mtime": 1779585150.3528178,
+    "hash": "7fde72180ffe8c8738e8d88ebe06e8f8"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/klinika_gippokrat.jpg": {
     "mtime": 1779078379.7264407,
@@ -3600,20 +3628,24 @@
     "hash": "4d6b23a6807bf06234a588c0f736b8a3"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/CAKE_main_chart.png": {
-    "mtime": 1779583417.17909,
-    "hash": "c2bf95dc62cbf21a8a1ea3f6e64e482f"
+    "mtime": 1779585018.2977383,
+    "hash": "f7d6f4318cdcb5ce9e4619762faad39a"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/CKB_main_chart.png": {
-    "mtime": 1779583375.5031555,
-    "hash": "9f54c4d1edc5c235bdf140ca52f38895"
+    "mtime": 1779585150.2498155,
+    "hash": "1495fe3ff21383dfb45135a148c06979"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/codelegate_ref.png": {
     "mtime": 1779065365.447376,
     "hash": "08bf99a91fc7ace19cdfd071b9c2c53a"
   },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/XRP_analytics.png": {
+    "mtime": 1779585156.7719672,
+    "hash": "0c8b1f33b1ce2e250d055cd0f3baf31e"
+  },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/DOT_main_chart.png": {
-    "mtime": 1779583406.7178555,
-    "hash": "fcbf5634fd2e73fe7bd771d2474d3760"
+    "mtime": 1779585066.3618612,
+    "hash": "41f38b1fa899f2aa270e36d4d23684e6"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/clawx_skills.png": {
     "mtime": 1779065366.2453935,
@@ -3632,12 +3664,12 @@
     "hash": "d41d8cd98f00b204e9800998ecf8427e"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ETC_main_chart.png": {
-    "mtime": 1779584291.9997382,
-    "hash": "e955f6c15a5b25cda19c030f88ac7b03"
+    "mtime": 1779585137.4445176,
+    "hash": "320db29ca7eb49e7a2561cfc55175781"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ADA_main_chart.png": {
-    "mtime": 1779583370.307039,
-    "hash": "703ab12632161877b4a1af01eb297c08"
+    "mtime": 1779585143.9346685,
+    "hash": "52bad410118183df0607b7a67b36ac7c"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/grapheteria_human.png": {
     "mtime": 1779065359.243239,
@@ -3647,13 +3679,17 @@
     "mtime": 1779095635.096207,
     "hash": "f3d7a673e05dc2efc691cabfa022b739"
   },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/DOT_analytics.png": {
+    "mtime": 1779585066.5968668,
+    "hash": "984e4182f232324de9d7ff01b038feda"
+  },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/XRP_main_chart.png": {
-    "mtime": 1779583710.2726672,
-    "hash": "10f2d465f5afa695fa43f2e8a0174597"
+    "mtime": 1779585156.5489619,
+    "hash": "8a4ed2f6ad532dfdf94762e0d0a818ea"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ETC_indicators.png": {
-    "mtime": 1779584292.1147408,
-    "hash": "3924d2935e810d0a0a7a01c285a9bd4b"
+    "mtime": 1779585137.54752,
+    "hash": "1a59fb54586b08ae657c26131d948f56"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/clawx_channels.png": {
     "mtime": 1779065366.4553983,
@@ -3663,13 +3699,21 @@
     "mtime": 1779065366.8534071,
     "hash": "6549d8793946d890524533c7fb12dcf7"
   },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ADA_analytics.png": {
+    "mtime": 1779585144.1456735,
+    "hash": "b389457572993773e505f6bbef74668b"
+  },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/grapheteria_debug.gif": {
     "mtime": 1779065361.785295,
     "hash": "fe8d6f51f3d5f6affe3b221213b75843"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/API3_indicators.png": {
-    "mtime": 1779583396.4736257,
-    "hash": "561858a831a3a7aff04996224024c735"
+    "mtime": 1779584758.6016166,
+    "hash": "bd385c8a1f9c2b487ee843ed79143cf5"
+  },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/API3_analytics.png": {
+    "mtime": 1779584758.7806208,
+    "hash": "c23e3d8011d2eb60d54193484e2226da"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/agno_os.png": {
     "mtime": 1779065365.5623784,
@@ -3684,12 +3728,12 @@
     "hash": "7724cadf9d2ef61c72cd902e73ead54f"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ATOM_main_chart.png": {
-    "mtime": 1779583411.9459727,
-    "hash": "d652cf2cb00e01cf54379e55136cb2f9"
+    "mtime": 1779584459.7985106,
+    "hash": "876217e30c3edd4241e8a494f78bcbdd"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/DOT_indicators.png": {
-    "mtime": 1779583406.8238578,
-    "hash": "e9962849579584030740a6da24f63269"
+    "mtime": 1779585066.4688637,
+    "hash": "f1312a9c8ea8fc1f3763219f4017931f"
   },
   "/home/user_aioc/workspace/projects/06_screenshots_project/demo_charts_ascii/index.png": {
     "mtime": 1778027487.9650676,
