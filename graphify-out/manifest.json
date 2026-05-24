@@ -104,12 +104,16 @@
     "hash": "cc912dd2294282145868da297878700c"
   },
   "/home/user_aioc/workspace/tools/scripts/screenshot_analytics.py": {
-    "mtime": 1779583255.5564675,
-    "hash": "4db4d4ce02b3efee4e7e84bfd1c683fd"
+    "mtime": 1779584201.2456982,
+    "hash": "46a32e04e8557d949f44ba2c103631fe"
   },
   "/home/user_aioc/workspace/tools/scripts/screenshot_positions.py": {
     "mtime": 1779582374.7668254,
     "hash": "da35458695b8ce7c4d2d20d7310d91c2"
+  },
+  "/home/user_aioc/workspace/tools/scripts/screenshot_graphs.py": {
+    "mtime": 1779584215.0110075,
+    "hash": "a1525539927202f91cc114fc831ea491"
   },
   "/home/user_aioc/workspace/tools/scripts/formatters/positions_risk.py": {
     "mtime": 1779569657.3106546,
@@ -164,8 +168,8 @@
     "hash": "dc31f5cbf7241b9e4a3546a662f8d26a"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/handler.py": {
-    "mtime": 1779583640.8421085,
-    "hash": "645b1aa0670506f06638c98a7112e8fb"
+    "mtime": 1779584257.5809646,
+    "hash": "9c1c2ede555ed7168242a9d7189a6b95"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/ip_audit.py": {
     "mtime": 1779397066.4020772,
@@ -176,8 +180,8 @@
     "hash": "04a13745228976b1a9ad70e65ad751ba"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/commands.py": {
-    "mtime": 1779583286.234155,
-    "hash": "bd75a1d22886fc9410b07390d72b7e58"
+    "mtime": 1779584262.583077,
+    "hash": "9db2a7552a7e318d9a44a64c5cdbae4a"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/voice.py": {
     "mtime": 1779076140.1078618,
@@ -3279,6 +3283,10 @@
     "mtime": 1779583396.1136177,
     "hash": "556e4c7c09c05ac4426fca7fa958067f"
   },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/graphs_all.png": {
+    "mtime": 1779584302.9139836,
+    "hash": "5f9220bc4a6ce7dc13f4b5b7816510ba"
+  },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/tv_bitget_skyaiusdt_60.png": {
     "mtime": 1778953392.9966862,
     "hash": "6bffbf85a231c89b304cfb57efbb68d8"
@@ -3315,6 +3323,10 @@
     "mtime": 1778872693.6375043,
     "hash": "3355ae322687fea52c0bb0e746ae24a1"
   },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/ETC_analytics.png": {
+    "mtime": 1779584291.856735,
+    "hash": "05841f1bf1922e08a62d3b6b626ece9b"
+  },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/dotusdt_tv_1d.png": {
     "mtime": 1778872886.5067866,
     "hash": "91625fc667bf29bf632326fb5dcdf5f2"
@@ -3343,6 +3355,10 @@
     "mtime": 1778881790.3922603,
     "hash": "5627dc28e15b64e7e1a5f312b265e59a"
   },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/ETC_tg_line.png": {
+    "mtime": 1779584291.7347324,
+    "hash": "ddabd699a52a2578e8c44282bcdb90dd"
+  },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/CAKE_main_chart.png": {
     "mtime": 1779583416.9330845,
     "hash": "c2bf95dc62cbf21a8a1ea3f6e64e482f"
@@ -3368,8 +3384,8 @@
     "hash": "9882ca6303cd67d8ed414cb1a1371c1d"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/ETC_main_chart.png": {
-    "mtime": 1779583364.3399053,
-    "hash": "e740cd4fd8e8f4d1035eee8ec062b5bb"
+    "mtime": 1779584291.6197298,
+    "hash": "e955f6c15a5b25cda19c030f88ac7b03"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/ADA_main_chart.png": {
     "mtime": 1779583370.0730338,
@@ -3392,8 +3408,8 @@
     "hash": "10f2d465f5afa695fa43f2e8a0174597"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/ETC_indicators.png": {
-    "mtime": 1779583364.5179093,
-    "hash": "7230051dc394947e56d059930c1ed16c"
+    "mtime": 1779584291.7137318,
+    "hash": "3924d2935e810d0a0a7a01c285a9bd4b"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/5_icanhazip.png": {
     "mtime": 1778869330.764815,
@@ -3495,6 +3511,10 @@
     "mtime": 1779583396.3686233,
     "hash": "556e4c7c09c05ac4426fca7fa958067f"
   },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/graphs_all.png": {
+    "mtime": 1779584302.9149837,
+    "hash": "5f9220bc4a6ce7dc13f4b5b7816510ba"
+  },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/clawx_chat.png": {
     "mtime": 1779065365.7783833,
     "hash": "07b59dff940a44b569c7cb5af3d8c466"
@@ -3531,6 +3551,10 @@
     "mtime": 1779583386.0283916,
     "hash": "d1e4c57fdc9889a2a9d900055443abff"
   },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ETC_analytics.png": {
+    "mtime": 1779584292.263744,
+    "hash": "05841f1bf1922e08a62d3b6b626ece9b"
+  },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/sim_knowledge.gif": {
     "mtime": 1779065364.9343646,
     "hash": "84b78fb82538b7464350579255829e63"
@@ -3562,6 +3586,10 @@
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/klinika_gippokrat.jpg": {
     "mtime": 1779078379.7264407,
     "hash": "1c260c6c8200b478587c8e9a2f1c029e"
+  },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ETC_tg_line.png": {
+    "mtime": 1779584292.121741,
+    "hash": "ddabd699a52a2578e8c44282bcdb90dd"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/sim_started.png": {
     "mtime": 1779065363.8083398,
@@ -3604,8 +3632,8 @@
     "hash": "d41d8cd98f00b204e9800998ecf8427e"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ETC_main_chart.png": {
-    "mtime": 1779583364.7249138,
-    "hash": "e740cd4fd8e8f4d1035eee8ec062b5bb"
+    "mtime": 1779584291.9997382,
+    "hash": "e955f6c15a5b25cda19c030f88ac7b03"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ADA_main_chart.png": {
     "mtime": 1779583370.307039,
@@ -3624,8 +3652,8 @@
     "hash": "10f2d465f5afa695fa43f2e8a0174597"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ETC_indicators.png": {
-    "mtime": 1779583364.9259183,
-    "hash": "7230051dc394947e56d059930c1ed16c"
+    "mtime": 1779584292.1147408,
+    "hash": "3924d2935e810d0a0a7a01c285a9bd4b"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/clawx_channels.png": {
     "mtime": 1779065366.4553983,
