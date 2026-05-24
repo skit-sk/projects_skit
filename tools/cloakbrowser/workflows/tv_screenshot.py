@@ -19,7 +19,7 @@ TF_MAP = {
 
 symbol = sys.argv[1] if len(sys.argv) > 1 else "BITGET:DOTUSDT"
 tf_raw = sys.argv[2] if len(sys.argv) > 2 else "1d"
-out = sys.argv[3] if len(sys.argv) > 3 else "/tmp/tv_cloak.png"
+out = sys.argv[3] if len(sys.argv) > 3 else "/home/user_aioc/workspace/tools/browser-temp/screenshots/tv_cloak.png"
 range_val = sys.argv[4] if len(sys.argv) > 4 else ""
 
 tf = TF_MAP.get(tf_raw.lower(), tf_raw)
@@ -27,9 +27,10 @@ url = f"https://www.tradingview.com/chart/?symbol={symbol}&theme=dark&interval={
 if range_val:
     url += f"&range={range_val.upper()}"
 
-os.environ.setdefault("CLOAKBROWSER_CACHE_DIR", "/tmp/cloakbrowser")
-os.environ.setdefault("XDG_CACHE_HOME", "/tmp/cache")
-os.environ["LD_LIBRARY_PATH"] = "/tmp/pango_libs/usr/lib/x86_64-linux-gnu"
+BTEMP = "/home/user_aioc/workspace/tools/browser-temp"
+os.environ.setdefault("CLOAKBROWSER_CACHE_DIR", f"{BTEMP}/cache/cloakbrowser")
+os.environ.setdefault("XDG_CACHE_HOME", f"{BTEMP}/cache")
+os.environ["LD_LIBRARY_PATH"] = f"{BTEMP}/pango_libs/usr/lib/x86_64-linux-gnu"
 
 browser = None
 try:

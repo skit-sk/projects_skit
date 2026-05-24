@@ -37,8 +37,9 @@ def format_risk_summary(
     balance: float,
     fill_counts: dict[str, int] | None = None,
     order_counts: dict[str, int] | None = None,
+    totals: dict | None = None,
 ) -> str:
-    """Rich Table → plain text для Telegram."""
+    """Rich Table → plain text для Telegram. Использует pre-computed поля."""
     if fill_counts is None:
         fill_counts = {}
     if order_counts is None:
@@ -63,54 +64,50 @@ def format_risk_summary(
     table.add_column("Lev", justify="right")
     table.add_column("LiqΔ%", justify="right")
 
-    total_margin = 0.0
-    total_pl = 0.0
-    total_value = 0.0
+    total_margin = totals.get('total_margin', 0) if totals else 0
+    total_pl = totals.get('total_pl', 0) if totals else 0
+    total_value = totals.get('total_value', 0) if totals else 0
+    total_count = totals.get('total_positions', len(positions)) if totals else len(positions)
     all_flags: list[str] = []
+
+    use_computed = positions and 'mgn_pct' in positions[0] if positions else False
 
     for pos in positions:
         margin = float(pos.get("margin_size", 0))
         pl = float(pos.get("unrealized_pl", 0))
         leverage = float(pos.get("leverage", 0))
-        value = margin * leverage
-
-        total_margin += margin
-        total_pl += pl
-        total_value += value
-
-        bal_pct = (margin / balance * 100) if balance else 0
-        mgn_pct = 0  # будет пересчитано в total
-        exp_pct = (value / balance * 100) if balance else 0
-        roe = (pl / margin * 100) if margin else 0
-        ror = (pl / balance * 100) if balance else 0
-
-        # LiqDelta% = (openPriceAvg - liqPrice) / openPriceAvg * 100
-        open_price = float(pos.get("open_price_avg", 0))
-        liq_price = float(pos.get("liquidationPrice", 0))
-        liq_delta = abs((open_price - liq_price) / open_price * 100) if open_price and liq_price else 0
-
         side = pos.get("hold_side", "").lower()
-        side_str = "🟢 LONG" if side == "long" else "🔴 SHORT"
-
         cnt = fill_counts.get(pos.get("symbol", ""), 0)
         oc = order_counts.get(pos.get("symbol", ""), 0)
         cnt_str = str(cnt)
         if oc > 0:
             cnt_str += f"📋{oc}"
 
-        roe_emoji = _roe_emoji(roe)
-        ror_emoji = _roe_emoji(ror)
+        if use_computed:
+            bal_pct = float(pos.get("bal_pct", 0))
+            mgn_pct = float(pos.get("mgn_pct", 0))
+            exp_pct = float(pos.get("exp_pct", 0))
+            roe = float(pos.get("roe", 0))
+            liq_delta = float(pos.get("liq_delta", 0))
+        else:
+            bal_pct = (margin / balance * 100) if balance else 0
+            exp_pct = (margin * leverage / balance * 100) if balance else 0
+            roe = (pl / margin * 100) if margin else 0
+            liq_price = float(pos.get("liquidationPrice", 0))
+            open_price = float(pos.get("open_price_avg", 0))
+            liq_delta = abs((open_price - liq_price) / open_price * 100) if open_price and liq_price else 0
+            mgn_pct = (margin / total_margin * 100) if total_margin else 0
 
         table.add_row(
             pos.get("symbol", "?"),
             cnt_str,
-            side_str,
+            "🟢 LONG" if side == "long" else "🔴 SHORT",
             f"{margin:.6f}",
             f"{bal_pct:.2f}",
-            "",  # Mgn% — в total
+            f"{mgn_pct:.2f}",
             f"{exp_pct:.2f}",
             f"{pl:+.6f}",
-            f"{roe_emoji}{roe:+.1f}",
+            f"{_roe_emoji(roe)}{roe:+.1f}",
             f"{int(leverage)}x",
             f"{liq_delta:.1f}",
         )
@@ -122,12 +119,11 @@ def format_risk_summary(
     total_bal_pct = (total_margin / balance * 100) if balance else 0
     total_exp_pct = (total_value / balance * 100) if balance else 0
     total_roe = (total_pl / total_margin * 100) if total_margin else 0
-    total_ror = (total_pl / balance * 100) if balance else 0
 
     table.add_section()
     table.add_row(
         "TOTAL",
-        str(len(positions)),
+        str(total_count),
         "",
         f"{total_margin:.6f}",
         f"{total_bal_pct:.2f}",

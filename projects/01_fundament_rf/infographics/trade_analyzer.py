@@ -1034,14 +1034,17 @@ class TradeAnalyzer:
         opens = [c['open'] for c in candles]
 
         roe_pcts = [d['roe_pct'] for d in days]
-        volatilities = [d['volatility'] * 100 for d in days]
+
+        entry_price = float(days_data.get('entry_price', card['data'].get('emoji_entry', {}).get('entry_price', 0.0)))
+        leverage = int(days_data.get('leverage', card['data'].get('leverage', 10)))
+        trade_volume = float(days_data.get('volume', card['data'].get('emoji_entry', {}).get('volume', 0.36)))
+
+        volatilities = [round((d['volatility'] / closes[i]) * 100, 2) if closes[i] else 0 for i, d in enumerate(days)]
+        volBxLev = [round(v * leverage, 2) for v in volatilities]
         pnl_usdts = [d['pnl_usdt'] for d in days]
         upper_wicks = [d['ohlc']['upper_wick'] for d in days]
         lower_wicks = [d['ohlc']['lower_wick'] for d in days]
 
-        entry_price = float(days_data.get('entry_price', card['data'].get('emoji_entry', {}).get('entry_price', 0.2992)))
-        leverage = int(days_data.get('leverage', card['data'].get('leverage', 10)))
-        trade_volume = float(days_data.get('volume', card['data'].get('emoji_entry', {}).get('volume', 0.36)))
         liq_price = entry_price * (1 - 1.0 / leverage) if leverage > 1 else 0
 
         rsi = self.compute_rsi(closes, 14)
@@ -1113,6 +1116,7 @@ class TradeAnalyzer:
                 'roe_pct': roe_pcts,
                 'pnl_usdt': pnl_usdts,
                 'volatility_pct': volatilities,
+                'volatility_lev': volBxLev,
             },
             'indicators': {
                 'rsi': rsi,

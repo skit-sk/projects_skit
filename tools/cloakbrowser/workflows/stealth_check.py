@@ -6,9 +6,10 @@ Tests: deviceandbrowserinfo.com, browserscan.net, fingerprint.com
 import os
 import sys
 
-os.environ.setdefault("CLOAKBROWSER_CACHE_DIR", "/tmp/cloakbrowser")
-os.environ.setdefault("XDG_CACHE_HOME", "/tmp/cache")
-os.environ["LD_LIBRARY_PATH"] = "/tmp/pango_libs/usr/lib/x86_64-linux-gnu"
+BTEMP = "/home/user_aioc/workspace/tools/browser-temp"
+os.environ.setdefault("CLOAKBROWSER_CACHE_DIR", f"{BTEMP}/cache/cloakbrowser")
+os.environ.setdefault("XDG_CACHE_HOME", f"{BTEMP}/cache")
+os.environ["LD_LIBRARY_PATH"] = f"{BTEMP}/pango_libs/usr/lib/x86_64-linux-gnu"
 
 from cloakbrowser import launch
 
@@ -28,10 +29,10 @@ try:
         print(f"\n--- {name} ---")
         page.goto(url, wait_until="networkidle", timeout=30000)
         print(f"  Page loaded: {page.title()}")
-        page.screenshot(path=f"/tmp/stealth_{name.replace(' ', '_')}.png")
+        page.screenshot(path=f"{BTEMP}/screenshots/stealth_{name.replace(' ', '_')}.png")
         print(f"  Screenshot saved")
 
-    print("\nALL CHECKS DONE — review screenshots in /tmp/stealth_*.png")
+    print(f"\nALL CHECKS DONE — review screenshots in {BTEMP}/screenshots/stealth_*.png")
 except Exception as e:
     print(f"ERROR: {e}")
     sys.exit(1)

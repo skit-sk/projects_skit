@@ -10,6 +10,10 @@ from .models import AssetBalance, MixAccount, Position, Order, Fill, AccountOver
 
 BASE_URL = "https://api.bitget.com"
 
+# Module-level server time cache to avoid extra HTTP round-trip (~340ms) per signed request
+_time_cache = {"offset": 0, "cached_at": 0}
+_TIME_TTL = 30
+
 
 class BitgetAccountClient:
     def __init__(self, api_key: str = None, secret_key: str = None, passphrase: str = None):
@@ -24,12 +28,18 @@ class BitgetAccountClient:
         return bool(self.api_key and self.secret_key and self.passphrase)
 
     def _get_server_time(self) -> int:
+        global _time_cache
+        now = time.time()
+        if now - _time_cache["cached_at"] < _TIME_TTL:
+            return int(now * 1000) + _time_cache["offset"]
         try:
             resp = self.session.get(f"{self.base_url}/api/v2/public/time", timeout=5)
             resp.raise_for_status()
-            return resp.json()['data']['serverTime']
+            st = int(resp.json()['data']['serverTime'])
+            _time_cache = {"offset": st - int(now * 1000), "cached_at": now}
+            return st
         except requests.RequestException:
-            return int(time.time() * 1000)
+            return int(now * 1000) + _time_cache["offset"]
 
     def _generate_signature(self, timestamp: str, method: str, endpoint: str, query_string: str = "") -> str:
         message = timestamp + method.upper() + endpoint

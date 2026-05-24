@@ -3,11 +3,6 @@ let currentMethod = null;
 let methodsCache = {};
 let signaturesCache = {};
 
-function esc(s) {
-    if (s == null) return '';
-    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-}
-
 document.addEventListener('DOMContentLoaded', function () {
     loadExchanges();
     loadEnvKeys();
@@ -30,10 +25,17 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function loadExchanges() {
+    console.log('CCXT: loadExchanges called');
     fetch('/ccxt-api/api/exchanges')
-        .then(r => r.json())
+        .then(r => {
+            console.log('CCXT: response status', r.status);
+            if (!r.ok) throw new Error('HTTP ' + r.status);
+            return r.json();
+        })
         .then(data => {
+            console.log('CCXT: received', data.length, 'exchanges');
             const sel = document.getElementById('exchange-select');
+            if (!sel) { console.error('CCXT: exchange-select not found'); return; }
             sel.innerHTML = '';
             for (const ex of data) {
                 const opt = document.createElement('option');
@@ -43,6 +45,11 @@ function loadExchanges() {
                 sel.appendChild(opt);
             }
             onExchangeChange();
+        })
+        .catch(e => {
+            console.error('CCXT: loadExchanges error:', e);
+            const sel = document.getElementById('exchange-select');
+            if (sel) sel.innerHTML = '<option value="">Ошибка: ' + esc(e.message) + '</option>';
         });
 }
 
@@ -1370,179 +1377,6 @@ function showError(data) {
     const errEl = document.getElementById('error-area');
     errEl.style.display = 'block';
     errEl.textContent = '❌ ' + (data.error || 'Unknown error');
-}
-
-function renderJsonTree(data, container) {
-    container.innerHTML = '';
-    if (data === null || data === undefined) {
-        container.innerHTML = '<span class="json-null">null</span>';
-        return;
-    }
-    if (typeof data !== 'object') {
-        container.appendChild(renderLeaf('', data));
-        return;
-    }
-    const entries = Array.isArray(data)
-        ? data.map((v, i) => [String(i), v])
-        : Object.entries(data);
-    const ul = document.createElement('ul');
-    ul.className = 'json-tree';
-    for (const [k, v] of entries) {
-        ul.appendChild(renderNode(k, v));
-    }
-    container.appendChild(ul);
-}
-
-function renderLeaf(key, value) {
-    const li = document.createElement('li');
-    const keyHtml = key !== '' ? '<span class="json-key">' + esc(key) + '</span>: ' : '';
-    if (value === null) {
-        li.innerHTML = keyHtml + '<span class="json-null">null</span>';
-    } else if (typeof value === 'string') {
-        li.innerHTML = keyHtml + '<span class="json-string">"' + esc(value) + '"</span>';
-    } else if (typeof value === 'number') {
-        li.innerHTML = keyHtml + '<span class="json-number">' + value + '</span>';
-    } else if (typeof value === 'boolean') {
-        li.innerHTML = keyHtml + '<span class="json-bool">' + value + '</span>';
-    } else {
-        li.innerHTML = keyHtml + '<span class="json-null">' + typeof value + '</span>';
-    }
-    return li;
-}
-
-const TUPLE_SIGS = {
-    6: ['ts', 'open', 'high', 'low', 'close', 'volume'],
-    2: ['price', 'amount'],
-};
-
-function renderNode(key, value) {
-    if (value === null || typeof value !== 'object') {
-        return renderLeaf(key, value);
-    }
-
-    const isArray = Array.isArray(value);
-    const isTypedTuple = isArray && TUPLE_SIGS[value.length] && value.every(v => typeof v === 'number');
-    const entries = isTypedTuple
-        ? TUPLE_SIGS[value.length].map((label, i) => [label, value[i]])
-        : isArray
-            ? value.map((v, i) => [String(i), v])
-            : Object.entries(value);
-    const typeLabel = isArray ? 'Array [' + entries.length + ']' : 'Object {' + entries.length + '}';
-
-    if (entries.length === 0) {
-        const li = document.createElement('li');
-        li.innerHTML = '<span class="json-key">' + esc(key) + '</span>: <span class="json-type">' + (isArray ? '[]' : '{}') + '</span>';
-        return li;
-    }
-
-    const collapseId = 'j-' + Math.random().toString(36).substr(2, 8);
-    const li = document.createElement('li');
-    li.className = 'json-collapsible';
-
-    const toggleSpan = document.createElement('span');
-    toggleSpan.className = 'json-toggle';
-    toggleSpan.textContent = '▶';
-    toggleSpan.onclick = function () {
-        const children = li.querySelector('.json-children');
-        const isExpanded = children.classList.contains('expanded');
-        children.classList.toggle('expanded');
-        toggleSpan.classList.toggle('expanded');
-    };
-
-    const keySpan = document.createElement('span');
-    keySpan.className = 'json-key';
-    keySpan.textContent = key + ': ';
-
-    const typeSpan = document.createElement('span');
-    typeSpan.className = 'json-type';
-    typeSpan.textContent = typeLabel;
-
-    const childUl = document.createElement('ul');
-    childUl.className = 'json-children';
-    childUl.id = collapseId;
-    for (const [k, v] of entries) {
-        childUl.appendChild(renderNode(k, v));
-    }
-
-    li.appendChild(toggleSpan);
-    li.appendChild(keySpan);
-    li.appendChild(typeSpan);
-    li.appendChild(childUl);
-    return li;
-}
-
-function valClass(v) {
-    if (v === null || v === undefined) return 'json-null';
-    if (typeof v === 'string') return 'json-string';
-    if (typeof v === 'number') return 'json-number';
-    if (typeof v === 'boolean') return 'json-bool';
-    return '';
-}
-
-function valHtml(v) {
-    if (v === null) return '<span class="json-null">null</span>';
-    if (v === undefined) return '<span class="json-null">undefined</span>';
-    if (typeof v === 'string') return '<span class="json-string">"' + esc(v) + '"</span>';
-    if (typeof v === 'number') return '<span class="json-number">' + v + '</span>';
-    if (typeof v === 'boolean') return '<span class="json-bool">' + v + '</span>';
-    if (typeof v === 'object') return '<span class="json-type">' + (Array.isArray(v) ? 'Array[' + v.length + ']' : 'Object{' + Object.keys(v).length + '}') + '</span>';
-    return esc(String(v));
-}
-
-function renderJsonTable(data, depth) {
-    if (depth === undefined) depth = 0;
-    const maxDepth = 6;
-    const rows = [];
-
-    function walk(obj, path) {
-        if (obj === null || obj === undefined || typeof obj !== 'object') {
-            rows.push({path: path.slice(), value: obj});
-            return;
-        }
-        const entries = Array.isArray(obj)
-            ? obj.map((v, i) => [i, v])
-            : Object.entries(obj);
-        for (const [k, v] of entries) {
-            if (v !== null && typeof v === 'object' && path.length < maxDepth) {
-                rows.push({path: path.concat([String(k)]), value: null, isBranch: true});
-                walk(v, path.concat([String(k)]));
-            } else {
-                rows.push({path: path.concat([String(k)]), value: v});
-            }
-        }
-    }
-    walk(data, []);
-
-    if (!rows.length) { document.getElementById('json-table').innerHTML = ''; return; }
-
-    let html = '<table class="json-table"><tr><th>#</th>';
-    for (let i = 0; i < maxDepth + 1; i++) {
-        html += '<th>' + (i === 0 ? 'field' : 'sub' + i) + '</th>';
-    }
-    html += '<th>Value</th></tr>';
-
-    let idx = 0;
-    for (const r of rows) {
-        idx++;
-        const level = r.path.length - 1;
-        html += '<tr><td>' + idx + '</td>';
-        for (let i = 0; i < maxDepth + 1; i++) {
-            const label = (i < r.path.length) ? esc(r.path[i]) : '';
-            const cls = (i === r.path.length - 1 && r.isBranch) ? 'json-table-branch' : '';
-            html += '<td class="' + cls + '">' + label + '</td>';
-        }
-        html += '<td>' + valHtml(r.value) + '</td></tr>';
-    }
-    html += '</table>';
-    document.getElementById('json-table').innerHTML = html;
-}
-
-function renderJsonTableIfEnabled(data) {
-    const el = document.getElementById('json-table');
-    const cb = document.getElementById('table-view');
-    if (el && cb && cb.checked) {
-        renderJsonTable(data);
-    }
 }
 
 function initDivider() {

@@ -2,6 +2,7 @@
 <div style="font-size:10px; color:#888; margin-bottom:0.25rem;"><span class="section-timer"></span></div>
 <div class="error-state">❌ {{ error }}</div>
 {% elif positions %}
+{% if timings %}<span id="live-timings" data-api="{{ timings.api_ms }}" data-render="{{ timings.render_ms }}" data-total="{{ timings.total_ms }}" style="display:none;"></span>{% endif %}
 <div style="font-size:10px; color:#888; margin-bottom:0.25rem;"><span class="section-timer"></span></div>
 <div style="display:flex; gap:12px; margin:0.5rem 0; flex-wrap:wrap; font-size:12px;">
     <span><strong>Позиций:</strong> {{ positions|length }}</span>
@@ -48,10 +49,10 @@
             <td style="text-align:center;">{{ fmt_num(p.open_price_avg, 5) }}</td>
             <td style="text-align:center;">{{ fmt_num(p.current_price, 5) }}</td>
             <td style="text-align:center;">{{ p.days_open }}д</td>
-            <td style="text-align:center;">{% if ld is not none %}{{ ld|int }}д{% else %}-{% endif %}</td>
-            <td style="text-align:center;">{% if oc > 0 %}<span style="color:#3498db; font-weight:bold;">{{ oc }}</span>{% else %}0{% endif %}</td>
+            <td style="text-align:center;">{% if ld and ld|int >= 1 %}{{ ld|int }}д{% else %}—{% endif %}</td>
+            <td style="text-align:center;">{% if oc > 0 %}<span style="color:#3498db; font-weight:bold;">{{ oc }}</span>{% else %}—{% endif %}</td>
             <td style="text-align:center;">{{ fill_counts.get(p.symbol, 0) }}</td>
-            <td style="text-align:center;">{{ fmt_num(p.margin_size, 4) }}</td>
+            <td style="text-align:center;">{{ fmt_num(p.total_coin, 4) }}</td>
             <td style="text-align:center;">{{ fmt_num(p.position_value_usdt, 2) }}</td>
             <td style="text-align:center;">{{ fmt_num(p.margin_size, 4) }}</td>
             <td style="text-align:center;" class="{{ 'pl-positive' if p.unrealized_pl >= 0 else 'pl-negative' }}">{{ '+ ' if p.unrealized_pl >= 0 else '' }}{{ fmt_num(p.unrealized_pl, 2) }}</td>
@@ -61,7 +62,7 @@
             <td style="text-align:center;">{% if p.has_sl %}{{ fmt_num(p.sl_distance_pct, 1) }}%{% else %}—{% endif %}</td>
             <td style="text-align:center;">{% if p.has_tp %}{{ fmt_num(p.tp_distance_pct, 1) }}%{% else %}—{% endif %}</td>
             <td style="text-align:center;">{{ fmt_num(p.leverage) }}x</td>
-            <td style="text-align:center;">{{ fmt_num(p.liquidation_price, 5) }}</td>
+            <td style="text-align:center;">{{ fmt_num(p.liquidation_price, 5) if p.liquidation_price > 0 else '—' }}</td>
             <td style="text-align:center; color: {{ 'var(--color-profit)' if p.risk_to_liquidation > 50 else 'var(--color-loss)' }}">{{ fmt_num(p.risk_to_liquidation, 1) }}%</td>
         </tr>
         {% endfor %}
@@ -93,60 +94,70 @@
 </table>
 
 <!-- ===== TG Compact Rows ===== -->
-<div class="tg-section">
-  <div style="font-size:10px;color:var(--text-muted);margin-bottom:4px;">📊 Telegram</div>
+<details class="tg-section-details" id="tg-details">
+  <summary class="tg-section-summary" style="font-size:11px; cursor:pointer; padding:6px 8px; background:var(--bg-card); border:1px solid var(--border-color); border-radius:6px; margin-top:8px; color:var(--text-muted); display:flex; align-items:center; gap:6px;">
+    <span style="flex-shrink:0; font-size:10px; width:14px;" id="tg-arrow">▶</span>
+    <span>📊 Telegram ({{ positions|length }})</span>
+    <label style="margin-left:auto; font-size:10px; color:#888; display:flex; align-items:center; gap:3px; cursor:pointer;">
+      <input type="checkbox" id="tg-pin" onchange="toggleTGPin()" style="margin:0;"> 📌
+    </label>
+  </summary>
+  <div class="tg-table-wrapper">
+  <div class="tg-section-body" style="padding:4px 0;">
   {% for p in positions %}
   {% set pd = position_card_data[loop.index0] %}
   {% if pd %}
   {% set arrow_up = p.unrealized_pl >= 0 %}
-  <div class="tg-row {{ 'profit' if arrow_up else 'loss' }}">
-    <span class="tg-arrow">{{ '↑' if arrow_up else '↓' }}</span>
-    {% if pd.deviation_pct and pd.deviation_pct|length > 1 %}
-    <span class="tg-spark" data-values="{{ pd.deviation_pct | reverse | list | tojson }}"></span>
-    {% endif %}
-    <span class="tg-data">
-      <span class="tf">🏗️{{ pd.number }}</span>
-      <span class="tf">🚏{{ pd.symbol }}</span>
-      <span class="tf">🧾{{ "%.4f"|format(p.open_price_avg) }}</span>
-      <span class="tf">📆{{ p.open_date }}</span>
-      <span class="tf">🕒{{ p.days_open }}дн</span>
-      <span class="tf">🧱{{ "%.4f"|format(p.margin_size) }}</span>
-      <span class="tf">🫧{{ "%+.2f"|format(p.pl_percent) }}</span>
-      <span class="tf">🪙{{ "%+.4f"|format(p.unrealized_pl) }}</span>
-      <span class="tf">📦{{ '🟢' if arrow_up else '🔴' }}</span>
-      <span class="tf tg-lev">⬆️{{ "%.0f"|format(p.leverage) }}x</span>
+  <div class="tg-row {{ 'profit' if arrow_up else 'loss' }}" style="display:flex; align-items:center; gap:4px; padding:2px 8px; border-left:4px solid {{ 'var(--color-profit)' if arrow_up else 'var(--color-loss)' }};">
+    <span style="font-size:12px; font-weight:bold; width:14px; color:{{ 'var(--color-profit)' if arrow_up else 'var(--color-loss)' }};">{{ '↑' if arrow_up else '↓' }}</span>
+    <span class="tg-spark" style="width:36px; height:10px; flex-shrink:0;"{% if pd.deviation_pct and pd.deviation_pct|length > 1 %} data-values="{{ pd.deviation_pct | reverse | list | tojson }}"{% endif %}></span>
+    <span style="font-size:15px; font-family:monospace; color:var(--text-muted); white-space:nowrap; overflow:hidden;">
+      <span style="width:36px; display:inline-block; text-align:left;">🏗️{{ pd.number }}</span><span style="margin-left:4px; width:90px; display:inline-block;">🚏{{ pd.symbol }}</span><span style="margin-left:4px; width:76px; display:inline-block;">🧾{{ "%.4f"|format(p.open_price_avg) }}</span><span style="margin-left:4px; width:110px; display:inline-block;">📆{{ p.open_date }}</span><span style="margin-left:4px; width:40px; display:inline-block;">🕒{{ p.days_open }}д</span><span style="margin-left:4px; width:76px; display:inline-block;">🧱{{ "%.4f"|format(p.margin_size) }}</span><span style="margin-left:4px; width:76px; display:inline-block;">🫧{{ "%+.2f"|format(p.pl_percent) }}</span><span style="margin-left:4px; width:85px; display:inline-block;">🪙{{ "%+.4f"|format(p.unrealized_pl) }}</span><span style="margin-left:4px; width:22px; display:inline-block;">{{ '🟢' if arrow_up else '🔴' }}</span><span style="margin-left:4px; width:48px; display:inline-block;">⬆️{{ "%.0f"|format(p.leverage) }}x</span>
     </span>
   </div>
   {% endif %}
   {% endfor %}
-</div>
+  </div>
+  </div>
+</details>
 
 <style>
-.tg-section {
-    margin-top: 0.75rem;
-    padding: 0.5rem;
+.tg-section-details {
+    margin-top: 8px;
+}
+.tg-table-wrapper {
+    display: block;
+    width: fit-content;
+    max-width: 100%;
+    overflow-x: auto;
+}
+.tg-section-summary {
+    list-style: none;
+    cursor: pointer;
+    user-select: none;
+}
+.tg-section-summary::-webkit-details-marker { display: none; }
+.tg-section-details[open] .tg-section-summary {
+    border-bottom: 1px solid var(--border-color);
+    border-radius: 6px 6px 0 0;
+}
+.tg-section-body {
     background: var(--bg-card);
-    border-radius: 6px;
     border: 1px solid var(--border-color);
+    border-top: none;
+    border-radius: 0 0 6px 6px;
 }
 .tg-row {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 6px;
-    padding: 3px 8px;
-    margin-bottom: 2px;
-    border-radius: 0;
+    gap: 4px;
+    padding: 2px 8px;
     font-family: monospace;
-    font-size: 11px;
     white-space: nowrap;
-    border-left: 5px solid transparent;
 }
 .tg-row.profit { border-left-color: var(--color-profit); }
 .tg-row.loss   { border-left-color: var(--color-loss); }
-.tg-arrow {
-    font-size: 13px;
-    font-weight: bold;
+
     width: 16px;
     text-align: center;
     flex-shrink: 0;
@@ -165,30 +176,25 @@
     width: 40px;
     height: 12px;
 }
-.tg-data {
-    display: flex;
-    align-items: center;
-    gap: 0;
-    font-size: 10px;
-    color: var(--text-muted);
+
+/* ── Flash animations ── */
+.account-table tr {
     overflow: hidden;
-    font-family: monospace;
 }
-.tf {
-    flex-shrink: 0;
-    text-align: left;
-    white-space: nowrap;
+.account-table td {
+    position: relative;
+    z-index: 1;
 }
-.tf:nth-child(1) { width: 30px; }  /* 🏗️N */
-.tf:nth-child(2) { width: 46px; }  /* 🚏TICKER */
-.tf:nth-child(3) { width: 72px; }  /* 🧾price */
-.tf:nth-child(4) { width: 82px; }  /* 📆date */
-.tf:nth-child(5) { width: 36px; }  /* 🕒Nдн */
-.tf:nth-child(6) { width: 60px; }  /* 🧱margin */
-.tf:nth-child(7) { width: 64px; }  /* 🫧P&L% */
-.tf:nth-child(8) { width: 64px; }  /* 🪙P&L$ */
-.tf:nth-child(9) { width: 20px; }  /* 📦🟢/🔴 */
-.tf:nth-child(10) { width: 36px; margin-left: 4px; } /* ⬆️levx */
+@keyframes flash-bg-green {
+    0%   { background-color: rgba(34,197,94,0.35); box-shadow: inset 0 0 0 2px rgba(34,197,94,0.6); }
+    100% { background-color: transparent; box-shadow: inset 0 0 0 0px transparent; }
+}
+@keyframes flash-bg-red {
+    0%   { background-color: rgba(239,68,68,0.35); box-shadow: inset 0 0 0 2px rgba(239,68,68,0.6); }
+    100% { background-color: transparent; box-shadow: inset 0 0 0 0px transparent; }
+}
+.flash-up   { animation: flash-bg-green var(--flash-duration, 1.2s) ease-out; }
+.flash-down { animation: flash-bg-red var(--flash-duration, 1.2s) ease-out; }
 </style>
 
 <script>
@@ -206,6 +212,34 @@ document.querySelectorAll('.tg-spark').forEach(function(el) {
     var color = values[values.length - 1] >= values[0] ? '#16a34a' : '#dc2626';
     el.innerHTML = '<svg viewBox="0 0 ' + w + ' ' + h + '"><polyline fill="none" stroke="' + color + '" stroke-width="1.2" points="' + pts + '"/></svg>';
 });
+
+    // Restore TG details open state + pin
+    var details = document.getElementById('tg-details');
+    if (details) {
+        var isPinned = sessionStorage.getItem('tgPinned') === 'true';
+        if (isPinned) {
+            details.open = true;
+        }
+        var arrow = document.getElementById('tg-arrow');
+        if (arrow) arrow.textContent = details.open ? '▼' : '▶';
+        var cb = document.getElementById('tg-pin');
+        if (cb) cb.checked = isPinned;
+    }
+
+window.toggleTGPin = function() {
+    var cb = document.getElementById('tg-pin');
+    sessionStorage.setItem('tgPinned', cb.checked);
+    var details = document.getElementById('tg-details');
+    if (cb.checked && details) details.open = true;
+};
+
+// Arrow update on details toggle
+document.addEventListener('toggle', function(e) {
+    if (e.target.id === 'tg-details') {
+        var arrow = document.getElementById('tg-arrow');
+        if (arrow) arrow.textContent = e.target.open ? '▼' : '▶';
+    }
+}, true);
 </script>
 {% else %}
 <div class="empty-state">📭 Нет открытых позиций</div>

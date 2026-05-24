@@ -20,12 +20,10 @@ from session import get_all_pending_tasks
 from send_queue import queue_pop
 
 logging.basicConfig(
-    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
     level=logging.INFO,
-    handlers=[
-        logging.FileHandler(PROJECT_DIR / "bot.log"),
-        logging.StreamHandler(),
-    ],
+    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+    filename=PROJECT_DIR / "bot.log",
+    filemode="a",
 )
 log = logging.getLogger("tg_bot")
 

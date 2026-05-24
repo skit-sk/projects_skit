@@ -1,0 +1,202 @@
+{
+ "provider": "opencode",
+ "label": "OpenCode",
+ "homepage": "https://opencode.ai",
+ "balance": "prepaid",
+ "updated": "2026-05-23",
+ "opencode_prefix": "opencode/",
+ "models_count": 19,
+ "pricing_available": false,
+ "models": [
+  {
+   "id": "gemini-3.5-flash",
+   "name": "gemini-3.5-flash",
+   "type": "llm",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   }
+  },
+  {
+   "id": "deepseek-v4-flash-free",
+   "name": "deepseek-v4-flash-free",
+   "type": "llm",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   }
+  },
+  {
+   "id": "gpt-5.4-nano",
+   "name": "gpt-5.4-nano",
+   "type": "llm",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   }
+  },
+  {
+   "id": "gpt-5.4",
+   "name": "gpt-5.4",
+   "type": "llm",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   }
+  },
+  {
+   "id": "gpt-5.5",
+   "name": "gpt-5.5",
+   "type": "llm",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   }
+  },
+  {
+   "id": "gpt-5.5-pro",
+   "name": "gpt-5.5-pro",
+   "type": "llm",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   }
+  },
+  {
+   "id": "claude-sonnet-4-6",
+   "name": "claude-sonnet-4-6",
+   "type": "llm",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   }
+  },
+  {
+   "id": "claude-haiku-4-5",
+   "name": "claude-haiku-4-5",
+   "type": "llm",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   }
+  },
+  {
+   "id": "claude-opus-4-7",
+   "name": "claude-opus-4-7",
+   "type": "llm",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   }
+  },
+  {
+   "id": "kimi-k2.5",
+   "name": "kimi-k2.5",
+   "type": "llm",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   }
+  },
+  {
+   "id": "kimi-k2.6",
+   "name": "kimi-k2.6",
+   "type": "llm",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   }
+  },
+  {
+   "id": "minimax-m2.5",
+   "name": "minimax-m2.5",
+   "type": "llm",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   }
+  },
+  {
+   "id": "minimax-m2.7",
+   "name": "minimax-m2.7",
+   "type": "llm",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   }
+  },
+  {
+   "id": "qwen3.5-plus",
+   "name": "qwen3.5-plus",
+   "type": "llm",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   }
+  },
+  {
+   "id": "qwen3.6-plus",
+   "name": "qwen3.6-plus",
+   "type": "llm",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   }
+  },
+  {
+   "id": "glm-5",
+   "name": "glm-5",
+   "type": "llm",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   }
+  },
+  {
+   "id": "glm-5.1",
+   "name": "glm-5.1",
+   "type": "llm",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   }
+  },
+  {
+   "id": "grok-build-0.1",
+   "name": "grok-build-0.1",
+   "type": "llm",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   }
+  },
+  {
+   "id": "nemotron-3-super-free",
+   "name": "nemotron-3-super-free",
+   "type": "llm",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   }
+  }
+ ]
+}

@@ -57,6 +57,42 @@ def _kill_process_group(proc_pid):
                 break  # no permission (already reaped)
 
 
+async def _handle_task_stats(update, uid, text):
+    """Обработчик /task_stats и /task_errors."""
+    import json
+    from security import is_super
+    state_file = os.path.join(WORKSPACE, "projects", "07_tg_bot_aiforguest", "TG_ALL", "task_state.json")
+    if not os.path.exists(state_file):
+        await _reply(update, "❌ Файл статистики не найден", uid)
+        return
+    try:
+        with open(state_file, "r") as f:
+            data = json.load(f)
+    except Exception as e:
+        await _reply(update, f"❌ Ошибка чтения stats: {e}", uid)
+        return
+
+    cmd = text.split()[0].lower()
+    need_errors = cmd == "/task_errors"
+    role = "super" if is_super(uid) else "user"
+
+    targets, depth, err = task_stats.parse_args(uid, text, role)
+    if err:
+        await _reply(update, err, uid)
+        return
+
+    try:
+        if need_errors:
+            report = task_stats.errors_run(data, targets, depth)
+        else:
+            report = task_stats.stats_run(data, targets, depth)
+        if len(report) > 3800:
+            report = report[:3500] + "\n\n... (обрезано)"
+        await _reply(update, report, uid)
+    except Exception as e:
+        await _reply(update, f"❌ Ошибка формирования отчёта: {e}", uid)
+
+
 async def _handle_tg_positions(update, uid):
     import time as _time
     t0 = _time.time()
@@ -150,6 +186,97 @@ async def _handle_sc_positions(update, uid):
         _kill_process_group(proc.pid if proc else None)
 
 
+async def _handle_sc_analytics(update, uid, args):
+    import time as _time
+    import json, urllib.request
+    t0 = _time.time()
+    target = args[0] if args else "all"
+
+    status_msg = await update.message.reply_text("📸 Делаю скриншот аналитики...")
+
+    script = SCRIPTS_DIR / "screenshot_analytics.py"
+    if not script.exists():
+        await status_msg.edit_text(f"❌ Скрипт не найден: {script}")
+        return
+
+    proc = None
+    try:
+        is_all = target.lower() == "all"
+        cmd_args = [sys.executable, str(script), "--all"] if is_all else [sys.executable, str(script), "--symbol", target]
+        proc = await asyncio.create_subprocess_exec(
+            *cmd_args,
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.PIPE,
+            preexec_fn=os.setpgrp
+        )
+        stdout, stderr = await asyncio.wait_for(proc.communicate(), timeout=120)
+        elapsed = int((_time.time() - t0) * 1000)
+
+        if proc.returncode != 0:
+            err = (stderr.decode()[:200] or stdout.decode()[:200])
+            await status_msg.edit_text(f"❌ Ошибка скриншота: {err}")
+            return
+
+        user_dir = TG_ALL_DIR / f"TG_{uid}"
+
+        ts = datetime.now().strftime("%d.%m.%y %H:%M:%S")
+        caption_base = f"📊 Analytics | {ts} | {elapsed}ms"
+        await status_msg.delete()
+
+        if is_all:
+            # Collect all screenshots from the API list
+            import json, urllib.request as _req
+            try:
+                list_resp = _req.urlopen("http://localhost:5000/trade-analytics/api/list", timeout=5)
+                obj_list = json.loads(list_resp.read())
+            except Exception:
+                obj_list = []
+            media = []
+            for obj in obj_list:
+                if not obj.get("has_1d") or not obj.get("has_raw"):
+                    continue
+                sym = obj["symbol"]
+                mp = user_dir / f"{sym}_main_chart.png"
+                ip = user_dir / f"{sym}_indicators.png"
+                if mp.exists():
+                    with open(mp, "rb") as f:
+                        media.append(InputMediaPhoto(media=f, caption=f"{caption_base} {sym}"))
+                if ip.exists():
+                    with open(ip, "rb") as f:
+                        media.append(InputMediaPhoto(media=f))
+            if media:
+                # TG limit: 10 media per group
+                for i in range(0, len(media), 10):
+                    await update.message.reply_media_group(media=media[i:i+10])
+            else:
+                await update.message.reply_text("❌ Скриншоты не созданы")
+        else:
+            sym_upper = target.upper()
+            main_path = user_dir / f"{sym_upper}_main_chart.png"
+            indic_path = user_dir / f"{sym_upper}_indicators.png"
+            caption = f"📊 Analytics {sym_upper} | {ts} | {elapsed}ms"
+            media = []
+            if main_path.exists():
+                with open(main_path, "rb") as f:
+                    media.append(InputMediaPhoto(media=f, caption=caption))
+            if indic_path.exists():
+                with open(indic_path, "rb") as f:
+                    media.append(InputMediaPhoto(media=f))
+            if media:
+                await update.message.reply_media_group(media=media)
+            else:
+                await update.message.reply_text("❌ Скриншоты не созданы")
+    except asyncio.TimeoutError:
+        await status_msg.edit_text("⏱ Превышено время ожидания (120с)")
+    except Exception as e:
+        try:
+            await status_msg.edit_text(f"❌ Ошибка: {e}")
+        except Exception:
+            pass
+    finally:
+        _kill_process_group(proc.pid if proc else None)
+
+
 async def _handle_positions(update, uid):
     import time as _time, subprocess
     t0 = _time.time()
@@ -200,8 +327,19 @@ async def _handle_positions_image(update, uid):
     status_msg = await update.message.reply_text("📊 Готовлю скриншот сводки...")
 
     try:
+        # Sync exchange first
+        try:
+            req = urllib.request.Request(
+                "http://localhost:5000/api/sync-all",
+                data=b"",
+                method="POST"
+            )
+            urllib.request.urlopen(req, timeout=30)
+        except Exception:
+            pass
+
         # Получить данные с API
-        resp = urllib.request.urlopen(f"http://localhost:5000/account-api/api/positions", timeout=10)
+        resp = urllib.request.urlopen(f"http://localhost:5000/account-api/api/computed", timeout=10)
         data = json.loads(resp.read())
         
         if "error" in data:
@@ -209,6 +347,7 @@ async def _handle_positions_image(update, uid):
             return
         
         positions = data.get("positions", [])
+        totals = data.get("totals", {})
         fill_counts = data.get("fill_counts", {})
         order_counts = data.get("order_counts", {})
         
@@ -270,10 +409,13 @@ async def _handle_positions_image(update, uid):
                          f"{int(lev)}x", f"{liq_d:.1f}")
         
         table.add_section()
-        total_roe = (total_pl / total_margin * 100) if total_margin else 0
-        table.add_row("TOTAL", str(len(positions)), "", f"{total_margin:.6f}",
-                     f"{total_margin/balance*100 if balance else 0:.2f}", "",
-                     f"{total_pl:+.6f}", f"{total_roe:+.1f}", "", "")
+        total_margin_f = totals.get('total_margin', total_margin)
+        total_pl_f = totals.get('total_pl', total_pl)
+        total_roe = (total_pl_f / total_margin_f * 100) if total_margin_f else 0
+        total_bal_pct = (total_margin_f / balance * 100) if balance else 0
+        table.add_row("TOTAL", str(len(positions)), "", f"{total_margin_f:.6f}",
+                     f"{total_bal_pct:.2f}", "",
+                     f"{total_pl_f:+.6f}", f"{total_roe:+.1f}", "", "")
         
         console.print(table)
         img_path = f"/tmp/positions_risk_{int(_time.time())}.png"
@@ -285,7 +427,7 @@ async def _handle_positions_image(update, uid):
                 await update.message.reply_photo(photo=f, caption=f"📊 Positions | {int((_time.time()-t0)*1000)}ms")
         else:
             # Fallback to text
-            text = format_risk_summary(positions, balance, fill_counts, order_counts)
+            text = format_risk_summary(positions, balance, fill_counts, order_counts, totals)
             await status_msg.edit_text(f"{text}\n\n📊 Positions | {int((_time.time()-t0)*1000)}ms" if len(text) < 3500 else "❌ Ошибка создания изображения")
     
     except Exception as e:
@@ -619,6 +761,10 @@ async def dispatch(update, context):
         await _handle_sc_positions(update, uid)
         return
 
+    if cmd == "/sc_analytics":
+        await _handle_sc_analytics(update, uid, args)
+        return
+
     if cmd == "/positions":
         if "--image" in args:
             await _handle_positions_image(update, uid)
@@ -762,14 +908,53 @@ async def _handle_message(uid, text, update):
     except Exception:
         pass
 
-    _timeout_flag = False
     _edit_count = 0
+    _result_sent = False
     thread_task = loop.run_in_executor(None, cmd_message, uid, text)
+
+    # Watchdog — принудительная отправка результата в TG, если основной цикл не смог
+    async def _watchdog_send():
+        nonlocal _result_sent
+        try:
+            r = await asyncio.shield(thread_task)
+        except Exception as e:
+            log.error(f"watchdog: task error {e}")
+            if not _result_sent:
+                await _reply(update, f"❌ Ошибка выполнения: {e}", uid)
+            return
+        if _result_sent:
+            return
+        log.info("watchdog: sending result (main loop missed it)")
+        _result_sent = True
+        resp, err, new_images = r[0], r[1], r[2]
+        agent_label = r[3] if len(r) >= 4 else None
+        if err:
+            await _reply(update, f"❌ {err}", uid)
+        elif resp:
+            if new_images:
+                full = f"{resp}\n\n━━━\n\n{_Monitor.status_block4(uid, agent=agent_label, live_tok=_Monitor.get_delta(uid))}"
+                if len(full) <= 1000:
+                    media = []
+                    for i, img_path in enumerate(new_images):
+                        with open(img_path, "rb") as f:
+                            media.append(InputMediaPhoto(media=f, caption=full if i == 0 else None))
+                    await update.message.reply_media_group(media=media)
+                else:
+                    await _reply(update, resp, uid, agent=agent_label, live_tok=_Monitor.get_delta(uid), show_footer=True)
+                    media = []
+                    for img_path in new_images:
+                        with open(img_path, "rb") as f:
+                            media.append(InputMediaPhoto(media=f))
+                    await update.message.reply_media_group(media=media)
+            else:
+                await _reply(update, resp, uid, agent=agent_label, live_tok=_Monitor.get_delta(uid), show_footer=True)
+        task_control.release(uid, text)
+
+    asyncio.create_task(_watchdog_send())
+    result = None
 
     while True:
         elapsed = int(time.time() - start_ts)
-        if elapsed > 300 and not _timeout_flag:
-            _timeout_flag = True
         try:
             result = await asyncio.wait_for(asyncio.shield(thread_task), timeout=3)
             break
@@ -778,7 +963,7 @@ async def _handle_message(uid, text, update):
             block1 = await _Monitor.status_block1(uid, elapsed)
 
             # Check if process died unexpectedly
-            if elapsed > 10 and not _timeout_flag:
+            if elapsed > 10:
                 from security import _active_processes as _aprocs
                 _aproc = _aprocs.get(uid)
                 if _aproc and _aproc.returncode is not None:
@@ -808,13 +993,15 @@ async def _handle_message(uid, text, update):
                 lines.append(f"⏱ Uptime: {_gup()}")
             if block4:
                 lines.extend(["", "━━━", "", block4])
-            if _timeout_flag:
-                lines.extend(["", "⏱ >300с · /stop"])
+            if elapsed >= 300:
+                wait_counter = (elapsed // 30) * 30
+                lines.extend(["", f"⏳ Ожидание ответа от модели: {wait_counter}с",
+                              "/stop => Отменить"])
             text = "\n".join(lines)
             if len(text) > 3800:
                 text = text[:3500] + "\n\n... (truncated)"
 
-            if status_msg is None or _edit_count >= 40:
+            if status_msg is None or _edit_count >= 80:
                 if status_msg:
                     try:
                         await asyncio.wait_for(status_msg.delete(), timeout=2)
@@ -826,8 +1013,8 @@ async def _handle_message(uid, text, update):
                     )
                     _edit_count = 0
                 except asyncio.TimeoutError:
-                    log.warning("status reply_text timeout — breaking loop")
-                    break
+                    log.warning("status reply_text timeout — retrying")
+                    continue
             else:
                 try:
                     await asyncio.wait_for(status_msg.edit_text(text), timeout=2)
@@ -844,14 +1031,18 @@ async def _handle_message(uid, text, update):
                         )
                         _edit_count = 0
                     except asyncio.TimeoutError:
-                        log.warning("status reply_text timeout — breaking loop")
-                        break
+                        log.warning("status reply_text timeout — retrying")
+                        continue
 
     try:
         log.info("_handle_message: cmd_message returned")
 
         _delta_tok = _Monitor.get_delta(uid)
-        
+
+        if _result_sent:
+            log.warning("_handle_message: result already sent by watchdog")
+            return
+
         if len(result) == 4:
             resp, err, new_images, agent_label = result
         else:
@@ -862,6 +1053,7 @@ async def _handle_message(uid, text, update):
             log.info("_handle_message: replying with error")
             await _reply(update, err, uid, agent=agent_label, live_tok=_delta_tok, show_footer=True)
             log.info("_handle_message: error reply done")
+            _result_sent = True
         elif resp:
             log.info("_handle_message: replying with response")
             if new_images:
@@ -886,6 +1078,7 @@ async def _handle_message(uid, text, update):
             else:
                 await _reply(update, resp, uid, agent=agent_label, live_tok=_delta_tok, show_footer=True)
             log.info("_handle_message: response reply done")
+            _result_sent = True
         if resp:
             log.info("📨 FINAL:\n%s", resp[:500])
         elif err:
@@ -938,13 +1131,17 @@ async def _handle_message(uid, text, update):
                 pass
     except Exception as e:
         log.error(f"_handle_message: reply failed: {e}")
-        try:
-            await asyncio.wait_for(
-                update.message.reply_text("✅ Готово (ошибка форматирования)."),
-                timeout=5
-            )
-        except Exception:
-            pass
+        if not _result_sent:
+            try:
+                await asyncio.wait_for(
+                    update.message.reply_text("✅ Готово (ошибка форматирования)."),
+                    timeout=5
+                )
+            except Exception:
+                pass
+    finally:
+        task_state.task_complete(current_task_id)
+        task_control.release(uid, text)
 
     if status_msg:
         try:

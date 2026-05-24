@@ -97,14 +97,10 @@ class OrderData:
 
     @property
     def pl_percent(self) -> float:
-        """PnL% = (Текущая - Вход) / Вход × 100"""
-        if self.margin_size == 0 or self.open_price_avg == 0:
+        """PnL% = (PnL$ / Margin) × 100 — Return on Margin"""
+        if self.margin_size == 0:
             return 0.0
-        # PnL% = (PnL$ / (Вход × Объём)) × 100
-        entry_total = self.open_price_avg * self.margin_size
-        if entry_total == 0:
-            return 0.0
-        return (self.unrealized_pl / entry_total) * 100
+        return (self.unrealized_pl / self.margin_size) * 100
 
     @property
     def is_profitable(self) -> bool:

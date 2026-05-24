@@ -6,9 +6,10 @@
   {% set price = upd.current_price if upd and upd.get('current_price') else entry.entry_price %}
   {% set date = upd.last_updated[:10] if upd and upd.get('last_updated') else entry.entry_date %}
   {% set days = live_pos.days_open if live_pos and live_pos.get('days_open') else entry.entry_time %}
-  {% set pnl_pct = upd.pnl_percent if upd and upd.get('pnl_percent') else entry.pnl_percent %}
-  {% set pnl_usdt = upd.pnl_usdt if upd and upd.get('pnl_usdt') else entry.pnl_usdt %}
+  {% set pnl_pct = live_pos.pl_percent if live_pos and live_pos.get('pl_percent') is not none else (upd.pnl_percent if upd and upd.get('pnl_percent') is not none else entry.pnl_percent) %}
+  {% set pnl_usdt = live_pos.unrealized_pl if live_pos and live_pos.get('unrealized_pl') is not none else (upd.pnl_usdt if upd and upd.get('pnl_usdt') is not none else entry.pnl_usdt) %}
   {% set lev = live_pos.leverage if live_pos and live_pos.get('leverage') else obj.data.get('leverage', 10) %}
+  {% set volume = live_pos.margin_size if live_pos and live_pos.get('margin_size') is not none else entry.volume %}
   {% set is_profit = pnl_pct >= 0 %}
   {% set dev = obj.data.get('deviation_pct', []) %}
   <div class="tg-row {{ 'profit' if is_profit else 'loss' }}">
@@ -22,7 +23,7 @@
       <span class="tf">🧾{{ "%.4f"|format(price) }}</span>
       <span class="tf">📆{{ date }}</span>
       <span class="tf">🕒{{ days }}дн</span>
-      <span class="tf">🧱{{ entry.volume }}</span>
+      <span class="tf">🧱{{ "%.4f"|format(volume) }}</span>
       <span class="tf">🫧{{ "%+.2f"|format(pnl_pct) }}</span>
       <span class="tf">🪙{{ "%+.4f"|format(pnl_usdt) }}</span>
       <span class="tf">📦{{ '🟢' if is_profit else '🔴' }}</span>

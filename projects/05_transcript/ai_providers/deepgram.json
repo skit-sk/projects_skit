@@ -1,0 +1,49 @@
+{
+ "provider": "deepgram",
+ "label": "Deepgram",
+ "homepage": "https://deepgram.com",
+ "api_endpoint": "https://api.deepgram.com/v1/listen",
+ "balance": "no_key",
+ "free_tier": "$200 credit",
+ "key_var": "DEEPGRAM_API_KEY",
+ "updated": "2026-05-23",
+ "models_count": 3,
+ "pricing_unit": "USD per minute",
+ "models": [
+  {
+   "id": "nova-3-monolingual",
+   "name": "Deepgram Nova-3 Monolingual",
+   "pricing": {
+    "per_min": 0.0048
+   },
+   "quality": 9,
+   "languages": [
+    "en",
+    "ru",
+    "de",
+    "fr",
+    "es",
+    "pt",
+    "it"
+   ]
+  },
+  {
+   "id": "nova-3-multilingual",
+   "name": "Deepgram Nova-3 Multilingual",
+   "pricing": {
+    "per_min": 0.0058
+   },
+   "quality": 9,
+   "languages": "45+"
+  },
+  {
+   "id": "flux-multilingual",
+   "name": "Deepgram Flux Multilingual",
+   "pricing": {
+    "per_min": 0.0078
+   },
+   "quality": 8,
+   "languages": "10"
+  }
+ ]
+}

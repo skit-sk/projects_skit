@@ -1,7 +1,37 @@
 # TG BOT Skill — Telegram Bot Proxy → OpenCode
 
 **Статус:** РАБОТАЕТ
-**Обновлено:** 2026-05-15
+**Обновлено:** 2026-05-23
+
+## Команда транскрипции
+
+`transcript <YouTube URL> [--chain CHAIN] [--model MODEL] [--lang LANG]` — транскрибирует видео/аудио через модели opencode.
+
+Файл сохраняется в `TG_ALL/TG_{uid}/{topic}_{uid}_{chain}_{model}.md`.
+
+### Дефолтная цепочка: `one-pass-gpt4o-audio`
+
+ASR + суммаризация одной моделью `openrouter/openai/gpt-4o-audio-preview`. Не требует ключей.
+
+### Доступные цепочки (`projects/05_transcript/models_catalog.json`)
+
+| Цепочка | Режим | Модели | Ключ |
+|---------|-------|--------|------|
+| `one-pass-gpt4o-audio` | one-pass | gpt-4o-audio-preview | — |
+| `one-pass-gpt-audio-mini` | one-pass | gpt-audio-mini | — |
+| `one-pass-gemini` | one-pass | gemini-3.5-flash | — |
+| `split-gpt-audio-dsv4` | split | gpt-audio-mini + deepseek-v4-flash | — |
+| `split-gpt-audio-glm5` | split | gpt-audio-mini + glm-5 | — |
+| `split-whisper-dsv4` | split | whisper-1 + deepseek-v4-flash | OpenAI API key |
+| `split-deepgram-dsv4` | split | nova-3 + deepseek-v4-flash | Deepgram key |
+| `split-assembly-dsv4` | split | universal-2 + deepseek-v4-flash | AssemblyAI key |
+
+### Логирование
+
+Все шаги транскрипции логируются в `/tmp/opencode/transcript.log` (JSONL):
+- `_type: transcript_start` — начало с cmd/chain/model/uid
+- `_type: transcript_step` — каждый шаг: asr, summarize, translate
+- `_type: transcript_end` — финал с duration/cost/tokens
 
 ## ⚠️ СТРОГИЕ ПРАВИЛА
 

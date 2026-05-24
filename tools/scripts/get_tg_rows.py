@@ -15,7 +15,7 @@ BASE_URL = "http://localhost:5000"
 
 
 def get_positions_json():
-    url = f"{BASE_URL}/account-api/api/positions"
+    url = f"{BASE_URL}/account-api/api/computed"
     req = urllib.request.Request(url)
     try:
         with urllib.request.urlopen(req, timeout=10) as resp:
@@ -58,7 +58,40 @@ def get_super_users():
     return users
 
 
+def sync_exchange():
+    """POST /api/sync-all для обновления данных с биржи."""
+    try:
+        req = urllib.request.Request(
+            f"{BASE_URL}/api/sync-all",
+            data=b"",
+            method="POST"
+        )
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            return json.loads(resp.read())
+    except Exception as e:
+        return {"error": str(e)}
+
+
+def format_tg_rows(positions_data):
+    """API-ответ → эмодзи-строки для Telegram."""
+    positions = positions_data.get("positions", [])
+    lines = []
+    header = f"📊 Bitget Positions | {len(positions)} позиций\n"
+    for p in positions:
+        arrow = "↑" if p.get("profitable") else "↓"
+        side = "🟢" if arrow == "↑" else "🔴"
+        lines.append(
+            f"{arrow} 🏗️{p.get('number', 0)} 🚏{p.get('ticker', '?')} "
+            f"🧾{p.get('open_price_avg', 0):.4f} 📆{p.get('open_date', '')} "
+            f"🕒{p.get('days_open', 0)}д 🧱{p.get('margin_size', 0):.4f} "
+            f"🫧{p.get('pl_percent', 0):+.2f} 🪙{p.get('unrealized_pl', 0):+.4f} "
+            f"{side} ⬆️{p.get('leverage', 10):.0f}x"
+        )
+    return header + "\n".join(lines)
+
+
 def main():
+    sync_exchange()
     users = get_super_users()
     if not users:
         print("No TG users found in", TG_ALL_DIR)
@@ -74,14 +107,17 @@ def main():
             out_path = os.path.join(user_dir, "positions_risk.txt")
             with open(out_path, "w", encoding="utf-8") as f:
                 f.write(msg)
+            out_path2 = os.path.join(user_dir, "positions_tg_rows.txt")
+            with open(out_path2, "w", encoding="utf-8") as f:
+                f.write(msg)
         sys.exit(1)
 
     positions = data.get("positions", [])
-    fill_counts = data.get("fill_counts", {})
-    order_counts = data.get("order_counts", {})
+    totals = data.get("totals", {})
     balance = get_balance()
 
-    text = format_risk_summary(positions, balance, fill_counts, order_counts)
+    text = format_risk_summary(positions, balance, totals=totals)
+    tg_text = format_tg_rows(data)
 
     for uid in users:
         user_dir = os.path.join(TG_ALL_DIR, f"TG_{uid}")
@@ -89,7 +125,11 @@ def main():
         out_path = os.path.join(user_dir, "positions_risk.txt")
         with open(out_path, "w", encoding="utf-8") as f:
             f.write(text)
-        print(f"✅ Saved → {out_path}")
+        print(f"✅ Risk → {out_path}")
+        out_path2 = os.path.join(user_dir, "positions_tg_rows.txt")
+        with open(out_path2, "w", encoding="utf-8") as f:
+            f.write(tg_text)
+        print(f"✅ TG   → {out_path2}")
 
 
 if __name__ == "__main__":

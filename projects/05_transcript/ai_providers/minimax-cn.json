@@ -1,0 +1,66 @@
+{
+ "provider": "minimax-cn",
+ "label": "MiniMax China",
+ "homepage": null,
+ "balance": "unknown",
+ "updated": "2026-05-23",
+ "opencode_prefix": "minimax-cn/",
+ "models_count": 6,
+ "pricing_available": false,
+ "models": [
+  {
+   "id": "MiniMax-M2",
+   "name": "MiniMax-M2",
+   "type": "llm",
+   "pricing": null,
+   "capabilities": {
+    "text": true
+   }
+  },
+  {
+   "id": "MiniMax-M2.1",
+   "name": "MiniMax-M2.1",
+   "type": "llm",
+   "pricing": null,
+   "capabilities": {
+    "text": true
+   }
+  },
+  {
+   "id": "MiniMax-M2.5",
+   "name": "MiniMax-M2.5",
+   "type": "llm",
+   "pricing": null,
+   "capabilities": {
+    "text": true
+   }
+  },
+  {
+   "id": "MiniMax-M2.5-highspeed",
+   "name": "MiniMax-M2.5-highspeed",
+   "type": "llm",
+   "pricing": null,
+   "capabilities": {
+    "text": true
+   }
+  },
+  {
+   "id": "MiniMax-M2.7",
+   "name": "MiniMax-M2.7",
+   "type": "llm",
+   "pricing": null,
+   "capabilities": {
+    "text": true
+   }
+  },
+  {
+   "id": "MiniMax-M2.7-highspeed",
+   "name": "MiniMax-M2.7-highspeed",
+   "type": "llm",
+   "pricing": null,
+   "capabilities": {
+    "text": true
+   }
+  }
+ ]
+}

@@ -3,13 +3,6 @@
 
 {% block content %}
 <div class="account-page">
-<h2>
-  🔐 Account
-  <span id="load-timer" style="font-size:10px; color:#888; font-weight:normal;"></span>
-  <button onclick="syncAll()" style="background:#e67e22; border:none; font-size:12px; cursor:pointer; padding:2px 8px; border-radius:4px; color:#fff; margin-left:8px;">🔄 Sync Exchange</button>
-  <button onclick="reloadFromJSON()" style="background:#3498db; border:none; font-size:12px; cursor:pointer; padding:2px 8px; border-radius:4px; color:#fff;">📂 Read JSON</button>
-</h2>
-
 <div class="account-tabs" style="display:flex; gap:4px; margin:1rem 0; flex-wrap:wrap;">
     <button class="account-tab active"
             hx-get="/account-api/partial/overview"
@@ -53,20 +46,79 @@
     </button>
 </div>
 
+<h2>
+  🔐 Account
+  <span id="load-timer" style="font-size:10px; color:#888; font-weight:normal;"></span>
+  <button onclick="syncAll()" style="background:#e67e22; border:none; font-size:12px; cursor:pointer; padding:2px 8px; border-radius:4px; color:#fff; margin-left:8px;">🔄 Sync Exchange</button>
+  <button onclick="reloadFromJSON()" style="background:#3498db; border:none; font-size:12px; cursor:pointer; padding:2px 8px; border-radius:4px; color:#fff;">📂 Read JSON</button>
+</h2>
+
+<div id="live-controls" style="display:flex; align-items:center; gap:8px; margin:0 0 0.75rem; font-size:12px;">
+  <label style="display:flex; align-items:center; gap:4px; cursor:pointer;">
+    <input type="checkbox" id="live-toggle" onchange="toggleLive()"> 🔴 Live
+  </label>
+  <select id="live-interval" onchange="changeInterval()" style="font-size:11px; background:var(--input-bg); color:var(--text-main); border:1px solid var(--border-color); border-radius:4px; padding:2px 6px;">
+    <option value="1">1с</option>
+    <option value="3" selected>3с</option>
+    <option value="5">5с</option>
+    <option value="10">10с</option>
+    <option value="20">20с</option>
+    <option value="30">30с</option>
+    <option value="60">60с</option>
+    <option value="custom">Своя</option>
+  </select>
+  <input type="number" id="live-custom" value="15" min="1" max="300" style="display:none; width:50px; font-size:11px; background:var(--input-bg); color:var(--text-main); border:1px solid var(--border-color); border-radius:4px; padding:2px 4px;" onchange="applyCustomInterval()">
+   <span id="live-status" style="color:#22c55e; font-size:11px; display:none;">⚡</span>
+   <span id="live-info" style="font-size:10px; color:#22c55e; display:none; margin-left:6px;">LIVE · #0 · —ms</span>
+</div>
+
+<div id="flash-controls" style="display:flex; align-items:center; gap:6px; margin:0 0 0.75rem; font-size:11px; flex-wrap:wrap;">
+  <span style="color:var(--text-muted);">💡 Подсветка:</span>
+  <label style="display:flex; align-items:center; gap:2px; cursor:pointer;">
+    <input type="radio" name="flash-mode" value="off" onchange="setFlashMode('off')"> Выкл
+  </label>
+  <label style="display:flex; align-items:center; gap:2px; cursor:pointer;">
+    <input type="radio" name="flash-mode" value="cells" checked onchange="setFlashMode('cells')"> ячейки
+  </label>
+  <label style="display:flex; align-items:center; gap:2px; cursor:pointer;">
+    <input type="radio" name="flash-mode" value="rows" onchange="setFlashMode('rows')"> строки
+  </label>
+  <label style="display:flex; align-items:center; gap:2px; cursor:pointer;">
+    <input type="radio" name="flash-mode" value="always" onchange="setFlashMode('always')"> всегда
+  </label>
+  <label style="display:flex; align-items:center; gap:3px; margin-left:8px; color:var(--text-muted);">
+    ⏱ <input type="number" id="flash-duration-ms" value="1200" min="100" max="10000" style="width:70px" onchange="setFlashDuration(this.value)"> мс
+  </label>
+</div>
+
 <div id="account-loading" class="htmx-indicator" style="text-align:center; padding:2rem; display:none;">
     <span>⏳ Загрузка...</span>
 </div>
 
 <div id="account-content"
      hx-get="/account-api/partial/overview"
-     hx-trigger="load"
+     hx-trigger="load once"
      hx-indicator="#account-loading">
     <div style="text-align:center; padding:2rem;">⏳ Загрузка...</div>
 </div>
 
 <style>
 .account-page {
-    margin-left: -20%;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#account-content {
+    width: fit-content;
+    min-width: 80vw;
+    max-width: 100%;
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 .account-tab {
     padding: 8px 16px;
@@ -87,10 +139,13 @@
     border-color: #3498db;
 }
 .account-table {
-    width: auto;
+    width: fit-content;
+    max-width: 100%;
     margin: 0.5rem 0;
     border-collapse: collapse;
     font-size: 12px;
+    display: block;
+    overflow-x: auto;
 }
 .account-table th {
     background: var(--border-color);
@@ -111,9 +166,15 @@
 .pl-negative { color: #ef4444; }
 .kpi-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 12px;
     margin: 1rem 0;
+}
+@media (max-width: 700px) {
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 400px) {
+    .kpi-grid { grid-template-columns: 1fr; }
 }
 .kpi-card {
     background: var(--bg-card);
@@ -152,6 +213,13 @@
     border-radius: 8px;
     margin: 1rem 0;
 }
+@keyframes live-pulse {
+    0%   { opacity: 1; text-shadow: 0 0 4px #22c55e; }
+    30%  { opacity: 0.7; text-shadow: 0 0 14px #22c55e; }
+    60%  { opacity: 1; text-shadow: 0 0 8px #22c55e; }
+    100% { opacity: 1; text-shadow: 0 0 4px #22c55e; }
+}
+.live-pulse { animation: live-pulse 1.2s ease-out; }
 </style>
 
 <script src="https://unpkg.com/htmx.org@1.9.11"></script>
@@ -198,23 +266,290 @@
         }
     });
 
+    document.body.addEventListener('htmx:afterSwap', function(evt) {
+        if (evt.detail.target && evt.detail.target.id === 'account-content') {
+            // Remove hx-get after first load to prevent Overview re-trigger
+            var acEl = document.getElementById('account-content');
+            if (acEl && acEl.getAttribute('hx-get')) {
+                acEl.removeAttribute('hx-get');
+            }
+            // ── LIVE INDICATORS — synchronous, no delay ──
+            if (_liveToggle && _liveToggle.checked && _liveStatus) {
+                _updateCount = (_updateCount || 0) + 1;
+                var dt = t0 ? Math.round(performance.now() - t0) : '—';
+                // Read server-side timings if available
+                var tEl = document.getElementById('live-timings');
+                var apiMs = tEl ? tEl.getAttribute('data-api') : '';
+                var srv = apiMs ? ' · API ' + apiMs + 'ms' : '';
+                if (_liveInfo) _liveInfo.textContent = '✓ ' + dt + 'ms' + srv + ' · #' + _updateCount;
+                _liveStatus.textContent = '⚡ ' + _updateCount;
+                _liveStatus.classList.add('live-pulse');
+                clearTimeout(_pulseReset);
+                _pulseReset = setTimeout(function() {
+                    _liveStatus.classList.remove('live-pulse');
+                    _liveStatus.textContent = '⚡ LIVE';
+                }, 1500);
+            }
+            // ── Deferred: TG pin + flash ──
+            setTimeout(function() {
+                // Restore TG pin state
+                var isPinned = sessionStorage.getItem('tgPinned') === 'true';
+                if (isPinned) {
+                    var details = document.getElementById('tg-details');
+                    if (details) {
+                        details.open = true;
+                        var cb = document.getElementById('tg-pin');
+                        if (cb) cb.checked = true;
+                        var arrow = document.getElementById('tg-arrow');
+                        if (arrow) arrow.textContent = '▼';
+                    }
+                }
+                // Flash effect on positions table
+            setTimeout(function() {
+                function parseValue(s) {
+                    if (!s) return NaN;
+                    s = s.trim();
+                    if (s === '—' || s === '-' || s === '') return NaN;
+                    return parseFloat(s.replace(/[,\s%]/g, ''));
+                }
+
+                var mode = sessionStorage.getItem('flashMode') || 'cells';
+                if (mode === 'off') return;
+
+                var table = document.querySelector('.account-table');
+                if (!table) return;
+
+                var newSnapshot = {};
+                var rows = table.querySelectorAll('tbody tr');
+                rows.forEach(function(row) {
+                    var cells = row.querySelectorAll('td');
+                    if (cells.length < 3) return;
+                    var ticker = cells[0].textContent.trim();
+                    var vals = [];
+                    for (var i = 0; i < cells.length; i++) {
+                        vals.push(cells[i].textContent.trim());
+                    }
+                    newSnapshot[ticker] = vals;
+                });
+
+                var prevSnapshot = window._tableSnapshot || {};
+
+                rows.forEach(function(row) {
+                    var cells = row.querySelectorAll('td');
+                    if (cells.length < 3) return;
+                    var ticker = cells[0].textContent.trim();
+                    var prev = prevSnapshot[ticker];
+                    var curr = newSnapshot[ticker];
+
+                    if (mode === 'always') {
+                        var dur = getFlashDuration();
+                        for (var i = 0; i < cells.length; i++) {
+                            flashEl(cells[i], 'flash-up', dur);
+                        }
+                        return;
+                    }
+                    if (!prev) return;
+
+                    if (mode === 'rows') {
+                        var changed = false;
+                        for (var i = 0; i < curr.length; i++) {
+                            if (prev[i] !== curr[i]) { changed = true; break; }
+                        }
+                        if (changed) {
+                            var pnlPrev = parseValue(prev[12]) || 0;
+                            var pnlCurr = parseValue(curr[12]) || 0;
+                            var isUp = pnlCurr >= pnlPrev;
+                            var dur2 = getFlashDuration();
+                            for (var i = 0; i < cells.length; i++) {
+                                flashEl(cells[i], isUp ? 'flash-up' : 'flash-down', dur2);
+                            }
+                        }
+                    } else { // cells
+                        for (var i = 0; i < curr.length; i++) {
+                            if (prev[i] !== curr[i] && cells[i]) {
+                                var a = parseValue(curr[i]), b = parseValue(prev[i]);
+                                var isUp = (!isNaN(a) && !isNaN(b)) ? a >= b : curr[i] > prev[i];
+                                var dur3 = getFlashDuration();
+                                flashEl(cells[i], isUp ? 'flash-up' : 'flash-down', dur3);
+                            }
+                        }
+                    }
+                });
+                window._tableSnapshot = newSnapshot;
+            }, 50);
+            });
+        }
+    });
+
     document.body.addEventListener('htmx:responseError', function(evt) {
         if (evt.detail.target && evt.detail.target.id === 'account-content') {
             setTimers('✗ ' + Math.round(performance.now() - (t0 || performance.now())) + 'ms');
         }
     });
 
+    function reloadCurrentTab() {
+        var active = document.querySelector('.account-tab.active');
+        if (!active) return location.reload();
+        var url = active.getAttribute('hx-get');
+        if (url) htmx.ajax('GET', url, {target:'#account-content', indicator:'#account-loading'});
+    }
+
     window.syncAll = async function() {
-        saveActiveTab();
-        showProgress(true);
         try { await fetch('/api/sync-all', {method:'POST'}); } catch(e) {}
-        location.reload();
+        reloadCurrentTab();
     };
 
     window.reloadFromJSON = function() {
-        saveActiveTab();
-        location.reload();
+        reloadCurrentTab();
     };
+
+    // ── Live mode ──
+    var _liveTimer = null;
+    var _liveStatus = document.getElementById('live-status');
+    var _liveInfo = document.getElementById('live-info');
+    var _liveControls = document.getElementById('live-controls');
+    var _liveToggle = document.getElementById('live-toggle');
+    var _liveInterval = document.getElementById('live-interval');
+    var _liveCustom = document.getElementById('live-custom');
+    var _updateCount = 0;
+    var _pulseReset = null;
+
+    function getLiveInterval() {
+        if (_liveInterval.value === 'custom') return parseInt(_liveCustom.value) || 15;
+        return parseInt(_liveInterval.value);
+    }
+
+    function startLiveTimer() {
+        stopLiveTimer();
+        var ms = getLiveInterval() * 1000;
+        _liveTimer = setInterval(function() {
+            if (_liveToggle.checked) {
+                var active = document.querySelector('.account-tab.active');
+                if (active && active.textContent.trim() === '📍 Positions') {
+                    var liveUrl = '/account-api/partial/positions_live';
+                    htmx.ajax('GET', liveUrl, {target:'#account-content', indicator:'#account-loading'});
+                }
+            }
+        }, ms);
+        _liveStatus.style.display = 'inline';
+        _liveStatus.textContent = '⚡ LIVE';
+        if (_liveInfo) { _liveInfo.style.display = 'inline'; _liveInfo.textContent = 'LIVE · #0 · —ms'; }
+        sessionStorage.setItem('liveActive', 'true');
+        sessionStorage.setItem('liveInterval', getLiveInterval());
+    }
+
+    function stopLiveTimer() {
+        if (_liveTimer) { clearInterval(_liveTimer); _liveTimer = null; }
+        _liveStatus.style.display = 'none';
+        _liveStatus.textContent = '⚡';
+        if (_liveInfo) { _liveInfo.style.display = 'none'; _liveInfo.textContent = 'LIVE · #0 · —ms'; }
+        sessionStorage.setItem('liveActive', 'false');
+    }
+
+    window.toggleLive = function() {
+        if (_liveToggle.checked) {
+            startLiveTimer();
+            // Immediately fetch live data, don't wait for first timer tick
+            var active = document.querySelector('.account-tab.active');
+            if (active && active.textContent.trim() === '📍 Positions') {
+                htmx.ajax('GET', '/account-api/partial/positions_live', {target:'#account-content', indicator:'#account-loading'});
+            }
+        } else {
+            stopLiveTimer();
+            // Restore storage URL for Positions tab
+            var tabs = document.querySelectorAll('.account-tab');
+            for (var i = 0; i < tabs.length; i++) {
+                if (tabs[i].textContent.trim() === '📍 Positions') {
+                    tabs[i].setAttribute('hx-get', '/account-api/partial/positions');
+                }
+            }
+            reloadCurrentTab();
+        }
+    };
+
+    window.changeInterval = function() {
+        if (_liveInterval.value === 'custom') {
+            _liveCustom.style.display = 'inline-block';
+        } else {
+            _liveCustom.style.display = 'none';
+            if (_liveToggle.checked) startLiveTimer();
+        }
+    };
+
+    window.applyCustomInterval = function() {
+        if (_liveToggle.checked) startLiveTimer();
+    };
+
+    window.setFlashMode = function(mode) {
+        sessionStorage.setItem('flashMode', mode);
+    };
+
+    window.setFlashDuration = function(ms) {
+        ms = parseInt(ms) || 1200;
+        if (ms < 100) ms = 100;
+        if (ms > 10000) ms = 10000;
+        try { localStorage.setItem('flashDurationMs', String(ms)); } catch(e) {}
+        document.documentElement.style.setProperty('--flash-duration', (ms / 1000) + 's');
+    };
+
+    function getFlashDuration() {
+        var saved = localStorage.getItem('flashDurationMs');
+        return saved ? parseInt(saved) : 1200;
+    }
+
+    function flashEl(el, cls, dur) {
+        el.classList.remove(cls);
+        void el.offsetWidth;
+        el.classList.add(cls);
+        setTimeout(function() { el.classList.remove(cls); }, dur);
+    }
+
+    function restoreFlashMode() {
+        var mode = sessionStorage.getItem('flashMode') || 'cells';
+        var radios = document.querySelectorAll('input[name="flash-mode"]');
+        for (var i = 0; i < radios.length; i++) {
+            if (radios[i].value === mode) radios[i].checked = true;
+        }
+    }
+
+    function restoreFlashDuration() {
+        var saved = localStorage.getItem('flashDurationMs');
+        if (saved) {
+            var ms = parseInt(saved) || 1200;
+            var el = document.getElementById('flash-duration-ms');
+            if (el) el.value = ms;
+            document.documentElement.style.setProperty('--flash-duration', (ms / 1000) + 's');
+        }
+    }
+
+    // Override tab click to detect Positions tab
+    document.querySelectorAll('.account-tab').forEach(function(tab) {
+        tab.addEventListener('click', function() {
+            var isPositions = this.textContent.trim() === '📍 Positions';
+            if (isPositions && _liveToggle.checked) {
+                this.setAttribute('hx-get', '/account-api/partial/positions_live');
+                startLiveTimer();
+            } else if (!isPositions) {
+                stopLiveTimer();
+            }
+        });
+    });
+
+    // Restore live state on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        restoreFlashMode();
+        restoreFlashDuration();
+        if (sessionStorage.getItem('liveActive') === 'true') {
+            _liveToggle.checked = true;
+            startLiveTimer();
+            var tabs = document.querySelectorAll('.account-tab');
+            for (var i = 0; i < tabs.length; i++) {
+                if (tabs[i].textContent.trim() === '📍 Positions') {
+                    tabs[i].setAttribute('hx-get', '/account-api/partial/positions_live');
+                }
+            }
+        }
+    });
 
     document.addEventListener('DOMContentLoaded', restoreActiveTab);
 })();

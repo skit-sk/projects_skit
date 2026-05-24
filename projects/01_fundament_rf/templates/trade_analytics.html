@@ -6,11 +6,16 @@
 {% endblock %}
 
 {% block content %}
+{% from "macros.html" import tg_row %}
+{% set entry = obj.data.get('emoji_entry', {}) %}
+{% set upd = obj.data.get('emoji_upd', {}) %}
+{% set live_pos = obj.data.get('live_position', {}) %}
+
 <div class="ta-dashboard">
   <div class="ta-header">
     <h2>📊 Trade Analytics: {{ obj.name }}</h2>
     <div class="ta-header-meta">
-      <span class="ta-badge" id="ta-status">🟢 {{ obj.data.emoji_upd.status }}</span>
+      <span class="ta-badge" id="ta-status">🟢 {{ obj.data.emoji_upd.get('status', '—') }}</span>
       <span class="ta-badge entry-badge">Entry: {{ obj.data.emoji_entry.entry_price }}</span>
       <span class="ta-badge lev-badge">{{ obj.data.leverage }}x</span>
       <select id="ta-symbol-select" class="ta-symbol-select" onchange="onSymbolChange(this.value)">
@@ -31,25 +36,57 @@
 
   <div id="ta-content" style="display:none;">
 
-    <div class="ta-kpi-row" id="ta-kpi"></div>
+    <div class="ta-section block-tg">
+      <div class="ta-section-title">📊 Telegram Format</div>
+      <div class="ta-source-badge">
+        <span style="background:#22c55e;color:white;"><span class="ta-src-dot" style="background:#fff;"></span> live_position</span>
+        <span style="background:#3b82f6;color:white;"><span class="ta-src-dot" style="background:#fff;"></span> emoji_upd</span>
+        <span style="background:#f59e0b;color:white;"><span class="ta-src-dot" style="background:#fff;"></span> emoji_entry</span>
+      </div>
+      {{ tg_row(obj, entry, upd, live_pos) }}
+    </div>
 
-    <div class="ta-section">
+    <div class="ta-section block-kpi">
+      <div class="ta-section-title">📊 KPI Metrics</div>
+      <div class="ta-source-badge">
+        <span style="background:#3b82f6;color:white;">🧮 computed</span>
+        <span>data: card.json → calculator/ modules</span>
+      </div>
+      <div class="ta-kpi-row" id="ta-kpi"></div>
+    </div>
+
+    <div class="ta-section block-chart">
       <div class="ta-section-title">📈 Price — ROE — Volatility — Volume — Liquidations</div>
+      <div class="ta-source-badge">
+        <span style="background:#8b5cf6;color:white;">📁 _1D.json</span>
+        <span style="background:#3b82f6;color:white;">📁 _RAW.json</span>
+        <span>sync: {{ obj.data.get('chart_updated', '')[:16] or '—' }}</span>
+      </div>
       <div class="ta-chart-container" id="mainChart"></div>
     </div>
 
-    <div class="ta-section">
+    <div class="ta-section block-indic">
       <div class="ta-section-title">📉 Technical Indicators</div>
+      <div class="ta-source-badge">
+        <span style="background:#06b6d4;color:white;">🧮 RSI · MACD · EMA · OI</span>
+        <span>computed from _RAW.json candles</span>
+      </div>
       <div class="ta-chart-container" id="indicatorChart"></div>
     </div>
 
-    <div class="ta-section">
+    <div class="ta-section block-liq">
       <div class="ta-section-title">🔥 Liquidation Heatmap & Zones</div>
+      <div class="ta-source-badge">
+        <span style="background:#ef4444;color:white;">⚡ liq_price = entry × (1 − 1/lev)</span>
+      </div>
       <div class="ta-liq-container" id="liqHeatmap"></div>
     </div>
 
-    <div class="ta-section">
+    <div class="ta-section block-pivot">
       <div class="ta-section-title">📍 Pivot Points & Extremes</div>
+      <div class="ta-source-badge">
+        <span style="background:#f59e0b;color:white;">🔍 scipy.signal.argrelextrema</span>
+      </div>
       <div class="ta-table-wrapper">
         <table class="ta-table" id="pivotTable">
           <thead>
@@ -64,6 +101,18 @@
           </thead>
           <tbody id="pivotTableBody"></tbody>
         </table>
+      </div>
+    </div>
+
+    <div class="ta-section block-footer">
+      <div class="ta-section-title">⏱ Data Sources</div>
+      <div class="ta-footer-grid">
+        <div class="ta-footer-item"><span class="ta-dot" style="background:#22c55e;"></span> Live: Bitget API positions</div>
+        <div class="ta-footer-item"><span class="ta-dot" style="background:#3b82f6;"></span> Computed: calculator/ modules</div>
+        <div class="ta-footer-item"><span class="ta-dot" style="background:#f59e0b;"></span> Input: emoji_entry card data</div>
+        <div class="ta-footer-item"><span class="ta-dot" style="background:#8b5cf6;"></span> Cache: _1D.json · _RAW.json</div>
+        <div class="ta-footer-item"><span class="ta-dot" style="background:#06b6d4;"></span> Indicators: RSI · MACD · EMA · OI</div>
+        <div class="ta-footer-item"><span class="ta-dot" style="background:#ef4444;"></span> Liquidation: entry × (1 − 1/lev)</div>
       </div>
     </div>
 
@@ -92,6 +141,8 @@ async function loadData() {
     setTimeout(() => {
       loader.style.display = 'none';
       content.style.display = 'block';
+      Plotly.Plots.resize(document.getElementById('mainChart'));
+      Plotly.Plots.resize(document.getElementById('indicatorChart'));
     }, 300);
 
     renderKPI(data);
@@ -101,6 +152,11 @@ async function loadData() {
     renderPivotTable(data);
   } catch(e) {
     loaderText.textContent = 'Failed: ' + e.message;
+    setTimeout(() => {
+      loader.style.display = 'none';
+      content.style.display = 'block';
+      content.innerHTML = '<div style="padding:2rem;text-align:center;color:#ef4444;">❌ Error loading data: ' + e.message + '</div>';
+    }, 3000);
   }
 }
 
@@ -169,6 +225,7 @@ function renderMainChart(data) {
     yaxis: 'y4',
     width: 1,
     hoverinfo: 'skip',
+    opacity: 0.5,
   });
 
   traces.push({
@@ -180,52 +237,166 @@ function renderMainChart(data) {
     yaxis: 'y',
   });
 
+  const lev = meta.leverage || 10;
+  const entry = meta.entry_price;
+  const priceFromRoe = metrics.roe_pct.map(v => entry * (1 + v / (lev * 100)));
+  const aboveEntry = priceFromRoe.map((p, i) => {
+    if (p >= entry) return p;
+    const prev = i > 0 && priceFromRoe[i-1] >= entry;
+    const next = i < priceFromRoe.length - 1 && priceFromRoe[i+1] >= entry;
+    return (prev || next) ? entry : null;
+  });
+  const belowEntry = priceFromRoe.map((p, i) => {
+    if (p < entry) return p;
+    const prev = i > 0 && priceFromRoe[i-1] < entry;
+    const next = i < priceFromRoe.length - 1 && priceFromRoe[i+1] < entry;
+    return (prev || next) ? entry : null;
+  });
+  const entryBase = dates.map(() => entry);
+
+  traces.push({
+    type: 'scatter', x: dates, y: entryBase,
+    line: { width: 0 }, hoverinfo: 'skip', showlegend: false, yaxis: 'y',
+  });
+  traces.push({
+    type: 'scatter', x: dates, y: aboveEntry,
+    line: { width: 0 }, fill: 'tonexty',
+    fillcolor: 'rgba(34,197,94,0.3)', opacity: 0.5, name: 'Above Entry', yaxis: 'y',
+  });
+  traces.push({
+    type: 'scatter', x: dates, y: entryBase,
+    line: { width: 0 }, hoverinfo: 'skip', showlegend: false, yaxis: 'y',
+  });
+  traces.push({
+    type: 'scatter', x: dates, y: belowEntry,
+    line: { width: 0 }, fill: 'tonexty',
+    fillcolor: 'rgba(239,68,68,0.3)', opacity: 0.9, name: 'Below Entry', yaxis: 'y',
+  });
   traces.push({
     type: 'scatter', x: dates, y: metrics.roe_pct,
     name: 'ROE %',
     line: { color: colors.roe, width: 2 },
+    opacity: 0.5,
     yaxis: 'y2',
   });
 
   traces.push({
     type: 'scatter', x: dates, y: metrics.volatility_pct,
-    name: 'Volatility %',
+    name: 'Vol %',
     line: { color: colors.volatility, width: 1.5, dash: 'dot' },
+    opacity: 0.5,
     yaxis: 'y3',
   });
+
+  if (metrics.volatility_lev) {
+    traces.push({
+      type: 'scatter', x: dates, y: metrics.volatility_lev,
+      name: 'Vol×Lev %',
+      line: { color: '#f97316', width: 1.5, dash: 'dash' },
+      opacity: 0.5,
+      yaxis: 'y3',
+    });
+  }
 
   traces.push({
     type: 'bar', x: dates, y: ohlc.volume,
     name: 'Volume',
     marker: { color: colors.volume },
+    opacity: 0.5,
     yaxis: 'y4',
   });
 
+  function sma(arr, p) {
+    const r = [];
+    for (let i = 0; i < arr.length; i++) {
+      if (i < p - 1) { r.push(null); continue; }
+      let s = 0;
+      for (let j = i - p + 1; j <= i; j++) s += arr[j];
+      r.push(s / p);
+    }
+    return r;
+  }
+  [3, 5, 7, 14].forEach((p, idx) => {
+    traces.push({
+      type: 'scatter', x: dates, y: sma(ohlc.volume, p),
+      name: 'Vol SMA(' + p + ')',
+      line: { color: 'rgba(96,165,250,' + (0.3 + idx * 0.23) + ')', width: 1 + idx * 0.3, dash: 'solid' },
+      opacity: 0.5,
+      yaxis: 'y4',
+    });
+  });
+
   const hlines = [
-    { y: liqPrice, color: colors.liqLine, dash: 'dash', label: 'Liq ' + liqPrice.toFixed(4) },
-    { y: entryPrice, color: colors.entryLine, dash: 'dash', label: 'Entry ' + entryPrice.toFixed(4) },
-    { y: maxPrice, color: colors.maxLine, dash: 'dot', label: 'High ' + maxPrice.toFixed(4) },
-    { y: minPrice, color: colors.minLine, dash: 'dot', label: 'Low ' + minPrice.toFixed(4) },
+    { y: liqPrice, color: colors.liqLine, dash: 'dash', label: 'Liq' },
+    { y: entryPrice, color: colors.entryLine, dash: 'dash', label: 'Entry' },
+    { y: maxPrice, color: colors.maxLine, dash: 'dot', label: 'High' },
+    { y: minPrice, color: colors.minLine, dash: 'dot', label: 'Low' },
   ];
   hlines.forEach(h => {
     traces.push({
-      type: 'scatter', x: [dates[0], dates[dates.length - 1]], y: [h.y, h.y],
-      name: h.label,
+      type: 'scatter', x: dates, y: dates.map(() => h.y),
+      name: h.label + ' ' + h.y.toFixed(4),
+      hovertemplate: h.label + ': %{y:.4f}<extra></extra>',
       line: { color: h.color, dash: h.dash, width: 1 },
-      hoverinfo: 'skip',
       yaxis: 'y',
     });
   });
 
+  if (data.fills && data.fills.length) {
+    const lev = meta.leverage || 10;
+    const totalMargin = data.totals?.total_margin || 0;
+    const entryDate = data.entry_dates?.entry_date || '';
+    const ft = { x: [], y: [], mode: 'markers', name: 'Orders',
+      marker: { symbol: [], color: [], size: 10, line: { width: 1, color: 'white' } },
+      hovertemplate: '%{text}<extra></extra>', text: [], yaxis: 'y', opacity: 0.9, };
+    const lastSide = { buy: null, sell: null };
+    data.fills.forEach(f => {
+      const d = new Date(f.c_time).toISOString().slice(0, 10);
+      if (!dates.includes(d)) return;
+      const isClose = f.trade_side === 'close';
+      const side = f.side || '';
+      const qty = f.filled_qty || f.quantity || 0;
+      const vol = f.quote_volume || 0;
+      const pnl = f.profit || 0;
+      const pnlPct = vol ? (pnl / vol * 100) : 0;
+      const fillMargin = lev ? (vol / lev) : 0;
+      const fillMgnPct = totalMargin ? (fillMargin / totalMargin * 100) : 0;
+      const marginRoe = fillMargin ? (pnl / fillMargin * 100) : 0;
+      const daysFromEntry = entryDate ? Math.round((new Date(d) - new Date(entryDate)) / 86400000) : 0;
+      let daysFromLastSide = 0;
+      if (lastSide[side] !== null) {
+        daysFromLastSide = Math.round((new Date(d) - new Date(lastSide[side])) / 86400000);
+      }
+      lastSide[side] = new Date(d);
+      ft.x.push(d);
+      ft.y.push(f.price);
+      ft.marker.symbol.push(isClose ? 'triangle-down' : 'triangle-up');
+      ft.marker.color.push(isClose ? '#ef4444' : '#22c55e');
+      ft.text.push(
+        (isClose ? '🔻 Close' : '🔺 Open') + ' ' + side +
+        '<br>Price: ' + f.price.toFixed(4) +
+        '<br>Volume: ' + vol.toFixed(4) + ' USDT' +
+        '<br>Qty: ' + qty.toFixed(4) +
+        '<br>Days from entry: ' + daysFromEntry +
+        (daysFromLastSide > 0 ? '<br>Days from last ' + side + ': ' + daysFromLastSide : '') +
+        '<br>Mgn%: ' + fillMgnPct.toFixed(2) + '%' +
+        (isClose ? '<br>PnL: ' + (pnl >= 0 ? '+' : '') + pnl.toFixed(4) + ' USDT' +
+          '<br>PnL%: ' + (pnlPct >= 0 ? '+' : '') + pnlPct.toFixed(2) + '%' +
+          '<br>Margin ROE: ' + (marginRoe >= 0 ? '+' : '') + marginRoe.toFixed(2) + '%' : '')
+      );
+    });
+    if (ft.x.length) traces.push(ft);
+  }
+
   const layout = {
     template: 'plotly_dark',
-    paper_bgcolor: '#1e1e1e',
-    plot_bgcolor: '#1a1a2e',
-    height: 550,
-    margin: { l: 60, r: 60, t: 40, b: 60 },
+    paper_bgcolor: '#2d2d2d',
+    plot_bgcolor: '#1a1a1a',
+    height: 610,
+    margin: { l: 60, r: 80, t: 140, b: 60 },
     dragmode: 'zoom',
     hovermode: 'x unified',
-    legend: { orientation: 'h', y: 1.08, x: 0, font: { size: 9 } },
+    legend: { orientation: 'h', y: 1.2, x: 0.5, xanchor: 'center', font: { size: 9 } },
     xaxis: {
       domain: [0, 1],
       rangeslider: { visible: false },
@@ -278,6 +449,13 @@ function renderMainChart(data) {
       { type: 'rect', xref: 'paper', yref: 'y', x0: 0, y0: liqPrice, x1: 1, y1: liqPrice * 0.97, fillcolor: 'rgba(220,38,38,0.08)', line: { width: 0 }, layer: 'below' },
       { type: 'rect', xref: 'paper', yref: 'y', x0: 0, y0: liqPrice * 0.97, x1: 1, y1: liqPrice * 0.94, fillcolor: 'rgba(220,38,38,0.04)', line: { width: 0 }, layer: 'below' },
     ],
+    annotations: hlines.map(h => ({
+      x: 1, y: h.y, xref: 'paper', yref: 'y',
+      text: h.label + ' ' + h.y.toFixed(4),
+      showarrow: false, xanchor: 'left',
+      font: { size: 9, color: h.color },
+      bgcolor: 'rgba(0,0,0,0.6)', bordercolor: h.color, borderwidth: 1, borderpad: 2,
+    })),
   };
 
   Plotly.newPlot('mainChart', traces, layout, { responsive: true, displayModeBar: false });
@@ -378,17 +556,17 @@ function renderIndicatorChart(data) {
     type: 'scatter', x: dates, y: oi,
     name: 'OI (sim)',
     line: { color: colors.oi, width: 1, dash: 'dot' },
-    yaxis: 'y3',
+    yaxis: 'y4',
   });
 
   const layout = {
     template: 'plotly_dark',
-    paper_bgcolor: '#1e1e1e',
-    plot_bgcolor: '#1a1a2e',
+    paper_bgcolor: '#2d2d2d',
+    plot_bgcolor: '#1a1a1a',
     height: 500,
-    margin: { l: 60, r: 60, t: 40, b: 60 },
+    margin: { l: 60, r: 60, t: 70, b: 60 },
     hovermode: 'x unified',
-    legend: { orientation: 'h', y: 1.08, x: 0, font: { size: 9 } },
+    legend: { orientation: 'h', y: 1.2, x: 0.5, xanchor: 'center', font: { size: 9 } },
     xaxis: {
       domain: [0, 1],
       tickangle: -45,
@@ -415,17 +593,27 @@ function renderIndicatorChart(data) {
       gridcolor: '#2a2a3a',
     },
     yaxis3: {
-      title: 'EMA / OI',
-      domain: [0, 0.28],
+      title: 'EMA',
+      domain: [0.15, 0.28],
       side: 'right',
       titlefont: { size: 10, color: '#ccc' },
       tickfont: { color: '#aaa' },
       tickformat: '.4f',
       gridcolor: '#2a2a3a',
     },
+    yaxis4: {
+      title: 'OI',
+      domain: [0, 0.13],
+      side: 'right',
+      titlefont: { size: 10, color: colors.oi },
+      tickfont: { color: colors.oi },
+      tickformat: '.0f',
+      gridcolor: '#2a2a3a',
+    },
     shapes: [
       { type: 'rect', xref: 'paper', yref: 'paper', x0: 0, y0: 0.58, x1: 1, y1: 0.60, fillcolor: '#333', line: { width: 0 }, layer: 'below' },
       { type: 'rect', xref: 'paper', yref: 'paper', x0: 0, y0: 0.28, x1: 1, y1: 0.30, fillcolor: '#333', line: { width: 0 }, layer: 'below' },
+      { type: 'rect', xref: 'paper', yref: 'paper', x0: 0, y0: 0.13, x1: 1, y1: 0.15, fillcolor: '#333', line: { width: 0 }, layer: 'below' },
     ],
     dragmode: 'zoom',
   };
@@ -463,6 +651,8 @@ function renderLiquidationHeatmap(data) {
   const colors = ['rgba(220,38,38,0.8)', 'rgba(220,38,38,0.5)', 'rgba(147,51,234,0.5)', 'rgba(22,163,74,0.8)'];
 
   const closePrices = ohlc.close;
+  const priceByDate = {};
+  dates.forEach((d, i) => { priceByDate[d] = closePrices[i]; });
 
   let html = '<div class="ta-liq-grid">';
 
@@ -474,7 +664,7 @@ function renderLiquidationHeatmap(data) {
     const volDisplay = d.simulated_liq_volume > 0 ? d.simulated_liq_volume.toFixed(0) : '—';
     html += `<div class="ta-liq-row ta-liq-${cls}">
       <span>${d.date}</span>
-      <span>${closePrices[liqDays.indexOf(d)]?.toFixed(4) || ''}</span>
+      <span>${priceByDate[d.date]?.toFixed(4) || ''}</span>
       <span>${d.low.toFixed(4)}</span>
       <span>${d.at_risk ? '⚠️ YES' : '✅ no'}</span>
       <span class="${d.at_risk ? 'loss' : 'profit'}">${d.distance_pct.toFixed(2)}%</span>

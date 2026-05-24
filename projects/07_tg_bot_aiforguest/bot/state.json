@@ -10,31 +10,38 @@
       "sessions": {
         "current": "ses_248207602_1779061887",
         "list": {
-          "ses_248207602_1778861001": {
-            "name": "[TG] tokentest",
-            "created": 1778861001,
-            "messages": 141,
-            "model": null,
-            "opencode_id": "ses_1d3e15e47ffeB7BgM7Kt6pll5u",
-            "tokens": 2559347,
-            "_build_mode": false
-          },
           "ses_248207602_1779061887": {
             "name": "[TG] 248207602_SK_18052026_0251",
             "created": 1779061887,
-            "messages": 46,
+            "messages": 321,
             "model": null,
             "opencode_id": "ses_1c7a4a12fffejyYldtxGsionyv",
             "agent": "plan",
-            "tokens": 315226,
-            "_build_mode": false
+            "tokens": 491997,
+            "usage": {
+              "input": 2297902,
+              "output": 28769543,
+              "cost": 3.135,
+              "cost_in": 0.0017,
+              "cost_out": 29.1294
+            },
+            "cost": 29.1311,
+            "_build_mode": true,
+            "seq": 1,
+            "status": "ACT",
+            "last_msg": {
+              "input": 521,
+              "output": 491476,
+              "cost_in": 0.0001,
+              "cost_out": 0.5406
+            }
           }
         }
       },
       "_last_task": {
-        "text": "Идём по плану",
+        "text": "Применить",
         "session": "ses_248207602_1779061887",
-        "ts": 1779080217
+        "ts": 1779565637
       }
     },
     "8334836991": {
@@ -50,24 +57,24 @@
       "sessions": {
         "current": "ses_8334836991_1778948252",
         "list": {
-          "ses_8334836991_1778873579": {
-            "name": "[TG] 8334836991_А С_15052026_2232",
-            "created": 1778873579,
-            "messages": 32,
-            "model": null,
-            "opencode_id": "ses_1d2df2776ffeQc3ATkBtQXl7x3",
-            "tokens": 4672043
-          },
           "ses_8334836991_1778948252": {
             "name": "analyze",
             "created": 1778948252,
             "messages": 2,
             "model": null,
-            "opencode_id": "ses_1ce4aa8f2ffe2J7h2NRmtUolJl"
+            "opencode_id": "ses_1ce4aa8f2ffe2J7h2NRmtUolJl",
+            "seq": 2,
+            "status": "ACT"
           }
         }
       }
     }
   },
-  "files": {}
+  "files": {},
+  "session_seq": 2,
+  "session_stats": {
+    "total_created": 2,
+    "total_deleted": 0,
+    "active": 2
+  }
 }

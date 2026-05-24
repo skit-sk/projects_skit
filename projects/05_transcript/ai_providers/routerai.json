@@ -1,0 +1,4973 @@
+{
+ "provider": "routerai",
+ "label": "RouterAI Gateway",
+ "homepage": "https://routerai.ru",
+ "api_endpoint": "https://routerai.ru/api/v1/models",
+ "balance": "prepaid",
+ "updated": "2026-05-23",
+ "opencode_prefix": "routerai/",
+ "models_count": 361,
+ "pricing_available": true,
+ "models": [
+  {
+   "id": "qwen/qwen3-next-80b-a3b-thinking",
+   "name": "Qwen: Qwen3 Next 80B A3B Thinking",
+   "pricing": {
+    "input_rub": 9.0,
+    "output_rub": 72.0
+   },
+   "context": 262000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "qwen/qwen3-next-80b-a3b-instruct",
+   "name": "Qwen: Qwen3 Next 80B A3B Instruct",
+   "pricing": {
+    "input_rub": 9.0,
+    "output_rub": 72.0
+   },
+   "context": 262000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "qwen/qwen-plus-2025-07-28",
+   "name": "Qwen: Qwen Plus 0728",
+   "pricing": {
+    "input_rub": 24.0,
+    "output_rub": 72.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "qwen/qwen-plus-2025-07-28:thinking",
+   "name": "Qwen: Qwen Plus 0728 (thinking)",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "google/gemini-3.5-flash",
+   "name": "Google: Gemini 3.5 Flash",
+   "pricing": {
+    "input_rub": 138.0,
+    "output_rub": 833.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true,
+    "audio": true
+   },
+   "type": "asr+summarize",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "nvidia/nemotron-nano-9b-v2",
+   "name": "NVIDIA: Nemotron Nano 9B V2",
+   "pricing": {
+    "input_rub": 3.0,
+    "output_rub": 14.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "x-ai/grok-build-0.1",
+   "name": "xAI: Grok Build 0.1",
+   "pricing": {
+    "input_rub": 92.0,
+    "output_rub": 185.0
+   },
+   "context": 256000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "qwen/qwen3.7-max",
+   "name": "Qwen: Qwen3.7 Max",
+   "pricing": {
+    "input_rub": 231.0,
+    "output_rub": 694.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "qwen/qwen3-max",
+   "name": "Qwen: Qwen3 Max",
+   "pricing": {
+    "input_rub": 72.0,
+    "output_rub": 361.0
+   },
+   "context": 262000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "moonshotai/kimi-k2-0905",
+   "name": "MoonshotAI: Kimi K2 0905",
+   "pricing": {
+    "input_rub": 55.0,
+    "output_rub": 231.0
+   },
+   "context": 262000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "qwen/qwen3-30b-a3b-thinking-2507",
+   "name": "Qwen: Qwen3 30B A3B Thinking 2507",
+   "pricing": {
+    "input_rub": 7.0,
+    "output_rub": 37.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "nousresearch/hermes-4-70b",
+   "name": "Nous: Hermes 4 70B",
+   "pricing": {
+    "input_rub": 12.0,
+    "output_rub": 37.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "nousresearch/hermes-4-405b",
+   "name": "Nous: Hermes 4 405B",
+   "pricing": {
+    "input_rub": 92.0,
+    "output_rub": 277.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "deepseek/deepseek-chat-v3.1",
+   "name": "DeepSeek: DeepSeek V3.1",
+   "pricing": {
+    "input_rub": 19.0,
+    "output_rub": 73.0
+   },
+   "context": 164000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-4o-audio-preview",
+   "name": "OpenAI: GPT-4o Audio",
+   "pricing": {
+    "input_rub": 231.0,
+    "output_rub": 925.0
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true,
+    "audio": true
+   },
+   "type": "asr+summarize",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "mistralai/mistral-medium-3.1",
+   "name": "Mistral: Mistral Medium 3.1",
+   "pricing": {
+    "input_rub": 37.0,
+    "output_rub": 185.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "baidu/ernie-4.5-21b-a3b",
+   "name": "Baidu: ERNIE 4.5 21B A3B",
+   "pricing": {
+    "input_rub": 6.0,
+    "output_rub": 25.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "baidu/ernie-4.5-vl-28b-a3b",
+   "name": "Baidu: ERNIE 4.5 VL 28B A3B",
+   "pricing": {
+    "input_rub": 12.0,
+    "output_rub": 51.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true,
+    "image": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "z-ai/glm-4.5v",
+   "name": "Z.ai: GLM 4.5V",
+   "pricing": {
+    "input_rub": 55.0,
+    "output_rub": 166.0
+   },
+   "context": 66000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "ai21/jamba-large-1.7",
+   "name": "AI21: Jamba Large 1.7",
+   "pricing": {
+    "input_rub": 185.0,
+    "output_rub": 740.0
+   },
+   "context": 256000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-5-chat",
+   "name": "OpenAI: GPT-5 Chat",
+   "pricing": {
+    "input_rub": 115.0,
+    "output_rub": 925.0
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-5",
+   "name": "OpenAI: GPT-5",
+   "pricing": {
+    "input_rub": 115.0,
+    "output_rub": 925.0
+   },
+   "context": 400000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-5-mini",
+   "name": "OpenAI: GPT-5 Mini",
+   "pricing": {
+    "input_rub": 23.0,
+    "output_rub": 185.0
+   },
+   "context": 400000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-5-nano",
+   "name": "OpenAI: GPT-5 Nano",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-oss-120b",
+   "name": "OpenAI: gpt-oss-120b",
+   "pricing": {
+    "input_rub": 3.0,
+    "output_rub": 16.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-oss-20b",
+   "name": "OpenAI: gpt-oss-20b",
+   "pricing": {
+    "input_rub": 2.0,
+    "output_rub": 12.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "mistralai/codestral-2508",
+   "name": "Mistral: Codestral 2508",
+   "pricing": {
+    "input_rub": 27.0,
+    "output_rub": 83.0
+   },
+   "context": 256000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "qwen/qwen3-coder-30b-a3b-instruct",
+   "name": "Qwen: Qwen3 Coder 30B A3B Instruct",
+   "pricing": {
+    "input_rub": 6.0,
+    "output_rub": 24.0
+   },
+   "context": 160000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "qwen/qwen3-30b-a3b-instruct-2507",
+   "name": "Qwen: Qwen3 30B A3B Instruct 2507",
+   "pricing": {
+    "input_rub": 8.0,
+    "output_rub": 27.0
+   },
+   "context": 262000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "z-ai/glm-4.5",
+   "name": "Z.ai: GLM 4.5",
+   "pricing": {
+    "input_rub": 55.0,
+    "output_rub": 203.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "z-ai/glm-4.5-air",
+   "name": "Z.ai: GLM 4.5 Air",
+   "pricing": {
+    "input_rub": 12.0,
+    "output_rub": 78.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "qwen/qwen3-235b-a22b-thinking-2507",
+   "name": "Qwen: Qwen3 235B A22B Thinking 2507",
+   "pricing": {
+    "input_rub": 10.0,
+    "output_rub": 55.0
+   },
+   "context": 262000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "z-ai/glm-4-32b",
+   "name": "Z.ai: GLM 4 32B ",
+   "pricing": {
+    "input_rub": 9.0,
+    "output_rub": 9.0
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "qwen/qwen3-coder",
+   "name": "Qwen: Qwen3 Coder 480B A35B",
+   "pricing": {
+    "input_rub": 27.0,
+    "output_rub": 92.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "bytedance/ui-tars-1.5-7b",
+   "name": "ByteDance: UI-TARS 7B ",
+   "pricing": {
+    "input_rub": 9.0,
+    "output_rub": 18.0
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "google/gemini-2.5-flash-lite",
+   "name": "Google: Gemini 2.5 Flash Lite",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true,
+    "audio": true
+   },
+   "type": "asr+summarize",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "qwen/qwen3-235b-a22b-2507",
+   "name": "Qwen: Qwen3 235B A22B Instruct 2507",
+   "pricing": {
+    "input_rub": 6.0,
+    "output_rub": 9.0
+   },
+   "context": 262000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "moonshotai/kimi-k2",
+   "name": "MoonshotAI: Kimi K2 0711",
+   "pricing": {
+    "input_rub": 52.0,
+    "output_rub": 212.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "mistralai/devstral-medium",
+   "name": "Mistral: Devstral Medium",
+   "pricing": {
+    "input_rub": 37.0,
+    "output_rub": 185.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "mistralai/devstral-small",
+   "name": "Mistral: Devstral Small 1.1",
+   "pricing": {
+    "input_rub": 9.0,
+    "output_rub": 27.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "tencent/hunyuan-a13b-instruct",
+   "name": "Tencent: Hunyuan A13B Instruct",
+   "pricing": {
+    "input_rub": 12.0,
+    "output_rub": 52.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "morph/morph-v3-large",
+   "name": "Morph: Morph V3 Large",
+   "pricing": {
+    "input_rub": 83.0,
+    "output_rub": 175.0
+   },
+   "context": 262000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "morph/morph-v3-fast",
+   "name": "Morph: Morph V3 Fast",
+   "pricing": {
+    "input_rub": 74.0,
+    "output_rub": 111.0
+   },
+   "context": 82000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "baidu/ernie-4.5-vl-424b-a47b",
+   "name": "Baidu: ERNIE 4.5 VL 424B A47B ",
+   "pricing": {
+    "input_rub": 38.0,
+    "output_rub": 115.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true,
+    "image": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "baidu/ernie-4.5-300b-a47b",
+   "name": "Baidu: ERNIE 4.5 300B A47B ",
+   "pricing": {
+    "input_rub": 25.0,
+    "output_rub": 101.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "mistralai/mistral-small-3.2-24b-instruct",
+   "name": "Mistral: Mistral Small 3.2 24B",
+   "pricing": {
+    "input_rub": 6.0,
+    "output_rub": 18.0
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "minimax/minimax-m1",
+   "name": "MiniMax: MiniMax M1",
+   "pricing": {
+    "input_rub": 37.0,
+    "output_rub": 203.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "google/gemini-2.5-flash",
+   "name": "Google: Gemini 2.5 Flash",
+   "pricing": {
+    "input_rub": 27.0,
+    "output_rub": 231.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true,
+    "audio": true
+   },
+   "type": "asr+summarize",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "google/gemini-2.5-pro",
+   "name": "Google: Gemini 2.5 Pro",
+   "pricing": {
+    "input_rub": 115.0,
+    "output_rub": 925.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true,
+    "audio": true
+   },
+   "type": "asr+summarize",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "anthropic/claude-opus-4.1",
+   "name": "Anthropic: Claude Opus 4.1",
+   "pricing": {
+    "input_rub": 1388.0,
+    "output_rub": 6942.0
+   },
+   "context": 200000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "google/gemini-2.5-pro-preview",
+   "name": "Google: Gemini 2.5 Pro Preview 06-05",
+   "pricing": {
+    "input_rub": 115.0,
+    "output_rub": 925.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true,
+    "audio": true
+   },
+   "type": "asr+summarize",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "deepseek/deepseek-r1-0528",
+   "name": "DeepSeek: R1 0528",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "google/gemma-3n-e4b-it",
+   "name": "Google: Gemma 3n 4B",
+   "pricing": {
+    "input_rub": 5.0,
+    "output_rub": 11.0
+   },
+   "context": 33000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "mistralai/mistral-medium-3",
+   "name": "Mistral: Mistral Medium 3",
+   "pricing": {
+    "input_rub": 37.0,
+    "output_rub": 185.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "google/gemini-2.5-pro-preview-05-06",
+   "name": "Google: Gemini 2.5 Pro Preview 05-06",
+   "pricing": {
+    "input_rub": 115.0,
+    "output_rub": 925.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true,
+    "audio": true
+   },
+   "type": "asr+summarize",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "arcee-ai/spotlight",
+   "name": "Arcee AI: Spotlight",
+   "pricing": {
+    "input_rub": 16.0,
+    "output_rub": 16.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "arcee-ai/maestro-reasoning",
+   "name": "Arcee AI: Maestro Reasoning",
+   "pricing": {
+    "input_rub": 83.0,
+    "output_rub": 305.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "arcee-ai/virtuoso-large",
+   "name": "Arcee AI: Virtuoso Large",
+   "pricing": {
+    "input_rub": 69.0,
+    "output_rub": 111.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "arcee-ai/coder-large",
+   "name": "Arcee AI: Coder Large",
+   "pricing": {
+    "input_rub": 46.0,
+    "output_rub": 74.0
+   },
+   "context": 33000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "meta-llama/llama-guard-4-12b",
+   "name": "Meta: Llama Guard 4 12B",
+   "pricing": {
+    "input_rub": 16.0,
+    "output_rub": 16.0
+   },
+   "context": 164000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "qwen/qwen3-30b-a3b",
+   "name": "Qwen: Qwen3 30B A3B",
+   "pricing": {
+    "input_rub": 8.0,
+    "output_rub": 41.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "qwen/qwen3-8b",
+   "name": "Qwen: Qwen3 8B",
+   "pricing": {
+    "input_rub": 4.0,
+    "output_rub": 37.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "qwen/qwen3-14b",
+   "name": "Qwen: Qwen3 14B",
+   "pricing": {
+    "input_rub": 9.0,
+    "output_rub": 22.0
+   },
+   "context": 132000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "qwen/qwen3-32b",
+   "name": "Qwen: Qwen3 32B",
+   "pricing": {
+    "input_rub": 7.0,
+    "output_rub": 25.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "qwen/qwen3-235b-a22b",
+   "name": "Qwen: Qwen3 235B A22B",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/o4-mini-high",
+   "name": "OpenAI: o4 Mini High",
+   "pricing": {
+    "input_rub": 101.0,
+    "output_rub": 407.0
+   },
+   "context": 200000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/o3",
+   "name": "OpenAI: o3",
+   "pricing": {
+    "input_rub": 185.0,
+    "output_rub": 740.0
+   },
+   "context": 200000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/o4-mini",
+   "name": "OpenAI: o4 Mini",
+   "pricing": {
+    "input_rub": 101.0,
+    "output_rub": 407.0
+   },
+   "context": 200000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-4.1",
+   "name": "OpenAI: GPT-4.1",
+   "pricing": {
+    "input_rub": 185.0,
+    "output_rub": 740.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-4.1-mini",
+   "name": "OpenAI: GPT-4.1 Mini",
+   "pricing": {
+    "input_rub": 37.0,
+    "output_rub": 148.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-4.1-nano",
+   "name": "OpenAI: GPT-4.1 Nano",
+   "pricing": {
+    "input_rub": 9.0,
+    "output_rub": 37.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "alfredpros/codellama-7b-instruct-solidity",
+   "name": "AlfredPros: CodeLLaMa 7B Instruct Solidity",
+   "pricing": {
+    "input_rub": 74.0,
+    "output_rub": 111.0
+   },
+   "context": 4000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "meta-llama/llama-4-maverick",
+   "name": "Meta: Llama 4 Maverick",
+   "pricing": {
+    "input_rub": 13.0,
+    "output_rub": 55.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "meta-llama/llama-4-scout",
+   "name": "Meta: Llama 4 Scout",
+   "pricing": {
+    "input_rub": 7.0,
+    "output_rub": 27.0
+   },
+   "context": 10000000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "deepseek/deepseek-chat-v3-0324",
+   "name": "DeepSeek: DeepSeek V3 0324",
+   "pricing": {
+    "input_rub": 18.0,
+    "output_rub": 71.0
+   },
+   "context": 164000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/o1-pro",
+   "name": "OpenAI: o1-pro",
+   "pricing": {
+    "input_rub": 13885.0,
+    "output_rub": 55543.0
+   },
+   "context": 200000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "anthropic/claude-opus-4",
+   "name": "Anthropic: Claude Opus 4",
+   "pricing": {
+    "input_rub": 1388.0,
+    "output_rub": 6942.0
+   },
+   "context": 200000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "anthropic/claude-sonnet-4",
+   "name": "Anthropic: Claude Sonnet 4",
+   "pricing": {
+    "input_rub": 277.0,
+    "output_rub": 1388.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "mistralai/mistral-small-3.1-24b-instruct",
+   "name": "Mistral: Mistral Small 3.1 24B",
+   "pricing": {
+    "input_rub": 32.0,
+    "output_rub": 51.0
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "google/gemma-3-4b-it",
+   "name": "Google: Gemma 3 4B",
+   "pricing": {
+    "input_rub": 3.0,
+    "output_rub": 7.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "google/gemma-3-12b-it",
+   "name": "Google: Gemma 3 12B",
+   "pricing": {
+    "input_rub": 3.0,
+    "output_rub": 12.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "cohere/command-a",
+   "name": "Cohere: Command A",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-4o-mini-search-preview",
+   "name": "OpenAI: GPT-4o-mini Search Preview",
+   "pricing": {
+    "input_rub": 13.0,
+    "output_rub": 55.0
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-4o-search-preview",
+   "name": "OpenAI: GPT-4o Search Preview",
+   "pricing": {
+    "input_rub": 231.0,
+    "output_rub": 925.0
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "google/gemma-3-27b-it",
+   "name": "Google: Gemma 3 27B",
+   "pricing": {
+    "input_rub": 7.0,
+    "output_rub": 14.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "thedrummer/skyfall-36b-v2",
+   "name": "TheDrummer: Skyfall 36B V2",
+   "pricing": {
+    "input_rub": 50.0,
+    "output_rub": 74.0
+   },
+   "context": 33000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "perplexity/sonar-reasoning-pro",
+   "name": "Perplexity: Sonar Reasoning Pro",
+   "pricing": {
+    "input_rub": 185.0,
+    "output_rub": 740.0
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "perplexity/sonar-pro",
+   "name": "Perplexity: Sonar Pro",
+   "pricing": {
+    "input_rub": 277.0,
+    "output_rub": 1388.0
+   },
+   "context": 200000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "perplexity/sonar-deep-research",
+   "name": "Perplexity: Sonar Deep Research",
+   "pricing": {
+    "input_rub": 185.0,
+    "output_rub": 740.0
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "google/gemini-2.0-flash-lite-001",
+   "name": "Google: Gemini 2.0 Flash Lite",
+   "pricing": {
+    "input_rub": 6.0,
+    "output_rub": 27.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true,
+    "audio": true
+   },
+   "type": "asr+summarize",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "mistralai/mistral-saba",
+   "name": "Mistral: Saba",
+   "pricing": {
+    "input_rub": 18.0,
+    "output_rub": 55.0
+   },
+   "context": 33000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "meta-llama/llama-guard-3-8b",
+   "name": "Llama Guard 3 8B",
+   "pricing": {
+    "input_rub": 44.0,
+    "output_rub": 2.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/o3-mini-high",
+   "name": "OpenAI: o3 Mini High",
+   "pricing": {
+    "input_rub": 101.0,
+    "output_rub": 407.0
+   },
+   "context": 200000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "google/gemini-2.0-flash-001",
+   "name": "Google: Gemini 2.0 Flash",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true,
+    "audio": true
+   },
+   "type": "asr+summarize",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "aion-labs/aion-1.0",
+   "name": "AionLabs: Aion-1.0",
+   "pricing": {
+    "input_rub": 370.0,
+    "output_rub": 740.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "aion-labs/aion-1.0-mini",
+   "name": "AionLabs: Aion-1.0-Mini",
+   "pricing": {
+    "input_rub": 64.0,
+    "output_rub": 129.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "aion-labs/aion-rp-llama-3.1-8b",
+   "name": "AionLabs: Aion-RP 1.0 (8B)",
+   "pricing": {
+    "input_rub": 74.0,
+    "output_rub": 148.0
+   },
+   "context": 33000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "qwen/qwen2.5-vl-72b-instruct",
+   "name": "Qwen: Qwen2.5 VL 72B Instruct",
+   "pricing": {
+    "input_rub": 23.0,
+    "output_rub": 69.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true,
+    "image": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "qwen/qwen-plus",
+   "name": "Qwen: Qwen-Plus",
+   "pricing": {
+    "input_rub": 24.0,
+    "output_rub": 72.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/o3-mini",
+   "name": "OpenAI: o3 Mini",
+   "pricing": {
+    "input_rub": 101.0,
+    "output_rub": 407.0
+   },
+   "context": 200000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "mistralai/mistral-small-24b-instruct-2501",
+   "name": "Mistral: Mistral Small 3",
+   "pricing": {
+    "input_rub": 4.0,
+    "output_rub": 7.0
+   },
+   "context": 33000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "deepseek/deepseek-r1-distill-qwen-32b",
+   "name": "DeepSeek: R1 Distill Qwen 32B",
+   "pricing": {
+    "input_rub": 26.0,
+    "output_rub": 26.0
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "perplexity/sonar",
+   "name": "Perplexity: Sonar",
+   "pricing": {
+    "input_rub": 92.0,
+    "output_rub": 92.0
+   },
+   "context": 127000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "deepseek/deepseek-r1-distill-llama-70b",
+   "name": "DeepSeek: R1 Distill Llama 70B",
+   "pricing": {
+    "input_rub": 64.0,
+    "output_rub": 74.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "deepseek/deepseek-r1",
+   "name": "DeepSeek: R1",
+   "pricing": {
+    "input_rub": 64.0,
+    "output_rub": 231.0
+   },
+   "context": 164000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "minimax/minimax-01",
+   "name": "MiniMax: MiniMax-01",
+   "pricing": {
+    "input_rub": 18.0,
+    "output_rub": 101.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "microsoft/phi-4",
+   "name": "Microsoft: Phi 4",
+   "pricing": {
+    "input_rub": 6.0,
+    "output_rub": 12.0
+   },
+   "context": 16000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "deepseek/deepseek-chat",
+   "name": "DeepSeek: DeepSeek V3",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "sao10k/l3.3-euryale-70b",
+   "name": "Sao10K: Llama 3.3 Euryale 70B",
+   "pricing": {
+    "input_rub": 60.0,
+    "output_rub": 69.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/o1",
+   "name": "OpenAI: o1",
+   "pricing": {
+    "input_rub": 1388.0,
+    "output_rub": 5554.0
+   },
+   "context": 200000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "cohere/command-r7b-12-2024",
+   "name": "Cohere: Command R7B (12-2024)",
+   "pricing": {
+    "input_rub": 3.0,
+    "output_rub": 13.0
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "meta-llama/llama-3.3-70b-instruct",
+   "name": "Meta: Llama 3.3 70B Instruct",
+   "pricing": {
+    "input_rub": 9.0,
+    "output_rub": 29.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "amazon/nova-lite-v1",
+   "name": "Amazon: Nova Lite 1.0",
+   "pricing": {
+    "input_rub": 5.0,
+    "output_rub": 22.0
+   },
+   "context": 300000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "amazon/nova-micro-v1",
+   "name": "Amazon: Nova Micro 1.0",
+   "pricing": {
+    "input_rub": 3.0,
+    "output_rub": 12.0
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "amazon/nova-pro-v1",
+   "name": "Amazon: Nova Pro 1.0",
+   "pricing": {
+    "input_rub": 74.0,
+    "output_rub": 296.0
+   },
+   "context": 300000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-4o-2024-11-20",
+   "name": "OpenAI: GPT-4o (2024-11-20)",
+   "pricing": {
+    "input_rub": 231.0,
+    "output_rub": 925.0
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "mistralai/mistral-large-2411",
+   "name": "Mistral Large 2411",
+   "pricing": {
+    "input_rub": 185.0,
+    "output_rub": 555.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "mistralai/mistral-large-2407",
+   "name": "Mistral Large 2407",
+   "pricing": {
+    "input_rub": 185.0,
+    "output_rub": 555.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "mistralai/pixtral-large-2411",
+   "name": "Mistral: Pixtral Large 2411",
+   "pricing": {
+    "input_rub": 185.0,
+    "output_rub": 555.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "qwen/qwen-2.5-coder-32b-instruct",
+   "name": "Qwen2.5 Coder 32B Instruct",
+   "pricing": {
+    "input_rub": 61.0,
+    "output_rub": 92.0
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "thedrummer/unslopnemo-12b",
+   "name": "TheDrummer: UnslopNemo 12B",
+   "pricing": {
+    "input_rub": 37.0,
+    "output_rub": 37.0
+   },
+   "context": 33000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "anthracite-org/magnum-v4-72b",
+   "name": "Magnum v4 72B",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "qwen/qwen-2.5-7b-instruct",
+   "name": "Qwen: Qwen2.5 7B Instruct",
+   "pricing": {
+    "input_rub": 3.0,
+    "output_rub": 9.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "inflection/inflection-3-pi",
+   "name": "Inflection: Inflection 3 Pi",
+   "pricing": {
+    "input_rub": 231.0,
+    "output_rub": 925.0
+   },
+   "context": 8000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "inflection/inflection-3-productivity",
+   "name": "Inflection: Inflection 3 Productivity",
+   "pricing": {
+    "input_rub": 231.0,
+    "output_rub": 925.0
+   },
+   "context": 8000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "thedrummer/rocinante-12b",
+   "name": "TheDrummer: Rocinante 12B",
+   "pricing": {
+    "input_rub": 15.0,
+    "output_rub": 39.0
+   },
+   "context": 33000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "meta-llama/llama-3.2-1b-instruct",
+   "name": "Meta: Llama 3.2 1B Instruct",
+   "pricing": {
+    "input_rub": 2.0,
+    "output_rub": 18.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "meta-llama/llama-3.2-3b-instruct",
+   "name": "Meta: Llama 3.2 3B Instruct",
+   "pricing": {
+    "input_rub": 4.0,
+    "output_rub": 31.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "meta-llama/llama-3.2-11b-vision-instruct",
+   "name": "Meta: Llama 3.2 11B Vision Instruct",
+   "pricing": {
+    "input_rub": 22.0,
+    "output_rub": 22.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "qwen/qwen-2.5-72b-instruct",
+   "name": "Qwen2.5 72B Instruct",
+   "pricing": {
+    "input_rub": 33.0,
+    "output_rub": 37.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "cohere/command-r-plus-08-2024",
+   "name": "Cohere: Command R+ (08-2024)",
+   "pricing": {
+    "input_rub": 231.0,
+    "output_rub": 925.0
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "cohere/command-r-08-2024",
+   "name": "Cohere: Command R (08-2024)",
+   "pricing": {
+    "input_rub": 13.0,
+    "output_rub": 55.0
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "sao10k/l3.1-euryale-70b",
+   "name": "Sao10K: Llama 3.1 Euryale 70B v2.2",
+   "pricing": {
+    "input_rub": 78.0,
+    "output_rub": 78.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "nousresearch/hermes-3-llama-3.1-70b",
+   "name": "Nous: Hermes 3 70B Instruct",
+   "pricing": {
+    "input_rub": 27.0,
+    "output_rub": 27.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "nousresearch/hermes-3-llama-3.1-405b",
+   "name": "Nous: Hermes 3 405B Instruct",
+   "pricing": {
+    "input_rub": 92.0,
+    "output_rub": 92.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "sao10k/l3-lunaris-8b",
+   "name": "Sao10K: Llama 3 8B Lunaris",
+   "pricing": {
+    "input_rub": 3.0,
+    "output_rub": 4.0
+   },
+   "context": 8000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-4o-2024-08-06",
+   "name": "OpenAI: GPT-4o (2024-08-06)",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "meta-llama/llama-3.1-8b-instruct",
+   "name": "Meta: Llama 3.1 8B Instruct",
+   "pricing": {
+    "input_rub": 1.0,
+    "output_rub": 4.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "meta-llama/llama-3.1-70b-instruct",
+   "name": "Meta: Llama 3.1 70B Instruct",
+   "pricing": {
+    "input_rub": 37.0,
+    "output_rub": 37.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "mistralai/mistral-nemo",
+   "name": "Mistral: Mistral Nemo",
+   "pricing": {
+    "input_rub": 1.0,
+    "output_rub": 2.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-4o-mini-2024-07-18",
+   "name": "OpenAI: GPT-4o-mini (2024-07-18)",
+   "pricing": {
+    "input_rub": 13.0,
+    "output_rub": 55.0
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-4o-mini",
+   "name": "OpenAI: GPT-4o-mini",
+   "pricing": {
+    "input_rub": 13.0,
+    "output_rub": 55.0
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "google/gemma-2-27b-it",
+   "name": "Google: Gemma 2 27B",
+   "pricing": {
+    "input_rub": 60.0,
+    "output_rub": 60.0
+   },
+   "context": 8000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "sao10k/l3-euryale-70b",
+   "name": "Sao10k: Llama 3 Euryale 70B v2.1",
+   "pricing": {
+    "input_rub": 137.0,
+    "output_rub": 137.0
+   },
+   "context": 8000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "nousresearch/hermes-2-pro-llama-3-8b",
+   "name": "NousResearch: Hermes 2 Pro - Llama-3 8B",
+   "pricing": {
+    "input_rub": 12.0,
+    "output_rub": 12.0
+   },
+   "context": 8000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-4o-2024-05-13",
+   "name": "OpenAI: GPT-4o (2024-05-13)",
+   "pricing": {
+    "input_rub": 462.0,
+    "output_rub": 1388.0
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-4o",
+   "name": "OpenAI: GPT-4o",
+   "pricing": {
+    "input_rub": 231.0,
+    "output_rub": 925.0
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-4o:extended",
+   "name": "OpenAI: GPT-4o (extended)",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "meta-llama/llama-3-70b-instruct",
+   "name": "Meta: Llama 3 70B Instruct",
+   "pricing": {
+    "input_rub": 47.0,
+    "output_rub": 68.0
+   },
+   "context": 8000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "meta-llama/llama-3-8b-instruct",
+   "name": "Meta: Llama 3 8B Instruct",
+   "pricing": {
+    "input_rub": 3.0,
+    "output_rub": 3.0
+   },
+   "context": 8000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "mistralai/mixtral-8x22b-instruct",
+   "name": "Mistral: Mixtral 8x22B Instruct",
+   "pricing": {
+    "input_rub": 185.0,
+    "output_rub": 555.0
+   },
+   "context": 66000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "microsoft/wizardlm-2-8x22b",
+   "name": "WizardLM-2 8x22B",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-4-turbo",
+   "name": "OpenAI: GPT-4 Turbo",
+   "pricing": {
+    "input_rub": 925.0,
+    "output_rub": 2777.0
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "anthropic/claude-3.5-haiku",
+   "name": "Anthropic: Claude 3.5 Haiku",
+   "pricing": {
+    "input_rub": 74.0,
+    "output_rub": 370.0
+   },
+   "context": 200000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "mistralai/mistral-large",
+   "name": "Mistral Large",
+   "pricing": {
+    "input_rub": 185.0,
+    "output_rub": 555.0
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-4-turbo-preview",
+   "name": "OpenAI: GPT-4 Turbo Preview",
+   "pricing": {
+    "input_rub": 925.0,
+    "output_rub": 2777.0
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-3.5-turbo-0613",
+   "name": "OpenAI: GPT-3.5 Turbo (older v0613)",
+   "pricing": {
+    "input_rub": 92.0,
+    "output_rub": 185.0
+   },
+   "context": 4000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-4-1106-preview",
+   "name": "OpenAI: GPT-4 Turbo (older v1106)",
+   "pricing": {
+    "input_rub": 925.0,
+    "output_rub": 2777.0
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-3.5-turbo-instruct",
+   "name": "OpenAI: GPT-3.5 Turbo Instruct",
+   "pricing": {
+    "input_rub": 138.0,
+    "output_rub": 185.0
+   },
+   "context": 4000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "mistralai/mistral-7b-instruct-v0.1",
+   "name": "Mistral: Mistral 7B Instruct v0.1",
+   "pricing": {
+    "input_rub": 10.0,
+    "output_rub": 17.0
+   },
+   "context": 4000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-3.5-turbo-16k",
+   "name": "OpenAI: GPT-3.5 Turbo 16k",
+   "pricing": {
+    "input_rub": 277.0,
+    "output_rub": 370.0
+   },
+   "context": 16000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "mancer/weaver",
+   "name": "Mancer: Weaver (alpha)",
+   "pricing": {
+    "input_rub": 69.0,
+    "output_rub": 92.0
+   },
+   "context": 8000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "undi95/remm-slerp-l2-13b",
+   "name": "ReMM SLERP 13B",
+   "pricing": {
+    "input_rub": 41.0,
+    "output_rub": 60.0
+   },
+   "context": 6000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "gryphe/mythomax-l2-13b",
+   "name": "MythoMax 13B",
+   "pricing": {
+    "input_rub": 5.0,
+    "output_rub": 5.0
+   },
+   "context": 4000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-3.5-turbo",
+   "name": "OpenAI: GPT-3.5 Turbo",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-4-0314",
+   "name": "OpenAI: GPT-4 (older v0314)",
+   "pricing": {
+    "input_rub": 2777.0,
+    "output_rub": 5554.0
+   },
+   "context": 8000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-4",
+   "name": "OpenAI: GPT-4",
+   "pricing": {
+    "input_rub": 2777.0,
+    "output_rub": 5554.0
+   },
+   "context": 8000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "qwen/qwen3-vl-235b-a22b-thinking",
+   "name": "Qwen: Qwen3 VL 235B A22B Thinking",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true,
+    "image": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "qwen/qwen3-vl-235b-a22b-instruct",
+   "name": "Qwen: Qwen3 VL 235B A22B Instruct",
+   "pricing": {
+    "input_rub": 18.0,
+    "output_rub": 81.0
+   },
+   "context": 262000,
+   "capabilities": {
+    "text": true,
+    "image": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "qwen/qwen3-coder-plus",
+   "name": "Qwen: Qwen3 Coder Plus",
+   "pricing": {
+    "input_rub": 60.0,
+    "output_rub": 300.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-5-codex",
+   "name": "OpenAI: GPT-5 Codex",
+   "pricing": {
+    "input_rub": 115.0,
+    "output_rub": 925.0
+   },
+   "context": 400000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "deepseek/deepseek-v3.1-terminus",
+   "name": "DeepSeek: DeepSeek V3.1 Terminus",
+   "pricing": {
+    "input_rub": 24.0,
+    "output_rub": 87.0
+   },
+   "context": 164000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "alibaba/tongyi-deepresearch-30b-a3b",
+   "name": "Tongyi DeepResearch 30B A3B",
+   "pricing": {
+    "input_rub": 8.0,
+    "output_rub": 41.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "qwen/qwen3-coder-flash",
+   "name": "Qwen: Qwen3 Coder Flash",
+   "pricing": {
+    "input_rub": 18.0,
+    "output_rub": 90.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "google/gemini-2.5-flash-lite-preview-09-2025",
+   "name": "Google: Gemini 2.5 Flash Lite Preview 09-2025",
+   "pricing": {
+    "input_rub": 9.0,
+    "output_rub": 37.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true,
+    "audio": true
+   },
+   "type": "asr+summarize",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "deepseek/deepseek-v3.2-exp",
+   "name": "DeepSeek: DeepSeek V3.2 Exp",
+   "pricing": {
+    "input_rub": 24.0,
+    "output_rub": 37.0
+   },
+   "context": 164000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "thedrummer/cydonia-24b-v4.1",
+   "name": "TheDrummer: Cydonia 24B V4.1",
+   "pricing": {
+    "input_rub": 27.0,
+    "output_rub": 46.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "relace/relace-apply-3",
+   "name": "Relace: Relace Apply 3",
+   "pricing": {
+    "input_rub": 78.0,
+    "output_rub": 115.0
+   },
+   "context": 256000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "z-ai/glm-4.6",
+   "name": "Z.ai: GLM 4.6",
+   "pricing": {
+    "input_rub": 39.0,
+    "output_rub": 161.0
+   },
+   "context": 203000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-5-pro",
+   "name": "OpenAI: GPT-5 Pro",
+   "pricing": {
+    "input_rub": 1388.0,
+    "output_rub": 11108.0
+   },
+   "context": 400000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "google/gemini-2.5-flash-image",
+   "name": "Google: Nano Banana (Gemini 2.5 Flash Image)",
+   "pricing": {
+    "input_rub": 27.0,
+    "output_rub": 231.0
+   },
+   "context": 33000,
+   "capabilities": {
+    "text": true,
+    "audio": true,
+    "image": true
+   },
+   "type": "asr+summarize",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "baidu/ernie-4.5-21b-a3b-thinking",
+   "name": "Baidu: ERNIE 4.5 21B A3B Thinking",
+   "pricing": {
+    "input_rub": 6.0,
+    "output_rub": 25.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "qwen/qwen3-vl-30b-a3b-thinking",
+   "name": "Qwen: Qwen3 VL 30B A3B Thinking",
+   "pricing": {
+    "input_rub": 18.0,
+    "output_rub": 92.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true,
+    "image": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "qwen/qwen3-vl-30b-a3b-instruct",
+   "name": "Qwen: Qwen3 VL 30B A3B Instruct",
+   "pricing": {
+    "input_rub": 12.0,
+    "output_rub": 48.0
+   },
+   "context": 262000,
+   "capabilities": {
+    "text": true,
+    "image": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "nvidia/llama-3.3-nemotron-super-49b-v1.5",
+   "name": "NVIDIA: Llama 3.3 Nemotron Super 49B V1.5",
+   "pricing": {
+    "input_rub": 9.0,
+    "output_rub": 37.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "sao10k/l3.1-70b-hanami-x1",
+   "name": "Sao10K: Llama 3.1 70B Hanami x1",
+   "pricing": {
+    "input_rub": 277.0,
+    "output_rub": 277.0
+   },
+   "context": 16000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "qwen/qwen3-vl-8b-thinking",
+   "name": "Qwen: Qwen3 VL 8B Thinking",
+   "pricing": {
+    "input_rub": 10.0,
+    "output_rub": 126.0
+   },
+   "context": 256000,
+   "capabilities": {
+    "text": true,
+    "image": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "qwen/qwen3-vl-8b-instruct",
+   "name": "Qwen: Qwen3 VL 8B Instruct",
+   "pricing": {
+    "input_rub": 10.0,
+    "output_rub": 42.0
+   },
+   "context": 256000,
+   "capabilities": {
+    "text": true,
+    "image": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/o3-deep-research",
+   "name": "OpenAI: o3 Deep Research",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/o4-mini-deep-research",
+   "name": "OpenAI: o4 Mini Deep Research",
+   "pricing": {
+    "input_rub": 185.0,
+    "output_rub": 740.0
+   },
+   "context": 200000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-5-image",
+   "name": "OpenAI: GPT-5 Image",
+   "pricing": {
+    "input_rub": 925.0,
+    "output_rub": 925.0
+   },
+   "context": 400000,
+   "capabilities": {
+    "text": true,
+    "image": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-5-image-mini",
+   "name": "OpenAI: GPT-5 Image Mini",
+   "pricing": {
+    "input_rub": 231.0,
+    "output_rub": 185.0
+   },
+   "context": 400000,
+   "capabilities": {
+    "text": true,
+    "image": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "ibm-granite/granite-4.0-h-micro",
+   "name": "IBM: Granite 4.0 Micro",
+   "pricing": {
+    "input_rub": 1.0,
+    "output_rub": 10.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "z-ai/glm-4.6:exacto",
+   "name": "Z.ai: GLM 4.6 (exacto)",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "deepseek/deepseek-v3.1-terminus:exacto",
+   "name": "DeepSeek: DeepSeek V3.1 Terminus (exacto)",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "moonshotai/kimi-k2-0905:exacto",
+   "name": "MoonshotAI: Kimi K2 0905 (exacto)",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-oss-120b:exacto",
+   "name": "OpenAI: gpt-oss-120b (exacto)",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "qwen/qwen3-coder:exacto",
+   "name": "Qwen: Qwen3 Coder 480B A35B (exacto)",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "qwen/qwen3-vl-32b-instruct",
+   "name": "Qwen: Qwen3 VL 32B Instruct",
+   "pricing": {
+    "input_rub": 9.0,
+    "output_rub": 38.0
+   },
+   "context": 262000,
+   "capabilities": {
+    "text": true,
+    "image": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-oss-safeguard-20b",
+   "name": "OpenAI: gpt-oss-safeguard-20b",
+   "pricing": {
+    "input_rub": 6.0,
+    "output_rub": 27.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "minimax/minimax-m2",
+   "name": "MiniMax: MiniMax M2",
+   "pricing": {
+    "input_rub": 23.0,
+    "output_rub": 92.0
+   },
+   "context": 205000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "perplexity/sonar-pro-search",
+   "name": "Perplexity: Sonar Pro Search",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "mistralai/voxtral-small-24b-2507",
+   "name": "Mistral: Voxtral Small 24B 2507",
+   "pricing": {
+    "input_rub": 9.0,
+    "output_rub": 27.0
+   },
+   "context": 32000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "amazon/nova-premier-v1",
+   "name": "Amazon: Nova Premier 1.0",
+   "pricing": {
+    "input_rub": 231.0,
+    "output_rub": 1157.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "moonshotai/kimi-k2-thinking",
+   "name": "MoonshotAI: Kimi K2 Thinking",
+   "pricing": {
+    "input_rub": 55.0,
+    "output_rub": 231.0
+   },
+   "context": 262000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-5.1",
+   "name": "OpenAI: GPT-5.1",
+   "pricing": {
+    "input_rub": 115.0,
+    "output_rub": 925.0
+   },
+   "context": 400000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-5.1-chat",
+   "name": "OpenAI: GPT-5.1 Chat",
+   "pricing": {
+    "input_rub": 115.0,
+    "output_rub": 925.0
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-5.1-codex",
+   "name": "OpenAI: GPT-5.1-Codex",
+   "pricing": {
+    "input_rub": 115.0,
+    "output_rub": 925.0
+   },
+   "context": 400000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-5.1-codex-mini",
+   "name": "OpenAI: GPT-5.1-Codex-Mini",
+   "pricing": {
+    "input_rub": 23.0,
+    "output_rub": 185.0
+   },
+   "context": 400000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "deepcogito/cogito-v2.1-671b",
+   "name": "Deep Cogito: Cogito v2.1 671B",
+   "pricing": {
+    "input_rub": 115.0,
+    "output_rub": 115.0
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "google/gemini-3-pro-image-preview",
+   "name": "Google: Nano Banana Pro (Gemini 3 Pro Image Preview)",
+   "pricing": {
+    "input_rub": 185.0,
+    "output_rub": 1110.0
+   },
+   "context": 66000,
+   "capabilities": {
+    "text": true,
+    "audio": true,
+    "image": true
+   },
+   "type": "asr+summarize",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "allenai/olmo-3-32b-think",
+   "name": "AllenAI: Olmo 3 32B Think",
+   "pricing": {
+    "input_rub": 13.0,
+    "output_rub": 46.0
+   },
+   "context": 66000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "prime-intellect/intellect-3",
+   "name": "Prime Intellect: INTELLECT-3",
+   "pricing": {
+    "input_rub": 18.0,
+    "output_rub": 101.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "black-forest-labs/flux.2-pro",
+   "name": "Black Forest Labs: FLUX.2 Pro",
+   "pricing": {
+    "input_rub": 0.0,
+    "output_rub": 0.0
+   },
+   "context": 47000,
+   "capabilities": {
+    "text": true,
+    "image": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "arcee-ai/trinity-mini",
+   "name": "Arcee AI: Trinity Mini",
+   "pricing": {
+    "input_rub": 4.0,
+    "output_rub": 13.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "deepseek/deepseek-v3.2-speciale",
+   "name": "DeepSeek: DeepSeek V3.2 Speciale",
+   "pricing": {
+    "input_rub": 26.0,
+    "output_rub": 39.0
+   },
+   "context": 164000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "deepseek/deepseek-v3.2",
+   "name": "DeepSeek: DeepSeek V3.2",
+   "pricing": {
+    "input_rub": 23.0,
+    "output_rub": 34.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "amazon/nova-2-lite-v1",
+   "name": "Amazon: Nova 2 Lite",
+   "pricing": {
+    "input_rub": 27.0,
+    "output_rub": 231.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "mistralai/mistral-large-2512",
+   "name": "Mistral: Mistral Large 3 2512",
+   "pricing": {
+    "input_rub": 46.0,
+    "output_rub": 138.0
+   },
+   "context": 262000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "mistralai/ministral-14b-2512",
+   "name": "Mistral: Ministral 3 14B 2512",
+   "pricing": {
+    "input_rub": 18.0,
+    "output_rub": 18.0
+   },
+   "context": 262000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "mistralai/ministral-8b-2512",
+   "name": "Mistral: Ministral 3 8B 2512",
+   "pricing": {
+    "input_rub": 13.0,
+    "output_rub": 13.0
+   },
+   "context": 262000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "mistralai/ministral-3b-2512",
+   "name": "Mistral: Ministral 3 3B 2512",
+   "pricing": {
+    "input_rub": 9.0,
+    "output_rub": 9.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-5.1-codex-max",
+   "name": "OpenAI: GPT-5.1-Codex-Max",
+   "pricing": {
+    "input_rub": 115.0,
+    "output_rub": 925.0
+   },
+   "context": 400000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "essentialai/rnj-1-instruct",
+   "name": "EssentialAI: Rnj 1 Instruct",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "relace/relace-search",
+   "name": "Relace: Relace Search",
+   "pricing": {
+    "input_rub": 92.0,
+    "output_rub": 277.0
+   },
+   "context": 256000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "z-ai/glm-4.6v",
+   "name": "Z.ai: GLM 4.6V",
+   "pricing": {
+    "input_rub": 27.0,
+    "output_rub": 83.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "mistralai/devstral-2512",
+   "name": "Mistral: Devstral 2 2512",
+   "pricing": {
+    "input_rub": 37.0,
+    "output_rub": 185.0
+   },
+   "context": 262000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-5.2-chat",
+   "name": "OpenAI: GPT-5.2 Chat",
+   "pricing": {
+    "input_rub": 162.0,
+    "output_rub": 1296.0
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-5.2-pro",
+   "name": "OpenAI: GPT-5.2 Pro",
+   "pricing": {
+    "input_rub": 1944.0,
+    "output_rub": 15552.0
+   },
+   "context": 400000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-5.2",
+   "name": "OpenAI: GPT-5.2",
+   "pricing": {
+    "input_rub": 162.0,
+    "output_rub": 1296.0
+   },
+   "context": 400000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "google/gemini-3-flash-preview",
+   "name": "Google: Gemini 3 Flash Preview",
+   "pricing": {
+    "input_rub": 46.0,
+    "output_rub": 277.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true,
+    "audio": true
+   },
+   "type": "asr+summarize",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "nvidia/nemotron-3-nano-30b-a3b",
+   "name": "NVIDIA: Nemotron 3 Nano 30B A3B",
+   "pricing": {
+    "input_rub": 4.0,
+    "output_rub": 18.0
+   },
+   "context": 262000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "z-ai/glm-4.7",
+   "name": "Z.ai: GLM 4.7",
+   "pricing": {
+    "input_rub": 37.0,
+    "output_rub": 162.0
+   },
+   "context": 203000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "minimax/minimax-m2.1",
+   "name": "MiniMax: MiniMax M2.1",
+   "pricing": {
+    "input_rub": 26.0,
+    "output_rub": 87.0
+   },
+   "context": 205000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "bytedance-seed/seed-1.6-flash",
+   "name": "ByteDance Seed: Seed 1.6 Flash",
+   "pricing": {
+    "input_rub": 6.0,
+    "output_rub": 27.0
+   },
+   "context": 262000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "bytedance-seed/seed-1.6",
+   "name": "ByteDance Seed: Seed 1.6",
+   "pricing": {
+    "input_rub": 23.0,
+    "output_rub": 185.0
+   },
+   "context": 262000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "thenlper/gte-base",
+   "name": "Thenlper: GTE-Base",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "thenlper/gte-large",
+   "name": "Thenlper: GTE-Large",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "intfloat/e5-large-v2",
+   "name": "Intfloat: E5-Large-v2",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "intfloat/e5-base-v2",
+   "name": "Intfloat: E5-Base-v2",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "intfloat/multilingual-e5-large",
+   "name": "Intfloat: Multilingual-E5-Large",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "sentence-transformers/paraphrase-minilm-l6-v2",
+   "name": "Sentence Transformers: paraphrase-MiniLM-L6-v2",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "sentence-transformers/all-minilm-l12-v2",
+   "name": "Sentence Transformers: all-MiniLM-L12-v2",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "baai/bge-base-en-v1.5",
+   "name": "BAAI: bge-base-en-v1.5",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "sentence-transformers/multi-qa-mpnet-base-dot-v1",
+   "name": "Sentence Transformers: multi-qa-mpnet-base-dot-v1",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "baai/bge-large-en-v1.5",
+   "name": "BAAI: bge-large-en-v1.5",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "baai/bge-m3",
+   "name": "BAAI: bge-m3",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "sentence-transformers/all-mpnet-base-v2",
+   "name": "Sentence Transformers: all-mpnet-base-v2",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "sentence-transformers/all-minilm-l6-v2",
+   "name": "Sentence Transformers: all-MiniLM-L6-v2",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "mistralai/mistral-embed-2312",
+   "name": "Mistral: Mistral Embed 2312",
+   "pricing": {
+    "input_rub": 9.0,
+    "output_rub": 0.0
+   },
+   "context": 8000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "embedding",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "google/gemini-embedding-001",
+   "name": "Google: Gemini Embedding 001",
+   "pricing": {
+    "input_rub": 13.0,
+    "output_rub": 0.0
+   },
+   "context": 20000,
+   "capabilities": {
+    "text": true,
+    "audio": true
+   },
+   "type": "embedding",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/text-embedding-ada-002",
+   "name": "OpenAI: Text Embedding Ada 002",
+   "pricing": {
+    "input_rub": 9.0,
+    "output_rub": 0.0
+   },
+   "context": 8000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "embedding",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "mistralai/codestral-embed-2505",
+   "name": "Mistral: Codestral Embed 2505",
+   "pricing": {
+    "input_rub": 13.0,
+    "output_rub": 0.0
+   },
+   "context": 8000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "embedding",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/text-embedding-3-large",
+   "name": "OpenAI: Text Embedding 3 Large",
+   "pricing": {
+    "input_rub": 12.0,
+    "output_rub": 0.0
+   },
+   "context": 8000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "embedding",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/text-embedding-3-small",
+   "name": "OpenAI: Text Embedding 3 Small",
+   "pricing": {
+    "input_rub": 1.0,
+    "output_rub": 0.0
+   },
+   "context": 8000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "embedding",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "qwen/qwen3-embedding-8b",
+   "name": "Qwen: Qwen3 Embedding 8B",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   },
+   "type": "embedding",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "qwen/qwen3-embedding-4b",
+   "name": "Qwen: Qwen3 Embedding 4B",
+   "pricing": {
+    "input_rub": 1.0,
+    "output_rub": 0.0
+   },
+   "context": 33000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "embedding",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "nex-agi/deepseek-v3.1-nex-n1",
+   "name": "Nex AGI: DeepSeek V3.1 Nex N1",
+   "pricing": {
+    "input_rub": 12.0,
+    "output_rub": 46.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-5.2-codex",
+   "name": "OpenAI: GPT-5.2-Codex",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "xiaomi/mimo-v2-flash",
+   "name": "Xiaomi: MiMo-V2-Flash",
+   "pricing": {
+    "input_rub": 9.0,
+    "output_rub": 27.0
+   },
+   "context": 262000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "z-ai/glm-4.7-flash",
+   "name": "Z.ai: GLM 4.7 Flash",
+   "pricing": {
+    "input_rub": 5.0,
+    "output_rub": 37.0
+   },
+   "context": 203000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-audio",
+   "name": "OpenAI: GPT Audio",
+   "pricing": {
+    "input_rub": 231.0,
+    "output_rub": 925.0
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true,
+    "audio": true
+   },
+   "type": "asr+summarize",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-audio-mini",
+   "name": "OpenAI: GPT Audio Mini",
+   "pricing": {
+    "input_rub": 55.0,
+    "output_rub": 222.0
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true,
+    "audio": true
+   },
+   "type": "asr+summarize",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "writer/palmyra-x5",
+   "name": "Writer: Palmyra X5",
+   "pricing": {
+    "input_rub": 55.0,
+    "output_rub": 555.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "minimax/minimax-m2-her",
+   "name": "MiniMax: MiniMax M2-her",
+   "pricing": {
+    "input_rub": 27.0,
+    "output_rub": 111.0
+   },
+   "context": 66000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "yandex/gpt-pro-5",
+   "name": "YandexGPT Pro 5",
+   "pricing": {
+    "input_rub": 1481.0,
+    "output_rub": 1481.0
+   },
+   "context": 33000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "yandex/gpt-pro-5.1",
+   "name": "YandexGPT Pro 5.1",
+   "pricing": {
+    "input_rub": 490.0,
+    "output_rub": 490.0
+   },
+   "context": 33000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "yandex/gpt-lite-5",
+   "name": "YandexGPT Lite 5",
+   "pricing": {
+    "input_rub": 247.0,
+    "output_rub": 247.0
+   },
+   "context": 33000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "yandex/aliceai-llm",
+   "name": "Alice AI LLM",
+   "pricing": {
+    "input_rub": 620.0,
+    "output_rub": 2471.0
+   },
+   "context": 33000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "moonshotai/kimi-k2.5",
+   "name": "MoonshotAI: Kimi K2.5",
+   "pricing": {
+    "input_rub": 37.0,
+    "output_rub": 175.0
+   },
+   "context": 262000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "black-forest-labs/flux.2-flex",
+   "name": "Black Forest Labs: FLUX.2 Flex",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true,
+    "image": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "black-forest-labs/flux.2-max",
+   "name": "Black Forest Labs: FLUX.2 MAX",
+   "pricing": {
+    "input_rub": 0.0,
+    "output_rub": 0.0
+   },
+   "context": 47000,
+   "capabilities": {
+    "text": true,
+    "image": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "black-forest-labs/flux.2-klein-4b",
+   "name": "Black Forest Labs: FLUX.2 Klein 4B",
+   "pricing": {
+    "input_rub": 0.0,
+    "output_rub": 0.0
+   },
+   "context": 41000,
+   "capabilities": {
+    "text": true,
+    "image": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "bytedance-seed/seedream-4.5",
+   "name": "ByteDance Seed: Seedream 4.5",
+   "pricing": {
+    "input_rub": 0.0,
+    "output_rub": 0.0
+   },
+   "context": 4000,
+   "capabilities": {
+    "text": true,
+    "image": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "qwen/qwen3-coder-next",
+   "name": "Qwen: Qwen3 Coder Next",
+   "pricing": {
+    "input_rub": 10.0,
+    "output_rub": 74.0
+   },
+   "context": 262000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "qwen/qwen3-max-thinking",
+   "name": "Qwen: Qwen3 Max Thinking",
+   "pricing": {
+    "input_rub": 72.0,
+    "output_rub": 361.0
+   },
+   "context": 262000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "z-ai/glm-5",
+   "name": "Z.ai: GLM 5",
+   "pricing": {
+    "input_rub": 55.0,
+    "output_rub": 177.0
+   },
+   "context": 203000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "stepfun/step-3.5-flash",
+   "name": "StepFun: Step 3.5 Flash",
+   "pricing": {
+    "input_rub": 8.0,
+    "output_rub": 27.0
+   },
+   "context": 262000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "minimax/minimax-m2.5",
+   "name": "MiniMax: MiniMax M2.5",
+   "pricing": {
+    "input_rub": 22.0,
+    "output_rub": 83.0
+   },
+   "context": 205000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "qwen/qwen3.5-plus-02-15",
+   "name": "Qwen: Qwen3.5 Plus 2026-02-15",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "qwen/qwen3.5-397b-a17b",
+   "name": "Qwen: Qwen3.5 397B A17B",
+   "pricing": {
+    "input_rub": 36.0,
+    "output_rub": 216.0
+   },
+   "context": 262000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "google/gemini-3.1-pro-preview",
+   "name": "Google: Gemini 3.1 Pro Preview",
+   "pricing": {
+    "input_rub": 185.0,
+    "output_rub": 1110.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true,
+    "audio": true
+   },
+   "type": "asr+summarize",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-5.3-codex",
+   "name": "OpenAI: GPT-5.3-Codex",
+   "pricing": {
+    "input_rub": 162.0,
+    "output_rub": 1296.0
+   },
+   "context": 400000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "aion-labs/aion-2.0",
+   "name": "AionLabs: Aion-2.0",
+   "pricing": {
+    "input_rub": 74.0,
+    "output_rub": 148.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "liquid/lfm-2-24b-a2b",
+   "name": "LiquidAI: LFM2-24B-A2B",
+   "pricing": {
+    "input_rub": 2.0,
+    "output_rub": 11.0
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "google/gemini-3.1-pro-preview-customtools",
+   "name": "Google: Gemini 3.1 Pro Preview Custom Tools",
+   "pricing": {
+    "input_rub": 185.0,
+    "output_rub": 1110.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true,
+    "audio": true
+   },
+   "type": "asr+summarize",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "qwen/qwen3.5-35b-a3b",
+   "name": "Qwen: Qwen3.5-35B-A3B",
+   "pricing": {
+    "input_rub": 12.0,
+    "output_rub": 92.0
+   },
+   "context": 262000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "qwen/qwen3.5-27b",
+   "name": "Qwen: Qwen3.5-27B",
+   "pricing": {
+    "input_rub": 18.0,
+    "output_rub": 144.0
+   },
+   "context": 262000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "qwen/qwen3.5-122b-a10b",
+   "name": "Qwen: Qwen3.5-122B-A10B",
+   "pricing": {
+    "input_rub": 24.0,
+    "output_rub": 192.0
+   },
+   "context": 262000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "qwen/qwen3.5-flash-02-23",
+   "name": "Qwen: Qwen3.5-Flash",
+   "pricing": {
+    "input_rub": 6.0,
+    "output_rub": 24.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "google/gemini-3.1-flash-image-preview",
+   "name": "Google: Nano Banana 2 (Gemini 3.1 Flash Image Preview)",
+   "pricing": {
+    "input_rub": 46.0,
+    "output_rub": 277.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true,
+    "audio": true,
+    "image": true
+   },
+   "type": "asr+summarize",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "bytedance-seed/seed-2.0-mini",
+   "name": "ByteDance Seed: Seed-2.0-Mini",
+   "pricing": {
+    "input_rub": 9.0,
+    "output_rub": 37.0
+   },
+   "context": 262000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "upstage/solar-pro-3",
+   "name": "Upstage: Solar Pro 3",
+   "pricing": {
+    "input_rub": 13.0,
+    "output_rub": 55.0
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "google/gemini-3.1-flash-lite-preview",
+   "name": "Google: Gemini 3.1 Flash Lite Preview",
+   "pricing": {
+    "input_rub": 23.0,
+    "output_rub": 138.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true,
+    "audio": true
+   },
+   "type": "asr+summarize",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-5.3-chat",
+   "name": "OpenAI: GPT-5.3 Chat",
+   "pricing": {
+    "input_rub": 162.0,
+    "output_rub": 1296.0
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "inception/mercury-2",
+   "name": "Inception: Mercury 2",
+   "pricing": {
+    "input_rub": 23.0,
+    "output_rub": 69.0
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-5.4-pro",
+   "name": "OpenAI: GPT-5.4 Pro",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-5.4",
+   "name": "OpenAI: GPT-5.4",
+   "pricing": {
+    "input_rub": 231.0,
+    "output_rub": 1388.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "qwen/qwen3.5-9b",
+   "name": "Qwen: Qwen3.5-9B",
+   "pricing": {
+    "input_rub": 3.0,
+    "output_rub": 13.0
+   },
+   "context": 262000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "bytedance-seed/seed-2.0-lite",
+   "name": "ByteDance Seed: Seed-2.0-Lite",
+   "pricing": {
+    "input_rub": 23.0,
+    "output_rub": 185.0
+   },
+   "context": 262000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "z-ai/glm-5-turbo",
+   "name": "Z.ai: GLM 5 Turbo",
+   "pricing": {
+    "input_rub": 111.0,
+    "output_rub": 370.0
+   },
+   "context": 203000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "mistralai/mistral-small-2603",
+   "name": "Mistral: Mistral Small 4",
+   "pricing": {
+    "input_rub": 13.0,
+    "output_rub": 55.0
+   },
+   "context": 262000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-5.4-nano",
+   "name": "OpenAI: GPT-5.4 Nano",
+   "pricing": {
+    "input_rub": 18.0,
+    "output_rub": 115.0
+   },
+   "context": 400000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-5.4-mini",
+   "name": "OpenAI: GPT-5.4 Mini",
+   "pricing": {
+    "input_rub": 69.0,
+    "output_rub": 416.0
+   },
+   "context": 400000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "minimax/minimax-m2.7",
+   "name": "MiniMax: MiniMax M2.7",
+   "pricing": {
+    "input_rub": 25.0,
+    "output_rub": 111.0
+   },
+   "context": 205000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "nvidia/nemotron-3-super-120b-a12b",
+   "name": "NVIDIA: Nemotron 3 Super",
+   "pricing": {
+    "input_rub": 8.0,
+    "output_rub": 41.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "xiaomi/mimo-v2-omni",
+   "name": "Xiaomi: MiMo-V2-Omni",
+   "pricing": {
+    "input_rub": 37.0,
+    "output_rub": 185.0
+   },
+   "context": 262000,
+   "capabilities": {
+    "text": true,
+    "audio": true
+   },
+   "type": "asr+summarize",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "xiaomi/mimo-v2-pro",
+   "name": "Xiaomi: MiMo-V2-Pro",
+   "pricing": {
+    "input_rub": 92.0,
+    "output_rub": 277.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "perplexity/pplx-embed-v1-4B",
+   "name": "Perplexity: Embed V1 4B",
+   "pricing": {
+    "input_rub": 2.0,
+    "output_rub": 0.0
+   },
+   "context": 32000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "embedding",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "perplexity/pplx-embed-v1-0.6B",
+   "name": "Perplexity: Embed V1 0.6B",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   },
+   "type": "embedding",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "perplexity/pplx-embed-v1-4b",
+   "name": "Perplexity: Embed V1 4B",
+   "pricing": {
+    "input_rub": 2.0,
+    "output_rub": 0.0
+   },
+   "context": 32000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "embedding",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "perplexity/pplx-embed-v1-0.6b",
+   "name": "Perplexity: Embed V1 0.6B",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   },
+   "type": "embedding",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "reka/reka-edge",
+   "name": "Reka Edge",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "kwaipilot/kat-coder-pro-v2",
+   "name": "Kwaipilot: KAT-Coder-Pro V2",
+   "pricing": {
+    "input_rub": 27.0,
+    "output_rub": 111.0
+   },
+   "context": 256000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "google/lyria-3-pro-preview",
+   "name": "Google: Lyria 3 Pro Preview",
+   "pricing": {
+    "input_rub": 0.0,
+    "output_rub": 0.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true,
+    "audio": true
+   },
+   "type": "asr+summarize",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "google/lyria-3-clip-preview",
+   "name": "Google: Lyria 3 Clip Preview",
+   "pricing": {
+    "input_rub": 0.0,
+    "output_rub": 0.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true,
+    "audio": true
+   },
+   "type": "asr+summarize",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "rekaai/reka-flash-3",
+   "name": "Reka Flash 3",
+   "pricing": {
+    "input_rub": 9.0,
+    "output_rub": 18.0
+   },
+   "context": 66000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "x-ai/grok-4.20-multi-agent",
+   "name": "xAI: Grok 4.20 Multi-Agent",
+   "pricing": {
+    "input_rub": 185.0,
+    "output_rub": 555.0
+   },
+   "context": 2000000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "x-ai/grok-4.20",
+   "name": "xAI: Grok 4.20",
+   "pricing": {
+    "input_rub": 115.0,
+    "output_rub": 231.0
+   },
+   "context": 2000000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "rekaai/reka-edge",
+   "name": "Reka Edge",
+   "pricing": {
+    "input_rub": 9.0,
+    "output_rub": 9.0
+   },
+   "context": 16000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "arcee-ai/trinity-large-thinking",
+   "name": "Arcee AI: Trinity Large Thinking",
+   "pricing": {
+    "input_rub": 23.0,
+    "output_rub": 74.0
+   },
+   "context": 262000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "z-ai/glm-5v-turbo",
+   "name": "Z.ai: GLM 5V Turbo",
+   "pricing": {
+    "input_rub": 111.0,
+    "output_rub": 370.0
+   },
+   "context": 203000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "google/gemma-4-31b-it",
+   "name": "Google: Gemma 4 31B",
+   "pricing": {
+    "input_rub": 12.0,
+    "output_rub": 35.0
+   },
+   "context": 262000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "google/gemma-4-26b-a4b-it",
+   "name": "Google: Gemma 4 26B A4B ",
+   "pricing": {
+    "input_rub": 5.0,
+    "output_rub": 30.0
+   },
+   "context": 262000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "z-ai/glm-5.1",
+   "name": "Z.ai: GLM 5.1",
+   "pricing": {
+    "input_rub": 90.0,
+    "output_rub": 285.0
+   },
+   "context": 203000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "qwen/qwen3.6-plus",
+   "name": "Qwen: Qwen3.6 Plus",
+   "pricing": {
+    "input_rub": 30.0,
+    "output_rub": 180.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "google/gemini-embedding-2-preview",
+   "name": "Google: Gemini Embedding 2 Preview",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true,
+    "audio": true
+   },
+   "type": "embedding",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "moonshotai/kimi-k2.6",
+   "name": "MoonshotAI: Kimi K2.6",
+   "pricing": {
+    "input_rub": 74.0,
+    "output_rub": 314.0
+   },
+   "context": 262000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-5.4-image-2",
+   "name": "OpenAI: GPT-5.4 Image 2",
+   "pricing": {
+    "input_rub": 740.0,
+    "output_rub": 1388.0
+   },
+   "context": 272000,
+   "capabilities": {
+    "text": true,
+    "image": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "xiaomi/mimo-v2.5-pro",
+   "name": "Xiaomi: MiMo-V2.5-Pro",
+   "pricing": {
+    "input_rub": 92.0,
+    "output_rub": 277.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "xiaomi/mimo-v2.5",
+   "name": "Xiaomi: MiMo-V2.5",
+   "pricing": {
+    "input_rub": 37.0,
+    "output_rub": 185.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "deepseek/deepseek-v4-pro",
+   "name": "DeepSeek: DeepSeek V4 Pro",
+   "pricing": {
+    "input_rub": 61.0,
+    "output_rub": 122.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "deepseek/deepseek-v4-flash",
+   "name": "DeepSeek: DeepSeek V4 Flash",
+   "pricing": {
+    "input_rub": 9.0,
+    "output_rub": 18.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-5.5-pro",
+   "name": "OpenAI: GPT-5.5 Pro",
+   "pricing": {
+    "input_rub": 2777.0,
+    "output_rub": 16662.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-5.5",
+   "name": "OpenAI: GPT-5.5",
+   "pricing": {
+    "input_rub": 462.0,
+    "output_rub": 2777.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "anthropic/claude-opus-4.5",
+   "name": "Anthropic: Claude Opus 4.5",
+   "pricing": {
+    "input_rub": 462.0,
+    "output_rub": 2314.0
+   },
+   "context": 200000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "anthropic/claude-opus-4.6",
+   "name": "Anthropic: Claude Opus 4.6",
+   "pricing": {
+    "input_rub": 462.0,
+    "output_rub": 2314.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "anthropic/claude-sonnet-4.6",
+   "name": "Anthropic: Claude Sonnet 4.6",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "anthropic/claude-opus-4.6-fast",
+   "name": "Anthropic: Claude Opus 4.6 (Fast)",
+   "pricing": {
+    "input_rub": 2777.0,
+    "output_rub": 13885.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "anthropic/claude-opus-4.7",
+   "name": "Anthropic: Claude Opus 4.7",
+   "pricing": {
+    "input_rub": 462.0,
+    "output_rub": 2314.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "anthropic/claude-haiku-4.5",
+   "name": "Anthropic: Claude Haiku 4.5",
+   "pricing": {
+    "input_rub": 92.0,
+    "output_rub": 462.0
+   },
+   "context": 200000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "anthropic/claude-sonnet-4.5",
+   "name": "Anthropic: Claude Sonnet 4.5",
+   "pricing": {
+    "input_rub": 277.0,
+    "output_rub": 1388.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "anthropic/claude-3-haiku",
+   "name": "Anthropic: Claude 3 Haiku",
+   "pricing": {
+    "input_rub": 23.0,
+    "output_rub": 115.0
+   },
+   "context": 200000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "qwen/qwen3.6-35b-a3b",
+   "name": "Qwen: Qwen3.6 35B A3B",
+   "pricing": {
+    "input_rub": 14.0,
+    "output_rub": 89.0
+   },
+   "context": 262000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "qwen/qwen3.6-max-preview",
+   "name": "Qwen: Qwen3.6 Max Preview",
+   "pricing": {
+    "input_rub": 96.0,
+    "output_rub": 577.0
+   },
+   "context": 262000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "qwen/qwen3.6-27b",
+   "name": "Qwen: Qwen3.6 27B",
+   "pricing": {
+    "input_rub": 46.0,
+    "output_rub": 185.0
+   },
+   "context": 262000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "qwen/qwen3.5-plus-20260420",
+   "name": "Qwen: Qwen3.5 Plus 2026-04-20",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "qwen/qwen3.6-flash",
+   "name": "Qwen: Qwen3.6 Flash",
+   "pricing": {
+    "input_rub": 17.0,
+    "output_rub": 104.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "inclusionai/ling-2.6-flash",
+   "name": "inclusionAI: Ling-2.6-flash",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "ibm-granite/granite-4.1-8b",
+   "name": "IBM: Granite 4.1 8B",
+   "pricing": {
+    "input_rub": 4.0,
+    "output_rub": 9.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "x-ai/grok-4.3",
+   "name": "xAI: Grok 4.3",
+   "pricing": {
+    "input_rub": 115.0,
+    "output_rub": 231.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "mistralai/mistral-medium-3-5",
+   "name": "Mistral: Mistral Medium 3.5",
+   "pricing": {
+    "input_rub": 138.0,
+    "output_rub": 694.0
+   },
+   "context": 262000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "microsoft/phi-4-mini-instruct",
+   "name": "Microsoft: Phi 4 Mini Instruct",
+   "pricing": {
+    "input_rub": 7.0,
+    "output_rub": 32.0
+   },
+   "context": 131000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "openai/gpt-chat-latest",
+   "name": "OpenAI: GPT Chat Latest",
+   "pricing": {
+    "input_rub": 462.0,
+    "output_rub": 2777.0
+   },
+   "context": 400000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "google/gemini-3.1-flash-lite",
+   "name": "Google: Gemini 3.1 Flash Lite",
+   "pricing": {
+    "input_rub": 23.0,
+    "output_rub": 138.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true,
+    "audio": true
+   },
+   "type": "asr+summarize",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "inclusionai/ling-2.6-1t",
+   "name": "inclusionAI: Ling-2.6-1T",
+   "pricing": {
+    "input_rub": 6.0,
+    "output_rub": 57.0
+   },
+   "context": 262000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "tencent/hy3-preview",
+   "name": "Tencent: Hy3 preview",
+   "pricing": {
+    "input_rub": 6.0,
+    "output_rub": 24.0
+   },
+   "context": 262000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "perceptron/perceptron-mk1",
+   "name": "Perceptron: Perceptron Mk1",
+   "pricing": {
+    "input_rub": 13.0,
+    "output_rub": 138.0
+   },
+   "context": 33000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "anthropic/claude-opus-4.7-fast",
+   "name": "Anthropic: Claude Opus 4.7 (Fast)",
+   "pricing": {
+    "input_rub": 2777.0,
+    "output_rub": 13885.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "baidu/qianfan-ocr-fast",
+   "name": "Baidu: Qianfan-OCR-Fast",
+   "pricing": {
+    "input_rub": 62.0,
+    "output_rub": 260.0
+   },
+   "context": 66000,
+   "capabilities": {
+    "text": true,
+    "image": true
+   },
+   "type": "ocr",
+   "notes": "pricing not available via API"
+  },
+  {
+   "id": "inclusionai/ring-2.6-1t",
+   "name": "inclusionAI: Ring-2.6-1T",
+   "pricing": {
+    "input_rub": 6.0,
+    "output_rub": 57.0
+   },
+   "context": 262000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "notes": "pricing not available via API"
+  }
+ ]
+}

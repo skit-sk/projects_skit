@@ -122,7 +122,7 @@
             <span class="tf">🏗️{{ entry.number }}</span>
             <span class="tf">🚏{{ entry.symbol }}</span>
             <span class="tf">🧾{{ "%.4f"|format(upd.current_price) if upd and upd.get('current_price') else "%.4f"|format(entry.entry_price) }}</span>
-            <span class="tf">📆{{ upd.last_updated[:10] if upd and upd.get('last_updated') else entry.entry_date }}</span>
+            <span class="tf">📆{{ entry.entry_date }}</span>
             <span class="tf">🧱{{ entry.volume }}</span>
             <span class="tf">🫧{{ "%+.2f"|format(upd.pnl_percent) if upd and upd.get('pnl_percent') else "%+.2f"|format(entry.pnl_percent) }}</span>
             <span class="tf">🪙{{ "%+.4f"|format(upd.pnl_usdt) if upd and upd.get('pnl_usdt') else "%+.4f"|format(entry.pnl_usdt) }}</span>

@@ -9,11 +9,17 @@ TG_PROJECT = os.path.expanduser("~/workspace/projects/07_tg_bot_aiforguest")
 TG_ALL_DIR = os.path.join(TG_PROJECT, "TG_ALL")
 BASE_URL = "http://localhost:5000"
 
-# Force Playwright to use our browsers
-os.environ["PLAYWRIGHT_BROWSERS_PATH"] = os.path.expanduser("~/workspace/tools/playwright/browsers")
+# Force Playwright to use our browser-temp
+os.environ["PLAYWRIGHT_BROWSERS_PATH"] = os.path.expanduser("~/workspace/tools/browser-temp/browsers")
+# Also try old path as fallback
+_old_pw = os.path.expanduser("~/workspace/tools/playwright/browsers")
+if not os.path.isdir(os.path.expanduser("~/workspace/tools/browser-temp/browsers")) and os.path.isdir(_old_pw):
+    os.environ["PLAYWRIGHT_BROWSERS_PATH"] = _old_pw
 
 # Ensure pango libs are available
-pango_libs = os.path.expanduser("~/workspace/tools/playwright/lib")
+pango_libs = os.path.expanduser("~/workspace/tools/browser-temp/pango_libs/usr/lib/x86_64-linux-gnu")
+if not os.path.isdir(pango_libs):
+    pango_libs = os.path.expanduser("~/workspace/tools/playwright/lib")
 if os.path.isdir(pango_libs):
     ld_path = os.environ.get("LD_LIBRARY_PATH", "")
     if pango_libs not in ld_path:

@@ -3,9 +3,16 @@
 import os
 import sys
 
-# Playwright browsers path
-os.environ["PLAYWRIGHT_BROWSERS_PATH"] = os.path.expanduser("~/workspace/tools/playwright/browsers")
-pango = os.path.expanduser("~/workspace/tools/playwright/lib")
+# Playwright browsers path — try browser-temp first
+BTEMP = os.path.expanduser("~/workspace/tools/browser-temp")
+os.environ["PLAYWRIGHT_BROWSERS_PATH"] = f"{BTEMP}/browsers"
+_old_pw = os.path.expanduser("~/workspace/tools/playwright/browsers")
+if not os.path.isdir(f"{BTEMP}/browsers") and os.path.isdir(_old_pw):
+    os.environ["PLAYWRIGHT_BROWSERS_PATH"] = _old_pw
+
+pango = f"{BTEMP}/pango_libs/usr/lib/x86_64-linux-gnu"
+if not os.path.isdir(pango):
+    pango = os.path.expanduser("~/workspace/tools/playwright/lib")
 if os.path.isdir(pango) and pango not in os.environ.get("LD_LIBRARY_PATH", ""):
     lp = os.environ.get("LD_LIBRARY_PATH", "")
     os.environ["LD_LIBRARY_PATH"] = f"{pango}:{lp}" if lp else pango

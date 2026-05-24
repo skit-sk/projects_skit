@@ -1,0 +1,257 @@
+{
+  "catalog_version": "1.0",
+  "updated": "2026-05-23",
+  "provider_catalog_dir": "ai_providers",
+  "providers": [
+    {
+      "id": "opencode",
+      "type": "opencode_provider",
+      "balance": "prepaid",
+      "catalog_file": "ai_providers/opencode.json",
+      "models": [
+        "opencode/gemini-3.5-flash",
+        "opencode/deepseek-v4-flash-free",
+        "opencode/gpt-5.4-nano"
+      ],
+      "notes": "Провайдер по умолчанию. Баланс пополнен."
+    },
+    {
+      "id": "opencode-go",
+      "type": "opencode_provider",
+      "balance": "prepaid",
+      "catalog_file": "ai_providers/opencode-go.json",
+      "models": {
+        "deepseek-v4-flash": {"cost_per_1k_tok": 0.0001, "quality": 7},
+        "deepseek-v4-pro": {"cost_per_1k_tok": 0.0005, "quality": 9},
+        "qwen3.5-plus": {"cost_per_1k_tok": 0.0002, "quality": 8},
+        "kimi-k2.5": {"cost_per_1k_tok": 0.0006, "quality": 8},
+        "minimax-m2.5": {"cost_per_1k_tok": 0.00015, "quality": 6},
+        "glm-5": {"cost_per_1k_tok": 0.0003, "quality": 8},
+        "mimo-v2.5": {"cost_per_1k_tok": 0.0001, "quality": 6}
+      },
+      "notes": "Основной провайдер для суммаризации через opencode-go."
+    },
+    {
+      "id": "openrouter",
+      "type": "opencode_provider",
+      "balance": "prepaid",
+      "catalog_file": "ai_providers/openrouter.json",
+      "audio_models": [
+        "openai/gpt-4o-audio-preview",
+        "openai/gpt-audio",
+        "openai/gpt-audio-mini"
+      ],
+      "notes": "Аудио-модели OpenAI через OpenRouter. Баланс пополнен."
+    },
+    {
+      "id": "novita-ai",
+      "type": "opencode_provider",
+      "balance": "prepaid",
+      "catalog_file": "ai_providers/novita-ai.json",
+      "models": {
+        "qwen/qwen3-8b-fp8": {"cost_per_1k_tok": 0.00003, "quality": 5},
+        "deepseek/deepseek-ocr-2": {"cost_per_1k_tok": 0.001, "quality": 8, "type": "ocr"},
+        "paddlepaddle/paddleocr-vl": {"cost_per_1k_tok": 0.0005, "quality": 6, "type": "ocr"},
+        "qwen/qwen-mt-plus": {"cost_per_1k_tok": 0.0002, "type": "translation"}
+      },
+      "notes": "Для OCR и дешёвой суммаризации."
+    },
+    {
+      "id": "routerai",
+      "type": "opencode_provider",
+      "balance": "prepaid",
+      "catalog_file": "ai_providers/routerai.json",
+      "models": [
+        "routerai/deepseek/deepseek-v4-flash",
+        "routerai/qwen/qwen3.6-flash",
+        "routerai/google/gemini-3.5-flash",
+        "routerai/minimax/minimax-m2.7"
+      ],
+      "notes": "Роутер. Все модели текст, нет аудио."
+    },
+    {
+      "id": "deepgram",
+      "type": "external_api",
+      "balance": "no_key",
+      "catalog_file": "ai_providers/deepgram.json",
+      "endpoint": "https://api.deepgram.com/v1/listen",
+      "key_var": "DEEPGRAM_API_KEY",
+      "free_tier": "$200 credit",
+      "models": {
+        "nova-3-monolingual": {"cost_per_min": 0.0048, "quality": 9, "languages": ["en","ru","de","fr","es","pt","it"]},
+        "nova-3-multilingual": {"cost_per_min": 0.0058, "quality": 9, "languages": "45+"},
+        "flux-multilingual": {"cost_per_min": 0.0078, "quality": 8, "languages": "10"}
+      },
+      "notes": "Лучшая ASR для RU. Нужен ключ. $200 бесплатно при регистрации."
+    },
+    {
+      "id": "assemblyai",
+      "type": "external_api",
+      "balance": "no_key",
+      "catalog_file": "ai_providers/assemblyai.json",
+      "endpoint": "https://api.assemblyai.com/v2/transcript",
+      "key_var": "ASSEMBLYAI_API_KEY",
+      "free_tier": "185h pre-recorded + 333h streaming",
+      "models": {
+        "universal-2": {"cost_per_hr": 0.15, "quality": 8, "languages": "99+"},
+        "universal-3-pro": {"cost_per_hr": 0.21, "quality": 9, "languages": "6"}
+      },
+      "notes": "Самая дешёвая ASR ($0.0025/min). 185ч бесплатно. Нужен ключ."
+    },
+    {
+      "id": "openai_whisper",
+      "type": "external_api",
+      "balance": "no_key",
+      "endpoint": "https://api.openai.com/v1/audio/transcriptions",
+      "key_var": "OPENAI_API_KEY",
+      "free_tier": null,
+      "models": {
+        "whisper-1": {"cost_per_min": 0.006, "quality": 8, "languages": "60+"}
+      },
+      "notes": "Дёшево и надёжно. Нужен ключ OpenAI (сейчас пустой)."
+    },
+    {
+      "id": "aitunnel",
+      "type": "opencode_provider",
+      "balance": "prepaid",
+      "catalog_file": "ai_providers/aitunnel.json",
+      "models": [
+        "aitunnel/claude-sonnet-4-20250514",
+        "aitunnel/mistral-nemo"
+      ],
+      "notes": "152 модели на сайте, в opencode — только 2."
+    },
+    {
+      "id": "google-ai",
+      "type": "opencode_provider",
+      "balance": "no_key",
+      "catalog_file": "ai_providers/google-ai.json",
+      "models": [
+        "routerai/google/gemini-3.5-flash",
+        "routerai/google/gemini-3.1-flash-lite",
+        "routerai/google/gemini-2.5-flash"
+      ],
+      "notes": "Google AI (Gemini) — прямой доступ. Нужен GEMINI_API_KEY."
+    }
+  ],
+  "chains": [
+    {
+      "id": "one-pass-gpt4o-audio",
+      "label": "GPT-4o Audio (one-pass)",
+      "pipeline": "a",
+      "default": true,
+      "mode": "one-pass",
+      "models": ["openrouter/openai/gpt-4o-audio-preview"],
+      "key_required": null,
+      "note": "Работает без ключей. ASR + суммаризация одной моделью."
+    },
+    {
+      "id": "one-pass-gpt-audio-mini",
+      "label": "GPT Audio Mini (one-pass, дешёвый)",
+      "pipeline": "a",
+      "default": false,
+      "mode": "one-pass",
+      "models": ["openrouter/openai/gpt-audio-mini"],
+      "key_required": null,
+      "cost_per_min": 0.004,
+      "note": "Дешевле GPT-4o Audio. Без ключей."
+    },
+    {
+      "id": "one-pass-gemini",
+      "label": "Gemini 3.5 Flash (one-pass)",
+      "pipeline": "a",
+      "default": false,
+      "mode": "one-pass",
+      "models": ["opencode/gemini-3.5-flash"],
+      "key_required": null,
+      "note": "Gemini через opencode. ASR+summarize одной моделью."
+    },
+    {
+      "id": "split-gpt-audio-dsv4",
+      "label": "GPT Audio Mini + DeepSeek (opencode-go)",
+      "pipeline": "b",
+      "default": false,
+      "mode": "split",
+      "models": {
+        "asr": "openrouter/openai/gpt-audio-mini",
+        "summarizer": "opencode-go/deepseek-v4-flash"
+      },
+      "key_required": null,
+      "note": "ASR через openrouter, суммаризация через opencode-go."
+    },
+    {
+      "id": "split-gpt-audio-glm5",
+      "label": "GPT Audio Mini + GLM-5 (RU суммаризация)",
+      "pipeline": "b",
+      "default": false,
+      "mode": "split",
+      "models": {
+        "asr": "openrouter/openai/gpt-audio-mini",
+        "summarizer": "opencode-go/glm-5"
+      },
+      "key_required": null,
+      "note": "GLM-5 хорош для русского языка."
+    },
+    {
+      "id": "split-whisper-dsv4",
+      "label": "Whisper + DeepSeek (opencode-go)",
+      "pipeline": "b",
+      "default": false,
+      "mode": "split",
+      "models": {
+        "asr": "openai_whisper/whisper-1",
+        "summarizer": "opencode-go/deepseek-v4-flash"
+      },
+      "key_required": "OPENAI_API_KEY",
+      "cost_per_min": 0.0061,
+      "note": "Нужен ключ OpenAI. Whisper 60+ языков."
+    },
+    {
+      "id": "split-deepgram-dsv4",
+      "label": "Deepgram (RU) + DeepSeek",
+      "pipeline": "b",
+      "default": false,
+      "mode": "split",
+      "models": {
+        "asr": "deepgram/nova-3-multilingual",
+        "summarizer": "opencode-go/deepseek-v4-flash"
+      },
+      "key_required": "DEEPGRAM_API_KEY",
+      "cost_per_min": 0.0059,
+      "note": "Лучшая ASR для русского. Нужен ключ Deepgram."
+    },
+    {
+      "id": "split-assembly-dsv4",
+      "label": "AssemblyAI + DeepSeek",
+      "pipeline": "b",
+      "default": false,
+      "mode": "split",
+      "models": {
+        "asr": "assemblyai/universal-2",
+        "summarizer": "opencode-go/deepseek-v4-flash"
+      },
+      "key_required": "ASSEMBLYAI_API_KEY",
+      "cost_per_min": 0.0026,
+      "note": "Самая дешёвая ASR ($0.0025/min). Нужен ключ."
+    },
+    {
+      "id": "ocr-deepseek-dsv4",
+      "label": "OCR (DeepSeek OCR) + DeepSeek суммаризация",
+      "pipeline": "b",
+      "default": false,
+      "mode": "split",
+      "models": {
+        "ocr": "novita-ai/deepseek/deepseek-ocr-2",
+        "summarizer": "opencode-go/deepseek-v4-flash"
+      },
+      "key_required": null,
+      "note": "Извлечение текста из PDF/изображений через OCR."
+    }
+  ],
+  "defaults": {
+    "chain": "one-pass-gpt4o-audio",
+    "language": "ru",
+    "max_audio_minutes": 30,
+    "max_cost_per_min": 0.01
+  }
+}

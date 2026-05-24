@@ -140,6 +140,7 @@ def api_positions():
     
     return jsonify({
         'positions': [{
+            'number': i + 1,
             'symbol': p.symbol,
             'ticker': p.ticker,
             'margin_size': p.margin_size,
@@ -152,11 +153,59 @@ def api_positions():
             'risk_to_liquidation': p.risk_to_liquidation,
             'profitable': p.is_profitable,
             'hold_side': p.hold_side,
-        } for p in positions],
+            'days_open': p.days_open,
+            'open_date': p.open_date,
+        } for i, p in enumerate(positions)],
         'fill_counts': fill_counts,
         'order_counts': order_counts,
         'total_pl': sum(p.unrealized_pl for p in positions),
         'count': len(positions),
+    })
+
+
+@bp.route('/api/computed')
+def api_computed():
+    """Позиции с computed-полями (из хранения карточек)."""
+    client = _get_client()
+    if not client.has_credentials:
+        return jsonify({'error': 'API keys not configured'}), 400
+    from storage import get_storage
+    from calculator import load_aggregate
+
+    positions = client.get_positions()
+    cards = get_storage().list()
+    computed_map = {}
+    for obj in cards:
+        c = obj.data.get('computed', {})
+        entry = obj.data.get('emoji_entry', {})
+        sym = entry.get('symbol', '')
+        if c and sym:
+            computed_map[sym.upper()] = c
+
+    result = []
+    for p in positions:
+        raw = {
+            'symbol': p.symbol,
+            'ticker': p.ticker,
+            'margin_size': p.margin_size,
+            'open_price_avg': p.open_price_avg,
+            'current_price': p.current_price,
+            'unrealized_pl': p.unrealized_pl,
+            'pl_percent': p.pl_percent,
+            'leverage': p.leverage,
+            'liquidation_price': p.liquidation_price,
+            'profitable': p.is_profitable,
+            'hold_side': p.hold_side,
+            'days_open': p.days_open,
+            'open_date': p.open_date,
+        }
+        raw.update(computed_map.get(p.ticker.upper(), {}))
+        result.append(raw)
+
+    return jsonify({
+        'positions': result,
+        'totals': load_aggregate(),
+        'count': len(result),
     })
 
 
@@ -242,9 +291,6 @@ SORT_KEY_MAP = {
 
 @bp.route('/partial/overview')
 def partial_overview():
-    client = _get_client()
-    if not client.has_credentials:
-        return render_template('account/partials/overview.html', error='API keys not configured', status=None, overview=None, debug=[])
     from storage import get_storage
     cards = get_storage().list()
     total_pnl = 0
@@ -254,36 +300,85 @@ def partial_overview():
         if lp and lp.get('hold_side'):
             open_pos += 1
             total_pnl += lp.get('unrealized_pl', 0)
+
+    balance_data = get_storage().load_balance()
+    spot_assets = balance_data.get('spot', [])
+    mix_accounts = balance_data.get('futures', [])
+    spot_total = sum(a.get('total', 0) for a in spot_assets)
+    futures_equity = sum(m.get('usdt_equity', m.get('equity', 0)) for m in mix_accounts)
+    total_equity = spot_total + futures_equity
+
     return render_template('account/partials/overview.html', error='',
         status={'connected': True, 'server_time': datetime.datetime.now().isoformat(), 'latency_ms': 0, 'error': ''},
         overview={
             'open_positions_count': open_pos,
-            'total_equity_usdt': 0,
-            'spot_total_usdt': 0,
-            'futures_equity_usdt': 0,
+            'total_equity_usdt': total_equity,
+            'spot_total_usdt': spot_total,
+            'futures_equity_usdt': futures_equity,
             'futures_unrealized_pl': total_pnl,
+            'spot_assets': spot_assets,
+            'mix_accounts': mix_accounts,
         },
         fmt_num=_fmt_num, fmt_dt=_fmt_dt, debug=[])
 
 
 @bp.route('/partial/balance')
 def partial_balance():
-    client = _get_client()
-    if not client.has_credentials:
-        return render_template('account/partials/balance.html', error='API keys not configured', spot=None, futures=None, debug=[])
-    spot = client.get_spot_assets()
-    mix = client.get_mix_accounts()
-    debug = _build_debug(client, [
-        ('/api/v2/spot/account/assets', None),
-        ('/api/v2/mix/account/accounts', {'productType': 'USDT-FUTURES'}),
-    ])
-    return render_template('account/partials/balance.html', error='', spot=spot, futures=mix, fmt_num=_fmt_num, debug=debug)
+    from storage import get_storage
+    from collections import namedtuple
+
+    SpotAsset = namedtuple('SpotAsset', ['coin', 'available', 'frozen', 'locked', 'total'])
+    FuturesAccount = namedtuple('FuturesAccount', ['margin_coin', 'equity', 'usdt_equity', 'available', 'locked', 'unrealized_pl', 'unrealized_pl_ratio', 'margin_mode'])
+
+    data = get_storage().load_balance()
+    if not data:
+        return render_template('account/partials/balance.html', error='Нажми "Sync Exchange" для загрузки баланса', spot=None, futures=None, debug=[])
+    spot = [SpotAsset(**{k: a[k] for k in SpotAsset._fields if k in a}) if isinstance(a, dict) else a for a in data.get('spot', [])]
+    futures = [FuturesAccount(**{k: m[k] for k in FuturesAccount._fields if k in m}) if isinstance(m, dict) else m for m in data.get('futures', [])]
+    return render_template('account/partials/balance.html', error='', spot=spot, futures=futures, fmt_num=_fmt_num, debug=[])
+
+
+def _load_fill_order_stats():
+    """Load fill_counts, last_trade_days, order_counts from storage."""
+    from storage import get_storage
+    from collections import defaultdict
+
+    fills_data = get_storage().load_fills()
+    fill_counts = {}
+    last_trade_days = {}
+    if fills_data and fills_data.get('fills'):
+        sym_fills = defaultdict(list)
+        for f in fills_data['fills']:
+            sym_fills[f.get('symbol', '')].append(f)
+        for sym, symf in sym_fills.items():
+            fill_counts[sym] = len(symf)
+            symf.sort(key=lambda x: x.get('c_time', 0), reverse=True)
+            if len(symf) >= 2:
+                t1 = symf[0].get('c_time', 0)
+                t2 = symf[1].get('c_time', 0)
+                if t1 and t2:
+                    last_trade_days[sym] = (t1 - t2) / 86400000
+            elif symf:
+                last_trade_days[sym] = None
+
+    orders_data = get_storage().load_orders()
+    order_counts = {}
+    if orders_data:
+        for o in orders_data.get('futures', []):
+            sym = o.get('symbol', '')
+            order_counts[sym] = order_counts.get(sym, 0) + 1
+        for o in orders_data.get('spot', []):
+            sym = o.get('symbol', '')
+            order_counts[sym] = order_counts.get(sym, 0) + 1
+
+    return fill_counts, last_trade_days, order_counts
 
 
 @bp.route('/partial/positions')
 def partial_positions():
     from storage import get_storage
     cards = get_storage().list()
+    fill_counts, last_trade_days, order_counts = _load_fill_order_stats()
     positions = []
     position_card_data = []
     for obj in cards:
@@ -291,20 +386,30 @@ def partial_positions():
         lp = obj.data.get('live_position')
         if not lp or not lp.get('hold_side'):
             continue
+        ticker = entry.get('symbol', '')
         positions.append({
-            "ticker": entry.get('symbol', ''),
+            "ticker": ticker,
+            "symbol": ticker + 'USDT',
             "hold_side": lp.get('hold_side'),
             "leverage": lp.get('leverage', 10),
             "margin_size": lp.get('margin_size', 0),
+            "total_coin": lp.get('total_coin', lp.get('margin_size', 0)),
             "unrealized_pl": lp.get('unrealized_pl', 0),
             "pl_percent": lp.get('pl_percent', 0),
             "mark_price": lp.get('mark_price', 0),
+            "current_price": lp.get('mark_price', 0),
             "open_price_avg": entry.get('entry_price', 0),
             "days_open": lp.get('days_open', 0),
             "liquidation_price": lp.get('liquidation_price', 0),
             "risk_to_liquidation": lp.get('risk_to_liquidation', 0),
             "open_date": entry.get('entry_date', ''),
-            "unrealized_pl": lp.get('unrealized_pl', 0),
+            "position_value_usdt": lp.get('position_value_usdt', lp.get('margin_size', 0) * float(lp.get('mark_price', 0))),
+            "achieved_profits": entry.get('achieved_profits', lp.get('achieved_profits', 0)),
+            "total_fee": entry.get('total_fee', lp.get('total_fee', 0)),
+            "has_sl": bool(entry.get('sl_price') or lp.get('stop_loss_price', 0) > 0),
+            "sl_distance_pct": lp.get('sl_distance_pct', 0),
+            "has_tp": bool(entry.get('tp_price') or lp.get('take_profit_price', 0) > 0),
+            "tp_distance_pct": lp.get('tp_distance_pct', 0),
         })
         position_card_data.append({
             "number": entry.get('number', ''),
@@ -320,30 +425,88 @@ def partial_positions():
             "close_prices": obj.data.get('close_prices', []),
         })
     return render_template('account/partials/positions.html', error='', positions=positions,
-        fill_counts={}, last_trade_days={}, order_counts={},
+        fill_counts=fill_counts, last_trade_days=last_trade_days, order_counts=order_counts,
         position_card_data=position_card_data, fmt_num=_fmt_num, debug=[])
+
+
+@bp.route('/partial/positions_live')
+def partial_positions_live():
+    """Live positions from Bitget exchange (for Live mode)."""
+    import time as _t
+    _t_start = _t.time()
+    try:
+        client = _get_client()
+        fill_counts, last_trade_days, order_counts = _load_fill_order_stats()
+        positions = client.get_positions()
+        _t_api = _t.time()
+        positions_raw = [{
+            "symbol": p.symbol,
+            "ticker": p.ticker,
+            "hold_side": p.hold_side,
+            "margin_size": p.margin_size,
+            "total_coin": p.total_coin,
+            "open_price_avg": p.open_price_avg,
+            "mark_price": p.mark_price,
+            "current_price": p.mark_price,
+            "unrealized_pl": p.unrealized_pl,
+            "pl_percent": p.pl_percent,
+            "leverage": p.leverage,
+            "liquidation_price": p.liquidation_price,
+            "risk_to_liquidation": p.risk_to_liquidation,
+            "position_value_usdt": p.position_value_usdt,
+            "achieved_profits": p.achieved_profits,
+            "total_fee": p.total_fee,
+            "has_sl": p.stop_loss_price > 0,
+            "sl_distance_pct": abs((p.current_price - p.stop_loss_price) / p.current_price * 100) if p.stop_loss_price > 0 else 0,
+            "has_tp": p.take_profit_price > 0,
+            "tp_distance_pct": abs((p.take_profit_price - p.current_price) / p.current_price * 100) if p.take_profit_price > 0 else 0,
+            "days_open": p.days_open,
+            "open_date": p.open_date or '',
+        } for p in positions]
+        card_data = [{
+            "number": i + 1,
+            "symbol": p.symbol,
+            "deviation_pct": [],
+            "entry_price": p.open_price_avg,
+            "entry_date": "",
+            "volume": p.margin_size,
+        } for i, p in enumerate(positions)]
+        _t_render = _t.time()
+        timings = {
+            "api_ms": int((_t_api - _t_start) * 1000),
+            "render_ms": int((_t_render - _t_api) * 1000),
+            "total_ms": int((_t_render - _t_start) * 1000),
+        }
+        return render_template('account/partials/positions.html', error='',
+            positions=positions_raw, position_card_data=card_data,
+            fill_counts=fill_counts, last_trade_days=last_trade_days, order_counts=order_counts,
+            fmt_num=_fmt_num, debug=[], timings=timings)
+    except Exception as e:
+        import traceback
+        return render_template('account/partials/positions.html', error=f'Live error: {e}',
+            positions=None, position_card_data=None,
+            fill_counts={}, last_trade_days={}, order_counts={},
+            fmt_num=_fmt_num, debug=traceback.format_exc())
 
 
 @bp.route('/partial/orders')
 def partial_orders():
-    client = _get_client()
-    if not client.has_credentials:
-        return render_template('account/partials/orders.html', error='API keys not configured', spot=None, futures=None, debug=[])
-    spot = client.get_spot_orders()
-    mix = client.get_mix_orders()
-    debug = _build_debug(client, [
-        ('/api/v2/spot/trade/unfilled-orders', None),
-        ('/api/v2/mix/order/orders-pending', {'productType': 'USDT-FUTURES'}),
-    ])
-    return render_template('account/partials/orders.html', error='', spot=spot, futures=mix, fmt_num=_fmt_num, fmt_time=_fmt_time, debug=debug)
+    from storage import get_storage
+    from collections import namedtuple
+
+    SpotOrder = namedtuple('SpotOrder', ['order_id', 'symbol', 'ticker', 'price', 'quantity', 'order_type', 'side', 'status', 'c_time', 'filled_qty'])
+    MixOrder = namedtuple('MixOrder', ['order_id', 'symbol', 'price', 'quantity', 'order_type', 'side', 'status', 'c_time', 'filled_qty'])
+
+    data = get_storage().load_orders()
+    if not data:
+        return render_template('account/partials/orders.html', error='Нажми "Sync Exchange" для загрузки ордеров', spot=None, futures=None, debug=[])
+    spot = [SpotOrder(**{k: o[k] for k in SpotOrder._fields if k in o}) if isinstance(o, dict) else o for o in data.get('spot', [])]
+    futures = [MixOrder(**{k: o[k] for k in MixOrder._fields if k in o}) if isinstance(o, dict) else o for o in data.get('futures', [])]
+    return render_template('account/partials/orders.html', error='', spot=spot, futures=futures, fmt_num=_fmt_num, fmt_time=_fmt_time, debug=[])
 
 
 @bp.route('/partial/fills')
 def partial_fills():
-    client = _get_client()
-    if not client.has_credentials:
-        return render_template('account/partials/fills.html', error='API keys not configured', fills=None, debug=[])
-
     symbol = request.args.get('symbol', '')
     market = request.args.get('market', 'all')
     since = request.args.get('since', 'all')
@@ -352,13 +515,27 @@ def partial_fills():
     sort_dir = request.args.get('sort_dir', 'desc')
     trade_side = request.args.get('trade_side', 'all')
 
-    start_time = _parse_since(since)
-    result = client.fetch_all_fills(market='all', since=start_time)
-
-    all_fills = result['fills']
-    spot_total = result['spot_total']
-    futures_total = result['futures_total']
-    grand_total = result['grand_total']
+    # Load from JSON storage (synced by "Sync Exchange" button)
+    from storage import get_storage
+    stored = get_storage().load_fills()
+    if stored and stored.get('fills'):
+        from account.models import Fill
+        fills_raw = [Fill(**f) for f in stored['fills']]
+        all_fills = list(fills_raw)
+        spot_total = stored.get('spot_total', 0)
+        futures_total = stored.get('futures_total', 0)
+        grand_total = stored.get('grand_total', 0)
+    else:
+        client = _get_client()
+        if not client.has_credentials:
+            return render_template('account/partials/fills.html', error='API keys not configured', fills=None, debug=[])
+        start_time = _parse_since(since)
+        result = client.fetch_all_fills(market='all', since=start_time)
+        fills_raw = result['fills']
+        all_fills = list(fills_raw)
+        spot_total = result['spot_total']
+        futures_total = result['futures_total']
+        grand_total = result['grand_total']
 
     if symbol:
         all_fills = [f for f in all_fills if f.symbol == symbol]
@@ -377,14 +554,14 @@ def partial_fills():
     total_filtered = len(all_fills)
     displayed = all_fills[:limit]
 
-    unique_symbols = sorted(set(f.symbol for f in result['fills']))
+    unique_symbols = sorted(set(f.symbol for f in fills_raw))
 
     now_ms = int(time.time() * 1000)
     duration_map = {}
     pnl_pct_map = {}
 
     fills_by_sym = {}
-    for f in result['fills']:
+    for f in fills_raw:
         fills_by_sym.setdefault(f.symbol, []).append(f)
     for sym, sym_fills in fills_by_sym.items():
         sym_fills.sort(key=lambda x: x.c_time)
@@ -397,10 +574,13 @@ def partial_fills():
                 if f.quote_volume:
                     pnl_pct_map[(sym, f.c_time)] = (f.profit / f.quote_volume) * 100
 
-    debug = _build_debug(client, [
-        ('/api/v2/mix/order/fills', {'productType': 'USDT-FUTURES', 'limit': '100'}),
-        ('/api/v2/spot/trade/fills', {'limit': '100'}),
-    ])
+    if stored and stored.get('fills'):
+        debug = []
+    else:
+        debug = _build_debug(client, [
+            ('/api/v2/mix/order/fills', {'productType': 'USDT-FUTURES', 'limit': '100'}),
+            ('/api/v2/spot/trade/fills', {'limit': '100'}),
+        ])
 
     DEFAULT_LEVERAGE = 10
     margin_usdt_map = {}

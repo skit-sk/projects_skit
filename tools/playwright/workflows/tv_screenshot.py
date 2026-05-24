@@ -20,7 +20,7 @@ TF_MAP = {
 
 symbol = sys.argv[1] if len(sys.argv) > 1 else "BITGET:DOTUSDT"
 tf_raw = sys.argv[2] if len(sys.argv) > 2 else "1d"
-out = sys.argv[3] if len(sys.argv) > 3 else "/tmp/tv_playwright.png"
+out = sys.argv[3] if len(sys.argv) > 3 else "/home/user_aioc/workspace/tools/browser-temp/screenshots/tv_playwright.png"
 range_val = sys.argv[4] if len(sys.argv) > 4 else ""
 
 tf = TF_MAP.get(tf_raw.lower(), tf_raw)

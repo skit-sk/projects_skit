@@ -1,0 +1,53 @@
+{
+ "provider": "deepseek",
+ "label": "DeepSeek",
+ "homepage": "https://platform.deepseek.com",
+ "api_endpoint": "https://api.deepseek.com/chat/completions",
+ "balance": "needs-key",
+ "updated": "2026-05-23",
+ "opencode_prefix": "deepseek/",
+ "models_count": 4,
+ "pricing_available": false,
+ "models": [
+  {
+   "id": "deepseek-v4-flash",
+   "name": "DeepSeek V4 Flash",
+   "type": "llm",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   }
+  },
+  {
+   "id": "deepseek-v4-pro",
+   "name": "DeepSeek V4 Pro",
+   "type": "llm",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   }
+  },
+  {
+   "id": "deepseek-chat",
+   "name": "DeepSeek Chat (deprecated)",
+   "type": "llm",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   }
+  },
+  {
+   "id": "deepseek-reasoner",
+   "name": "DeepSeek Reasoner (deprecated)",
+   "type": "llm",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   }
+  }
+ ]
+}

@@ -1,20 +1,28 @@
 from flask import Blueprint, jsonify, render_template, abort
 from storage import get_storage
 from infographics.trade_analyzer import TradeAnalyzer
-from infographics.charts import DashboardCharts
 
 bp = Blueprint('trade_analytics', __name__, template_folder='../templates', url_prefix='/trade-analytics')
-
-charts_engine = DashboardCharts()
 
 
 def _find_obj():
     storage = get_storage()
     objs = storage.list()
+    from datetime import datetime, timedelta
+    cutoff = datetime.now() - timedelta(days=7)
     for obj in objs:
         symbol = obj.data.get('emoji_entry', {}).get('symbol', '')
-        if symbol and storage.exists_1d(symbol, obj.id) and storage.exists_raw(symbol, obj.id):
-            return obj
+        if not symbol or not storage.exists_1d(symbol, obj.id) or not storage.exists_raw(symbol, obj.id):
+            continue
+        chart_updated = obj.data.get('chart_updated', '')
+        if chart_updated:
+            try:
+                updated_dt = datetime.strptime(chart_updated[:10], '%Y-%m-%d')
+                if updated_dt >= cutoff:
+                    return obj
+            except ValueError:
+                pass
+        return obj
     for obj in objs:
         symbol = obj.data.get('emoji_entry', {}).get('symbol', '')
         if symbol and storage.exists_1d(symbol, obj.id):
@@ -83,6 +91,11 @@ def api_data(obj_id):
     analyzer = TradeAnalyzer(storage)
     try:
         report = analyzer.generate_report(symbol, obj_id)
+        ticker = symbol.upper() + 'USDT'
+        fills_data = storage.load_fills()
+        report['fills'] = [f for f in fills_data.get('fills', []) if f.get('symbol') == ticker]
+        from calculator import load_aggregate
+        report['totals'] = load_aggregate()
         return jsonify(report)
     except Exception as e:
         return jsonify({'error': str(e)}), 500

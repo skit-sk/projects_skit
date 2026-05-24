@@ -6,7 +6,7 @@ import sys
 from playwright.sync_api import sync_playwright
 
 url = sys.argv[1] if len(sys.argv) > 1 else "https://example.com"
-out = sys.argv[2] if len(sys.argv) > 2 else "/tmp/pw_basic.png"
+out = sys.argv[2] if len(sys.argv) > 2 else "/home/user_aioc/workspace/tools/browser-temp/screenshots/pw_basic.png"
 
 with sync_playwright() as p:
     browser = p.chromium.launch(headless=True)

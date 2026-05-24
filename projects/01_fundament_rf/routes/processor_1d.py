@@ -61,23 +61,20 @@ def _fetch_candles(symbol, start_ts, end_ts):
 
 
 def _calculate_day(candle, entry_price, leverage, volume, prev_volatility=None):
+    from calculator import calc_day_metrics
     ts, o, h, l, c, v = [float(x) for x in candle[:6]]
     dt_val = time.strftime("%Y-%m-%d", time.gmtime(int(ts) / 1000))
 
-    body = abs(c - o)
-    body_pct = (body / o * 100) if o != 0 else 0
-    upper_wick = h - max(o, c)
-    lower_wick = min(o, c) - l
+    dm = calc_day_metrics(o, h, l, c, entry_price, leverage, volume)
 
-    deviation_from_entry_pct = ((c - entry_price) / entry_price * 100) if entry_price != 0 else 0
+    body = dm["body"]
+    body_pct = dm["body_pct"]
+    upper_wick = dm["upper_wick"]
+    lower_wick = dm["lower_wick"]
+
     deviation_from_entry_usdt = c - entry_price
     deviation_from_open_usdt = c - o
     deviation_from_open_pct = ((c - o) / o * 100) if o != 0 else 0
-
-    volatility = h - l
-    roe_pct = deviation_from_entry_pct * leverage
-    pnl_usdt = roe_pct * volume / 100
-    profitable = roe_pct > 0
 
     return {
         "date": dt_val,
@@ -93,14 +90,14 @@ def _calculate_day(candle, entry_price, leverage, volume, prev_volatility=None):
         },
         "deviation": {
             "from_entry_usdt": round(deviation_from_entry_usdt, 6),
-            "from_entry_pct": round(deviation_from_entry_pct, 2),
+            "from_entry_pct": round(dm["deviation_pct"], 2),
             "from_open_usdt": round(deviation_from_open_usdt, 6),
             "from_open_pct": round(deviation_from_open_pct, 2)
         },
-        "roe_pct": round(roe_pct, 2),
-        "pnl_usdt": round(pnl_usdt, 4),
-        "volatility": round(volatility, 6),
-        "profitable": profitable
+        "roe_pct": round(dm["roe_pct"], 2),
+        "pnl_usdt": round(dm["pnl_usdt"], 4),
+        "volatility": round(dm["volatility"], 6),
+        "profitable": dm["profitable"]
     }
 
 

@@ -1,0 +1,34 @@
+{
+ "provider": "assemblyai",
+ "label": "AssemblyAI",
+ "homepage": "https://www.assemblyai.com",
+ "api_endpoint": "https://api.assemblyai.com/v2/transcript",
+ "balance": "no_key",
+ "free_tier": "185h pre-recorded + 333h streaming",
+ "key_var": "ASSEMBLYAI_API_KEY",
+ "updated": "2026-05-23",
+ "models_count": 2,
+ "pricing_unit": "USD per hour",
+ "models": [
+  {
+   "id": "universal-2",
+   "name": "AssemblyAI Universal-2",
+   "pricing": {
+    "per_hour": 0.15
+   },
+   "quality": 8,
+   "languages": "99+",
+   "description": "12.5M hours training data, 99 languages"
+  },
+  {
+   "id": "universal-3-pro",
+   "name": "AssemblyAI Universal-3 Pro",
+   "pricing": {
+    "per_hour": 0.21
+   },
+   "quality": 9,
+   "languages": "6 (en,es,de,fr,it,pt)",
+   "description": "Most accurate, multilingual"
+  }
+ ]
+}

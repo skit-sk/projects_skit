@@ -321,7 +321,6 @@ def cmd_message(uid, text):
     sname = sess["name"] if sess else key
     title = sname if not opencode_id else None
     if is_super(uid) and get_build_mode(uid):
-        set_build_mode(uid, False)
         agent = None
         agent_label = "build"
     else:
@@ -765,6 +764,7 @@ COMMANDS = [
     ("📈 Торговля", [
         ("/tg_positions", "super", "Текстовые строки позиций Bitget"),
         ("/sc_positions", "super", "Скриншот таблицы позиций Bitget"),
+        ("/sc_analytics", "super", "Скриншот графиков аналитики [symbol] [all]"),
         ("/positions", "super", "Риск-сводка: маржа, P&L, экспозиция"),
         ("/positions --image", "super", "Риск-сводка как PNG (Rich)"),
         ("/ws_ob <SYMBOL> [depth] [aggr]", "super", "Стакан (пример: /ws_ob BTC 50 1)"),

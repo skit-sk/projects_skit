@@ -1,0 +1,2164 @@
+{
+ "provider": "aitunnel",
+ "label": "AITunnel",
+ "homepage": "https://aitunnel.ru",
+ "balance": "prepaid",
+ "updated": "2026-05-23",
+ "opencode_prefix": "aitunnel/",
+ "models_count": 152,
+ "pricing_unit": "RUB per 1M tokens",
+ "models": [
+  {
+   "id": "Qwen3.7 Max",
+   "name": "Qwen3.7 Max",
+   "pricing": {
+    "input_rub": 480.0,
+    "output_rub": 1440.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Grok Build 0.1",
+   "name": "Grok Build 0.1",
+   "pricing": {
+    "input_rub": 192.0,
+    "output_rub": 384.0
+   },
+   "context": 256000,
+   "capabilities": {
+    "text": true,
+    "image": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Gemini 3.5 Flash",
+   "name": "Gemini 3.5 Flash",
+   "pricing": {
+    "input_rub": 288.0,
+    "output_rub": 1728.0
+   },
+   "context": 1048576,
+   "capabilities": {
+    "text": true,
+    "image": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Gemini 3.1 Flash Lite",
+   "name": "Gemini 3.1 Flash Lite",
+   "pricing": {
+    "input_rub": 48.0,
+    "output_rub": 288.0
+   },
+   "context": 1048576,
+   "capabilities": {
+    "text": true,
+    "image": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Grok 4.3",
+   "name": "Grok 4.3",
+   "pricing": {
+    "input_rub": 240.0,
+    "output_rub": 480.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true,
+    "image": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Qwen3.5 Plus 2026-04-20",
+   "name": "Qwen3.5 Plus 2026-04-20",
+   "pricing": {
+    "input_rub": 76.8,
+    "output_rub": 460.8
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Qwen3.6 Flash",
+   "name": "Qwen3.6 Flash",
+   "pricing": {
+    "input_rub": 48.0,
+    "output_rub": 288.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Qwen3.6 35b A3b",
+   "name": "Qwen3.6 35b A3b",
+   "pricing": {
+    "input_rub": 30.95,
+    "output_rub": 185.34
+   },
+   "context": 262144,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Qwen3.6 Max Preview",
+   "name": "Qwen3.6 Max Preview",
+   "pricing": {
+    "input_rub": 249.6,
+    "output_rub": 1497.6
+   },
+   "context": 262144,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Qwen3.6 27b",
+   "name": "Qwen3.6 27b",
+   "pricing": {
+    "input_rub": 37.44,
+    "output_rub": 299.52
+   },
+   "context": 262144,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GPT 5.5 Pro",
+   "name": "GPT 5.5 Pro",
+   "pricing": {
+    "input_rub": 576.0,
+    "output_rub": 34560.0
+   },
+   "context": 1050000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GPT 5.5",
+   "name": "GPT 5.5",
+   "pricing": {
+    "input_rub": 96.0,
+    "output_rub": 5760.0
+   },
+   "context": 1050000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "DeepSeek V4 Pro",
+   "name": "DeepSeek V4 Pro",
+   "pricing": {
+    "input_rub": 83.52,
+    "output_rub": 167.04
+   },
+   "context": 1048576,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "DeepSeek V4 Flash",
+   "name": "DeepSeek V4 Flash",
+   "pricing": {
+    "input_rub": 19.2,
+    "output_rub": 38.4
+   },
+   "context": 1048576,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Kimi K2.6",
+   "name": "Kimi K2.6",
+   "pricing": {
+    "input_rub": 182.4,
+    "output_rub": 768.0
+   },
+   "context": 262144,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Claude Opus 4.7",
+   "name": "Claude Opus 4.7",
+   "pricing": {
+    "input_rub": 960.0,
+    "output_rub": 4800.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GLM 5.1",
+   "name": "GLM 5.1",
+   "pricing": {
+    "input_rub": 268.8,
+    "output_rub": 844.8
+   },
+   "context": 202752,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Gemma 4 26b A4b It",
+   "name": "Gemma 4 26b A4b It",
+   "pricing": {
+    "input_rub": 24.96,
+    "output_rub": 76.8
+   },
+   "context": 262144,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Gemma 4 31b It",
+   "name": "Gemma 4 31b It",
+   "pricing": {
+    "input_rub": 26.88,
+    "output_rub": 76.8
+   },
+   "context": 262144,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GLM 5v Turbo",
+   "name": "GLM 5v Turbo",
+   "pricing": {
+    "input_rub": 230.4,
+    "output_rub": 768.0
+   },
+   "context": 202752,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Grok 4.20 Multi Agent",
+   "name": "Grok 4.20 Multi Agent",
+   "pricing": {
+    "input_rub": 384.0,
+    "output_rub": 1152.0
+   },
+   "context": 2000000,
+   "capabilities": {
+    "text": true,
+    "image": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Grok 4.20",
+   "name": "Grok 4.20",
+   "pricing": {
+    "input_rub": 384.0,
+    "output_rub": 1152.0
+   },
+   "context": 2000000,
+   "capabilities": {
+    "text": true,
+    "image": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "MiniMax M2.7",
+   "name": "MiniMax M2.7",
+   "pricing": {
+    "input_rub": 57.6,
+    "output_rub": 230.4
+   },
+   "context": 204800,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GPT 5.4 Nano",
+   "name": "GPT 5.4 Nano",
+   "pricing": {
+    "input_rub": 3.84,
+    "output_rub": 240.0
+   },
+   "context": 400000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GPT 5.4 Mini",
+   "name": "GPT 5.4 Mini",
+   "pricing": {
+    "input_rub": 14.4,
+    "output_rub": 864.0
+   },
+   "context": 400000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Mistral Small 2603",
+   "name": "Mistral Small 2603",
+   "pricing": {
+    "input_rub": 28.8,
+    "output_rub": 115.2
+   },
+   "context": 262144,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GLM 5 Turbo",
+   "name": "GLM 5 Turbo",
+   "pricing": {
+    "input_rub": 184.32,
+    "output_rub": 614.4
+   },
+   "context": 202752,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Qwen3.5 9b",
+   "name": "Qwen3.5 9b",
+   "pricing": {
+    "input_rub": 19.2,
+    "output_rub": 28.8
+   },
+   "context": 262144,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GPT 5.4 Pro",
+   "name": "GPT 5.4 Pro",
+   "pricing": {
+    "input_rub": 576.0,
+    "output_rub": 34560.0
+   },
+   "context": 1050000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GPT 5.4",
+   "name": "GPT 5.4",
+   "pricing": {
+    "input_rub": 48.0,
+    "output_rub": 2880.0
+   },
+   "context": 1050000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GPT 5.3 Chat",
+   "name": "GPT 5.3 Chat",
+   "pricing": {
+    "input_rub": 33.6,
+    "output_rub": 2688.0
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Gemini 3.1 Flash Lite Preview",
+   "name": "Gemini 3.1 Flash Lite Preview",
+   "pricing": {
+    "input_rub": 48.0,
+    "output_rub": 288.0
+   },
+   "context": 1048576,
+   "capabilities": {
+    "text": true,
+    "image": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Qwen3.5 35b A3b",
+   "name": "Qwen3.5 35b A3b",
+   "pricing": {
+    "input_rub": 48.0,
+    "output_rub": 384.0
+   },
+   "context": 262144,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Qwen3.5 27b",
+   "name": "Qwen3.5 27b",
+   "pricing": {
+    "input_rub": 57.6,
+    "output_rub": 460.8
+   },
+   "context": 262144,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Qwen3.5 122b A10b",
+   "name": "Qwen3.5 122b A10b",
+   "pricing": {
+    "input_rub": 76.8,
+    "output_rub": 614.4
+   },
+   "context": 262144,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Qwen3.5 Flash 02 23",
+   "name": "Qwen3.5 Flash 02 23",
+   "pricing": {
+    "input_rub": 19.2,
+    "output_rub": 76.8
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Gemini 3.1 Pro Preview Customtools",
+   "name": "Gemini 3.1 Pro Preview Customtools",
+   "pricing": {
+    "input_rub": 38.4,
+    "output_rub": 2304.0
+   },
+   "context": 1048576,
+   "capabilities": {
+    "text": true,
+    "image": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GPT 5.3 Codex",
+   "name": "GPT 5.3 Codex",
+   "pricing": {
+    "input_rub": 33.6,
+    "output_rub": 2688.0
+   },
+   "context": 400000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Gemini 3.1 Pro Preview",
+   "name": "Gemini 3.1 Pro Preview",
+   "pricing": {
+    "input_rub": 38.4,
+    "output_rub": 2304.0
+   },
+   "context": 1048576,
+   "capabilities": {
+    "text": true,
+    "image": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Claude Sonnet 4.6",
+   "name": "Claude Sonnet 4.6",
+   "pricing": {
+    "input_rub": 57.6,
+    "output_rub": 2880.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Qwen3.5 Plus 02 15",
+   "name": "Qwen3.5 Plus 02 15",
+   "pricing": {
+    "input_rub": 76.8,
+    "output_rub": 460.8
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Qwen3.5 397b A17b",
+   "name": "Qwen3.5 397b A17b",
+   "pricing": {
+    "input_rub": 115.2,
+    "output_rub": 691.2
+   },
+   "context": 256000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "MiniMax M2.5",
+   "name": "MiniMax M2.5",
+   "pricing": {
+    "input_rub": 52.03,
+    "output_rub": 230.4
+   },
+   "context": 196608,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GLM 5",
+   "name": "GLM 5",
+   "pricing": {
+    "input_rub": 57.6,
+    "output_rub": 489.6
+   },
+   "context": 204800,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Qwen3 Max Thinking",
+   "name": "Qwen3 Max Thinking",
+   "pricing": {
+    "input_rub": 230.4,
+    "output_rub": 1152.0
+   },
+   "context": 262144,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Claude Opus 4.6",
+   "name": "Claude Opus 4.6",
+   "pricing": {
+    "input_rub": 960.0,
+    "output_rub": 4800.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Qwen3 Coder Next",
+   "name": "Qwen3 Coder Next",
+   "pricing": {
+    "input_rub": 38.4,
+    "output_rub": 288.0
+   },
+   "context": 262144,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Kimi K2.5",
+   "name": "Kimi K2.5",
+   "pricing": {
+    "input_rub": 96.0,
+    "output_rub": 537.6
+   },
+   "context": 262144,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "MiniMax M2 Her",
+   "name": "MiniMax M2 Her",
+   "pricing": {
+    "input_rub": 51.84,
+    "output_rub": 230.4
+   },
+   "context": 65536,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GPT Audio",
+   "name": "GPT Audio",
+   "pricing": {
+    "input_rub": 480.0,
+    "output_rub": 1920.0
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true,
+    "audio": true
+   },
+   "type": "asr+summarize",
+   "in_opencode": false
+  },
+  {
+   "id": "GPT Audio Mini",
+   "name": "GPT Audio Mini",
+   "pricing": {
+    "input_rub": 115.2,
+    "output_rub": 460.8
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true,
+    "audio": true
+   },
+   "type": "asr+summarize",
+   "in_opencode": false
+  },
+  {
+   "id": "GLM 4.7 Flash",
+   "name": "GLM 4.7 Flash",
+   "pricing": {
+    "input_rub": 9.61,
+    "output_rub": 76.8
+   },
+   "context": 202752,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GPT 5.2 Codex",
+   "name": "GPT 5.2 Codex",
+   "pricing": {
+    "input_rub": 33.6,
+    "output_rub": 2688.0
+   },
+   "context": 400000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "MiniMax M2.1",
+   "name": "MiniMax M2.1",
+   "pricing": {
+    "input_rub": 46.09,
+    "output_rub": 182.4
+   },
+   "context": 196608,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GLM 4.7",
+   "name": "GLM 4.7",
+   "pricing": {
+    "input_rub": 38.4,
+    "output_rub": 288.0
+   },
+   "context": 202752,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Gemini 3 Flash Preview",
+   "name": "Gemini 3 Flash Preview",
+   "pricing": {
+    "input_rub": 96.0,
+    "output_rub": 576.0
+   },
+   "context": 1048576,
+   "capabilities": {
+    "text": true,
+    "image": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GPT 5.2 Chat",
+   "name": "GPT 5.2 Chat",
+   "pricing": {
+    "input_rub": 33.6,
+    "output_rub": 2688.0
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GPT 5.2 Pro",
+   "name": "GPT 5.2 Pro",
+   "pricing": {
+    "input_rub": 403.2,
+    "output_rub": 32256.0
+   },
+   "context": 400000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GPT 5.2",
+   "name": "GPT 5.2",
+   "pricing": {
+    "input_rub": 33.6,
+    "output_rub": 2688.0
+   },
+   "context": 400000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GLM 4.6v",
+   "name": "GLM 4.6v",
+   "pricing": {
+    "input_rub": 57.6,
+    "output_rub": 172.8
+   },
+   "context": 131072,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GPT 5.1 Codex Max",
+   "name": "GPT 5.1 Codex Max",
+   "pricing": {
+    "input_rub": 24.0,
+    "output_rub": 1920.0
+   },
+   "context": 400000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Mistral Large 2512",
+   "name": "Mistral Large 2512",
+   "pricing": {
+    "input_rub": 96.0,
+    "output_rub": 288.0
+   },
+   "context": 262144,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "DeepSeek V3.2 Speciale",
+   "name": "DeepSeek V3.2 Speciale",
+   "pricing": {
+    "input_rub": 53.76,
+    "output_rub": 80.64
+   },
+   "context": 131072,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "DeepSeek V3.2",
+   "name": "DeepSeek V3.2",
+   "pricing": {
+    "input_rub": 53.76,
+    "output_rub": 80.64
+   },
+   "context": 131072,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Claude Opus 4.5",
+   "name": "Claude Opus 4.5",
+   "pricing": {
+    "input_rub": 960.0,
+    "output_rub": 4800.0
+   },
+   "context": 200000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GPT 5.1",
+   "name": "GPT 5.1",
+   "pricing": {
+    "input_rub": 24.0,
+    "output_rub": 1920.0
+   },
+   "context": 400000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GPT 5.1 Chat",
+   "name": "GPT 5.1 Chat",
+   "pricing": {
+    "input_rub": 24.0,
+    "output_rub": 1920.0
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GPT 5.1 Codex",
+   "name": "GPT 5.1 Codex",
+   "pricing": {
+    "input_rub": 24.0,
+    "output_rub": 1920.0
+   },
+   "context": 400000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GPT 5.1 Codex Mini",
+   "name": "GPT 5.1 Codex Mini",
+   "pricing": {
+    "input_rub": 28.8,
+    "output_rub": 1152.0
+   },
+   "context": 400000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Kimi K2 Thinking",
+   "name": "Kimi K2 Thinking",
+   "pricing": {
+    "input_rub": 86.4,
+    "output_rub": 451.2
+   },
+   "context": 262144,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Sonar Pro Search",
+   "name": "Sonar Pro Search",
+   "pricing": {
+    "input_rub": 576.0,
+    "output_rub": 2880.0
+   },
+   "context": 200000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GPT OSS Safeguard 20b",
+   "name": "GPT OSS Safeguard 20b",
+   "pricing": {
+    "input_rub": 14.4,
+    "output_rub": 57.6
+   },
+   "context": 131072,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "MiniMax M2",
+   "name": "MiniMax M2",
+   "pricing": {
+    "input_rub": 43.18,
+    "output_rub": 192.0
+   },
+   "context": 196608,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Claude Haiku 4.5",
+   "name": "Claude Haiku 4.5",
+   "pricing": {
+    "input_rub": 192.0,
+    "output_rub": 960.0
+   },
+   "context": 200000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GPT 5 Pro",
+   "name": "GPT 5 Pro",
+   "pricing": {
+    "input_rub": 288.0,
+    "output_rub": 23040.0
+   },
+   "context": 400000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GLM 4.6",
+   "name": "GLM 4.6",
+   "pricing": {
+    "input_rub": 33.6,
+    "output_rub": 288.0
+   },
+   "context": 202752,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Claude Sonnet 4.5",
+   "name": "Claude Sonnet 4.5",
+   "pricing": {
+    "input_rub": 576.0,
+    "output_rub": 2880.0
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "DeepSeek V3.2 Exp",
+   "name": "DeepSeek V3.2 Exp",
+   "pricing": {
+    "input_rub": 51.84,
+    "output_rub": 78.72
+   },
+   "context": 163840,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Gemini 2.5 Flash Lite Preview 09 2025",
+   "name": "Gemini 2.5 Flash Lite Preview 09 2025",
+   "pricing": {
+    "input_rub": 19.2,
+    "output_rub": 76.8
+   },
+   "context": 1048576,
+   "capabilities": {
+    "text": true,
+    "image": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Qwen3 Max",
+   "name": "Qwen3 Max",
+   "pricing": {
+    "input_rub": 230.4,
+    "output_rub": 1152.0
+   },
+   "context": 256000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GPT 5 Codex",
+   "name": "GPT 5 Codex",
+   "pricing": {
+    "input_rub": 24.0,
+    "output_rub": 1920.0
+   },
+   "context": 400000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "DeepSeek V3.1 Terminus",
+   "name": "DeepSeek V3.1 Terminus",
+   "pricing": {
+    "input_rub": 51.84,
+    "output_rub": 192.0
+   },
+   "context": 131072,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Kimi K2 0905",
+   "name": "Kimi K2 0905",
+   "pricing": {
+    "input_rub": 74.88,
+    "output_rub": 364.8
+   },
+   "context": 262144,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "DeepSeek Chat V3.1",
+   "name": "DeepSeek Chat V3.1",
+   "pricing": {
+    "input_rub": 51.84,
+    "output_rub": 211.2
+   },
+   "context": 131072,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Mistral Medium 3.1",
+   "name": "Mistral Medium 3.1",
+   "pricing": {
+    "input_rub": 76.8,
+    "output_rub": 384.0
+   },
+   "context": 131072,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GLM 4.5v",
+   "name": "GLM 4.5v",
+   "pricing": {
+    "input_rub": 94.12,
+    "output_rub": 345.6
+   },
+   "context": 65536,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GPT 5 Chat",
+   "name": "GPT 5 Chat",
+   "pricing": {
+    "input_rub": 24.0,
+    "output_rub": 1920.0
+   },
+   "context": 400000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GPT 5",
+   "name": "GPT 5",
+   "pricing": {
+    "input_rub": 24.0,
+    "output_rub": 1920.0
+   },
+   "context": 400000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GPT 5 Mini",
+   "name": "GPT 5 Mini",
+   "pricing": {
+    "input_rub": 4.8,
+    "output_rub": 384.0
+   },
+   "context": 400000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GPT 5 Nano",
+   "name": "GPT 5 Nano",
+   "pricing": {
+    "input_rub": 0.96,
+    "output_rub": 76.8
+   },
+   "context": 400000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GPT OSS 120b",
+   "name": "GPT OSS 120b",
+   "pricing": {
+    "input_rub": 28.8,
+    "output_rub": 115.2
+   },
+   "context": 131072,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GPT OSS 20b",
+   "name": "GPT OSS 20b",
+   "pricing": {
+    "input_rub": 9.6,
+    "output_rub": 38.4
+   },
+   "context": 131072,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Claude Opus 4.1",
+   "name": "Claude Opus 4.1",
+   "pricing": {
+    "input_rub": 2880.0,
+    "output_rub": 14400.0
+   },
+   "context": 200000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Codestral 2508",
+   "name": "Codestral 2508",
+   "pricing": {
+    "input_rub": 57.6,
+    "output_rub": 172.8
+   },
+   "context": 256000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Qwen3 Coder 30b A3b Instruct",
+   "name": "Qwen3 Coder 30b A3b Instruct",
+   "pricing": {
+    "input_rub": 11.52,
+    "output_rub": 48.0
+   },
+   "context": 262144,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GLM 4.5",
+   "name": "GLM 4.5",
+   "pricing": {
+    "input_rub": 33.6,
+    "output_rub": 297.6
+   },
+   "context": 131072,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GLM 4.5 Air",
+   "name": "GLM 4.5 Air",
+   "pricing": {
+    "input_rub": 20.17,
+    "output_rub": 163.2
+   },
+   "context": 131072,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GLM 4 32b",
+   "name": "GLM 4 32b",
+   "pricing": {
+    "input_rub": 19.2,
+    "output_rub": 19.2
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Qwen3 Coder",
+   "name": "Qwen3 Coder",
+   "pricing": {
+    "input_rub": 57.6,
+    "output_rub": 230.4
+   },
+   "context": 262144,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Gemini 2.5 Flash Lite",
+   "name": "Gemini 2.5 Flash Lite",
+   "pricing": {
+    "input_rub": 19.2,
+    "output_rub": 76.8
+   },
+   "context": 1048576,
+   "capabilities": {
+    "text": true,
+    "image": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Qwen3 235b A22b 2507",
+   "name": "Qwen3 235b A22b 2507",
+   "pricing": {
+    "input_rub": 14.98,
+    "output_rub": 59.9
+   },
+   "context": 262144,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Devstral Small",
+   "name": "Devstral Small",
+   "pricing": {
+    "input_rub": 13.44,
+    "output_rub": 53.76
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Mistral Small 3.2 24b Instruct",
+   "name": "Mistral Small 3.2 24b Instruct",
+   "pricing": {
+    "input_rub": 11.52,
+    "output_rub": 34.56
+   },
+   "context": 131072,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "MiniMax M1",
+   "name": "MiniMax M1",
+   "pricing": {
+    "input_rub": 76.8,
+    "output_rub": 422.4
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Gemini 2.5 Flash",
+   "name": "Gemini 2.5 Flash",
+   "pricing": {
+    "input_rub": 57.6,
+    "output_rub": 480.0
+   },
+   "context": 1048576,
+   "capabilities": {
+    "text": true,
+    "image": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Gemini 2.5 Pro",
+   "name": "Gemini 2.5 Pro",
+   "pricing": {
+    "input_rub": 240.0,
+    "output_rub": 1920.0
+   },
+   "context": 1048576,
+   "capabilities": {
+    "text": true,
+    "image": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "O3 Pro",
+   "name": "O3 Pro",
+   "pricing": {
+    "input_rub": 1000.0,
+    "output_rub": 8500.0
+   },
+   "context": 200000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Gemini 2.5 Pro Preview",
+   "name": "Gemini 2.5 Pro Preview",
+   "pricing": {
+    "input_rub": 240.0,
+    "output_rub": 1920.0
+   },
+   "context": 1048576,
+   "capabilities": {
+    "text": true,
+    "image": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "DeepSeek R1 0528",
+   "name": "DeepSeek R1 0528",
+   "pricing": {
+    "input_rub": 96.0,
+    "output_rub": 418.56
+   },
+   "context": 163840,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Claude Opus 4",
+   "name": "Claude Opus 4",
+   "pricing": {
+    "input_rub": 2880.0,
+    "output_rub": 14400.0
+   },
+   "context": 200000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Claude Sonnet 4",
+   "name": "Claude Sonnet 4",
+   "pricing": {
+    "input_rub": 576.0,
+    "output_rub": 2880.0
+   },
+   "context": 200000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Qwen3 30b A3b",
+   "name": "Qwen3 30b A3b",
+   "pricing": {
+    "input_rub": 3.84,
+    "output_rub": 15.36
+   },
+   "context": 40960,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "O3",
+   "name": "O3",
+   "pricing": {
+    "input_rub": 192.0,
+    "output_rub": 1536.0
+   },
+   "context": 200000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "O4 Mini",
+   "name": "O4 Mini",
+   "pricing": {
+    "input_rub": 105.6,
+    "output_rub": 844.8
+   },
+   "context": 200000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GPT 4.1",
+   "name": "GPT 4.1",
+   "pricing": {
+    "input_rub": 192.0,
+    "output_rub": 1536.0
+   },
+   "context": 1047576,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GPT 4.1 Mini",
+   "name": "GPT 4.1 Mini",
+   "pricing": {
+    "input_rub": 38.4,
+    "output_rub": 307.2
+   },
+   "context": 1047576,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GPT 4.1 Nano",
+   "name": "GPT 4.1 Nano",
+   "pricing": {
+    "input_rub": 9.6,
+    "output_rub": 76.8
+   },
+   "context": 1047576,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Llama 4 Maverick",
+   "name": "Llama 4 Maverick",
+   "pricing": {
+    "input_rub": 38.4,
+    "output_rub": 115.2
+   },
+   "context": 1048576,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Llama 4 Scout",
+   "name": "Llama 4 Scout",
+   "pricing": {
+    "input_rub": 15.36,
+    "output_rub": 86.4
+   },
+   "context": 328000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "DeepSeek Chat V3 0324",
+   "name": "DeepSeek Chat V3 0324",
+   "pricing": {
+    "input_rub": 51.84,
+    "output_rub": 211.2
+   },
+   "context": 640000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "O1 Pro",
+   "name": "O1 Pro",
+   "pricing": {
+    "input_rub": 7500.0,
+    "output_rub": 70000.0
+   },
+   "context": 200000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GPT 4o Mini Search Preview",
+   "name": "GPT 4o Mini Search Preview",
+   "pricing": {
+    "input_rub": 14.4,
+    "output_rub": 115.2
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GPT 4o Search Preview",
+   "name": "GPT 4o Search Preview",
+   "pricing": {
+    "input_rub": 240.0,
+    "output_rub": 1920.0
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Sonar Reasoning Pro",
+   "name": "Sonar Reasoning Pro",
+   "pricing": {
+    "input_rub": 384.0,
+    "output_rub": 1536.0
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Sonar Pro",
+   "name": "Sonar Pro",
+   "pricing": {
+    "input_rub": 576.0,
+    "output_rub": 2880.0
+   },
+   "context": 200000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Sonar Deep Research",
+   "name": "Sonar Deep Research",
+   "pricing": {
+    "input_rub": 384.0,
+    "output_rub": 1536.0
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Gemini 2.0 Flash Lite 001",
+   "name": "Gemini 2.0 Flash Lite 001",
+   "pricing": {
+    "input_rub": 14.4,
+    "output_rub": 57.6
+   },
+   "context": 1048576,
+   "capabilities": {
+    "text": true,
+    "image": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Gemini 2.0 Flash 001",
+   "name": "Gemini 2.0 Flash 001",
+   "pricing": {
+    "input_rub": 19.2,
+    "output_rub": 76.8
+   },
+   "context": 1000000,
+   "capabilities": {
+    "text": true,
+    "image": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "O3 Mini",
+   "name": "O3 Mini",
+   "pricing": {
+    "input_rub": 105.6,
+    "output_rub": 844.8
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Sonar",
+   "name": "Sonar",
+   "pricing": {
+    "input_rub": 192.0,
+    "output_rub": 192.0
+   },
+   "context": 127072,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "DeepSeek R1",
+   "name": "DeepSeek R1",
+   "pricing": {
+    "input_rub": 105.6,
+    "output_rub": 420.48
+   },
+   "context": 640000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "MiniMax 01",
+   "name": "MiniMax 01",
+   "pricing": {
+    "input_rub": 38.4,
+    "output_rub": 211.2
+   },
+   "context": 1000192,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "DeepSeek Chat",
+   "name": "DeepSeek Chat",
+   "pricing": {
+    "input_rub": 26.88,
+    "output_rub": 53.76
+   },
+   "context": 640000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "O1",
+   "name": "O1",
+   "pricing": {
+    "input_rub": 1150.0,
+    "output_rub": 7200.0
+   },
+   "context": 200000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Llama 3.3 70b Instruct",
+   "name": "Llama 3.3 70b Instruct",
+   "pricing": {
+    "input_rub": 23.04,
+    "output_rub": 57.6
+   },
+   "context": 131072,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GPT-4o 2024-11-20",
+   "name": "GPT-4o 2024-11-20",
+   "pricing": {
+    "input_rub": 240.0,
+    "output_rub": 1920.0
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true,
+    "image": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Claude 3.5 Haiku",
+   "name": "Claude 3.5 Haiku",
+   "pricing": {
+    "input_rub": 192.0,
+    "output_rub": 960.0
+   },
+   "context": 200000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Llama 3.2 1b Instruct",
+   "name": "Llama 3.2 1b Instruct",
+   "pricing": {
+    "input_rub": 1.92,
+    "output_rub": 1.92
+   },
+   "context": 131072,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Llama 3.2 3b Instruct",
+   "name": "Llama 3.2 3b Instruct",
+   "pricing": {
+    "input_rub": 2.88,
+    "output_rub": 4.8
+   },
+   "context": 131072,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Llama 3.2 11b Vision Instruct",
+   "name": "Llama 3.2 11b Vision Instruct",
+   "pricing": {
+    "input_rub": 10.56,
+    "output_rub": 10.56
+   },
+   "context": 131072,
+   "capabilities": {
+    "text": true,
+    "image": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GPT-4o 2024-08-06",
+   "name": "GPT-4o 2024-08-06",
+   "pricing": {
+    "input_rub": 240.0,
+    "output_rub": 1920.0
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true,
+    "image": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "Mistral Nemo",
+   "name": "Mistral Nemo",
+   "pricing": {
+    "input_rub": 3.84,
+    "output_rub": 7.68
+   },
+   "context": 131072,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GPT 4o Mini",
+   "name": "GPT 4o Mini",
+   "pricing": {
+    "input_rub": 14.4,
+    "output_rub": 115.2
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GPT-4o-Mini 2024-07-18",
+   "name": "GPT-4o-Mini 2024-07-18",
+   "pricing": {
+    "input_rub": 14.4,
+    "output_rub": 115.2
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true,
+    "image": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GPT 4o",
+   "name": "GPT 4o",
+   "pricing": {
+    "input_rub": 240.0,
+    "output_rub": 1920.0
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GPT 4 Turbo",
+   "name": "GPT 4 Turbo",
+   "pricing": {
+    "input_rub": 1920.0,
+    "output_rub": 5760.0
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GPT 4",
+   "name": "GPT 4",
+   "pricing": {
+    "input_rub": 5760.0,
+    "output_rub": 11520.0
+   },
+   "context": 8191,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GPT 3.5 Turbo",
+   "name": "GPT 3.5 Turbo",
+   "pricing": {
+    "input_rub": 96.0,
+    "output_rub": 288.0
+   },
+   "context": 16385,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GPT-5-Mini 2025-08-07",
+   "name": "GPT-5-Mini 2025-08-07",
+   "pricing": {
+    "input_rub": 4.8,
+    "output_rub": 384.0
+   },
+   "context": 400000,
+   "capabilities": {
+    "text": true,
+    "image": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GigaChat 2",
+   "name": "GigaChat 2",
+   "pricing": {
+    "input_rub": 111.0,
+    "output_rub": 111.0
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GigaChat 2 Pro",
+   "name": "GigaChat 2 Pro",
+   "pricing": {
+    "input_rub": 850.0,
+    "output_rub": 850.0
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  },
+  {
+   "id": "GigaChat 2 Max",
+   "name": "GigaChat 2 Max",
+   "pricing": {
+    "input_rub": 1105.0,
+    "output_rub": 1105.0
+   },
+   "context": 128000,
+   "capabilities": {
+    "text": true
+   },
+   "type": "llm",
+   "in_opencode": false
+  }
+ ]
+}

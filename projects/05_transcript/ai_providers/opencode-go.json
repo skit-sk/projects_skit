@@ -1,0 +1,132 @@
+{
+ "provider": "opencode-go",
+ "label": "OpenCode Go",
+ "homepage": "https://opencode.ai",
+ "balance": "prepaid",
+ "updated": "2026-05-23",
+ "opencode_prefix": "opencode-go/",
+ "models_count": 12,
+ "pricing_available": false,
+ "models": [
+  {
+   "id": "deepseek-v4-flash",
+   "name": "deepseek-v4-flash",
+   "type": "llm",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   }
+  },
+  {
+   "id": "deepseek-v4-pro",
+   "name": "deepseek-v4-pro",
+   "type": "llm",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   }
+  },
+  {
+   "id": "qwen3.5-plus",
+   "name": "qwen3.5-plus",
+   "type": "llm",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   }
+  },
+  {
+   "id": "qwen3.6-plus",
+   "name": "qwen3.6-plus",
+   "type": "llm",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   }
+  },
+  {
+   "id": "kimi-k2.5",
+   "name": "kimi-k2.5",
+   "type": "llm",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   }
+  },
+  {
+   "id": "kimi-k2.6",
+   "name": "kimi-k2.6",
+   "type": "llm",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   }
+  },
+  {
+   "id": "minimax-m2.5",
+   "name": "minimax-m2.5",
+   "type": "llm",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   }
+  },
+  {
+   "id": "minimax-m2.7",
+   "name": "minimax-m2.7",
+   "type": "llm",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   }
+  },
+  {
+   "id": "glm-5",
+   "name": "glm-5",
+   "type": "llm",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   }
+  },
+  {
+   "id": "glm-5.1",
+   "name": "glm-5.1",
+   "type": "llm",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   }
+  },
+  {
+   "id": "mimo-v2.5",
+   "name": "mimo-v2.5",
+   "type": "llm",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   }
+  },
+  {
+   "id": "mimo-v2.5-pro",
+   "name": "mimo-v2.5-pro",
+   "type": "llm",
+   "pricing": null,
+   "context": null,
+   "capabilities": {
+    "text": true
+   }
+  }
+ ]
+}

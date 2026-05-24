@@ -155,6 +155,57 @@ class JSONStorage:
             return []
         return [d for d in self.card_dir.iterdir() if d.is_dir()]
 
+    # ── Account data (balance/orders/fills) ──
+
+    def _account_dir(self):
+        p = self.data_dir / 'account'
+        p.mkdir(exist_ok=True)
+        return p
+
+    def save_balance(self, data: dict):
+        with open(self._account_dir() / 'balance.json', 'w', encoding='utf-8') as f:
+            json.dump(data, f, ensure_ascii=False, default=str)
+
+    def load_balance(self) -> dict:
+        p = self._account_dir() / 'balance.json'
+        if not p.exists():
+            return {}
+        with open(p, 'r', encoding='utf-8') as f:
+            return json.load(f)
+
+    def save_orders(self, data: dict):
+        with open(self._account_dir() / 'orders.json', 'w', encoding='utf-8') as f:
+            json.dump(data, f, ensure_ascii=False, default=str)
+
+    def load_orders(self) -> dict:
+        p = self._account_dir() / 'orders.json'
+        if not p.exists():
+            return {}
+        with open(p, 'r', encoding='utf-8') as f:
+            return json.load(f)
+
+    def save_fills(self, data: dict):
+        with open(self._account_dir() / 'fills.json', 'w', encoding='utf-8') as f:
+            json.dump(data, f, ensure_ascii=False, default=str)
+
+    def load_fills(self) -> dict:
+        p = self._account_dir() / 'fills.json'
+        if not p.exists():
+            return {}
+        with open(p, 'r', encoding='utf-8') as f:
+            return json.load(f)
+
+    def save_totals(self, data: dict):
+        with open(self._account_dir() / 'totals.json', 'w', encoding='utf-8') as f:
+            json.dump(data, f, ensure_ascii=False, default=str)
+
+    def load_totals(self) -> dict:
+        p = self._account_dir() / 'totals.json'
+        if not p.exists():
+            return {}
+        with open(p, 'r', encoding='utf-8') as f:
+            return json.load(f)
+
 
 class MetricsStorage:
     def __init__(self, data_dir=None):
