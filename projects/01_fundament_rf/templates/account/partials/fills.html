@@ -91,7 +91,7 @@
             <td style="text-align:center;">{{ fmt_num(mu, 4) }}</td>
             <td style="text-align:center;" class="{{ 'pl-positive' if f.profit >= 0 else 'pl-negative' }}">{{ fmt_num(f.profit, 2) }}</td>
             <td style="text-align:center;" class="{{ 'pl-positive' if pp and pp >= 0 else 'pl-negative' }}">{{ pp|round(2) ~ '%' if pp is not none else '-' }}</td>
-            <td style="text-align:center;">{{ fmt_num(f.fee_detail, 4) }}</td>
+            <td style="text-align:center; color:{{ '#6b8e6b' if f.fee_detail > 0 else '#8b3a3a' if f.fee_detail < 0 else '#888' }};">{{ fmt_num(f.fee_detail, 4) }}</td>
             <td style="text-align:center;">{% if dur %}{{ (dur // 86400000) ~ 'д ' ~ ((dur % 86400000) // 3600000) ~ 'ч' }}{% else %}-{% endif %}</td>
             <td style="text-align:center;">{{ f.trade_side }}</td>
             <td style="text-align:center;">{{ f.trade_scope }}</td>
@@ -115,7 +115,7 @@
             <td style="text-align:center;">{{ fmt_num(fills|sum(attribute='quote_volume') / 10, 2) }}</td>
             <td style="text-align:center;" class="{{ 'pl-positive' if fills|sum(attribute='profit') >= 0 else 'pl-negative' }}">{{ fmt_num(fills|sum(attribute='profit'), 2) }}</td>
             <td style="text-align:center;">—</td>
-            <td style="text-align:center;">{{ fmt_num(fills|sum(attribute='fee_detail'), 4) }}</td>
+            <td style="text-align:center; color:{{ '#6b8e6b' if fills|sum(attribute='fee_detail') > 0 else '#8b3a3a' if fills|sum(attribute='fee_detail') < 0 else '#888' }};">{{ fmt_num(fills|sum(attribute='fee_detail'), 4) }}</td>
             <td style="text-align:center;">—</td>
             <td colspan="2"></td>
             <td style="text-align:center;"></td>

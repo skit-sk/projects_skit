@@ -53,11 +53,11 @@
   <button onclick="reloadFromJSON()" style="background:#3498db; border:none; font-size:12px; cursor:pointer; padding:2px 8px; border-radius:4px; color:#fff;">📂 Read JSON</button>
 </h2>
 
-<div id="live-controls" style="display:flex; align-items:center; gap:8px; margin:0 0 0.75rem; font-size:12px;">
-  <label style="display:flex; align-items:center; gap:4px; cursor:pointer;">
+<div id="live-flash-bar" style="display:flex; align-items:center; gap:10px; margin:0 0 0.5rem; font-size:11px; flex-wrap:wrap;">
+  <label style="display:flex; align-items:center; gap:3px; cursor:pointer;">
     <input type="checkbox" id="live-toggle" onchange="toggleLive()"> 🔴 Live
   </label>
-  <select id="live-interval" onchange="changeInterval()" style="font-size:11px; background:var(--input-bg); color:var(--text-main); border:1px solid var(--border-color); border-radius:4px; padding:2px 6px;">
+  <select id="live-interval" onchange="changeInterval()" style="font-size:11px; background:var(--input-bg); color:var(--text-main); border:1px solid var(--border-color); border-radius:4px; padding:1px 4px;">
     <option value="1">1с</option>
     <option value="3" selected>3с</option>
     <option value="5">5с</option>
@@ -67,12 +67,7 @@
     <option value="60">60с</option>
     <option value="custom">Своя</option>
   </select>
-  <input type="number" id="live-custom" value="15" min="1" max="300" style="display:none; width:50px; font-size:11px; background:var(--input-bg); color:var(--text-main); border:1px solid var(--border-color); border-radius:4px; padding:2px 4px;" onchange="applyCustomInterval()">
-   <span id="live-status" style="color:#22c55e; font-size:11px; display:none;">⚡</span>
-   <span id="live-info" style="font-size:10px; color:#22c55e; display:none; margin-left:6px;">LIVE · #0 · —ms</span>
-</div>
-
-<div id="flash-controls" style="display:flex; align-items:center; gap:6px; margin:0 0 0.75rem; font-size:11px; flex-wrap:wrap;">
+  <span id="live-status" style="color:#22c55e; font-size:11px; display:none;">⚡</span>
   <span style="color:var(--text-muted);">💡 Подсветка:</span>
   <label style="display:flex; align-items:center; gap:2px; cursor:pointer;">
     <input type="radio" name="flash-mode" value="off" onchange="setFlashMode('off')"> Выкл
@@ -86,8 +81,11 @@
   <label style="display:flex; align-items:center; gap:2px; cursor:pointer;">
     <input type="radio" name="flash-mode" value="always" onchange="setFlashMode('always')"> всегда
   </label>
-  <label style="display:flex; align-items:center; gap:3px; margin-left:8px; color:var(--text-muted);">
-    ⏱ <input type="number" id="flash-duration-ms" value="1200" min="100" max="10000" style="width:70px" onchange="setFlashDuration(this.value)"> мс
+  <label style="display:flex; align-items:center; gap:3px; color:var(--text-muted);">
+    ⏱ <input type="number" id="flash-duration-ms" value="2500" min="100" max="10000" style="width:60px" onchange="setFlashDuration(this.value)"> мс
+  </label>
+  <label style="display:flex; align-items:center; gap:3px; color:var(--text-muted);">
+    🔆 <input type="number" id="flash-opacity" value="0.4" min="0.1" max="1" step="0.05" style="width:50px" onchange="setFlashOpacity(this.value)">
   </label>
 </div>
 
@@ -164,6 +162,7 @@
 }
 .pl-positive { color: #22c55e; }
 .pl-negative { color: #ef4444; }
+.pl-achieved { color: #ca8a04; }
 .kpi-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -223,6 +222,18 @@
 </style>
 
 <script src="https://unpkg.com/htmx.org@1.9.11"></script>
+<style id="flash-css">
+@keyframes flash-bg-green {
+    0%   { background-color: rgba(34,197,94,var(--flash-opacity, 0.4)); }
+    100% { background-color: transparent; }
+}
+@keyframes flash-bg-red {
+    0%   { background-color: rgba(220,38,38,var(--flash-opacity, 0.4)); }
+    100% { background-color: transparent; }
+}
+.flash-up   { animation: flash-bg-green var(--flash-duration, 2.5s) ease-out; }
+.flash-down { animation: flash-bg-red var(--flash-duration, 2.5s) ease-out; }
+</style>
 <script>
 (function() {
     var h2timer = document.getElementById('load-timer');
@@ -256,7 +267,14 @@
     document.body.addEventListener('htmx:beforeRequest', function(evt) {
         if (evt.detail.target && evt.detail.target.id === 'account-content') {
             t0 = performance.now();
-            setTimers('⏳ ...');
+            // Save row order before HTMX swap
+            var tbl = document.querySelector('.account-table');
+            if (tbl) {
+                var curRows = tbl.querySelectorAll('tbody tr');
+                window._savedRowOrder = Array.from(curRows).map(function(r) {
+                    return (r.cells[0] || {}).textContent || '';
+                });
+            }
         }
     });
 
@@ -290,6 +308,26 @@
                     _liveStatus.textContent = '⚡ LIVE';
                 }, 1500);
             }
+            // ── Restore row order immediately (before paint) ──
+            var savedOrder = window._savedRowOrder;
+            if (savedOrder && savedOrder.length > 0) {
+                var tbl = document.querySelector('.account-table');
+                var tbody = tbl ? tbl.querySelector('tbody') : null;
+                if (tbody) {
+                    var curRows = Array.from(tbody.querySelectorAll('tr'));
+                    if (curRows.length === savedOrder.length) {
+                        var desiredIdx = {};
+                        savedOrder.forEach(function(t, i) { desiredIdx[t] = i; });
+                        curRows.sort(function(a, b) {
+                            var ta = (a.cells[0] || {}).textContent || '';
+                            var tb = (b.cells[0] || {}).textContent || '';
+                            return (desiredIdx[ta] || 0) - (desiredIdx[tb] || 0);
+                        });
+                        curRows.forEach(function(r) { tbody.appendChild(r); });
+                    }
+                }
+            }
+
             // ── Deferred: TG pin + flash ──
             setTimeout(function() {
                 // Restore TG pin state
@@ -332,7 +370,9 @@
                     newSnapshot[ticker] = vals;
                 });
 
-                var prevSnapshot = window._tableSnapshot || {};
+                    var prevSnapshot = window._tableSnapshot || {};
+                var prevCount = Object.keys(prevSnapshot).length;
+                console.log('FLASH: snapshot prev=' + prevCount + ' curr=' + rows.length);
 
                 rows.forEach(function(row) {
                     var cells = row.querySelectorAll('td');
@@ -356,8 +396,9 @@
                             if (prev[i] !== curr[i]) { changed = true; break; }
                         }
                         if (changed) {
-                            var pnlPrev = parseValue(prev[12]) || 0;
-                            var pnlCurr = parseValue(curr[12]) || 0;
+                            var PNL_IDX = 16;
+                        var pnlPrev = parseValue(prev[PNL_IDX]) || 0;
+                        var pnlCurr = parseValue(curr[PNL_IDX]) || 0;
                             var isUp = pnlCurr >= pnlPrev;
                             var dur2 = getFlashDuration();
                             for (var i = 0; i < cells.length; i++) {
@@ -367,6 +408,7 @@
                     } else { // cells
                         for (var i = 0; i < curr.length; i++) {
                             if (prev[i] !== curr[i] && cells[i]) {
+                                console.log('FLASH: cell', i, 'changed', prev[i], '→', curr[i]);
                                 var a = parseValue(curr[i]), b = parseValue(prev[i]);
                                 var isUp = (!isNaN(a) && !isNaN(b)) ? a >= b : curr[i] > prev[i];
                                 var dur3 = getFlashDuration();
@@ -492,12 +534,21 @@
         document.documentElement.style.setProperty('--flash-duration', (ms / 1000) + 's');
     };
 
+    window.setFlashOpacity = function(val) {
+        val = parseFloat(val);
+        if (isNaN(val)) val = 0.4;
+        val = Math.max(0.1, Math.min(1, val));
+        try { localStorage.setItem('flashOpacity', String(val)); } catch(e) {}
+        document.documentElement.style.setProperty('--flash-opacity', val);
+    };
+
     function getFlashDuration() {
         var saved = localStorage.getItem('flashDurationMs');
-        return saved ? parseInt(saved) : 1200;
+        return saved ? parseInt(saved) : 2500;
     }
 
     function flashEl(el, cls, dur) {
+        console.log('FLASH:', cls, 'on', (el.textContent || '').trim().slice(0,20));
         el.classList.remove(cls);
         void el.offsetWidth;
         el.classList.add(cls);
@@ -520,6 +571,13 @@
             if (el) el.value = ms;
             document.documentElement.style.setProperty('--flash-duration', (ms / 1000) + 's');
         }
+        var savedOp = localStorage.getItem('flashOpacity');
+        if (savedOp) {
+            var op = parseFloat(savedOp) || 0.4;
+            var elOp = document.getElementById('flash-opacity');
+            if (elOp) elOp.value = op;
+            document.documentElement.style.setProperty('--flash-opacity', op);
+        }
     }
 
     // Override tab click to detect Positions tab
@@ -539,6 +597,9 @@
     document.addEventListener('DOMContentLoaded', function() {
         restoreFlashMode();
         restoreFlashDuration();
+        if (!localStorage.getItem('flashOpacity')) {
+            document.documentElement.style.setProperty('--flash-opacity', 0.4);
+        }
         if (sessionStorage.getItem('liveActive') === 'true') {
             _liveToggle.checked = true;
             startLiveTimer();
@@ -552,6 +613,57 @@
     });
 
     document.addEventListener('DOMContentLoaded', restoreActiveTab);
+
+    window.sortTable = function(col, restore) {
+        var table = document.querySelector('.account-table');
+        if (!table) return;
+        var tbody = table.querySelector('tbody');
+        if (!tbody) return;
+        var rows = Array.from(tbody.querySelectorAll('tr'));
+
+        var prevCol = table.getAttribute('data-sort-col');
+        var prevAsc = table.getAttribute('data-sort-asc') === 'true';
+        var asc = restore ? prevAsc : (prevCol == col) ? !prevAsc : true;
+        table.setAttribute('data-sort-col', col);
+        table.setAttribute('data-sort-asc', asc);
+
+        rows.sort(function(a, b) {
+            var va = a.querySelectorAll('td')[col];
+            var vb = b.querySelectorAll('td')[col];
+            if (!va || !vb) return 0;
+            var ta = va.textContent.trim();
+            var tb = vb.textContent.trim();
+            var na = parseFloat(ta.replace(/[,\s%$]/g, ''));
+            var nb = parseFloat(tb.replace(/[,\s%$]/g, ''));
+            if (!isNaN(na) && !isNaN(nb)) {
+                return asc ? na - nb : nb - na;
+            }
+            return asc ? ta.localeCompare(tb) : tb.localeCompare(ta);
+        });
+
+        var needsReorder = false;
+        var currentRows = tbody.querySelectorAll('tr');
+        for (var ri = 0; ri < rows.length; ri++) {
+            if (rows[ri] !== currentRows[ri]) { needsReorder = true; break; }
+        }
+        if (needsReorder) {
+            rows.forEach(function(r) { tbody.appendChild(r); });
+        }
+        // Update saved row order after manual sort
+        var curAfter = tbody.querySelectorAll('tr');
+        window._savedRowOrder = Array.from(curAfter).map(function(r) {
+            return (r.cells[0] || {}).textContent || '';
+        });
+
+        var ths = table.querySelectorAll('th.sortable');
+        ths.forEach(function(th) {
+            var i = parseInt(th.getAttribute('data-col'));
+            th.textContent = th.textContent.replace(/ [↑↓]$/, '');
+            if (i == col) th.textContent += asc ? ' ↑' : ' ↓';
+        });
+
+        try { sessionStorage.setItem('tableSort', JSON.stringify({col: col, asc: asc})); } catch(e) {}
+    };
 })();
 </script>
 </div>

@@ -11,6 +11,9 @@
 | 05 | `projects/05_transcript/` | Транскрипция | `transcript_pipeline.py` |
 | 06 | `projects/06_screenshots_project/` | Каталог скриншотов | `catalog.html` |
 | 07 | `projects/07_tg_bot_aiforguest/` | Telegram bot proxy → opencode | `bot/main.py` |
+| 08 | `projects/08_ofd_api/` | OFD API (Blueprint в 01) | `routes.py` |
+| 09 | `projects/09_model_catalog/` | Каталог моделей AI | `models_catalog.json` |
+| VizLab | `projects/01_fundament_rf/viz_lab/` | 🧪 Visualization Lab (Blueprint в 01) | `/viz-lab/` |
 
 ## Структура
 
@@ -41,6 +44,7 @@ workspace/
 | `venv`, `pip`, `python-dotenv` | `skills/instructions/python-env.md` |
 | `tg_bot`, `telegram`, `бот`, `tg` | `skills/instructions/tg_bot.md` |
 | `sc`, `скрин`, `screenshot` | — встроенные скриншоты TradingView (bot/screenshot_*.py) |
+| `viz_lab`, `лаборатория`, `lab`, `визуализация` | `skills/instructions/viz_lab.md` |
 
 ## ⚠️ Flask — СТРОГОЕ ПРАВИЛО
 

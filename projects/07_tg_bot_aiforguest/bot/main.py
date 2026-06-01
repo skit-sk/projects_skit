@@ -18,6 +18,7 @@ from telegram.ext import Application, MessageHandler, filters
 from handler import dispatch
 from session import get_all_pending_tasks
 from send_queue import queue_pop
+import kb_analyzer
 
 logging.basicConfig(
     level=logging.INFO,
@@ -88,6 +89,23 @@ async def _queue_worker(app):
             await asyncio.sleep(5)
 
 
+async def _kb_worker():
+    global _stop_event
+    log.info("KB worker started")
+    await asyncio.sleep(10)
+    kb_analyzer.scan_pending_bookmarks()
+    while not (_stop_event and _stop_event.is_set()):
+        try:
+            await kb_analyzer.process_analysis_queue()
+        except Exception as e:
+            log.error("KB worker error: %s", e)
+        await asyncio.sleep(30)
+        try:
+            kb_analyzer.scan_pending_bookmarks()
+        except Exception as e:
+            log.error("KB scan error: %s", e)
+
+
 async def _run_polling(app):
     global _stop_event
     _stop_event = asyncio.Event()
@@ -95,6 +113,7 @@ async def _run_polling(app):
     await app.start()
     await app.updater.start_polling(drop_pending_updates=True)
     asyncio.create_task(_queue_worker(app))
+    asyncio.create_task(_kb_worker())
     await _stop_event.wait()
     await app.updater.stop()
     await app.stop()

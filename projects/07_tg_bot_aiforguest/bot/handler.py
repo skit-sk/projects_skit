@@ -4,10 +4,12 @@ import asyncio
 import logging
 import time
 import subprocess
+import re
 import signal
 from datetime import datetime
 from pathlib import Path
-from config import SUPER_USER, TG_ALL_DIR, WORKSPACE_DIR
+import numpy as np
+from config import SUPER_USER, TG_ALL_DIR, WORKSPACE_DIR, VENV_PYTHON
 sys.path.insert(0, str(WORKSPACE_DIR / "projects" / "08_ofd_api" / "bot_ofd"))
 from commands import *
 from session import ensure_super, get_user, user_exists, get_quota, get_current_session, log_unauthorized
@@ -27,6 +29,9 @@ from collage import make_collage
 import ip_audit
 from voice import transcribe_voice
 from youtube_transcribe import transcribe_youtube
+from rutube_transcribe import transcribe_rutube
+import kb_commands
+import kb_analyzer
 
 log = logging.getLogger("tg_bot")
 
@@ -34,6 +39,32 @@ WORKSPACE = WORKSPACE_DIR
 SCRIPTS_DIR = WORKSPACE / "tools" / "scripts"
 if str(SCRIPTS_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPTS_DIR))
+
+def _try_parse_tradingview_url(url: str):
+    """Извлечь symbol + timeframe из TradingView URL."""
+    import re as _re
+    from urllib.parse import unquote
+    symbol = None
+    interval = None
+    range_val = None
+
+    m = _re.search(r'symbol=([A-Za-z0-9%:]+)', url)
+    if m:
+        raw = unquote(m.group(1)).upper()
+        if ":" not in raw:
+            raw = f"BITGET:{raw}"
+        symbol = raw
+
+    m = _re.search(r'interval=(\w+)', url)
+    if m:
+        interval = m.group(1)
+
+    m = _re.search(r'range=(\w+)', url)
+    if m:
+        range_val = m.group(1)
+
+    return symbol, interval, range_val
+
 
 def _kill_process_group(proc_pid):
     """Kill the process group of a spawned process (not other users' processes).
@@ -190,7 +221,22 @@ async def _handle_sc_analytics(update, uid, args):
     import time as _time
     import json, urllib.request
     t0 = _time.time()
-    target = args[0] if args else "all"
+
+    if not args:
+        help_text = (
+            "📸 **/sc_analytics** — скриншоты графиков аналитики\n\n"
+            "**Ключи:**\n"
+            "  `/sc_analytics <symbol>` — символ или номер (ETC, 11)\n"
+            "  `/sc_analytics all` — все доступные символы\n\n"
+            "**Примеры:**\n"
+            "  `/sc_analytics ETC`\n"
+            "  `/sc_analytics 3` — DOT #3\n"
+            "  `/sc_analytics all`"
+        )
+        await update.message.reply_text(help_text)
+        return
+
+    target = args[0]
 
     status_msg = await update.message.reply_text("📸 Делаю скриншот аналитики...")
 
@@ -201,8 +247,21 @@ async def _handle_sc_analytics(update, uid, args):
 
     proc = None
     try:
-        is_all = target.lower() == "all"
-        cmd_args = [sys.executable, str(script), "--all"] if is_all else [sys.executable, str(script), "--symbol", target]
+        # Parse symbols: space or comma separated
+        raw_symbols = []
+        for a in args:
+            for part in a.split(","):
+                s = part.strip().upper()
+                if s:
+                    raw_symbols.append(s)
+
+        is_all = len(raw_symbols) == 1 and raw_symbols[0] == "ALL"
+
+        if is_all:
+            cmd_args = [sys.executable, str(script), "--all"]
+        else:
+            cmd_args = [sys.executable, str(script), "--symbols", ",".join(raw_symbols)]
+
         proc = await asyncio.create_subprocess_exec(
             *cmd_args,
             stdout=asyncio.subprocess.PIPE,
@@ -216,56 +275,40 @@ async def _handle_sc_analytics(update, uid, args):
             err = (stderr.decode()[:200] or stdout.decode()[:200])
             await status_msg.edit_text(f"❌ Ошибка скриншота: {err}")
             return
-
         user_dir = TG_ALL_DIR / f"TG_{uid}"
 
+        def _tg_line(ticker: str) -> str:
+            tg_path = user_dir / "positions_tg_rows.txt"
+            if not tg_path.exists():
+                return ""
+            txt = tg_path.read_text(encoding="utf-8")
+            for line in txt.split("\n"):
+                if f"🚏{ticker.upper()}" in line:
+                    return line.strip()
+            return ""
+
         ts = datetime.now().strftime("%d.%m.%y %H:%M:%S")
-        caption_base = f"📊 Analytics | {ts} | {elapsed}ms"
         await status_msg.delete()
 
-        if is_all:
-            # Collect all screenshots from the API list
+        # Determine which symbols to send
+        send_symbols = raw_symbols if not is_all else []
+        if is_all or not send_symbols:
             import json, urllib.request as _req
             try:
                 list_resp = _req.urlopen("http://localhost:5000/trade-analytics/api/list", timeout=5)
-                obj_list = json.loads(list_resp.read())
+                all_objs = json.loads(list_resp.read())
+                send_symbols = [o["symbol"] for o in all_objs if o.get("has_1d") and o.get("has_raw")]
             except Exception:
-                obj_list = []
-            media = []
-            for obj in obj_list:
-                if not obj.get("has_1d") or not obj.get("has_raw"):
-                    continue
-                sym = obj["symbol"]
-                mp = user_dir / f"{sym}_main_chart.png"
-                ip = user_dir / f"{sym}_indicators.png"
-                if mp.exists():
-                    with open(mp, "rb") as f:
-                        media.append(InputMediaPhoto(media=f, caption=f"{caption_base} {sym}"))
-                if ip.exists():
-                    with open(ip, "rb") as f:
-                        media.append(InputMediaPhoto(media=f))
-            if media:
-                # TG limit: 10 media per group
-                for i in range(0, len(media), 10):
-                    await update.message.reply_media_group(media=media[i:i+10])
-            else:
-                await update.message.reply_text("❌ Скриншоты не созданы")
-        else:
-            sym_upper = target.upper()
-            main_path = user_dir / f"{sym_upper}_main_chart.png"
-            indic_path = user_dir / f"{sym_upper}_indicators.png"
-            caption = f"📊 Analytics {sym_upper} | {ts} | {elapsed}ms"
-            media = []
-            if main_path.exists():
-                with open(main_path, "rb") as f:
-                    media.append(InputMediaPhoto(media=f, caption=caption))
-            if indic_path.exists():
-                with open(indic_path, "rb") as f:
-                    media.append(InputMediaPhoto(media=f))
-            if media:
-                await update.message.reply_media_group(media=media)
-            else:
-                await update.message.reply_text("❌ Скриншоты не созданы")
+                send_symbols = []
+
+        for sym in send_symbols:
+            coll_path = user_dir / f"{sym}_analytics.png"
+            if coll_path.exists():
+                tg = _tg_line(sym)
+                cap = (tg + "\n\n" if tg else "") + f"📊 Analytics {sym} | {ts} | {elapsed}ms"
+                with open(coll_path, "rb") as f:
+                    await update.message.reply_photo(photo=f, caption=cap)
+                await asyncio.sleep(0.5)
     except asyncio.TimeoutError:
         await status_msg.edit_text("⏱ Превышено время ожидания (120с)")
     except Exception as e:
@@ -275,6 +318,434 @@ async def _handle_sc_analytics(update, uid, args):
             pass
     finally:
         _kill_process_group(proc.pid if proc else None)
+
+
+async def _handle_sc_graphs(update, uid):
+    import json as _json
+    import time as _time
+    t0 = _time.time()
+    status_msg = await update.message.reply_text("📊 Генерирую графики...")
+
+    script = SCRIPTS_DIR / "generate_graphs.py"
+    if not script.exists():
+        await status_msg.edit_text(f"❌ Скрипт не найден: {script}")
+        return
+
+    proc = None
+    try:
+        proc = await asyncio.create_subprocess_exec(
+            config.VENV_PYTHON, str(script),
+            "--uid", str(uid),
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.PIPE,
+            preexec_fn=os.setpgrp,
+        )
+        stdout, stderr = await asyncio.wait_for(proc.communicate(), timeout=180)
+
+        if proc.returncode != 0:
+            err = (stderr.decode()[:300] or stdout.decode()[:200])
+            await status_msg.edit_text(f"❌ Ошибка генерации графиков: {err}")
+            return
+
+        raw = stdout.decode().strip()
+        result = _json.loads(raw) if raw else {"files": []}
+        files = result.get("files", [])
+
+        if not files:
+            await status_msg.edit_text("❌ Нет данных для графиков.")
+            return
+
+        await status_msg.delete()
+        total = result.get("total_ms", 0)
+        sent = 0
+        for f in files:
+            path = f.get("path", "")
+            symbol = f.get("symbol", "?")
+            date_str = f.get("date", "")
+            ms = f.get("ms", 0)
+            if not os.path.isfile(path):
+                continue
+            try:
+                with open(path, "rb") as fp:
+                    await update.message.reply_photo(
+                        photo=fp,
+                        caption=f"📊 {symbol} | {date_str} | {ms}ms",
+                    )
+                sent += 1
+                await asyncio.sleep(0.5)
+            except Exception as e:
+                log.warning("send_graph photo failed: %s", e)
+
+        if sent == 0:
+            await update.message.reply_text(f"❌ Графики не сгенерированы (total: {total}ms)")
+    except _json.JSONDecodeError:
+        await status_msg.edit_text("❌ Ошибка парсинга результата скрипта.")
+    except asyncio.TimeoutError:
+        await status_msg.edit_text("⏱ Превышено время ожидания (3 мин)")
+    except Exception as e:
+        try:
+            await status_msg.edit_text(f"❌ Ошибка: {e}")
+        except Exception:
+            pass
+    finally:
+        _kill_process_group(proc.pid if proc else None)
+
+
+async def _handle_chart(update, uid, args):
+    import json as _json
+    import time as _time
+    t0 = _time.time()
+
+    _ALL_TYPES = [
+        "line", "bar", "boxplot", "violin", "bubble", "scatter",
+        "histogram", "density", "heatmap", "correlogram", "pie",
+        "circular_bar", "radar", "lollipop", "histogram2d",
+        "dendrogram", "network", "parallel_coords", "ridgeline",
+        "stream", "treemap", "venn", "wordcloud", "scatter3d",
+        "scatter_matrix", "grouped_bar", "stacked_bar",
+    ]
+
+    if not args:
+        lines = ["📊 **Chart Generator**\n", "Команды:\n"]
+        for ct in _ALL_TYPES:
+            lines.append(f"  `/chart {ct}` — {ct}")
+        lines.append("\n  `/chart all` — все 27 типов на реальных данных")
+        await _reply(update, "\n".join(lines), uid)
+        return
+
+    chart_type = args[0].lower()
+
+    is_all = chart_type == "all"
+    target_types = _ALL_TYPES if is_all else [chart_type]
+
+    status_msg = await update.message.reply_text(
+        f"📊 Генерирую {len(target_types)} графиков..." if is_all
+        else f"📊 Генерирую {chart_type}..."
+    )
+
+    script = SCRIPTS_DIR / "generate_chart.py"
+    if not script.exists():
+        await status_msg.edit_text(f"❌ Скрипт не найден: {script}")
+        return
+
+    import urllib.request
+    import re as _re
+
+    objects = []
+    try:
+        list_resp = urllib.request.urlopen("http://localhost:5000/graphics/all", timeout=10)
+        html = list_resp.read().decode()
+        ids = _re.findall(r'data-id="([^"]+)"', html)
+        symbols = _re.findall(r'data-symbol="([^"]+)"', html)
+        seen = set()
+        for i in range(len(ids)):
+            if ids[i] not in seen:
+                seen.add(ids[i])
+                objects.append({"id": ids[i], "symbol": symbols[i] if i < len(symbols) else "?"})
+    except Exception as e:
+        if not is_all:
+            await status_msg.edit_text(f"❌ Ошибка загрузки данных: {e}")
+            return
+        objects = []
+
+    charts_data = []
+    for obj in objects:
+        try:
+            cr = urllib.request.urlopen(f"http://localhost:5000/graphics/chart/{obj['id']}", timeout=15)
+            charts_data.append(json.loads(cr.read()))
+        except Exception:
+            pass
+
+    def _cd(idx=0):
+        return charts_data[idx] if charts_data else {"chart": [], "summary": {}}
+
+    def _clamp(val, lo, hi):
+        return max(lo, min(hi, val))
+
+    def _build_data(ct: str) -> dict:
+        d = {"title": f"Test {ct}"}
+
+        if ct == "line":
+            cd = _cd(0)
+            d.update({"chart": cd.get("chart", []), "summary": cd.get("summary", {})})
+
+        elif ct == "bar":
+            vals = [c.get("summary", {}).get("total_deviation_percent", 0) for c in charts_data]
+            syms = [o["symbol"] for o in objects[:len(vals)]]
+            d.update({"categories": syms, "values": vals, "ylabel": "PnL %"})
+
+        elif ct == "grouped_bar":
+            np.random.seed(42)
+            grps = ["W1", "W2", "W3"]
+            sgs = [o["symbol"] for o in objects[:4]]
+            vals = [[np.random.rand() * 10 - 3 for _ in sgs] for _ in grps]
+            d.update({"groups": grps, "subgroups": sgs, "values": vals})
+
+        elif ct == "stacked_bar":
+            cats = [o["symbol"] for o in objects[:5]]
+            grps = ["PnL", "Fees", "Volume"]
+            np.random.seed(42)
+            vals = [[np.random.rand() * 5 for _ in grps] for _ in cats]
+            d.update({"categories": cats, "groups": grps, "values": vals})
+
+        elif ct in ("boxplot", "violin"):
+            grps = {}
+            for i, o in enumerate(objects[:5]):
+                pts = charts_data[i].get("chart", [])
+                grps[o["symbol"]] = [p.get("deviation_percent", 0) for p in pts if p.get("deviation_percent") is not None]
+            d.update({"groups": grps, "ylabel": "Deviation %"})
+
+        elif ct == "bubble":
+            xs, ys, ss, lbs = [], [], [], []
+            for i, o in enumerate(objects[:10]):
+                s = charts_data[i].get("summary", {})
+                xs.append(s.get("leverage", 10))
+                ys.append(s.get("total_deviation_percent", 0))
+                ss.append(float(s.get("current_price", 100)))
+                lbs.append(o["symbol"])
+            d.update({"x": xs, "y": ys, "size": ss, "labels": lbs, "xlabel": "Leverage", "ylabel": "PnL %"})
+
+        elif ct == "scatter":
+            xs, ys = [], []
+            for i in range(min(len(objects), len(charts_data))):
+                s = charts_data[i].get("summary", {})
+                xs.append(float(s.get("entry_price", 0)))
+                ys.append(float(s.get("current_price", 0)))
+            d.update({"x": xs, "y": ys, "xlabel": "Entry Price", "ylabel": "Current Price"})
+
+        elif ct == "histogram":
+            vals = []
+            for cd in charts_data:
+                for p in cd.get("chart", []):
+                    v = p.get("deviation_percent")
+                    if v is not None:
+                        vals.append(v)
+            d.update({"values": vals, "bins": 25, "xlabel": "Deviation %"})
+
+        elif ct == "density":
+            grps = {}
+            for i, o in enumerate(objects[:5]):
+                pts = charts_data[i].get("chart", [])
+                vals = [p.get("deviation_percent") for p in pts if p.get("deviation_percent") is not None]
+                if vals:
+                    grps[o["symbol"]] = vals
+            d.update({"groups": grps, "xlabel": "Deviation %"})
+
+        elif ct in ("heatmap", "correlogram"):
+            n = min(len(objects), 7)
+            if n < 2:
+                n = 2
+            mat = [[0.0] * n for _ in range(n)]
+            labs = [o["symbol"] for o in objects[:n]]
+            for i in range(n):
+                for j in range(n):
+                    if i == j:
+                        mat[i][j] = 1.0
+                    elif i < len(charts_data) and j < len(charts_data):
+                        pi = [p.get("deviation_percent", 0) or 0 for p in charts_data[i].get("chart", [])]
+                        pj = [p.get("deviation_percent", 0) or 0 for p in charts_data[j].get("chart", [])]
+                        min_len = min(len(pi), len(pj))
+                        if min_len > 2:
+                            mat[i][j] = float(np.corrcoef(pi[:min_len], pj[:min_len])[0, 1])
+            d.update({"matrix": mat, "row_labels": labs, "col_labels": labs, "cmap": "RdBu_r"})
+
+        elif ct == "pie":
+            vals = []
+            labs = []
+            for i, o in enumerate(objects[:6]):
+                s = charts_data[i].get("summary", {})
+                v = abs(float(s.get("total_deviation_usdt", 0) or 0))
+                if v:
+                    vals.append(v)
+                    labs.append(o["symbol"])
+            if not vals:
+                vals, labs = [25, 25, 25, 25], ["A", "B", "C", "D"]
+            d.update({"labels": labs, "values": vals, "donut": True})
+
+        elif ct == "circular_bar":
+            vals = [charts_data[i].get("summary", {}).get("total_deviation_percent", 0) or 0 for i in range(min(len(objects), len(charts_data)))]
+            syms = [o["symbol"] for o in objects[:len(vals)]]
+            d.update({"labels": syms, "values": vals})
+
+        elif ct == "radar":
+            cats = ["PnL", "Dp", "Dn", "Lev", "Days"]
+            series = []
+            for i, o in enumerate(objects[:3]):
+                s = charts_data[i].get("summary", {})
+                st = charts_data[i].get("stats", {})
+                lv = float(s.get("leverage", 1))
+                vals = [
+                    _clamp(float(s.get("total_deviation_percent", 0) or 0), -30, 30) / 30 * 100,
+                    _clamp(float(st.get("dp", 0)), 0, 50) / 50 * 100,
+                    _clamp(float(st.get("dn", 0)), 0, 50) / 50 * 100,
+                    _clamp(lv, 1, 20) / 20 * 100,
+                    _clamp(float(s.get("entry_time", 0) or 0), 0, 365) / 365 * 100,
+                ]
+                series.append({"name": o["symbol"], "values": vals})
+            d.update({"categories": cats, "series": series})
+
+        elif ct == "lollipop":
+            vals = [charts_data[i].get("summary", {}).get("total_deviation_percent", 0) or 0 for i in range(min(len(objects), len(charts_data)))]
+            syms = [o["symbol"] for o in objects[:len(vals)]]
+            d.update({"categories": syms, "values": vals, "ylabel": "PnL %"})
+
+        elif ct == "histogram2d":
+            xs, ys = [], []
+            for cd in charts_data:
+                for p in cd.get("chart", []):
+                    dv = p.get("deviation_percent")
+                    if dv is not None:
+                        xs.append(dv)
+                        ys.append(abs(dv) * 2 + np.random.rand() * 2)
+            d.update({"x": xs[:200], "y": ys[:200], "kind": "hexbin", "xlabel": "Deviation %", "ylabel": "Volume"})
+
+        elif ct == "dendrogram":
+            n = min(len(objects), 8)
+            mat = []
+            for i in range(n):
+                pts = charts_data[i].get("chart", [])
+                means = [p.get("deviation_percent", 0) or 0 for p in pts[:5]]
+                while len(means) < 5:
+                    means.append(0)
+                mat.append(means[:5])
+            labs = [o["symbol"] for o in objects[:n]]
+            d.update({"matrix": mat, "labels": labs})
+
+        elif ct == "network":
+            nodes = [o["symbol"] for o in objects[:8]]
+            edges = []
+            for i in range(len(nodes)):
+                for j in range(i + 1, len(nodes)):
+                    if i < len(charts_data) and j < len(charts_data):
+                        pi = [p.get("deviation_percent", 0) or 0 for p in charts_data[i].get("chart", [])]
+                        pj = [p.get("deviation_percent", 0) or 0 for p in charts_data[j].get("chart", [])]
+                        ml = min(len(pi), len(pj))
+                        if ml > 2:
+                            corr = float(np.corrcoef(pi[:ml], pj[:ml])[0, 1])
+                            if abs(corr) > 0.5:
+                                edges.append((nodes[i], nodes[j]))
+            d.update({"nodes": nodes, "edges": edges or [(nodes[0], nodes[1])]})
+
+        elif ct == "parallel_coords":
+            cols = ["Entry", "Current", "PnL%", "Lev"]
+            vals = []
+            for i in range(min(len(objects), len(charts_data))):
+                s = charts_data[i].get("summary", {})
+                vals.append([
+                    float(s.get("entry_price", 0) or 0),
+                    float(s.get("current_price", 0) or 0),
+                    float(s.get("total_deviation_percent", 0) or 0),
+                    float(s.get("leverage", 1) or 1),
+                ])
+            d.update({"categories": cols, "values": vals})
+
+        elif ct == "ridgeline":
+            grps = {}
+            for i, o in enumerate(objects[:5]):
+                pts = charts_data[i].get("chart", [])
+                vals = [p.get("deviation_percent", 0) for p in pts if p.get("deviation_percent") is not None]
+                if vals:
+                    grps[o["symbol"]] = vals
+            d.update({"groups": grps, "xlabel": "Deviation %", "gap": 0.3})
+
+        elif ct == "stream":
+            n_pts = min(20, min([len(cd.get("chart", [])) for cd in charts_data[:4]] or [5]))
+            x = list(range(n_pts))
+            layers = []
+            labs = []
+            for i, o in enumerate(objects[:4]):
+                pts = charts_data[i].get("chart", [])
+                vals = [p.get("deviation_percent", 0) or 0 for p in pts[:n_pts]]
+                if len(vals) < n_pts:
+                    vals += [0] * (n_pts - len(vals))
+                layers.append(vals)
+                labs.append(o["symbol"])
+            d.update({"x": x, "layers": layers, "labels": labs, "xlabel": "Day", "ylabel": "Deviation %"})
+
+        elif ct == "treemap":
+            labs = [o["symbol"] for o in objects[:8]]
+            sizes = []
+            for i in range(min(len(objects), len(charts_data))):
+                v = abs(float(charts_data[i].get("summary", {}).get("total_deviation_usdt", 0) or 0))
+                sizes.append(max(v, 0.1))
+            d.update({"labels": labs, "sizes": sizes})
+
+        elif ct == "venn":
+            from random import sample
+            symbols = [o["symbol"] for o in objects[:3]]
+            n10 = max(len(objects) // 3, 1)
+            d.update({"sets": (n10, n10, n10 // 2), "labels": symbols})
+
+        elif ct == "wordcloud":
+            words = " ".join([o["symbol"] for o in objects] +
+                             [f"{o['symbol']} chart analysis price entry" for o in objects])
+            d.update({"text": words, "max_words": 40})
+
+        elif ct == "scatter3d":
+            xs, ys, zs = [], [], []
+            for i in range(min(len(objects), len(charts_data))):
+                s = charts_data[i].get("summary", {})
+                xs.append(float(s.get("entry_price", 0) or 0))
+                ys.append(float(s.get("current_price", 0) or 0))
+                zs.append(float(s.get("leverage", 1) or 1))
+            d.update({"x": xs, "y": ys, "z": zs})
+
+        elif ct == "scatter_matrix":
+            cols = ["Entry", "Current", "PnL%", "Lev"]
+            vals = []
+            for i in range(min(len(objects), len(charts_data))):
+                s = charts_data[i].get("summary", {})
+                vals.append([
+                    float(s.get("entry_price", 0) or 0),
+                    float(s.get("current_price", 0) or 0),
+                    float(s.get("total_deviation_percent", 0) or 0),
+                    float(s.get("leverage", 1) or 1),
+                ])
+            d.update({"columns": cols, "values": vals})
+
+        return d
+
+    user_dir = TG_ALL_DIR / f"TG_{uid}"
+    user_dir.mkdir(parents=True, exist_ok=True)
+
+    sys.path.insert(0, str(SCRIPTS_DIR))
+    import chart_lib
+
+    generated = []
+    failed = 0
+    for ct in target_types:
+        try:
+            data = _build_data(ct)
+            out_path = str(user_dir / f"ch_{ct}.png")
+            chart_lib.generate(ct, data, out_path)
+            generated.append((ct, out_path))
+        except Exception as e:
+            log.warning("chart %s failed: %s", ct, e)
+            failed += 1
+
+    if not generated:
+        await status_msg.edit_text("❌ Не удалось сгенерировать ни одного графика.")
+        return
+
+    elapsed_ms = int((_time.time() - t0) * 1000)
+    ts = datetime.now().strftime("%d.%m.%y %H:%M:%S")
+    await status_msg.delete()
+
+    for ct, path in generated:
+        try:
+            with open(path, "rb") as fp:
+                await update.message.reply_photo(
+                    photo=fp,
+                    caption=f"📊 {ct} | {ts} | {elapsed_ms}ms",
+                )
+            await asyncio.sleep(0.3)
+        except Exception as e:
+            log.warning("send chart %s failed: %s", ct, e)
+
+    summary = f"✅ Отправлено {len(generated)}/{len(target_types)} графиков"
+    if failed:
+        summary += f" ({failed} ошибок)"
+    await update.message.reply_text(summary)
 
 
 async def _handle_positions(update, uid):
@@ -658,9 +1129,6 @@ async def dispatch(update, context):
         await _handle_voice(update, context, uid)
         return
 
-    if text and any(d in text.lower() for d in ["youtube.com", "youtu.be", "ytube"]):
-        await _handle_youtube(update, uid, text)
-        return
 
     if doc:
         await _handle_file(update, context, uid, doc)
@@ -765,6 +1233,10 @@ async def dispatch(update, context):
         await _handle_sc_analytics(update, uid, args)
         return
 
+    if cmd == "/sc_graphs":
+        await _handle_sc_graphs(update, uid)
+        return
+
     if cmd == "/positions":
         if "--image" in args:
             await _handle_positions_image(update, uid)
@@ -839,11 +1311,63 @@ async def dispatch(update, context):
             await _reply(update, f"📌 {label}\n\n{body}", uid, parse_mode=pm, fmt_style=fs)
         return
 
+    if cmd == "/save":
+        reply = await asyncio.to_thread(kb_commands.cmd_save, uid, args)
+        if reply:
+            await _reply(update, reply, uid, parse_mode="MarkdownV2")
+        return
+
+    if cmd == "/bookmarks":
+        reply = await asyncio.to_thread(kb_commands.cmd_bookmarks, uid, args)
+        if reply:
+            await _reply(update, reply, uid)
+        return
+
+    if cmd == "/search":
+        reply = await asyncio.to_thread(kb_commands.cmd_search, uid, args)
+        if reply:
+            await _reply(update, reply, uid)
+        return
+
+    if cmd == "/tags":
+        reply = await asyncio.to_thread(kb_commands.cmd_tags, uid, args)
+        if reply:
+            await _reply(update, reply, uid)
+        return
+
+    if cmd == "/kb_stats":
+        reply = await asyncio.to_thread(kb_commands.cmd_kb_stats, uid)
+        if reply:
+            await _reply(update, reply, uid)
+        return
+
+    if cmd == "/chart" and is_super(uid):
+        await _handle_chart(update, uid, args)
+        return
+
     handler = handlers.get(cmd)
     if handler:
         reply = await asyncio.to_thread(handler)
         if reply:
             await _reply(update, reply, uid)
+        return
+
+    url_match = re.search(r'(https?://[^\s<>"\'()]+)', text)
+    if url_match:
+        url = url_match.group(0)
+        url_lower = url.lower()
+
+        if any(d in url_lower for d in ["youtube.com", "youtu.be"]):
+            await _handle_youtube(update, uid, text)
+            return
+
+        if "rutube.ru" in url_lower:
+            await _handle_rutube(update, uid, url)
+            return
+
+        reply = await asyncio.to_thread(kb_commands.cmd_save, uid, [url])
+        if reply:
+            await _reply(update, reply, uid, parse_mode="MarkdownV2")
         return
 
     await _handle_message(uid, text, update)
@@ -898,7 +1422,6 @@ async def _handle_message(uid, text, update):
     status_msg = None
     _cached_footer = ""
     # Set offset BEFORE thread starts so 🔤 shows correct delta
-    from session import get_current_session
     _k, _s = get_current_session(uid)
     _initial_tok = _s.get("tokens", 0) if _s else 0
     _Monitor.set_offset(uid, _initial_tok)
@@ -1043,6 +1566,10 @@ async def _handle_message(uid, text, update):
             log.warning("_handle_message: result already sent by watchdog")
             return
 
+        if result is None or not isinstance(result, (list, tuple)):
+            log.warning("_handle_message: empty result — no response from agent")
+            result = (None, "✅ Готово.", [], None)
+
         if len(result) == 4:
             resp, err, new_images, agent_label = result
         else:
@@ -1051,11 +1578,12 @@ async def _handle_message(uid, text, update):
 
         if err:
             log.info("_handle_message: replying with error")
+            _result_sent = True
             await _reply(update, err, uid, agent=agent_label, live_tok=_delta_tok, show_footer=True)
             log.info("_handle_message: error reply done")
-            _result_sent = True
         elif resp:
             log.info("_handle_message: replying with response")
+            _result_sent = True
             if new_images:
                 footer = _Monitor.status_block4(uid, agent=agent_label, live_tok=_delta_tok)
                 full = f"{resp}\n\n━━━\n\n{footer}"
@@ -1077,8 +1605,6 @@ async def _handle_message(uid, text, update):
                     await update.message.reply_media_group(media=media)
             else:
                 await _reply(update, resp, uid, agent=agent_label, live_tok=_delta_tok, show_footer=True)
-            log.info("_handle_message: response reply done")
-            _result_sent = True
         if resp:
             log.info("📨 FINAL:\n%s", resp[:500])
         elif err:
@@ -1545,11 +2071,92 @@ async def _handle_metrics(update, uid, args):
 
 
 async def _handle_youtube(update, uid, url):
+    t0 = time.time()
     await _reply(update, "🎬 Загружаю и транскрибирую видео...", uid)
     try:
         text = await asyncio.to_thread(transcribe_youtube, url)
+        elapsed_ms = int((time.time() - t0) * 1000)
         if text and text != "(пусто)":
-            await update.message.reply_text(f"📝 Транскрипция:\n\n{text}")
+            title = _yt_title(url)
+            now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            header = [
+                f"🎬 **{title}**",
+                f"🔗 {url}",
+                "",
+                "📝 Транскрипция",
+                "🌐 ru",
+                "",
+                "━━━",
+                f"🕐 {now}",
+                f"⏱ {elapsed_ms:,}ms",
+                f"⚙ локальный Whisper (CPU)",
+                "  ├─ download+convert",
+                "  ├─ whisper asr",
+                f"  └─ chars:{len(text):,}",
+                "",
+            ]
+            if len(text) > 2800:
+                txt_path = f"/tmp/transcript_{int(time.time())}.txt"
+                with open(txt_path, "w", encoding="utf-8") as f:
+                    f.write(text)
+                header.append(f"📄 Полный текст ({len(text)} символов) — отправлен файлом")
+                await update.message.reply_text("\n".join(header))
+                await update.message.reply_document(open(txt_path, "rb"))
+            else:
+                header.append(text)
+                await update.message.reply_text("\n".join(header))
+        else:
+            await _reply(update, "❌ Не удалось распознать речь.", uid)
+    except subprocess.TimeoutExpired:
+        await _reply(update, "⏱ Превышено время ожидания (5 мин).", uid)
+    except Exception as e:
+        await _reply(update, f"❌ Ошибка: {e}", uid)
+
+
+def _yt_title(url: str) -> str:
+    try:
+        res = subprocess.run(["yt-dlp", "--get-title", url],
+                             capture_output=True, text=True, timeout=30)
+        return (res.stdout.strip() or "Untitled")[:80]
+    except Exception:
+        return "Untitled"
+
+
+async def _handle_rutube(update, uid, url):
+    t0 = time.time()
+    await _reply(update, "🎬 Загружаю и транскрибирую Rutube...", uid)
+    try:
+        text = await asyncio.to_thread(transcribe_rutube, url)
+        elapsed_ms = int((time.time() - t0) * 1000)
+        if text and text != "(пусто)":
+            title = _yt_title(url)
+            now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            header = [
+                f"🎬 **{title}**",
+                f"🔗 {url}",
+                "",
+                "📝 Транскрипция",
+                "🌐 ru",
+                "",
+                "━━━",
+                f"🕐 {now}",
+                f"⏱ {elapsed_ms:,}ms",
+                f"⚙ локальный Whisper (CPU)",
+                "  ├─ download+convert",
+                "  ├─ whisper asr",
+                f"  └─ chars:{len(text):,}",
+                "",
+            ]
+            if len(text) > 2800:
+                txt_path = f"/tmp/transcript_{int(time.time())}.txt"
+                with open(txt_path, "w", encoding="utf-8") as f:
+                    f.write(text)
+                header.append(f"📄 Полный текст ({len(text)} символов) — отправлен файлом")
+                await update.message.reply_text("\n".join(header))
+                await update.message.reply_document(open(txt_path, "rb"))
+            else:
+                header.append(text)
+                await update.message.reply_text("\n".join(header))
         else:
             await _reply(update, "❌ Не удалось распознать речь.", uid)
     except subprocess.TimeoutExpired:
@@ -1696,12 +2303,10 @@ def _handle_setmodel(uid, args):
     if not is_super(uid):
         return "❌ Только super."
     if len(args) < 2:
-        return "❌ /setmodel <провайдер> <модель>\n   /setmodel default <провайдер> <модель>\n   /setmodel <uid> <провайдер> <модель>"
-    if len(args) == 2:
-        return cmd_setmodel(uid, str(uid), args[0], args[1])
-    if args[0] == "default" or (args[0].isdigit() and user_exists(int(args[0]))):
-        return cmd_setmodel(uid, args[0], args[1], args[2])
-    return cmd_setmodel(uid, str(uid), args[0], args[1])
+        return "❌ /setmodel <uid> <модель> [лимит]\n   /setmodel default <модель>"
+    if args[0] == "default":
+        return cmd_setmodel(uid, "default", " ".join(args[1:]))
+    return cmd_setmodel(uid, args[0], " ".join(args[1:]))
 
 
 

@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "bookmarks_dir": "bookmarks",
+  "tags_file": "tags/index.json",
+  "analysis_model": "opencode/deepseek-v4-flash-free",
+  "max_concurrent_analysis": 2,
+  "max_fetch_bytes": 50000,
+  "max_ai_chars": 8000
+}

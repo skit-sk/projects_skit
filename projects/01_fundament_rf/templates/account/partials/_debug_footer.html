@@ -1,4 +1,4 @@
-{% if debug %}
+{% if debug is iterable and debug is not string %}
 <details class="api-debug" style="margin-top:1.5rem; font-size:12px; border:1px solid var(--border-color); border-radius:6px; padding:0.5rem;">
     <summary style="cursor:pointer; color:#888; font-weight:bold;">🔍 API Debug — сырые данные и схема</summary>
     {% for d in debug %}

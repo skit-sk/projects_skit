@@ -28,6 +28,8 @@ def _fmt_dt(ts):
 
 def _fmt_num(v, decimals=2):
     try:
+        if abs(v) >= 10:
+            decimals = min(decimals, 2)
         return f"{v:,.{decimals}f}"
     except (ValueError, TypeError):
         return str(v)
@@ -175,15 +177,23 @@ def api_computed():
     positions = client.get_positions()
     cards = get_storage().list()
     computed_map = {}
+    number_map = {}
+    entry_date_map = {}
     for obj in cards:
         c = obj.data.get('computed', {})
         entry = obj.data.get('emoji_entry', {})
         sym = entry.get('symbol', '')
         if c and sym:
             computed_map[sym.upper()] = c
+        n = entry.get('number')
+        if n and sym:
+            number_map[sym.upper()] = n
+        ed = entry.get('entry_date')
+        if ed and sym:
+            entry_date_map[sym.upper()] = ed
 
     result = []
-    for p in positions:
+    for i, p in enumerate(positions):
         raw = {
             'symbol': p.symbol,
             'ticker': p.ticker,
@@ -200,6 +210,8 @@ def api_computed():
             'open_date': p.open_date,
         }
         raw.update(computed_map.get(p.ticker.upper(), {}))
+        raw['number'] = number_map.get(p.ticker.upper(), i + 1)
+        raw['entry_date'] = entry_date_map.get(p.ticker.upper())
         result.append(raw)
 
     return jsonify({
@@ -342,10 +354,12 @@ def _load_fill_order_stats():
     """Load fill_counts, last_trade_days, order_counts from storage."""
     from storage import get_storage
     from collections import defaultdict
+    import time
 
     fills_data = get_storage().load_fills()
     fill_counts = {}
     last_trade_days = {}
+    now_ms = time.time() * 1000
     if fills_data and fills_data.get('fills'):
         sym_fills = defaultdict(list)
         for f in fills_data['fills']:
@@ -353,13 +367,9 @@ def _load_fill_order_stats():
         for sym, symf in sym_fills.items():
             fill_counts[sym] = len(symf)
             symf.sort(key=lambda x: x.get('c_time', 0), reverse=True)
-            if len(symf) >= 2:
-                t1 = symf[0].get('c_time', 0)
-                t2 = symf[1].get('c_time', 0)
-                if t1 and t2:
-                    last_trade_days[sym] = (t1 - t2) / 86400000
-            elif symf:
-                last_trade_days[sym] = None
+            t1 = symf[0].get('c_time', 0)
+            if t1:
+                last_trade_days[sym] = max(0, (now_ms - t1) / 86400000)
 
     orders_data = get_storage().load_orders()
     order_counts = {}
@@ -379,20 +389,54 @@ def partial_positions():
     from storage import get_storage
     cards = get_storage().list()
     fill_counts, last_trade_days, order_counts = _load_fill_order_stats()
+    balance_data = get_storage().load_balance()
+    balance = 0.0
+    futures = balance_data.get('futures', [])
+    for item in futures:
+        if item.get('margin_coin') == 'USDT':
+            balance = float(item.get('available', 0))
+            break
+    if not balance:
+        spot = balance_data.get('spot', [])
+        for item in spot:
+            if item.get('coin') == 'USDT':
+                balance = float(item.get('available', 0))
+                break
     positions = []
     position_card_data = []
+    total_margin = 0.0
+    for obj in cards:
+        entry = obj.data.get('emoji_entry', {})
+        lp = obj.data.get('live_position')
+        if not lp or not lp.get('hold_side'):
+            continue
+        margin = float(lp.get('margin_size', 0))
+        total_margin += margin
     for obj in cards:
         entry = obj.data.get('emoji_entry', {})
         lp = obj.data.get('live_position')
         if not lp or not lp.get('hold_side'):
             continue
         ticker = entry.get('symbol', '')
+        margin = float(lp.get('margin_size', 0))
+        lev = float(lp.get('leverage', 10))
+        pl = float(lp.get('unrealized_pl', 0))
+        open_price = float(entry.get('entry_price', 0))
+        current = float(lp.get('mark_price', 0))
+        entry_diff_pct = ((current - open_price) / open_price * 100) if open_price else 0
+        bal_pct = (margin / balance * 100) if balance else 0
+        mgn_pct = (margin / total_margin * 100) if total_margin else 0
+        exp_pct = (pl / balance * 100) if balance else 0
         positions.append({
             "ticker": ticker,
             "symbol": ticker + 'USDT',
             "hold_side": lp.get('hold_side'),
-            "leverage": lp.get('leverage', 10),
-            "margin_size": lp.get('margin_size', 0),
+            "leverage": lev,
+            "margin_size": margin,
+            "entry_diff_pct": entry_diff_pct,
+            "bal_pct": bal_pct,
+            "mgn_pct": mgn_pct,
+            "exp_pct": exp_pct,
             "total_coin": lp.get('total_coin', lp.get('margin_size', 0)),
             "unrealized_pl": lp.get('unrealized_pl', 0),
             "pl_percent": lp.get('pl_percent', 0),
@@ -424,9 +468,15 @@ def partial_positions():
             "result": entry.get('result', ''),
             "close_prices": obj.data.get('close_prices', []),
         })
+    # Default sort: PnL % descending
+    combined = sorted(zip(positions, position_card_data), key=lambda x: float(x[0].get('pl_percent', 0)), reverse=True)
+    positions = [p for p, _ in combined]
+    position_card_data = [c for _, c in combined]
+    total_bal_pct = (total_margin / balance * 100) if balance else 0
     return render_template('account/partials/positions.html', error='', positions=positions,
         fill_counts=fill_counts, last_trade_days=last_trade_days, order_counts=order_counts,
-        position_card_data=position_card_data, fmt_num=_fmt_num, debug=[])
+        position_card_data=position_card_data, fmt_num=_fmt_num, debug=[],
+        total_bal_pct=total_bal_pct)
 
 
 @bp.route('/partial/positions_live')
@@ -435,37 +485,63 @@ def partial_positions_live():
     import time as _t
     _t_start = _t.time()
     try:
+        from storage import get_storage
         client = _get_client()
         fill_counts, last_trade_days, order_counts = _load_fill_order_stats()
         positions = client.get_positions()
         _t_api = _t.time()
-        positions_raw = [{
-            "symbol": p.symbol,
-            "ticker": p.ticker,
-            "hold_side": p.hold_side,
-            "margin_size": p.margin_size,
-            "total_coin": p.total_coin,
-            "open_price_avg": p.open_price_avg,
-            "mark_price": p.mark_price,
-            "current_price": p.mark_price,
-            "unrealized_pl": p.unrealized_pl,
-            "pl_percent": p.pl_percent,
-            "leverage": p.leverage,
-            "liquidation_price": p.liquidation_price,
-            "risk_to_liquidation": p.risk_to_liquidation,
-            "position_value_usdt": p.position_value_usdt,
-            "achieved_profits": p.achieved_profits,
-            "total_fee": p.total_fee,
-            "has_sl": p.stop_loss_price > 0,
-            "sl_distance_pct": abs((p.current_price - p.stop_loss_price) / p.current_price * 100) if p.stop_loss_price > 0 else 0,
-            "has_tp": p.take_profit_price > 0,
-            "tp_distance_pct": abs((p.take_profit_price - p.current_price) / p.current_price * 100) if p.take_profit_price > 0 else 0,
-            "days_open": p.days_open,
-            "open_date": p.open_date or '',
-        } for p in positions]
+
+        balance_data = get_storage().load_balance()
+        live_balance = 0.0
+        for item in balance_data.get('futures', []):
+            if item.get('margin_coin') == 'USDT':
+                live_balance = float(item.get('available', 0))
+                break
+        total_margin_live = sum(float(p.margin_size) for p in positions)
+        live_bal_pct = (total_margin_live / live_balance * 100) if live_balance else 0
+
+        positions_raw = []
+        for p in positions:
+            margin = float(p.margin_size)
+            lev = float(p.leverage)
+            pl = float(p.unrealized_pl)
+            open_price = float(p.open_price_avg)
+            current = float(p.mark_price)
+            entry_diff_pct = ((current - open_price) / open_price * 100) if open_price else 0
+            bal_pct = (margin / live_balance * 100) if live_balance else 0
+            mgn_pct = (margin / total_margin_live * 100) if total_margin_live else 0
+            exp_pct = (pl / live_balance * 100) if live_balance else 0
+            positions_raw.append({
+                "symbol": p.symbol,
+                "ticker": p.ticker,
+                "hold_side": p.hold_side,
+                "margin_size": margin,
+                "total_coin": p.total_coin,
+                "open_price_avg": open_price,
+                "mark_price": current,
+                "current_price": current,
+                "unrealized_pl": pl,
+                "pl_percent": p.pl_percent,
+                "leverage": lev,
+                "liquidation_price": p.liquidation_price,
+                "risk_to_liquidation": p.risk_to_liquidation,
+                "position_value_usdt": p.position_value_usdt,
+                "achieved_profits": p.achieved_profits,
+                "total_fee": p.total_fee,
+                "has_sl": p.stop_loss_price > 0,
+                "sl_distance_pct": abs((current - p.stop_loss_price) / current * 100) if p.stop_loss_price > 0 else 0,
+                "has_tp": p.take_profit_price > 0,
+                "tp_distance_pct": abs((p.take_profit_price - current) / current * 100) if p.take_profit_price > 0 else 0,
+                "days_open": p.days_open,
+                "open_date": p.open_date or '',
+                "entry_diff_pct": entry_diff_pct,
+                "bal_pct": bal_pct,
+                "mgn_pct": mgn_pct,
+                "exp_pct": exp_pct,
+            })
         card_data = [{
             "number": i + 1,
-            "symbol": p.symbol,
+            "symbol": p.ticker,
             "deviation_pct": [],
             "entry_price": p.open_price_avg,
             "entry_date": "",
@@ -480,13 +556,14 @@ def partial_positions_live():
         return render_template('account/partials/positions.html', error='',
             positions=positions_raw, position_card_data=card_data,
             fill_counts=fill_counts, last_trade_days=last_trade_days, order_counts=order_counts,
-            fmt_num=_fmt_num, debug=[], timings=timings)
+            fmt_num=_fmt_num, debug=[], timings=timings,
+            total_bal_pct=live_bal_pct, live=True)
     except Exception as e:
         import traceback
         return render_template('account/partials/positions.html', error=f'Live error: {e}',
             positions=None, position_card_data=None,
             fill_counts={}, last_trade_days={}, order_counts={},
-            fmt_num=_fmt_num, debug=traceback.format_exc())
+            fmt_num=_fmt_num, debug=[], total_bal_pct=0)
 
 
 @bp.route('/partial/orders')
