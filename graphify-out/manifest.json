@@ -95,21 +95,33 @@
     "mtime": 1779582338.7360122,
     "hash": "28c31fd38904817de611b2531672180a"
   },
+  "/home/user_aioc/workspace/tools/scripts/generate_graphs.py": {
+    "mtime": 1780265816.0086126,
+    "hash": "b31f9c86d00188eb491f35d8e837eb35"
+  },
   "/home/user_aioc/workspace/tools/scripts/metrics_logger.py": {
     "mtime": 1779395735.9442267,
     "hash": "834086e014fcd92b1f6ff51b094a9c21"
   },
   "/home/user_aioc/workspace/tools/scripts/get_tg_rows.py": {
-    "mtime": 1779569671.22697,
-    "hash": "cc912dd2294282145868da297878700c"
+    "mtime": 1779918379.299966,
+    "hash": "2574cd3e238fd235423f8dcec8261619"
   },
   "/home/user_aioc/workspace/tools/scripts/screenshot_analytics.py": {
     "mtime": 1779584960.4533832,
     "hash": "fb299064d704947622814655fe275f4a"
   },
+  "/home/user_aioc/workspace/tools/scripts/chart_lib.py": {
+    "mtime": 1780275828.3537214,
+    "hash": "8d1a3f10082f107bff9fcb972d30c136"
+  },
+  "/home/user_aioc/workspace/tools/scripts/generate_chart.py": {
+    "mtime": 1780275854.1153038,
+    "hash": "69da8f7e8e0243bbc0ef4c20209e745a"
+  },
   "/home/user_aioc/workspace/tools/scripts/screenshot_positions.py": {
-    "mtime": 1779582374.7668254,
-    "hash": "da35458695b8ce7c4d2d20d7310d91c2"
+    "mtime": 1779919553.6910121,
+    "hash": "82de2da3cc409524b7df85d162e8ed9c"
   },
   "/home/user_aioc/workspace/tools/scripts/screenshot_graphs.py": {
     "mtime": 1779584497.8253655,
@@ -140,8 +152,8 @@
     "hash": "eca7a80e363bd254502c41f6e4b5c236"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/config.py": {
-    "mtime": 1778865553.7180593,
-    "hash": "755ba014d22a80da15e557d87f2119a2"
+    "mtime": 1780275925.6309206,
+    "hash": "312cdd41104db06d5245910bd8c248b6"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/screenshot_browser.py": {
     "mtime": 1779077550.092932,
@@ -152,8 +164,8 @@
     "hash": "bac05562f77f1259ed815132cf4e5a43"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/session.py": {
-    "mtime": 1779279954.1563177,
-    "hash": "2a7890fdaf457ec513e359be62197873"
+    "mtime": 1779669092.358907,
+    "hash": "0c316af0ebd272ce62dc45eb0c592a73"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/monitor.py": {
     "mtime": 1779396364.1638227,
@@ -167,9 +179,13 @@
     "mtime": 1779077556.4280727,
     "hash": "dc31f5cbf7241b9e4a3546a662f8d26a"
   },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/kb.py": {
+    "mtime": 1780263202.9529817,
+    "hash": "7070c466c7bafda126e3d02dfcb43bc2"
+  },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/handler.py": {
-    "mtime": 1779584977.1467748,
-    "hash": "f00998c6cd6468ef22373754e5d84e7c"
+    "mtime": 1780276453.306836,
+    "hash": "dfe677452cbc6ccd8730a67dce1c3619"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/ip_audit.py": {
     "mtime": 1779397066.4020772,
@@ -180,8 +196,8 @@
     "hash": "04a13745228976b1a9ad70e65ad751ba"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/commands.py": {
-    "mtime": 1779584262.583077,
-    "hash": "9db2a7552a7e318d9a44a64c5cdbae4a"
+    "mtime": 1779671084.3228304,
+    "hash": "439cd68e5ebeeae48ec75093b2b91465"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/voice.py": {
     "mtime": 1779076140.1078618,
@@ -190,6 +206,14 @@
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/security.py": {
     "mtime": 1779248560.6111424,
     "hash": "5591faf92757386d151150a859aa009a"
+  },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/kb_analyzer.py": {
+    "mtime": 1780265200.1837354,
+    "hash": "530ea940934d53982bd36d586cc1f8ef"
+  },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/rutube_transcribe.py": {
+    "mtime": 1780263837.159404,
+    "hash": "5960bdfbb45f8f0fb7bbe43666ed25b5"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/system_info.py": {
     "mtime": 1779248599.2600136,
@@ -207,6 +231,10 @@
     "mtime": 1779080225.5214958,
     "hash": "7d17cd9d8bfbf53ef92bb657d7ad148d"
   },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/kb_commands.py": {
+    "mtime": 1780263264.3843791,
+    "hash": "1dd85df4ad7163a53547971637c2be21"
+  },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/metrics.py": {
     "mtime": 1779394997.0344727,
     "hash": "c53733799a7d4b69892dd2a8cfcdac68"
@@ -220,24 +248,16 @@
     "hash": "e7b74f64c42c07fb7720a18361900c1c"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/main.py": {
-    "mtime": 1779567903.3899226,
-    "hash": "2d3383f02cfbd6ce8da9f7621548b7ae"
+    "mtime": 1780265046.9342916,
+    "hash": "2a133ef69bfa74a0569707aa4d46ee77"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/__init__.py": {
     "mtime": 1778851294.318197,
     "hash": "d41d8cd98f00b204e9800998ecf8427e"
   },
-  "/home/user_aioc/workspace/projects/05_transcript/update_all_providers.py": {
-    "mtime": 1779571721.7621167,
-    "hash": "612a981b63c28de66ea990772687a08a"
-  },
-  "/home/user_aioc/workspace/projects/05_transcript/build_aitunnel.py": {
-    "mtime": 1779561040.8228414,
-    "hash": "607c0bfb0335230154c9d8a09d779269"
-  },
   "/home/user_aioc/workspace/projects/05_transcript/pipeline_b.py": {
-    "mtime": 1779549304.7772622,
-    "hash": "205f4062720803175d0c42d85596f71b"
+    "mtime": 1779672479.5945058,
+    "hash": "4d485e638b529d19bbc655d72434d021"
   },
   "/home/user_aioc/workspace/projects/05_transcript/yt_transcript_ytdlp.py": {
     "mtime": 1776893916.2164452,
@@ -248,12 +268,12 @@
     "hash": "57f80459c1901d4d2694d962434d7756"
   },
   "/home/user_aioc/workspace/projects/05_transcript/orchestrator.py": {
-    "mtime": 1779549322.7426703,
-    "hash": "284930689150e379d5445429cb4bd7cc"
+    "mtime": 1779757173.1510565,
+    "hash": "7f7b2b52b57630fc687475c59bc74a32"
   },
   "/home/user_aioc/workspace/projects/05_transcript/pipeline_a.py": {
-    "mtime": 1779549361.289546,
-    "hash": "1678438b5514dfd92710b63dc3d743eb"
+    "mtime": 1779672472.398343,
+    "hash": "66fae892d79b7f3e8e968733a05f318b"
   },
   "/home/user_aioc/workspace/projects/05_transcript/transcript_pipeline.py": {
     "mtime": 1778012500.2763686,
@@ -266,10 +286,6 @@
   "/home/user_aioc/workspace/projects/05_transcript/playlist_transcript.py": {
     "mtime": 1776896282.5456152,
     "hash": "1591a9010463739c2644039423f3600b"
-  },
-  "/home/user_aioc/workspace/projects/05_transcript/build_providers.py": {
-    "mtime": 1779558283.1292033,
-    "hash": "21d3fc8c7413585f9c05da637fc779de"
   },
   "/home/user_aioc/workspace/projects/03_demo_charts_ascii/ascii_charts.py": {
     "mtime": 1778093445.0838857,
@@ -331,9 +347,17 @@
     "mtime": 1776808666.7098231,
     "hash": "bac45413e6bfe46144ab4e342b93899f"
   },
+  "/home/user_aioc/workspace/projects/02_graphs_candle/charts/bar_chart_demo.py": {
+    "mtime": 1779729183.500788,
+    "hash": "536a2bc9bd7af7889c9c1679c5b5a145"
+  },
   "/home/user_aioc/workspace/projects/02_graphs_candle/charts/combined.py": {
     "mtime": 1776808660.8766868,
     "hash": "f094e483d5374ef52499b2764cb49dca"
+  },
+  "/home/user_aioc/workspace/projects/02_graphs_candle/charts/bar_chart.py": {
+    "mtime": 1779729180.0797021,
+    "hash": "276c10a3a84a011dcf8b568d91f33eeb"
   },
   "/home/user_aioc/workspace/projects/02_graphs_candle/charts/__init__.py": {
     "mtime": 1776803548.2410665,
@@ -400,24 +424,44 @@
     "hash": "e7cc044100ae26ec638bc0a6c7e6b47d"
   },
   "/home/user_aioc/workspace/projects/08_ofd_api/routes.py": {
-    "mtime": 1779311993.0007896,
-    "hash": "030cf2254981b4d45affdd112754057d"
+    "mtime": 1779667944.3345563,
+    "hash": "595a1f0c064d24758ed307607eef1da3"
+  },
+  "/home/user_aioc/workspace/projects/08_ofd_api/routes_ofd_abonent.py": {
+    "mtime": 1779750391.2813816,
+    "hash": "3344220689d0b0fc755c743b630c8a93"
   },
   "/home/user_aioc/workspace/projects/08_ofd_api/__init__.py": {
     "mtime": 1779307790.7684307,
     "hash": "d41d8cd98f00b204e9800998ecf8427e"
   },
+  "/home/user_aioc/workspace/projects/08_ofd_api/ofd_sync/__init__.py": {
+    "mtime": 1779828994.004268,
+    "hash": "e29c143ab4717234b793ac03cddcbd96"
+  },
+  "/home/user_aioc/workspace/projects/08_ofd_api/templates/ofd_abonent.js": {
+    "mtime": 1779829017.3707886,
+    "hash": "5722eb145fe1a7e08452fe763fcd1129"
+  },
+  "/home/user_aioc/workspace/projects/08_ofd_api/ofd_storage/__init__.py": {
+    "mtime": 1779751232.9849746,
+    "hash": "67e95ffd4279094d5bb5720a01a058f8"
+  },
+  "/home/user_aioc/workspace/projects/08_ofd_api/static/js/ofd_abonent.js": {
+    "mtime": 1779722104.6911628,
+    "hash": "9c110bfde40751639694006c3e90672c"
+  },
   "/home/user_aioc/workspace/projects/08_ofd_api/static/js/ofd_api.js": {
-    "mtime": 1779307790.7734308,
-    "hash": "dd081f215523b17ccae9d5084f5b6fef"
+    "mtime": 1779665777.990903,
+    "hash": "2277df9db796fe9b3b739ae564abdf0d"
   },
   "/home/user_aioc/workspace/projects/08_ofd_api/bot_ofd/audit_bankruptcy.py": {
     "mtime": 1779582355.691395,
     "hash": "c57e3e210c8e8aaf8e4728e9cf692302"
   },
   "/home/user_aioc/workspace/projects/08_ofd_api/bot_ofd/yandex_ofd.py": {
-    "mtime": 1779310419.1891716,
-    "hash": "81038be1226d914897349de8f0b0623c"
+    "mtime": 1779667949.450672,
+    "hash": "ddbfe9fde63700db0447cca63739ea0e"
   },
   "/home/user_aioc/workspace/projects/08_ofd_api/bot_ofd/audit_inn.py": {
     "mtime": 1779406204.9846683,
@@ -426,6 +470,10 @@
   "/home/user_aioc/workspace/projects/08_ofd_api/bot_ofd/audit_fssp.py": {
     "mtime": 1779582343.9781306,
     "hash": "6f08510de56ba7d997b96d3e5cd30e3d"
+  },
+  "/home/user_aioc/workspace/projects/08_ofd_api/bot_ofd/ofd_client.py": {
+    "mtime": 1779667924.832116,
+    "hash": "eeef0a080afaa9a6f86e73952b7c71e7"
   },
   "/home/user_aioc/workspace/projects/04_tradingview-demos/update_widgets.py": {
     "mtime": 1778014364.5064783,
@@ -440,8 +488,8 @@
     "hash": "1bc0d2ede84767aa5e1b1b5899002f7b"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/storage.py": {
-    "mtime": 1779569562.7265105,
-    "hash": "e387b67dbaebfc74019bc561f6641563"
+    "mtime": 1779916100.2730436,
+    "hash": "19bd143c952283286acc1da705542dcc"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/migrate_to_card.py": {
     "mtime": 1777694139.2261844,
@@ -456,8 +504,8 @@
     "hash": "6caee07675c93cd94d1305990b8ca4d4"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/app.py": {
-    "mtime": 1779402786.1513119,
-    "hash": "8ddbb7f1b08d6eca23b9a6d7f34ac67e"
+    "mtime": 1779755862.3310943,
+    "hash": "fdb44d84f91a15244692dadd889b0207"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/api/bitget_ws.py": {
     "mtime": 1778699181.6236172,
@@ -479,6 +527,74 @@
     "mtime": 1778955873.249266,
     "hash": "323671c120279b3c608949a03acd14b4"
   },
+  "/home/user_aioc/workspace/projects/01_fundament_rf/viz_lab/__init__.py": {
+    "mtime": 1779724644.424523,
+    "hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/home/user_aioc/workspace/projects/01_fundament_rf/viz_lab/provider/gemini.py": {
+    "mtime": 1779729758.111838,
+    "hash": "10e699d1e4a1a30d43b1ff5d1589c760"
+  },
+  "/home/user_aioc/workspace/projects/01_fundament_rf/viz_lab/provider/anthropic.py": {
+    "mtime": 1779728972.4194012,
+    "hash": "564bb00fcedf0344defb45b7c0d9b888"
+  },
+  "/home/user_aioc/workspace/projects/01_fundament_rf/viz_lab/provider/tradingview.py": {
+    "mtime": 1779728980.895621,
+    "hash": "da1663cb63640d995e6318cfef9e01a5"
+  },
+  "/home/user_aioc/workspace/projects/01_fundament_rf/viz_lab/provider/base.py": {
+    "mtime": 1779724647.3145864,
+    "hash": "d4d170c9877382a3f183b50d6991da72"
+  },
+  "/home/user_aioc/workspace/projects/01_fundament_rf/viz_lab/provider/openai.py": {
+    "mtime": 1779728971.031365,
+    "hash": "f02cddc3bf6561f0448faac0360a061f"
+  },
+  "/home/user_aioc/workspace/projects/01_fundament_rf/viz_lab/provider/voice.py": {
+    "mtime": 1779743666.507076,
+    "hash": "003ad94f91dcaf03990fef9049abd3ee"
+  },
+  "/home/user_aioc/workspace/projects/01_fundament_rf/viz_lab/provider/registry.py": {
+    "mtime": 1779743674.4322555,
+    "hash": "651a5b7ae8fbb9f9f7078391f389913f"
+  },
+  "/home/user_aioc/workspace/projects/01_fundament_rf/viz_lab/provider/__init__.py": {
+    "mtime": 1779724644.826532,
+    "hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/home/user_aioc/workspace/projects/01_fundament_rf/viz_lab/provider/opencode_provider.py": {
+    "mtime": 1779729820.4383311,
+    "hash": "21ee3d43cd0eef52fd6c9fcdb8f741e5"
+  },
+  "/home/user_aioc/workspace/projects/01_fundament_rf/viz_lab/services/analyzer.py": {
+    "mtime": 1779730022.813832,
+    "hash": "9b76e1eb65426bc971ef2e73057dd902"
+  },
+  "/home/user_aioc/workspace/projects/01_fundament_rf/viz_lab/services/model_catalog.py": {
+    "mtime": 1779757174.0670767,
+    "hash": "9f6cabd57ff6d0111ea781a86d1bbc19"
+  },
+  "/home/user_aioc/workspace/projects/01_fundament_rf/viz_lab/services/selector.py": {
+    "mtime": 1779729986.8531103,
+    "hash": "94c53e6731f79b6d52b3a135e07bebb6"
+  },
+  "/home/user_aioc/workspace/projects/01_fundament_rf/viz_lab/services/transcriber.py": {
+    "mtime": 1779759908.6081638,
+    "hash": "477efab5e45af9fe2e2c5dbb436919a5"
+  },
+  "/home/user_aioc/workspace/projects/01_fundament_rf/viz_lab/services/__init__.py": {
+    "mtime": 1779724650.030646,
+    "hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/home/user_aioc/workspace/projects/01_fundament_rf/viz_lab/storage/session.py": {
+    "mtime": 1779835069.3212004,
+    "hash": "cbd576f0fa3c6c2d5d2d8075c9db074e"
+  },
+  "/home/user_aioc/workspace/projects/01_fundament_rf/viz_lab/storage/__init__.py": {
+    "mtime": 1779724650.4076543,
+    "hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
   "/home/user_aioc/workspace/projects/01_fundament_rf/infographics/calendar.py": {
     "mtime": 1778970139.5961463,
     "hash": "801c1b4d3c0e19988ee0aff2dcabc741"
@@ -496,8 +612,8 @@
     "hash": "360d34d3d20067721ea41cfaf465afcc"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/infographics/trade_analyzer.py": {
-    "mtime": 1779578130.1538358,
-    "hash": "b700e4af118d1b42a80e82cedb89417f"
+    "mtime": 1779915939.7474475,
+    "hash": "caf5cd0c8fb5d9102a01edf0495b039d"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/infographics/charts.py": {
     "mtime": 1778431509.139731,
@@ -508,36 +624,44 @@
     "hash": "f2af786362d2836b18b6966f1203c58c"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/routes/api.py": {
-    "mtime": 1779312835.2480037,
-    "hash": "e68f5c3e6d4680c0f2b565fe2c50937f"
+    "mtime": 1779916097.0589716,
+    "hash": "ffd5a9c53769fdb54c12014a9af72dce"
+  },
+  "/home/user_aioc/workspace/projects/01_fundament_rf/routes/ai_models.py": {
+    "mtime": 1779755847.987769,
+    "hash": "d70ba308085b57d453c9214e4aafef72"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/routes/ccxt_api.py": {
     "mtime": 1778969434.2004228,
     "hash": "e75803ba6c0749b0b4184d8bbf13467a"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/routes/processor.py": {
-    "mtime": 1779580882.9329925,
-    "hash": "dd6240e88286b6e54e9b236f62442b47"
+    "mtime": 1779915981.8033895,
+    "hash": "250c35e735158cfc9a6276a9c216e10e"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/routes/account_api.py": {
-    "mtime": 1779569618.5197752,
-    "hash": "7b71c6b5c4de1e1f6216ed941fb876a2"
+    "mtime": 1780284629.64377,
+    "hash": "bbeeabd43176ec766b9cdc040bbd3952"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/routes/trade_analytics.py": {
     "mtime": 1779577094.224338,
     "hash": "4443f35a6afc45683ef871ec4be4a4b6"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/routes/processor_1d.py": {
-    "mtime": 1779580952.7945943,
-    "hash": "9b3de9183a2f00059c8d0ab325687fea"
+    "mtime": 1779916738.81216,
+    "hash": "0433d599da230ea7b81c7591e06be79d"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/routes/graphics.py": {
-    "mtime": 1779069980.2480652,
-    "hash": "2b4bf5338411e5d5edb914c7487acc31"
+    "mtime": 1779914705.0828726,
+    "hash": "3e1677ff8a4184481dfa3791bcc9918d"
+  },
+  "/home/user_aioc/workspace/projects/01_fundament_rf/routes/viz_lab.py": {
+    "mtime": 1779835191.7998893,
+    "hash": "10da01bf8c11d2c2f8a77d03c1f68159"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/routes/__init__.py": {
-    "mtime": 1778955943.566901,
-    "hash": "e5e2ce3284d72b96ddf04a3c699cf4f3"
+    "mtime": 1779755861.8960843,
+    "hash": "e97f3f124714c4f2fdab885ccfb7e730"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/routes/ma_analytics.py": {
     "mtime": 1778431475.7869756,
@@ -555,9 +679,29 @@
     "mtime": 1779480057.3809612,
     "hash": "d998c29ffb9aa9d95b93e8aed146430d"
   },
+  "/home/user_aioc/workspace/projects/01_fundament_rf/static/js/preview_gallery.js": {
+    "mtime": 1779724775.696407,
+    "hash": "0cedd78a88e2def6033cab5a18a965e5"
+  },
+  "/home/user_aioc/workspace/projects/01_fundament_rf/static/js/viz_lab.js": {
+    "mtime": 1779835140.6377645,
+    "hash": "5e4dac6a2d97b30772712147625ee77f"
+  },
   "/home/user_aioc/workspace/projects/01_fundament_rf/static/js/json_viewer.js": {
     "mtime": 1779248293.302167,
     "hash": "0967a24f218e8323cc04df7cf0e2e21c"
+  },
+  "/home/user_aioc/workspace/projects/01_fundament_rf/static/js/project_tree.js": {
+    "mtime": 1779835162.816252,
+    "hash": "7b0077be1a3d77da141199dd53f7e7bc"
+  },
+  "/home/user_aioc/workspace/projects/01_fundament_rf/static/js/conversation.js": {
+    "mtime": 1779759580.2416728,
+    "hash": "409efe6f90585b8cde1b47a9375ab565"
+  },
+  "/home/user_aioc/workspace/projects/01_fundament_rf/static/js/ai_models/index.js": {
+    "mtime": 1779755858.2520018,
+    "hash": "2039a2df0de64cc7bd957c5b284ff47d"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/calculator/kpi.py": {
     "mtime": 1779580778.4405894,
@@ -592,20 +736,36 @@
     "hash": "da1f9a45fbbc5696985b4dce8605cafa"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/calculator/indicators.py": {
-    "mtime": 1779580762.4722214,
-    "hash": "7eb70a063fbfee97d18410335c2e0c90"
+    "mtime": 1779915937.6344001,
+    "hash": "d620d519db497b8c2aa85de0255de990"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/calculator/__init__.py": {
     "mtime": 1779580783.068696,
     "hash": "4efab347b6237fc2a63df1353f14a6cd"
+  },
+  "/home/user_aioc/workspace/projects/09_model_catalog/update_all_providers.py": {
+    "mtime": 1779757192.3864777,
+    "hash": "7448a07675e00db5e8f587563a524d2f"
+  },
+  "/home/user_aioc/workspace/projects/09_model_catalog/build_aitunnel.py": {
+    "mtime": 1779757126.6080396,
+    "hash": "607c0bfb0335230154c9d8a09d779269"
+  },
+  "/home/user_aioc/workspace/projects/09_model_catalog/build_ranvik.py": {
+    "mtime": 1779757147.1524882,
+    "hash": "a899d9e97b7f8eb045d633e6a4ac9e1c"
+  },
+  "/home/user_aioc/workspace/projects/09_model_catalog/build_providers.py": {
+    "mtime": 1779757126.6060395,
+    "hash": "21d3fc8c7413585f9c05da637fc779de"
   },
   "/home/user_aioc/workspace/MEMPALACE_OPENCODE_INTEGRATION.md": {
     "mtime": 1777637635.8260553,
     "hash": "cca05186a2a8ca6480ab3679d4674427"
   },
   "/home/user_aioc/workspace/AGENTS.md": {
-    "mtime": 1778899028.7970798,
-    "hash": "6f5ff9e10fdf741dbd02bdd2e63e2bea"
+    "mtime": 1779835419.6379216,
+    "hash": "bf4bcd3847f64ded4d0afb64746687b5"
   },
   "/home/user_aioc/workspace/future.md": {
     "mtime": 1776896861.5189066,
@@ -626,6 +786,10 @@
   "/home/user_aioc/workspace/skills/instructions/browser.md": {
     "mtime": 1778016277.4411488,
     "hash": "01d54bb6e445a4a61e6dc1641a771dcd"
+  },
+  "/home/user_aioc/workspace/skills/instructions/viz_lab.md": {
+    "mtime": 1779730196.8254182,
+    "hash": "d445718c2581d0071df16c0ffdc821cd"
   },
   "/home/user_aioc/workspace/skills/instructions/security.md": {
     "mtime": 1778016286.140344,
@@ -1379,6 +1543,10 @@
     "mtime": 1778431152.4136474,
     "hash": "ef25093f8bbda794b50601d48a336bc9"
   },
+  "/home/user_aioc/workspace/docs/mcp-1c-implementation.md": {
+    "mtime": 1779670853.2565174,
+    "hash": "6c8243b074cbb7ba42a543677359567c"
+  },
   "/home/user_aioc/workspace/docs/ma_base_strategy.md": {
     "mtime": 1778431105.9245927,
     "hash": "4deaeb73f38ce3b0f2d0b1ade971f5f6"
@@ -1388,8 +1556,8 @@
     "hash": "84f409f6eacf9768a6ce9b765469cd97"
   },
   "/home/user_aioc/workspace/docs/1\u0441-mcp.md": {
-    "mtime": 1778102831.3167803,
-    "hash": "2bd1cb1a0ea8971713ae4037b21596ba"
+    "mtime": 1779670533.2380729,
+    "hash": "9036c47c0045658ecdc89cf34275cea3"
   },
   "/home/user_aioc/workspace/docs/SECURITY_GUIDELINES.md": {
     "mtime": 1778012524.3917985,
@@ -1703,6 +1871,26 @@
     "mtime": 1778023279.8309221,
     "hash": "421f64bdc246cd72088a5c0d43023edc"
   },
+  "/home/user_aioc/workspace/kb/bookmarks/2026/06/alibaba-\u0432\u044b\u043f\u0443\u0441\u0442\u0438\u043b\u0430-\u043c\u043e\u0434\u0435\u043b\u044c-\u0441\u0438\u043d\u0445\u0440\u043e\u043d\u043d\u043e\u0433\u043e-\u043f\u0435\u0440\u0435\u0432\u043e\u0434\u0430-\u043d\u0430-60-\u044f\u0437\u044b\u043a\u043e\u0432-\u0441.md": {
+    "mtime": 1780265221.999226,
+    "hash": "cbc33bffd30fd1f3ec775583d5717af8"
+  },
+  "/home/user_aioc/workspace/kb/bookmarks/2026/06/httpsofd-yarudocsapi_ofd_yapdf.md": {
+    "mtime": 1780265113.5657883,
+    "hash": "430770209e86c6c26f72eb94034786be"
+  },
+  "/home/user_aioc/workspace/kb/bookmarks/2026/06/\u0430\u0432\u0442\u043e\u0440\u044b-\u043b\u0435\u0433\u0435\u043d\u0434\u0430\u0440\u043d\u043e\u0433\u043e-\u0442\u0430\u043c\u0430\u0433\u043e\u0447\u0438-\u0434\u043b\u044f-\u0445\u0430\u043a\u0435\u0440\u043e\u0432-flipper-zero-\u0441\u043e\u0437\u0434\u0430\u043b.md": {
+    "mtime": 1780265243.0697,
+    "hash": "10a380a80b4bf5d4e1bcd8075906edb2"
+  },
+  "/home/user_aioc/workspace/kb/bookmarks/2026/06/voordat-je-verdergaat-naar-youtube.md": {
+    "mtime": 1780265231.8114467,
+    "hash": "644d67951a059c6080364e2bf88498b3"
+  },
+  "/home/user_aioc/workspace/kb/bookmarks/2026/06/\u043e\u0442\u043a\u0440\u044b\u0442\u044b\u0439-\u043f\u0440\u043e\u0435\u043a\u0442-claude-desktop-buddy-\u043e\u0442-anthropic-\u043f\u0440\u0435\u0432\u0440\u0430\u0449\u0430\u0435\u0442.md": {
+    "mtime": 1780265256.7760084,
+    "hash": "6f2b6be64dfe13e4a42add0112a4fa1b"
+  },
   "/home/user_aioc/workspace/tasks/kilocode.md": {
     "mtime": 1776977300.4593563,
     "hash": "9458c13822d07b1fe29d1d22c0d0b429"
@@ -1736,24 +1924,28 @@
     "hash": "1be60bbe14bd165d533331213bb8ae07"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/positions_tg_rows.txt": {
-    "mtime": 1779585128.479309,
-    "hash": "2b34b171c6e400dc7298fa5f04575eb9"
+    "mtime": 1780277358.378253,
+    "hash": "8d3972e9f96c336afd5c31215ecef1d9"
+  },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/\u0442\u0440\u0430\u043d\u0441\u043a\u0440\u0438\u043f\u0442-\u0434\u0430\u0448\u0431\u043e\u0440\u0434.md": {
+    "mtime": 1779673561.657666,
+    "hash": "fcf11487947718fc76ba658505022e33"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/positions_risk.txt": {
-    "mtime": 1779585128.479309,
-    "hash": "fbbb6d37c8eeee0a7c2956921e3ad889"
+    "mtime": 1780277358.378253,
+    "hash": "fed76f1ec32f73090b0bdf233d940430"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/tgandcompany.md": {
     "mtime": 1778861904.7620175,
     "hash": "7f985d244b2fb1e9c524b4effca9fffe"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/positions_tg_rows.txt": {
-    "mtime": 1779585128.480309,
-    "hash": "2b34b171c6e400dc7298fa5f04575eb9"
+    "mtime": 1780277358.3792531,
+    "hash": "8d3972e9f96c336afd5c31215ecef1d9"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/positions_risk.txt": {
-    "mtime": 1779585128.479309,
-    "hash": "fbbb6d37c8eeee0a7c2956921e3ad889"
+    "mtime": 1780277358.378253,
+    "hash": "fed76f1ec32f73090b0bdf233d940430"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/audits/audit_194_79_46_206_s2.md": {
     "mtime": 1779247246.4097843,
@@ -2007,13 +2199,21 @@
     "mtime": 1779280096.1004272,
     "hash": "fdcc6d5576dfcf3ba28aec09d03392c5"
   },
+  "/home/user_aioc/workspace/projects/08_ofd_api/plan_ofd_abonent.md": {
+    "mtime": 1779721988.726305,
+    "hash": "12194dd9c18425b8353d875d8df3f90b"
+  },
   "/home/user_aioc/workspace/projects/08_ofd_api/docs/providers.md": {
     "mtime": 1779281718.7139583,
     "hash": "a52b3ed79aadad1e4820ab3ed862380e"
   },
   "/home/user_aioc/workspace/projects/08_ofd_api/templates/ofd_api.html": {
-    "mtime": 1779307790.7714307,
-    "hash": "d703f11647bb7167ed7a8f62f8265e2d"
+    "mtime": 1779665311.840961,
+    "hash": "61d0b31d858ab4e96fd339022d1208c1"
+  },
+  "/home/user_aioc/workspace/projects/08_ofd_api/templates/ofd_abonent.html": {
+    "mtime": 1779735901.6901462,
+    "hash": "5f96d1cc9a44997310435fdc2346212e"
   },
   "/home/user_aioc/workspace/projects/06_screenshots_project/catalog.html": {
     "mtime": 1778027717.38489,
@@ -2716,36 +2916,40 @@
     "hash": "8edfebf65bd3b052859a53ad07922757"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/templates/card.html": {
-    "mtime": 1779404425.5021296,
-    "hash": "dd0ddd6cd1258fb96d46f365d7c3cbcf"
+    "mtime": 1779915996.0757093,
+    "hash": "b059a0ab216c58f7208d41ad0a0ffbf9"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/templates/dashboard.html": {
     "mtime": 1777673383.2836058,
     "hash": "306d7bf17c09a081b13f3c4703888835"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/templates/trade_analytics.html": {
-    "mtime": 1779582397.2413328,
-    "hash": "23f9c5ca2c2b7450e6986964b5978b73"
+    "mtime": 1779921428.9314392,
+    "hash": "fee235112267a157cc199798e3fac6bc"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/templates/range_variants_demo.html": {
     "mtime": 1778972274.2426085,
     "hash": "7d352b824555e0e0b6f20eb18820e8c3"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/templates/base.html": {
-    "mtime": 1779404383.540251,
-    "hash": "45cc0091a613a2d285d518302a69976b"
+    "mtime": 1779755853.3998916,
+    "hash": "fba43d23896bebb03f0c5179e59fddba"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/templates/macros.html": {
-    "mtime": 1779448709.4821184,
-    "hash": "e8833ddd82ed1fd4ee387d4a6c32e3d2"
+    "mtime": 1779920891.3592544,
+    "hash": "98d419442f8f1fbfc609ea4dff3ea870"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/templates/graphics/all.html": {
-    "mtime": 1779404402.1446397,
-    "hash": "22ec2b5089b2ac99b30de4ffbf41ed4f"
+    "mtime": 1779917404.5286903,
+    "hash": "311aed16e0495d61c4ae640c7c206f63"
+  },
+  "/home/user_aioc/workspace/projects/01_fundament_rf/templates/ai_models/index.html": {
+    "mtime": 1779755852.6058736,
+    "hash": "0daa069b67521ac0ee4972d1adf4be5b"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/templates/account/index.html": {
-    "mtime": 1779559781.272181,
-    "hash": "41838477950e97efacc6a6dd7ce310cf"
+    "mtime": 1780284666.4255862,
+    "hash": "f3fae095ab7d93567627f718d13bb076"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/templates/account/partials/balance.html": {
     "mtime": 1778969124.0243948,
@@ -2756,20 +2960,48 @@
     "hash": "03e73d1494eec359773be1f4600f8cfd"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/templates/account/partials/positions.html": {
-    "mtime": 1779555108.888973,
-    "hash": "4c943e128b062bf8539211c983d42dab"
+    "mtime": 1780283905.280414,
+    "hash": "3812e4a5d859424d0f64a28d9dbe0aa7"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/templates/account/partials/_debug_footer.html": {
-    "mtime": 1778958583.0992012,
-    "hash": "b469c85fd0400d941e0570cc356fb194"
+    "mtime": 1780280932.1460023,
+    "hash": "a0a0aeb84f88799c6347f52e06101273"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/templates/account/partials/orders.html": {
     "mtime": 1778969131.436563,
     "hash": "dd6c150d80928f3840bb013e4fb1ec98"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/templates/account/partials/fills.html": {
-    "mtime": 1778969140.5617702,
-    "hash": "6569ebb42892151a3f56f3a32b3c8021"
+    "mtime": 1780277305.9250689,
+    "hash": "90c02b70ebc92317101c21fa90e1a4a0"
+  },
+  "/home/user_aioc/workspace/projects/01_fundament_rf/templates/viz_lab/lab.html": {
+    "mtime": 1779835116.5032346,
+    "hash": "508a7cb566acd71b2ce97f2d18d8dfb8"
+  },
+  "/home/user_aioc/workspace/projects/01_fundament_rf/viz_lab/data/results/anon_20260526_044807_trnscb.md": {
+    "mtime": 1779760087.6982367,
+    "hash": "454ddba8dabb44c6c9b7f81606b42b05"
+  },
+  "/home/user_aioc/workspace/projects/01_fundament_rf/viz_lab/data/results/anon_20260526_045806_trnscb.md": {
+    "mtime": 1779760686.3937974,
+    "hash": "454ddba8dabb44c6c9b7f81606b42b05"
+  },
+  "/home/user_aioc/workspace/projects/01_fundament_rf/viz_lab/data/results/anon_20260526_045712_trnscb.md": {
+    "mtime": 1779760632.307595,
+    "hash": "454ddba8dabb44c6c9b7f81606b42b05"
+  },
+  "/home/user_aioc/workspace/projects/01_fundament_rf/viz_lab/data/results/anon_20260526_044716_trnscb.md": {
+    "mtime": 1779760036.0600631,
+    "hash": "454ddba8dabb44c6c9b7f81606b42b05"
+  },
+  "/home/user_aioc/workspace/projects/01_fundament_rf/viz_lab/data/results/anon_20260526_044605_trnscb.md": {
+    "mtime": 1779759965.9144678,
+    "hash": "454ddba8dabb44c6c9b7f81606b42b05"
+  },
+  "/home/user_aioc/workspace/projects/01_fundament_rf/viz_lab/data/results/anon_20260526_044626_trnscb.md": {
+    "mtime": 1779759986.9069452,
+    "hash": "454ddba8dabb44c6c9b7f81606b42b05"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/static/graphics/simple_svg.html": {
     "mtime": 1776977924.9734428,
@@ -3240,32 +3472,36 @@
     "hash": "50058ba15bbfbdd3190669adf46e2548"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/CRV_main_chart.png": {
-    "mtime": 1779585162.621103,
-    "hash": "df9a79301ca57411f6b059452402bd00"
+    "mtime": 1780270472.661769,
+    "hash": "0f400628caead9f0b73a10368251bc68"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/positions_table.png": {
-    "mtime": 1779562745.9967232,
-    "hash": "9e7aca78689325cbc8a54abc0af58424"
+    "mtime": 1780284740.1582253,
+    "hash": "c96ab861138552ed75fa00e04ef43660"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/6_checkipamazon.png": {
     "mtime": 1778869330.949819,
     "hash": "d2bd6a316d57b004ed2ea174afe8a0b2"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/SKYAI_main_chart.png": {
-    "mtime": 1779583401.2897336,
-    "hash": "ceade098c41f2c76c38bac2e492ef171"
+    "mtime": 1780270491.996203,
+    "hash": "60bfa1c523d070d167141e2163401e0c"
+  },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/ETH_indicators.png": {
+    "mtime": 1780270440.4000452,
+    "hash": "e27e0231068d93a0e7be5018b06dc775"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/7_ipify.png": {
     "mtime": 1778869331.1818244,
     "hash": "793529af93b4ce14974d4b18854a1358"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/CAKE_indicators.png": {
-    "mtime": 1779585018.156735,
-    "hash": "76f796c91556a94ad43c93cc28ef805c"
+    "mtime": 1780270511.5226414,
+    "hash": "95cb4627bc2fb8c22a56594cfae545c4"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/FIL_main_chart.png": {
-    "mtime": 1779585169.2232566,
-    "hash": "ef17ed21f345fabac2e1b576ab48eaaa"
+    "mtime": 1780270479.114914,
+    "hash": "fb95eb0356387e3f5b922ab3e3bc8e28"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/tv_bitget:skyaiusdt_60.png": {
     "mtime": 1778894046.004372,
@@ -3275,21 +3511,25 @@
     "mtime": 1778891213.8257937,
     "hash": "82236ce722d91b815b427b0305601b81"
   },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/ETH_main_chart.png": {
+    "mtime": 1780270440.2760422,
+    "hash": "de7a93c7a967caf1dfa72b4e10b419a4"
+  },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/tv_bitget_etcusdt_60.png": {
     "mtime": 1778900386.924237,
     "hash": "9af66c641b358bad7ca4054d8264a246"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/API3_main_chart.png": {
-    "mtime": 1779584758.1876068,
-    "hash": "9d21a860db14ec21ac7564f58f902001"
+    "mtime": 1780270485.5540583,
+    "hash": "e945a6deab16d9ecd121405107696699"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/ATOM_tg_line.png": {
     "mtime": 1779584459.546505,
     "hash": "14cdfb71b4f1357b7c87e60c7a0401a5"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/graphs_all.png": {
-    "mtime": 1779584672.9625719,
-    "hash": "fc3147735bef3e2d20b81b55179e4518"
+    "mtime": 1780270303.68298,
+    "hash": "cd7de58f4052ecaf444a47ab49b10da0"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/tv_bitget_skyaiusdt_60.png": {
     "mtime": 1778953392.9966862,
@@ -3308,20 +3548,20 @@
     "hash": "76f489802b8554f420dccbe1f4a8edde"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/ATOM_indicators.png": {
-    "mtime": 1779584459.5295045,
-    "hash": "6d7118f7dcea8dc2ed118ba31a0c79fe"
+    "mtime": 1780270505.0794966,
+    "hash": "53b30a4df9ec8f84b23f44501cead1ac"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/SKYAI_indicators.png": {
-    "mtime": 1779583401.395736,
-    "hash": "0c30d6c5d468e5291bfbcf1b10047f1a"
+    "mtime": 1780270492.1062055,
+    "hash": "1a12a299a688036ebd54f4a03ca99d49"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/XRP_indicators.png": {
-    "mtime": 1779585156.4049585,
-    "hash": "cfd97dbfa050bd18427bef19054af62b"
+    "mtime": 1780270466.2606254,
+    "hash": "61fb9e397e4ac632924a8efc95ed9df5"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/CRV_indicators.png": {
-    "mtime": 1779585162.8101075,
-    "hash": "940fd01eb21771d3dccfd86050f3ce67"
+    "mtime": 1780270472.798772,
+    "hash": "eeb02e013de7f8bfeb96880d0a5f741a"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/2ip_t.jpg": {
     "mtime": 1778869013.7816565,
@@ -3348,16 +3588,16 @@
     "hash": "4fa1333f8c6596d0fe77d0d59a221997"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/ADA_indicators.png": {
-    "mtime": 1779585143.7696648,
-    "hash": "33e73e169c97973502fe4ab62a03ca49"
+    "mtime": 1780270453.4893386,
+    "hash": "6787d46d5edaa45bef670573dd3c08bd"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/FIL_indicators.png": {
-    "mtime": 1779585169.3942604,
-    "hash": "a61effda45115fea496d00575a11c24f"
+    "mtime": 1780270479.2469168,
+    "hash": "ab1c11814953102812a3bab1d26e6ca5"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/CKB_indicators.png": {
-    "mtime": 1779585150.102812,
-    "hash": "7fde72180ffe8c8738e8d88ebe06e8f8"
+    "mtime": 1780270459.8534815,
+    "hash": "6fb82fe8cfc1fff9d05df244675ab285"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/tv_etcusdt_240.png": {
     "mtime": 1778881790.3922603,
@@ -3368,36 +3608,36 @@
     "hash": "ddabd699a52a2578e8c44282bcdb90dd"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/CAKE_main_chart.png": {
-    "mtime": 1779585018.0487325,
-    "hash": "f7d6f4318cdcb5ce9e4619762faad39a"
+    "mtime": 1780270511.4016387,
+    "hash": "fbdd6ce7930c2306a87830c902734c93"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/tv_ethusdt_1D.png": {
     "mtime": 1778877990.7109346,
     "hash": "922f8a2e7261c9941b42c4dc9597f3ae"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/CKB_main_chart.png": {
-    "mtime": 1779585149.9948096,
-    "hash": "1495fe3ff21383dfb45135a148c06979"
+    "mtime": 1780270459.7484791,
+    "hash": "8df6e939cfd042a000e90bf7b62024f9"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/1_ifconfig.png": {
     "mtime": 1778869316.3344896,
     "hash": "66c6510def11b34a6916a53492236e20"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/DOT_main_chart.png": {
-    "mtime": 1779585066.1148555,
-    "hash": "41f38b1fa899f2aa270e36d4d23684e6"
+    "mtime": 1780270498.4273474,
+    "hash": "1173bdfed6a5a7114b67a2799d997e02"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/tv_xrpusdt_60.png": {
     "mtime": 1778881606.8891442,
     "hash": "9882ca6303cd67d8ed414cb1a1371c1d"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/ETC_main_chart.png": {
-    "mtime": 1779585137.2135122,
-    "hash": "320db29ca7eb49e7a2561cfc55175781"
+    "mtime": 1780270446.9741926,
+    "hash": "27f19a210e3e103b868e5a258f488e9d"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/ADA_main_chart.png": {
-    "mtime": 1779585143.652662,
-    "hash": "52bad410118183df0607b7a67b36ac7c"
+    "mtime": 1780270453.370336,
+    "hash": "5a68b4749a9395c727a238fc344ca7d6"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/tv_xrpusdt_1D.png": {
     "mtime": 1778880721.2012546,
@@ -3412,12 +3652,12 @@
     "hash": "4339165fd4b6464f896edc2be3cacb97"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/XRP_main_chart.png": {
-    "mtime": 1779585156.2929559,
-    "hash": "8a4ed2f6ad532dfdf94762e0d0a818ea"
+    "mtime": 1780270466.1396227,
+    "hash": "5a3c972bb2aadae8e53376149637eccb"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/ETC_indicators.png": {
-    "mtime": 1779585137.3145146,
-    "hash": "1a59fb54586b08ae657c26131d948f56"
+    "mtime": 1780270447.0901952,
+    "hash": "a49cbbdef952e4deeb1338c1d4728d2e"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/5_icanhazip.png": {
     "mtime": 1778869330.764815,
@@ -3428,8 +3668,8 @@
     "hash": "1493dbb68cac776f80a6c98571fb628f"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/API3_indicators.png": {
-    "mtime": 1779584758.3046095,
-    "hash": "bd385c8a1f9c2b487ee843ed79143cf5"
+    "mtime": 1780270485.6940615,
+    "hash": "e59244646d9bcbb541ecf06d7395fea8"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/4_whatismyip.png": {
     "mtime": 1778869330.5378098,
@@ -3444,16 +3684,24 @@
     "hash": "d2f77c0a5b5b678b7029427e84f851b4"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/ATOM_main_chart.png": {
-    "mtime": 1779584459.4235022,
-    "hash": "876217e30c3edd4241e8a494f78bcbdd"
+    "mtime": 1780270504.9304934,
+    "hash": "0dfc14b95f3059ab3111536e260bc7d4"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/DOT_indicators.png": {
-    "mtime": 1779585066.223858,
-    "hash": "f1312a9c8ea8fc1f3763219f4017931f"
+    "mtime": 1780270498.5553503,
+    "hash": "9e3b28f3246d80930dce16939d32d9d5"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/2ip.jpg": {
     "mtime": 1778869008.057527,
     "hash": "57e7e0d73779166206100818094b4f1d"
+  },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_histogram.png": {
+    "mtime": 1780276685.1510608,
+    "hash": "a1e51ee66adfa34f4b74eecaf1cef27b"
+  },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_grouped_bar.png": {
+    "mtime": 1780276690.1961746,
+    "hash": "3573a9f88f88aeaad18ff039658f389a"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/sim_workflow.gif": {
     "mtime": 1779065362.7263157,
@@ -3463,49 +3711,85 @@
     "mtime": 1779065359.702249,
     "hash": "e6964203f434a2b0722daac2c6a5d173"
   },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ADA_graph.png": {
+    "mtime": 1780265793.4041026,
+    "hash": "483f77be5bf4fa18dd4e821c19ce3ab8"
+  },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/CRV_main_chart.png": {
-    "mtime": 1779585163.0161123,
-    "hash": "df9a79301ca57411f6b059452402bd00"
+    "mtime": 1780270472.9907763,
+    "hash": "0f400628caead9f0b73a10368251bc68"
+  },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/SKYAI_analytics.png": {
+    "mtime": 1780270492.5052145,
+    "hash": "52b9520d4e5735ef913315fe402ff65d"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/grapheteria_nodes.png": {
     "mtime": 1779065358.704227,
     "hash": "43849f88b221943554dd966cbcccd7ac"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/positions_table.png": {
-    "mtime": 1779562746.1247258,
-    "hash": "9e7aca78689325cbc8a54abc0af58424"
+    "mtime": 1780284740.2952285,
+    "hash": "c96ab861138552ed75fa00e04ef43660"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/SKYAI_main_chart.png": {
-    "mtime": 1779583401.5207388,
-    "hash": "ceade098c41f2c76c38bac2e492ef171"
+    "mtime": 1780270492.265209,
+    "hash": "60bfa1c523d070d167141e2163401e0c"
+  },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ETH_indicators.png": {
+    "mtime": 1780270440.6940517,
+    "hash": "e27e0231068d93a0e7be5018b06dc775"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/CAKE_indicators.png": {
-    "mtime": 1779585018.414741,
-    "hash": "76f796c91556a94ad43c93cc28ef805c"
+    "mtime": 1780270511.8016477,
+    "hash": "95cb4627bc2fb8c22a56594cfae545c4"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/klinika_city2.jpg": {
     "mtime": 1779078409.4651058,
     "hash": "d546d9d24061ea5d5b36eb33cdcd89f0"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/FIL_main_chart.png": {
-    "mtime": 1779585169.6042655,
-    "hash": "ef17ed21f345fabac2e1b576ab48eaaa"
+    "mtime": 1780270479.4169207,
+    "hash": "fb95eb0356387e3f5b922ab3e3bc8e28"
+  },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_heatmap.png": {
+    "mtime": 1780276685.784075,
+    "hash": "2b9514577099dd4329a2bb6c64f3c19e"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/CKB_analytics.png": {
-    "mtime": 1779585150.4558203,
-    "hash": "da1f3790bcd9588460706787d55bdb1d"
+    "mtime": 1780270460.2584906,
+    "hash": "6b812613e03505e63a3b58aa40e291cf"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/CAKE_analytics.png": {
-    "mtime": 1779585018.5317438,
-    "hash": "1c6c8ce90c2c14b55ffa4ce8bfa333c2"
+    "mtime": 1780270511.9236503,
+    "hash": "81a19864177f4737cdefaf0a17253f08"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/tv_bitget_xrp_240.png": {
     "mtime": 1779098594.267774,
     "hash": "e4ce563627382e8e9a0a2c8591d1d4dc"
   },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_stacked_bar.png": {
+    "mtime": 1780276690.348178,
+    "hash": "6453bbbc2babbce7d4bbbb67b8785821"
+  },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ETH_graph.png": {
+    "mtime": 1780265821.5617378,
+    "hash": "c2d8d8d5b371ca1289740e598a57ebff"
+  },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_bubble.png": {
+    "mtime": 1780276684.7710524,
+    "hash": "7de9ba3f20a37796062e0d80ac28c8eb"
+  },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ETH_main_chart.png": {
+    "mtime": 1780270440.5700488,
+    "hash": "de7a93c7a967caf1dfa72b4e10b419a4"
+  },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/tv_bitget_xrp_60.png": {
     "mtime": 1779098603.8879905,
     "hash": "237f88bc660b0380099cfabf86c3d36b"
+  },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_line.png": {
+    "mtime": 1780276684.103037,
+    "hash": "505e910295e0477ae13f55125d5042a3"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/collage_bitget_xrp.png": {
     "mtime": 1779098604.3049998,
@@ -3515,25 +3799,37 @@
     "mtime": 1779078379.3294318,
     "hash": "adb5a783edc61b2603697e8931e44bd6"
   },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_scatter.png": {
+    "mtime": 1780276684.9620566,
+    "hash": "2a76ef9c4d99449bb2d7d7bf06e8cd9b"
+  },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/klinika_expert.jpg": {
     "mtime": 1779078389.6396623,
     "hash": "9f51cd3527e7d9af5a17092b8f73d013"
+  },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_scatter_matrix.png": {
+    "mtime": 1780276690.0561714,
+    "hash": "4546a9de5dce29e5d72ec86928b45060"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/tv_bitget_etcusdt_60.png": {
     "mtime": 1779095634.566195,
     "hash": "c82ae4f925ad714c607504e43fc1cf3c"
   },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_parallel_coords.png": {
+    "mtime": 1780276687.466113,
+    "hash": "8a84bfcbbeb3254666122283f67120e0"
+  },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/API3_main_chart.png": {
-    "mtime": 1779584758.4616132,
-    "hash": "9d21a860db14ec21ac7564f58f902001"
+    "mtime": 1780270485.8670654,
+    "hash": "e945a6deab16d9ecd121405107696699"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ATOM_tg_line.png": {
     "mtime": 1779584459.897513,
     "hash": "14cdfb71b4f1357b7c87e60c7a0401a5"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/graphs_all.png": {
-    "mtime": 1779584672.964572,
-    "hash": "fc3147735bef3e2d20b81b55179e4518"
+    "mtime": 1780270303.6839802,
+    "hash": "cd7de58f4052ecaf444a47ab49b10da0"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/clawx_chat.png": {
     "mtime": 1779065365.7783833,
@@ -3548,8 +3844,12 @@
     "hash": "0925435bb1ef594c8ea5d622c6b87576"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ATOM_analytics.png": {
-    "mtime": 1779584460.0135155,
-    "hash": "3570023ea28490111936cb72e94f140f"
+    "mtime": 1780270505.5165064,
+    "hash": "c4d7b28ba8cf1780e9e2d64f566d5f08"
+  },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_circular_bar.png": {
+    "mtime": 1780276686.489091,
+    "hash": "0d661d86421e6589eb7d63bc557888e9"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/sim_copilot.gif": {
     "mtime": 1779065363.6973374,
@@ -3560,28 +3860,52 @@
     "hash": "6667298ef2bb5eafa383dcd031d356c2"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/CRV_analytics.png": {
-    "mtime": 1779585163.2371173,
-    "hash": "dafb671af7b5829f6e362ed0687224fa"
+    "mtime": 1780270473.240782,
+    "hash": "d27ed54c8596281f16b41f9c151f1445"
+  },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_histogram2d.png": {
+    "mtime": 1780276687.1571062,
+    "hash": "4ae0b2997e3a818c5724bf847c4b1f0f"
+  },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_pie.png": {
+    "mtime": 1780276686.225085,
+    "hash": "35211cef4fe43bb5a99718607ddd23bf"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ATOM_indicators.png": {
-    "mtime": 1779584459.8915129,
-    "hash": "6d7118f7dcea8dc2ed118ba31a0c79fe"
+    "mtime": 1780270505.3945038,
+    "hash": "53b30a4df9ec8f84b23f44501cead1ac"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/SKYAI_indicators.png": {
-    "mtime": 1779583401.6447415,
-    "hash": "0c30d6c5d468e5291bfbcf1b10047f1a"
+    "mtime": 1780270492.3862116,
+    "hash": "1a12a299a688036ebd54f4a03ca99d49"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/XRP_indicators.png": {
-    "mtime": 1779585156.6509643,
-    "hash": "cfd97dbfa050bd18427bef19054af62b"
+    "mtime": 1780270466.5886326,
+    "hash": "61fb9e397e4ac632924a8efc95ed9df5"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/CRV_indicators.png": {
-    "mtime": 1779585163.131115,
-    "hash": "940fd01eb21771d3dccfd86050f3ce67"
+    "mtime": 1780270473.110779,
+    "hash": "eeb02e013de7f8bfeb96880d0a5f741a"
+  },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_violin.png": {
+    "mtime": 1780276684.584048,
+    "hash": "d88ddfd342bf413e3e751bc47f33a6cb"
+  },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ETH_analytics.png": {
+    "mtime": 1780270440.845055,
+    "hash": "6d76af318643a0e6bb8a19ff0835c609"
+  },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_dendrogram.png": {
+    "mtime": 1780276687.2931092,
+    "hash": "36262f0f4cd39aac0f275d311f2eaa1b"
+  },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_correlogram.png": {
+    "mtime": 1780276686.1040823,
+    "hash": "b9a75f7b456a3352ebe9cf8ddb21dae1"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ETC_analytics.png": {
-    "mtime": 1779585137.6665227,
-    "hash": "d8e83a123bb2a78e5878cd70dff25ed2"
+    "mtime": 1780270447.493204,
+    "hash": "d5eb0b54e8780dfcdd5af762c209bd27"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/sim_knowledge.gif": {
     "mtime": 1779065364.9343646,
@@ -3600,16 +3924,16 @@
     "hash": "6ff46f9259b48cb6d79ac71cf252b8db"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ADA_indicators.png": {
-    "mtime": 1779585144.035671,
-    "hash": "33e73e169c97973502fe4ab62a03ca49"
+    "mtime": 1780270453.775345,
+    "hash": "6787d46d5edaa45bef670573dd3c08bd"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/FIL_indicators.png": {
-    "mtime": 1779585169.7402685,
-    "hash": "a61effda45115fea496d00575a11c24f"
+    "mtime": 1780270479.5269232,
+    "hash": "ab1c11814953102812a3bab1d26e6ca5"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/CKB_indicators.png": {
-    "mtime": 1779585150.3528178,
-    "hash": "7fde72180ffe8c8738e8d88ebe06e8f8"
+    "mtime": 1780270460.140488,
+    "hash": "6fb82fe8cfc1fff9d05df244675ab285"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/klinika_gippokrat.jpg": {
     "mtime": 1779078379.7264407,
@@ -3623,29 +3947,33 @@
     "mtime": 1779065363.8083398,
     "hash": "966cdee315e15636f3332fd9de319594"
   },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_lollipop.png": {
+    "mtime": 1780276686.9511013,
+    "hash": "a1803ed101539a699d3975968f7d3fe8"
+  },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/collage_skyaiusdt.png": {
     "mtime": 1779092194.2774644,
     "hash": "4d6b23a6807bf06234a588c0f736b8a3"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/CAKE_main_chart.png": {
-    "mtime": 1779585018.2977383,
-    "hash": "f7d6f4318cdcb5ce9e4619762faad39a"
+    "mtime": 1780270511.683645,
+    "hash": "fbdd6ce7930c2306a87830c902734c93"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/CKB_main_chart.png": {
-    "mtime": 1779585150.2498155,
-    "hash": "1495fe3ff21383dfb45135a148c06979"
+    "mtime": 1780270460.0174851,
+    "hash": "8df6e939cfd042a000e90bf7b62024f9"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/codelegate_ref.png": {
     "mtime": 1779065365.447376,
     "hash": "08bf99a91fc7ace19cdfd071b9c2c53a"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/XRP_analytics.png": {
-    "mtime": 1779585156.7719672,
-    "hash": "0c8b1f33b1ce2e250d055cd0f3baf31e"
+    "mtime": 1780270466.730636,
+    "hash": "cb144bec643e157432c6bfc93b9c38cd"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/DOT_main_chart.png": {
-    "mtime": 1779585066.3618612,
-    "hash": "41f38b1fa899f2aa270e36d4d23684e6"
+    "mtime": 1780270498.7343543,
+    "hash": "1173bdfed6a5a7114b67a2799d997e02"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/clawx_skills.png": {
     "mtime": 1779065366.2453935,
@@ -3655,6 +3983,10 @@
     "mtime": 1779098584.9765651,
     "hash": "8f7ecd584ac9ab1e01afc8d01cd0060a"
   },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/FIL_analytics.png": {
+    "mtime": 1780270479.6439257,
+    "hash": "68fdb1a814b740006371dae7680f9b2b"
+  },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/tv_bitget_skyaiusdt_240.png": {
     "mtime": 1779092181.77218,
     "hash": "460b9af7829e109a68791d69b767c341"
@@ -3663,13 +3995,21 @@
     "mtime": 1779078409.2851017,
     "hash": "d41d8cd98f00b204e9800998ecf8427e"
   },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_bar.png": {
+    "mtime": 1780276684.2640407,
+    "hash": "fdc035d218fe8f1d8184d026eaedb722"
+  },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ETC_main_chart.png": {
-    "mtime": 1779585137.4445176,
-    "hash": "320db29ca7eb49e7a2561cfc55175781"
+    "mtime": 1780270447.2571988,
+    "hash": "27f19a210e3e103b868e5a258f488e9d"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ADA_main_chart.png": {
-    "mtime": 1779585143.9346685,
-    "hash": "52bad410118183df0607b7a67b36ac7c"
+    "mtime": 1780270453.6513424,
+    "hash": "5a68b4749a9395c727a238fc344ca7d6"
+  },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_stream.png": {
+    "mtime": 1780276687.8741221,
+    "hash": "30e472cdadd28732fc32f41f5deec04a"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/grapheteria_human.png": {
     "mtime": 1779065359.243239,
@@ -3679,17 +4019,37 @@
     "mtime": 1779095635.096207,
     "hash": "f3d7a673e05dc2efc691cabfa022b739"
   },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_radar.png": {
+    "mtime": 1780276686.7700973,
+    "hash": "1ec29903f57235d31c99850313d58119"
+  },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/DOT_analytics.png": {
-    "mtime": 1779585066.5968668,
-    "hash": "984e4182f232324de9d7ff01b038feda"
+    "mtime": 1780270498.9723597,
+    "hash": "e2745cc9e6feb1acae85373c0ee3bdae"
+  },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_venn.png": {
+    "mtime": 1780276688.1081276,
+    "hash": "f7e3b3f2303cff4c1ce0ab0517d28bce"
+  },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_scatter3d.png": {
+    "mtime": 1780276688.394134,
+    "hash": "c7c189860c6a5749b0394a72901f9e2e"
+  },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_density.png": {
+    "mtime": 1780276685.4580677,
+    "hash": "6ae1a8c7fcb59fdd00754356f8033c04"
+  },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_ridgeline.png": {
+    "mtime": 1780276687.6611173,
+    "hash": "6301dd5d7d1a654ab6e873520051b267"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/XRP_main_chart.png": {
-    "mtime": 1779585156.5489619,
-    "hash": "8a4ed2f6ad532dfdf94762e0d0a818ea"
+    "mtime": 1780270466.4406295,
+    "hash": "5a3c972bb2aadae8e53376149637eccb"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ETC_indicators.png": {
-    "mtime": 1779585137.54752,
-    "hash": "1a59fb54586b08ae657c26131d948f56"
+    "mtime": 1780270447.3722014,
+    "hash": "a49cbbdef952e4deeb1338c1d4728d2e"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/clawx_channels.png": {
     "mtime": 1779065366.4553983,
@@ -3699,21 +4059,33 @@
     "mtime": 1779065366.8534071,
     "hash": "6549d8793946d890524533c7fb12dcf7"
   },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_wordcloud.png": {
+    "mtime": 1780276688.2261302,
+    "hash": "a29558dc229e01cc800ba8cd59f3d936"
+  },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ADA_analytics.png": {
-    "mtime": 1779585144.1456735,
-    "hash": "b389457572993773e505f6bbef74668b"
+    "mtime": 1780270453.8923478,
+    "hash": "faa8f06f65d44523b40c98a5cbc972a8"
+  },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_boxplot.png": {
+    "mtime": 1780276684.406044,
+    "hash": "2751f408f6e1da9cce5bbaf30d961283"
+  },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_treemap.png": {
+    "mtime": 1780276687.998125,
+    "hash": "600fd044f25281270eb5de17adf8044e"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/grapheteria_debug.gif": {
     "mtime": 1779065361.785295,
     "hash": "fe8d6f51f3d5f6affe3b221213b75843"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/API3_indicators.png": {
-    "mtime": 1779584758.6016166,
-    "hash": "bd385c8a1f9c2b487ee843ed79143cf5"
+    "mtime": 1780270486.0000684,
+    "hash": "e59244646d9bcbb541ecf06d7395fea8"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/API3_analytics.png": {
-    "mtime": 1779584758.7806208,
-    "hash": "c23e3d8011d2eb60d54193484e2226da"
+    "mtime": 1780270486.1350715,
+    "hash": "033026f3ced3a9135ccd7af212e87062"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/agno_os.png": {
     "mtime": 1779065365.5623784,
@@ -3728,12 +4100,12 @@
     "hash": "7724cadf9d2ef61c72cd902e73ead54f"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ATOM_main_chart.png": {
-    "mtime": 1779584459.7985106,
-    "hash": "876217e30c3edd4241e8a494f78bcbdd"
+    "mtime": 1780270505.2585008,
+    "hash": "0dfc14b95f3059ab3111536e260bc7d4"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/DOT_indicators.png": {
-    "mtime": 1779585066.4688637,
-    "hash": "f1312a9c8ea8fc1f3763219f4017931f"
+    "mtime": 1780270498.861357,
+    "hash": "9e3b28f3246d80930dce16939d32d9d5"
   },
   "/home/user_aioc/workspace/projects/06_screenshots_project/demo_charts_ascii/index.png": {
     "mtime": 1778027487.9650676,
