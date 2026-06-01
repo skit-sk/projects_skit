@@ -6,13 +6,14 @@
 WORKSPACE="${1:-/home/user_aioc/workspace}"
 export PATH="$HOME/.local/bin:$PATH"
 source "$WORKSPACE/venv/bin/activate" 2>/dev/null
+export GRAPHIFY_VIZ_NODE_LIMIT=20000
 
-echo "=== Graphify Update ==="
+echo "=== Graphify Update (AST + cluster + HTML) ==="
 cd "$WORKSPACE"
 graphify update "$WORKSPACE"
 
 echo ""
-echo "=== Renaming Communities ==="
+echo "=== Renaming Communities (graph.json + graph.html) ==="
 python3 "$WORKSPACE/graphify-out/rename_communities.py"
 
 echo ""
