@@ -244,6 +244,8 @@ class TradeAnalyzer:
 
     @staticmethod
     def compute_rsi(prices: List[float], period: int = 14) -> List[Optional[float]]:
+        if len(prices) < period + 1:
+            return [None] * len(prices)
         arr = np.array(prices, dtype=float)
         deltas = np.diff(arr)
         gains = np.where(deltas > 0, deltas, 0.0)
@@ -1038,6 +1040,45 @@ class TradeAnalyzer:
         entry_price = float(days_data.get('entry_price', card['data'].get('emoji_entry', {}).get('entry_price', 0.0)))
         leverage = int(days_data.get('leverage', card['data'].get('leverage', 10)))
         trade_volume = float(days_data.get('volume', card['data'].get('emoji_entry', {}).get('volume', 0.36)))
+
+        if len(closes) < 15:
+            return {
+                'meta': {
+                    'symbol': symbol, 'obj_id': obj_id,
+                    'entry_price': entry_price,
+                    'leverage': leverage, 'volume': trade_volume,
+                    'total_days': len(days),
+                    'current_price': closes[-1] if closes else entry_price,
+                    'current_roe_pct': roe_pcts[-1] if roe_pcts else 0,
+                    'current_pnl_usdt': pnl_usdts[-1] if 'pnl_usdts' in dir() and pnl_usdts else 0,
+                    'avg_volatility_pct': 0,
+                },
+                'dates': dates,
+                'ohlc': {
+                    'open': opens, 'high': highs, 'low': lows,
+                    'close': closes, 'volume': volumes,
+                },
+                'metrics': {'roe_pct': roe_pcts, 'pnl_usdt': [0] * len(closes)},
+                'indicators': {},
+                'liquidation': {'price': 0, 'days': [], 'days_at_risk': 0},
+                'pivots': {},
+        'extremes': {
+            'price': {'max': closes[-1] if closes else entry_price, 'min': closes[-1] if closes else entry_price,
+                      'max_date': 0, 'min_date': 0, 'max_close': closes[-1] if closes else entry_price,
+                      'min_close': closes[-1] if closes else entry_price,
+                      'max_close_date': 0, 'min_close_date': 0},
+            'roe': {'max': 0, 'min': 0, 'max_date': 0, 'min_date': 0},
+            'volume': {'max': 0, 'min': 0, 'max_date': 0, 'min_date': 0},
+            'volatility': {'max': 0, 'min': 0, 'max_date': 0, 'min_date': 0},
+        },
+        'summary': days_data.get('summary', {}),
+        'entry_dates': {
+                    'entry_date': days_data.get('entry_date', ''),
+                    'start_date': dates[0] if dates else '',
+                    'end_date': dates[-1] if dates else '',
+                },
+                'warning': 'insufficient_data',
+            }
 
         volatilities = [round((d['volatility'] / closes[i]) * 100, 2) if closes[i] else 0 for i, d in enumerate(days)]
         volBxLev = [round(v * leverage, 2) for v in volatilities]

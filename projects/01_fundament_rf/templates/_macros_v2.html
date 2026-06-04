@@ -1,0 +1,99 @@
+{# ─────────────────────────────────────────────────────────────────────
+   _macros_v2.html — Изолированные макросы для /graphics/v2
+
+   chart_card_bento(obj, entry, upd, live_pos)
+       Полноразмерная карточка с KPI-tiles, графиком, чипами Max/Min/Dp/Dn/Da.
+
+   chart_card_compact(obj, entry, upd, live_pos)
+       Мини-плитка для sidebar: тикер, крупная дельта, цена, sparkline, дни.
+   ───────────────────────────────────────────────────────────────────── #}
+
+{% macro chart_card_bento(obj, entry, upd, live_pos) %}
+  {% set pnl_pct = (live_pos.pl_percent if live_pos and live_pos.get('pl_percent') is not none else (upd.pnl_percent if upd and upd.get('pnl_percent') is not none else entry.pnl_percent)) or 0 %}
+  {% set is_profit = pnl_pct >= 0 %}
+  {% set lev = obj.data.get('leverage', 10) %}
+  <div class="gv2-bento {% if is_profit %}is-profit{% else %}is-loss{% endif %}"
+       data-id="{{ obj.id }}" data-symbol="{{ entry.symbol }}"
+       data-entry-price="{{ entry.entry_price }}" data-entry-date="{{ entry.entry_date }}"
+       data-card="bento">
+    <header class="gv2-bento-head">
+      <div class="gv2-bento-ticker">
+        <span class="gv2-bento-symbol">{{ entry.symbol }}</span>
+        <span class="gv2-bento-lev">x{{ lev }}</span>
+        {% if obj.id in archived_ids %}<span class="gv2-bento-archived">📦 archived</span>{% endif %}
+      </div>
+      <div class="gv2-bento-meta">
+        <div class="gv2-chart-chips">
+          <span class="gv2-chip-btn active" data-type="area" title="Smooth area">📈</span>
+          <span class="gv2-chip-btn" data-type="candle" title="Candlestick">🕯️</span>
+          <span class="gv2-chip-btn" data-type="ascii" title="ASCII blocks">🔤</span>
+          <span class="gv2-chip-btn" data-type="range" title="Range bar">📊</span>
+        </div>
+        <span class="gv2-bento-timer" data-id="{{ obj.id }}"></span>
+        <button class="gv2-sync" onclick="gv2SyncCard('{{ obj.id }}', this)" title="Sync">🔄</button>
+      </div>
+    </header>
+
+    <div class="gv2-kpis">
+      <div class="gv2-kpi">
+        <span class="gv2-kpi-label">Entry</span>
+        <span class="gv2-kpi-value">{{ entry.entry_price }}</span>
+        <span class="gv2-kpi-sub">{{ entry.entry_date }}</span>
+      </div>
+      <div class="gv2-kpi gv2-kpi-current">
+        <span class="gv2-kpi-label">Current</span>
+        <span class="gv2-kpi-value gv2-price">…</span>
+        <span class="gv2-kpi-sub gv2-deviation">…</span>
+      </div>
+    </div>
+
+    <div class="gv2-tgwrap">
+      {% from "macros.html" import tg_row %}
+      {{ tg_row(obj, entry, upd, live_pos, show_spark=False) }}
+    </div>
+
+    <div class="gv2-chart-wrap">
+      <div class="gv2-loader"><span class="gv2-spinner"></span> <span class="gv2-load-time">0</span> мс</div>
+      <canvas class="gv2-canvas" width="400" height="180"></canvas>
+      <div class="gv2-chart-html" style="display:none;"></div>
+    </div>
+
+    <footer class="gv2-foot">
+      <span class="gv2-chip gv2-chip-profit">Max: <b class="gv2-max">—</b></span>
+      <span class="gv2-chip gv2-chip-loss">Min: <b class="gv2-min">—</b></span>
+      <span class="gv2-chip">Dp+<b class="gv2-dp">0</b></span>
+      <span class="gv2-chip">Dn-<b class="gv2-dn">0</b></span>
+      <span class="gv2-chip">Da<b class="gv2-da">0</b></span>
+    </footer>
+  </div>
+{% endmacro %}
+
+{% macro chart_card_compact(obj, entry, upd, live_pos) %}
+  {% set pnl_pct = (live_pos.pl_percent if live_pos and live_pos.get('pl_percent') is not none else (upd.pnl_percent if upd and upd.get('pnl_percent') is not none else entry.pnl_percent)) or 0 %}
+  {% set is_profit = pnl_pct >= 0 %}
+  {% set lev = obj.data.get('leverage', 10) %}
+  {% set pnl_usdt = (live_pos.unrealized_pl if live_pos and live_pos.get('unrealized_pl') is not none else (upd.pnl_usdt if upd and upd.get('pnl_usdt') is not none else entry.pnl_usdt)) %}
+  {% set days = (live_pos.days_open if live_pos and live_pos.get('days_open') else (upd.entry_time if upd and upd.get('entry_time') is not none else (entry.entry_time if entry.entry_time is not none else 0))) %}
+  <a class="gv2-tile {% if is_profit %}is-profit{% else %}is-loss{% endif %}"
+     href="/card/{{ obj.id }}"
+     data-id="{{ obj.id }}" data-symbol="{{ entry.symbol }}"
+     data-entry-price="{{ entry.entry_price }}" data-entry-date="{{ entry.entry_date }}"
+     data-card="compact">
+    <div class="gv2-tile-top">
+      <span class="gv2-tile-symbol">{{ entry.symbol }}</span>
+      <span class="gv2-tile-lev">x{{ lev }}</span>
+    </div>
+    <div class="gv2-tile-pct">
+      <span class="gv2-tile-pct-value">{{ '%+.2f' % pnl_pct }}%</span>
+    </div>
+    <div class="gv2-tile-price">
+      {% if pnl_usdt is not none %}<span class="gv2-tile-usdt">{{ '%+.2f' % pnl_usdt }}U</span> ·{% endif %}
+      <span class="gv2-tile-curprice">{{ upd.current_price if upd and upd.get('current_price') else entry.entry_price }}</span>
+    </div>
+    <canvas class="gv2-tile-spark" width="120" height="32"></canvas>
+    <div class="gv2-tile-bot">
+      <span class="gv2-tile-days">{{ days }}д</span>
+      <button class="gv2-tile-sync" onclick="event.preventDefault(); gv2SyncCard('{{ obj.id }}', this)">🔄</button>
+    </div>
+  </a>
+{% endmacro %}

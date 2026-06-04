@@ -26,6 +26,19 @@
         {% endfor %}
       </select>
       <a href="/ma-analytics/{{ obj.id }}" class="ta-badge" style="background:#3b82f6;color:white;text-decoration:none;">📊 База MA →</a>
+      <label style="font-size:11px; vertical-align:middle; margin-left:4px;">
+        📜 История: <input type="number" id="historyDepth" value="{{ obj.data.get('pre_history_days', 60) }}"
+          min="0" max="365" style="width:40px; font-size:11px;">
+        <button onclick="setHistoryDepth('{{ obj.id }}')" style="font-size:10px; padding:1px 4px;">💾</button>
+        <span style="font-size:10px; color:#888;">
+          [<a href="#" onclick="return presetHistory(0)">0</a>]
+          [<a href="#" onclick="return presetHistory(14)">14</a>]
+          [<a href="#" onclick="return presetHistory(30)">30</a>]
+          [<a href="#" onclick="return presetHistory(60)">60</a>]
+          [<a href="#" onclick="return presetHistory(90)">90</a>]
+          [<a href="#" onclick="return presetHistory(180)">180</a>]
+        </span>
+      </label>
     </div>
   </div>
 
@@ -160,12 +173,32 @@ async function loadData() {
   }
 }
 
+async function setHistoryDepth(objId) {
+    const depth = parseInt(document.getElementById('historyDepth').value) || 0;
+    await fetch('/api/card/' + objId + '/set-history-depth', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({depth})
+    });
+    location.reload();
+}
+
+function presetHistory(depth) {
+    document.getElementById('historyDepth').value = depth;
+    setHistoryDepth(OBJ_ID);
+    return false;
+}
+
 function renderKPI(data) {
   const m = data.meta;
-  const e = data.extremes;
-  const liq = data.liquidation;
+  const e = data.extremes || {};
+  const liq = data.liquidation || {days_at_risk: 0};
   const s = data.summary || {};
   const container = document.getElementById('ta-kpi');
+  if (data.warning === 'insufficient_data') {
+    container.innerHTML = '<div style="padding:1rem;text-align:center;color:var(--text-muted);font-size:12px;">⚠️ Недостаточно данных для расчёта (нужно 15+ свечей).</div>';
+    return;
+  }
   const kpis = [
     { icon: '💰', label: 'Entry Price', value: m.entry_price, sub: 'USDT' },
     { icon: '📈', label: 'Current ROE', value: m.current_roe_pct.toFixed(2) + '%', cls: m.current_roe_pct >= 0 ? 'profit' : 'loss' },
@@ -191,12 +224,17 @@ function renderKPI(data) {
 }
 
 function renderMainChart(data) {
+  if (data.warning) return;
   const ohlc = data.ohlc;
   const metrics = data.metrics;
   const dates = data.dates;
   const liq = data.liquidation;
   const meta = data.meta;
   const extremes = data.extremes;
+
+  const entryDate = data.entry_dates?.entry_date || '';
+  const postIdx = entryDate ? dates.findIndex(d => d >= entryDate) : 0;
+  const postDates = dates.slice(postIdx);
 
   const colors = {
     candleUp: 'rgba(34,197,94,0.7)', candleDown: 'rgba(239,68,68,0.7)',
@@ -211,15 +249,15 @@ function renderMainChart(data) {
   const maxPrice = extremes.price.max;
   const minPrice = extremes.price.min;
 
-  const roeMin = Math.min(...metrics.roe_pct);
-  const roeMax = Math.max(...metrics.roe_pct);
+  const roeMin = Math.min(...metrics.roe_pct.slice(postIdx));
+  const roeMax = Math.max(...metrics.roe_pct.slice(postIdx));
 
-  const liqBars = liq.days.map(d => d.at_risk ? d.simulated_liq_volume : 0);
+  const liqBars = liq.days.slice(postIdx).map(d => d.at_risk ? d.simulated_liq_volume : 0);
 
   const traces = [];
 
   traces.push({
-    type: 'bar', x: dates, y: liqBars,
+    type: 'bar', x: postDates, y: liqBars,
     name: 'Liq Volume (sim)',
     marker: { color: colors.liqBar },
     yaxis: 'y4',
@@ -228,9 +266,27 @@ function renderMainChart(data) {
     opacity: 0.5,
   });
 
+  if (postIdx > 0) {
+    traces.push({
+      type: 'candlestick',
+      x: dates.slice(0, postIdx),
+      open: ohlc.open.slice(0, postIdx),
+      high: ohlc.high.slice(0, postIdx),
+      low: ohlc.low.slice(0, postIdx),
+      close: ohlc.close.slice(0, postIdx),
+      name: SYMBOL + ' (history)',
+      increasing: { line: { color: colors.candleUp, width: 0.5 }, fillcolor: colors.candleUp },
+      decreasing: { line: { color: colors.candleDown, width: 0.5 }, fillcolor: colors.candleDown },
+      opacity: 0.2, yaxis: 'y', showlegend: false, hoverinfo: 'skip',
+    });
+  }
   traces.push({
-    type: 'candlestick', x: dates,
-    open: ohlc.open, high: ohlc.high, low: ohlc.low, close: ohlc.close,
+    type: 'candlestick',
+    x: dates.slice(postIdx),
+    open: ohlc.open.slice(postIdx),
+    high: ohlc.high.slice(postIdx),
+    low: ohlc.low.slice(postIdx),
+    close: ohlc.close.slice(postIdx),
     name: SYMBOL,
     increasing: { line: { color: colors.candleUp }, fillcolor: colors.candleUp },
     decreasing: { line: { color: colors.candleDown }, fillcolor: colors.candleDown },
@@ -239,93 +295,51 @@ function renderMainChart(data) {
 
   const lev = meta.leverage || 10;
   const entry = meta.entry_price;
-  const priceFromRoe = metrics.roe_pct.map(v => entry * (1 + v / (lev * 100)));
-  const aboveEntry = priceFromRoe.map((p, i) => {
-    if (p >= entry) return p;
-    const prev = i > 0 && priceFromRoe[i-1] >= entry;
-    const next = i < priceFromRoe.length - 1 && priceFromRoe[i+1] >= entry;
-    return (prev || next) ? entry : null;
-  });
-  const belowEntry = priceFromRoe.map((p, i) => {
-    if (p < entry) return p;
-    const prev = i > 0 && priceFromRoe[i-1] < entry;
-    const next = i < priceFromRoe.length - 1 && priceFromRoe[i+1] < entry;
-    return (prev || next) ? entry : null;
-  });
-  const entryBase = dates.map(() => entry);
+  const postRoe = metrics.roe_pct.slice(postIdx);
+  const postVolume = ohlc.volume.slice(postIdx);
+  const postHigh = ohlc.high.slice(postIdx);
+  const postLow = ohlc.low.slice(postIdx);
 
-  traces.push({
-    type: 'scatter', x: dates, y: entryBase,
-    line: { width: 0 }, hoverinfo: 'skip', showlegend: false, yaxis: 'y',
-  });
-  traces.push({
-    type: 'scatter', x: dates, y: aboveEntry,
-    line: { width: 0 }, fill: 'tonexty',
-    fillcolor: 'rgba(34,197,94,0.3)', opacity: 0.5, name: 'Above Entry', yaxis: 'y',
-  });
-  traces.push({
-    type: 'scatter', x: dates, y: entryBase,
-    line: { width: 0 }, hoverinfo: 'skip', showlegend: false, yaxis: 'y',
-  });
-  traces.push({
-    type: 'scatter', x: dates, y: belowEntry,
-    line: { width: 0 }, fill: 'tonexty',
-    fillcolor: 'rgba(239,68,68,0.3)', opacity: 0.9, name: 'Below Entry', yaxis: 'y',
-  });
-  traces.push({
-    type: 'scatter', x: dates, y: metrics.roe_pct,
-    name: 'ROE %',
-    line: { color: colors.roe, width: 2 },
-    opacity: 0.5,
-    yaxis: 'y2',
+  // ── ROE % line (post only) ──
+  traces.push({ type: 'scatter', x: postDates, y: postRoe, name: 'ROE %', line: { color: colors.roe, width: 2 }, opacity: 0.5, yaxis: 'y2' });
+
+  // ── ROE fill (rects per day, entry → high/low) ──
+  const fillShapes = [];
+  postRoe.forEach((v, i) => {
+    if (v === 0) return;
+    const dt = new Date(postDates[i]);
+    const halfDay = 43200000;
+    const x0 = new Date(dt.getTime() - halfDay).toISOString();
+    const x1 = new Date(dt.getTime() + halfDay).toISOString();
+    fillShapes.push({
+      type: 'rect', xref: 'x', yref: 'y',
+      x0, x1, y0: entry, y1: v > 0 ? postHigh[i] : postLow[i],
+      fillcolor: v > 0 ? 'rgba(34,197,94,0.3)' : 'rgba(239,68,68,0.3)',
+      line: { width: 0 }, layer: 'below',
+    });
   });
 
-  traces.push({
-    type: 'scatter', x: dates, y: metrics.volatility_pct,
-    name: 'Vol %',
-    line: { color: colors.volatility, width: 1.5, dash: 'dot' },
-    opacity: 0.5,
-    yaxis: 'y3',
-  });
+  // ── Volatility (post only) ──
+  traces.push({ type: 'scatter', x: postDates, y: metrics.volatility_pct.slice(postIdx), name: 'Vol %', line: { color: colors.volatility, width: 1.5, dash: 'dot' }, opacity: 1, yaxis: 'y3' });
 
   if (metrics.volatility_lev) {
-    traces.push({
-      type: 'scatter', x: dates, y: metrics.volatility_lev,
-      name: 'Vol×Lev %',
-      line: { color: '#f97316', width: 1.5, dash: 'dash' },
-      opacity: 0.5,
-      yaxis: 'y3',
-    });
+    traces.push({ type: 'scatter', x: postDates, y: metrics.volatility_lev.slice(postIdx), name: 'Vol×Lev %', line: { color: '#f97316', width: 1.5, dash: 'dash' }, opacity: 1, yaxis: 'y3' });
   }
 
-  traces.push({
-    type: 'bar', x: dates, y: ohlc.volume,
-    name: 'Volume',
-    marker: { color: colors.volume },
-    opacity: 0.5,
-    yaxis: 'y4',
-  });
+  // ── Volume bars (post only) ──
+  traces.push({ type: 'bar', x: postDates, y: postVolume, name: 'Volume', marker: { color: colors.volume }, opacity: 1, yaxis: 'y4' });
 
-  function sma(arr, p) {
-    const r = [];
-    for (let i = 0; i < arr.length; i++) {
-      if (i < p - 1) { r.push(null); continue; }
-      let s = 0;
-      for (let j = i - p + 1; j <= i; j++) s += arr[j];
-      r.push(s / p);
-    }
-    return r;
-  }
+  // ── Liq bars (post only) ──
+  const postLiqBars = liq.days.slice(postIdx).map(d => d.at_risk ? d.simulated_liq_volume : 0);
+  traces.push({ type: 'bar', x: postDates, y: postLiqBars, name: 'Liq Volume (sim)', marker: { color: colors.liqBar }, yaxis: 'y4', width: 1, hoverinfo: 'skip', opacity: 0.5 });
+
+  // ── SMA (volume, post only) ──
+  function sma(arr, p) { const r = []; for (let i = 0; i < arr.length; i++) { if (i < p - 1) { r.push(null); continue; } let s = 0; for (let j = i - p + 1; j <= i; j++) s += arr[j]; r.push(s / p); } return r; }
   [3, 5, 7, 14].forEach((p, idx) => {
-    traces.push({
-      type: 'scatter', x: dates, y: sma(ohlc.volume, p),
-      name: 'Vol SMA(' + p + ')',
-      line: { color: 'rgba(96,165,250,' + (0.3 + idx * 0.23) + ')', width: 1 + idx * 0.3, dash: 'solid' },
-      opacity: 0.5,
-      yaxis: 'y4',
-    });
+    traces.push({ type: 'scatter', x: postDates, y: sma(postVolume, p), name: 'Vol SMA(' + p + ')', line: { color: 'rgba(96,165,250,' + (0.3 + idx * 0.23) + ')', width: 1 + idx * 0.3, dash: 'solid' }, opacity: 0.5, yaxis: 'y4' });
   });
 
+  // ── Clamp lines (post only) ──
   const hlines = [
     { y: liqPrice, color: colors.liqLine, dash: 'dash', label: 'Liq' },
     { y: entryPrice, color: colors.entryLine, dash: 'dash', label: 'Entry' },
@@ -333,13 +347,7 @@ function renderMainChart(data) {
     { y: minPrice, color: colors.minLine, dash: 'dot', label: 'Low' },
   ];
   hlines.forEach(h => {
-    traces.push({
-      type: 'scatter', x: dates, y: dates.map(() => h.y),
-      name: h.label + ' ' + h.y.toFixed(4),
-      hovertemplate: h.label + ': %{y:.4f}<extra></extra>',
-      line: { color: h.color, dash: h.dash, width: 1 },
-      yaxis: 'y',
-    });
+    traces.push({ type: 'scatter', x: postDates, y: Array(postDates.length).fill(h.y), name: h.label + ' ' + h.y.toFixed(4), hovertemplate: h.label + ': %{y:.4f}<extra></extra>', line: { color: h.color, dash: h.dash, width: 1 }, yaxis: 'y' });
   });
 
   if (data.fills && data.fills.length) {
@@ -393,7 +401,7 @@ function renderMainChart(data) {
     paper_bgcolor: '#2d2d2d',
     plot_bgcolor: '#1a1a1a',
     height: 610,
-    margin: { l: 60, r: 80, t: 140, b: 60 },
+    margin: { l: 80, r: 90, t: 140, b: 60 },
     dragmode: 'zoom',
     hovermode: 'x unified',
     legend: { orientation: 'h', y: 1.2, x: 0.5, xanchor: 'center', font: { size: 9 } },
@@ -409,7 +417,7 @@ function renderMainChart(data) {
     yaxis: {
       title: 'Price (USDT)',
       domain: [0.3, 1],
-      side: 'left',
+      side: 'right',
       tickformat: '.4f',
       titlefont: { size: 10, color: '#ccc' },
       tickfont: { color: '#aaa' },
@@ -419,7 +427,7 @@ function renderMainChart(data) {
     yaxis2: {
       title: 'ROE %',
       domain: [0.3, 1],
-      side: 'right',
+      side: 'left',
       overlaying: 'y',
       tickformat: '.0f',
       titlefont: { size: 10, color: colors.roe },
@@ -429,9 +437,8 @@ function renderMainChart(data) {
     yaxis3: {
       title: 'Vol %',
       domain: [0.3, 1],
-      side: 'right',
+      side: 'left',
       overlaying: 'y',
-      position: 0.97,
       tickformat: '.1f',
       showgrid: false,
       titlefont: { size: 10, color: colors.volatility },
@@ -445,6 +452,7 @@ function renderMainChart(data) {
       titlefont: { size: 10 },
     },
     shapes: [
+      ...fillShapes,
       { type: 'rect', xref: 'paper', yref: 'paper', x0: 0, y0: 0.28, x1: 1, y1: 0.30, fillcolor: '#333', line: { width: 0 }, layer: 'below' },
       { type: 'rect', xref: 'paper', yref: 'y', x0: 0, y0: liqPrice, x1: 1, y1: liqPrice * 0.97, fillcolor: 'rgba(220,38,38,0.08)', line: { width: 0 }, layer: 'below' },
       { type: 'rect', xref: 'paper', yref: 'y', x0: 0, y0: liqPrice * 0.97, x1: 1, y1: liqPrice * 0.94, fillcolor: 'rgba(220,38,38,0.04)', line: { width: 0 }, layer: 'below' },
@@ -462,9 +470,14 @@ function renderMainChart(data) {
 }
 
 function renderIndicatorChart(data) {
+  if (data.warning) return;
   const dates = data.dates;
   const ind = data.indicators;
   const meta = data.meta;
+  const entryDate = data.entry_dates?.entry_date || '';
+  const postIdx = entryDate ? dates.findIndex(d => d >= entryDate) : 0;
+  const preDates = dates.slice(0, postIdx);
+  const postDates = dates.slice(postIdx);
 
   const colors = {
     rsi: '#60a5fa', rsiUpper: 'rgba(239,68,68,0.1)', rsiLower: 'rgba(34,197,94,0.1)',
@@ -474,90 +487,54 @@ function renderIndicatorChart(data) {
     oi: '#a78bfa',
   };
 
+  function safe(arr) { return arr.map(v => v !== null ? v : undefined); }
+
   const traces = [];
 
-  const rsiValues = ind.rsi.map(v => v !== null ? v : undefined);
+  // helper: add pre/post pair
+  function addSplit(name, arr, color, widthOpt, yaxis, dash) {
+    if (postIdx > 0) {
+      traces.push({ type: 'scatter', x: preDates, y: safe(arr.slice(0, postIdx)), name: name + ' (history)', line: { color, width: 1, dash: dash || 'solid' }, opacity: 0.5, yaxis, showlegend: false, hoverinfo: 'skip' });
+    }
+    traces.push({ type: 'scatter', x: postDates, y: safe(arr.slice(postIdx)), name, line: { color, width: widthOpt, dash: dash || 'solid' }, opacity: 1, yaxis });
+  }
 
-  traces.push({
-    type: 'scatter', x: dates, y: rsiValues,
-    name: 'RSI(14)',
-    line: { color: colors.rsi, width: 1.5 },
-    yaxis: 'y',
-  });
+  // ── RSI ──
+  addSplit('RSI(14)', ind.rsi, colors.rsi, 1.5, 'y');
 
-  traces.push({
-    type: 'scatter', x: dates, y: Array(dates.length).fill(70),
-    name: 'Overbought 70',
-    line: { color: 'rgba(239,68,68,0.4)', width: 1, dash: 'dash' },
-    yaxis: 'y',
-  });
-  traces.push({
-    type: 'scatter', x: dates, y: Array(dates.length).fill(30),
-    name: 'Oversold 30',
-    line: { color: 'rgba(34,197,94,0.4)', width: 1, dash: 'dash' },
-    yaxis: 'y',
-    fill: 'tonexty',
-    fillcolor: colors.rsiLower,
-  });
+  // Overbought/Oversold fills (post only, mirrored style)
+  const post70 = Array(postDates.length).fill(70);
+  const post30 = Array(postDates.length).fill(30);
+  if (postIdx > 0) {
+    const pre70 = Array(preDates.length).fill(70);
+    const pre30 = Array(preDates.length).fill(30);
+    traces.push({ type: 'scatter', x: preDates, y: pre70, name: 'Overbought 70 (history)', line: { color: 'rgba(239,68,68,0.2)', width: 1, dash: 'dash' }, opacity: 0.5, yaxis: 'y', showlegend: false, hoverinfo: 'skip' });
+    traces.push({ type: 'scatter', x: preDates, y: pre30, line: { color: 'rgba(34,197,94,0.2)', width: 1, dash: 'dash' }, opacity: 0.5, yaxis: 'y', showlegend: false, hoverinfo: 'skip' });
+  }
+  traces.push({ type: 'scatter', x: postDates, y: post70, name: 'Overbought 70', line: { color: 'rgba(239,68,68,0.4)', width: 1, dash: 'dash' }, yaxis: 'y' });
+  traces.push({ type: 'scatter', x: postDates, y: post30, name: 'Oversold 30', line: { color: 'rgba(34,197,94,0.4)', width: 1, dash: 'dash' }, yaxis: 'y', fill: 'tonexty', fillcolor: colors.rsiLower });
+  traces.push({ type: 'scatter', x: postDates, y: post70, fill: 'tonexty', fillcolor: colors.rsiUpper, hoverinfo: 'skip', line: { width: 0 }, yaxis: 'y', showlegend: false });
 
-  traces.push({
-    type: 'scatter', x: dates, y: Array(dates.length).fill(70),
-    fill: 'tonexty',
-    fillcolor: colors.rsiUpper,
-    hoverinfo: 'skip',
-    line: { width: 0 },
-    yaxis: 'y',
-    showlegend: false,
-  });
+  // ── MACD Histogram ──
+  const macdPre = ind.macd.histogram.slice(0, postIdx);
+  const macdPost = safe(ind.macd.histogram.slice(postIdx));
+  const macdColors = macdPost.map(v => v !== undefined && v >= 0 ? colors.macdPos : colors.macdNeg);
+  if (postIdx > 0) {
+    const preColors = macdPre.map(v => v !== null && v >= 0 ? colors.macdPos : colors.macdNeg);
+    traces.push({ type: 'bar', x: preDates, y: safe(macdPre), name: 'MACD Hist (history)', marker: { color: preColors }, opacity: 0.5, yaxis: 'y2', showlegend: false, hoverinfo: 'skip' });
+  }
+  traces.push({ type: 'bar', x: postDates, y: macdPost, name: 'MACD Hist', marker: { color: macdColors }, yaxis: 'y2' });
 
-  const macdHist = ind.macd.histogram.map(v => v !== null ? v : undefined);
-  const macdColors = macdHist.map(v => v >= 0 ? colors.macdPos : colors.macdNeg);
+  // ── MACD Signal ──
+  addSplit('MACD Signal', ind.macd.signal, colors.macdSignal, 1, 'y2');
 
-  traces.push({
-    type: 'bar', x: dates, y: macdHist,
-    name: 'MACD Hist',
-    marker: { color: macdColors },
-    yaxis: 'y2',
-  });
+  // ── EMA9 / EMA21 / EMA55 ──
+  addSplit('EMA9', ind.ema9, colors.ema9, 1.5, 'y3');
+  addSplit('EMA21', ind.ema21, colors.ema21, 1.5, 'y3', 'dot');
+  addSplit('EMA55', ind.ema55, colors.ema55, 1.5, 'y3', 'dash');
 
-  const macdSignal = ind.macd.signal.map(v => v !== null ? v : undefined);
-  traces.push({
-    type: 'scatter', x: dates, y: macdSignal,
-    name: 'MACD Signal',
-    line: { color: colors.macdSignal, width: 1 },
-    yaxis: 'y2',
-  });
-
-  const ema9 = ind.ema9.map(v => v !== null ? v : undefined);
-  const ema21 = ind.ema21.map(v => v !== null ? v : undefined);
-  const ema55 = ind.ema55.map(v => v !== null ? v : undefined);
-
-  traces.push({
-    type: 'scatter', x: dates, y: ema9,
-    name: 'EMA9',
-    line: { color: colors.ema9, width: 1.5 },
-    yaxis: 'y3',
-  });
-  traces.push({
-    type: 'scatter', x: dates, y: ema21,
-    name: 'EMA21',
-    line: { color: colors.ema21, width: 1.5, dash: 'dot' },
-    yaxis: 'y3',
-  });
-  traces.push({
-    type: 'scatter', x: dates, y: ema55,
-    name: 'EMA55',
-    line: { color: colors.ema55, width: 1.5, dash: 'dash' },
-    yaxis: 'y3',
-  });
-
-  const oi = ind.open_interest;
-  traces.push({
-    type: 'scatter', x: dates, y: oi,
-    name: 'OI (sim)',
-    line: { color: colors.oi, width: 1, dash: 'dot' },
-    yaxis: 'y4',
-  });
+  // ── Open Interest ──
+  addSplit('OI (sim)', ind.open_interest, colors.oi, 1, 'y4', 'dot');
 
   const layout = {
     template: 'plotly_dark',

@@ -129,3 +129,33 @@ def delete_object(obj_id):
         return jsonify({'ok': True})
     except FileNotFoundError:
         return jsonify({'error': 'Not found'}), 404
+
+
+@bp.route('/card/<obj_id>/set-history-depth', methods=['POST'])
+def set_history_depth(obj_id):
+    try:
+        obj = storage.load(obj_id)
+    except FileNotFoundError:
+        return jsonify({'error': 'Not found'}), 404
+
+    depth = int(request.json.get('depth', 60))
+    sym = obj.data.get('emoji_entry', {}).get('symbol', '').upper()
+    obj.data['pre_history_days'] = depth
+    storage.save(obj)
+
+    # Update all cards with same symbol
+    if sym:
+        for o in storage.list():
+            s = o.data.get('emoji_entry', {}).get('symbol', '').upper()
+            if s == sym and o.id != obj.id:
+                o.data['pre_history_days'] = depth
+                storage.save(o)
+
+    # Trigger 1D reprocess
+    from routes.processor_1d import _process_object
+    try:
+        _process_object(obj_id, operation='create')
+    except Exception:
+        pass
+
+    return jsonify({'ok': True, 'depth': depth})

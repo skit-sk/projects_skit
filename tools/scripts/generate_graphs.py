@@ -28,29 +28,16 @@ TG_ALL_DIR = os.path.join(TG_PROJECT, "TG_ALL")
 
 
 def fetch_objects() -> list[dict]:
-    """Парсит страницу /graphics/all, извлекает id и symbol каждой карточки."""
+    """Парсит /graphics/all, извлекает id/symbol/price/date из каждого <div class='chart-card'>."""
     resp = urllib.request.urlopen(f"{BASE_URL}/graphics/all", timeout=10)
     html = resp.read().decode("utf-8")
-    ids = re.findall(r'data-id="([^"]+)"', html)
-    symbols = re.findall(r'data-symbol="([^"]+)"', html)
-    entry_prices = re.findall(r'data-entry-price="([^"]+)"', html)
-    entry_dates = re.findall(r'data-entry-date="([^"]+)"', html)
-    objects = []
-    for i in range(len(ids)):
-        objects.append({
-            "id": ids[i],
-            "symbol": symbols[i] if i < len(symbols) else "?",
-            "entry_price": entry_prices[i] if i < len(entry_prices) else None,
-            "entry_date": entry_dates[i] if i < len(entry_dates) else None,
-        })
-    # de-duplicate by id
-    seen = set()
-    unique = []
-    for obj in objects:
-        if obj["id"] not in seen:
-            seen.add(obj["id"])
-            unique.append(obj)
-    return unique
+    pattern = r'class="chart-card"[^>]*data-id="([^"]+)"[^>]*data-symbol="([^"]+)"[^>]*data-entry-price="([^"]*)"[^>]*data-entry-date="([^"]*)"'
+    objects = [
+        {"id": m[1], "symbol": m[2], "entry_price": m[3] or None, "entry_date": m[4] or None}
+        for m in re.finditer(pattern, html)
+        if m[2] and m[2] != "?"
+    ]
+    return objects
 
 
 def fetch_chart_data(obj_id: str) -> dict | None:

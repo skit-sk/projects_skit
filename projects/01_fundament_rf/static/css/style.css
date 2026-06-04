@@ -22,6 +22,7 @@
     --color-loss: #dc2626;
     --color-profit-bg: rgba(22, 163, 74, 0.15);
     --color-loss-bg: rgba(220, 38, 38, 0.15);
+    --color-achieved: #ca8a04;
 }
 
 html[data-theme="dark"] {
@@ -41,6 +42,7 @@ html[data-theme="dark"] {
     --color-loss: #f87171;
     --color-profit-bg: rgba(74, 222, 128, 0.15);
     --color-loss-bg: rgba(248, 113, 113, 0.15);
+    --color-achieved: #fbbf24;
 }
 
 body {

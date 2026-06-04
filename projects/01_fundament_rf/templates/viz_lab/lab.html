@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+{% block title %}Visualization Lab{% endblock %}
+{% block extra_head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/viz_lab.css') }}">
+{% endblock %}
+{% block content %}
+<div class="viz-lab" id="vizLab">
+  <aside class="viz-left">
+    <div class="panel-incoming">
+      <h3 class="panel-title">📥 Incoming Data</h3>
+      <div class="drop-zone" id="dropZone">
+        <div class="drop-content">
+          <span class="drop-icon">📄</span>
+          <p>Drop files here<br><small>CSV, JSON, PNG, XLSX</small></p>
+        </div>
+        <input type="file" id="fileInput" multiple hidden>
+      </div>
+      <div class="file-list" id="fileList"></div>
+    </div>
+    <div class="panel-tree">
+      <h3 class="panel-title">📁 Sessions</h3>
+      <div id="projectTree" class="tree-container"></div>
+    </div>
+  </aside>
+  <div class="divider-v" id="dv-left"></div>
+
+  <main class="viz-center">
+    <div class="panel-input">
+      <div class="output-types" id="outputTypes">
+        <span class="output-label">Output:</span>
+        <button class="output-btn selected" data-type="documentation">📄 Doc</button>
+        <button class="output-btn selected" data-type="image">🖼 Image</button>
+        <button class="output-btn" data-type="video">🎬 Video</button>
+        <button class="output-btn" data-type="audio">🔊 Audio</button>
+        <button class="output-btn selected" data-type="presentation">📊 Pres</button>
+        <button class="output-btn" data-type="transcription">🎙 Transcribe</button>
+      </div>
+      <textarea id="promptInput" class="prompt-textarea" placeholder="Describe what to build: chart type, indicators, data to visualize, or YouTube URL for transcription..."></textarea>
+      <div class="input-actions">
+        <div class="model-cards" id="modelCards">
+          <div class="model-card selected" data-model="deepseek-free">
+            <span class="card-name">⚡ DS Free</span>
+            <span class="card-actions">
+              <span class="card-settings" title="Settings">⚙</span>
+              <span class="card-remove" title="Remove">✕</span>
+            </span>
+          </div>
+          <div class="model-card selected" data-model="gemini-2.5-flash">
+            <span class="card-name">🤖 GF</span>
+            <span class="card-actions">
+              <span class="card-settings" title="Settings">⚙</span>
+              <span class="card-remove" title="Remove">✕</span>
+            </span>
+          </div>
+          <div class="model-card selected" data-model="gpt-4o-mini">
+            <span class="card-name">🟢 GM</span>
+            <span class="card-actions">
+              <span class="card-settings" title="Settings">⚙</span>
+              <span class="card-remove" title="Remove">✕</span>
+            </span>
+          </div>
+          <div class="model-card selected" data-model="tv-screenshot">
+            <span class="card-name">📸 TV</span>
+            <span class="card-actions">
+              <span class="card-settings" title="Settings">⚙</span>
+              <span class="card-remove" title="Remove">✕</span>
+            </span>
+          </div>
+          <button id="addModelBtn" class="add-model-btn" title="Add model">+</button>
+        </div>
+        <label style="font-size:11px;display:flex;align-items:center;gap:3px;white-space:nowrap;cursor:pointer;">
+          <input type="checkbox" id="newSessionCb"> 🆕 New Session
+        </label>
+        <button id="analyzeBtn" class="btn-primary">🚀 Generate</button>
+      </div>
+    </div>
+    <div class="divider-h" id="dh-center"></div>
+    <div class="panel-preview">
+      <div class="preview-header">
+        <h3 class="panel-title">📊 Preview Gallery</h3>
+        <div class="preview-actions">
+          <button id="downloadAllBtn" class="btn-small" disabled>📦 Download All</button>
+          <button id="clearGalleryBtn" class="btn-small">🗑 Clear</button>
+        </div>
+      </div>
+      <div id="previewGallery" class="gallery-container">
+        <div class="gallery-empty">Select output types and models, then Generate</div>
+      </div>
+      <div id="filePreview" class="file-preview hidden">
+        <div class="preview-loading">Click a file to preview</div>
+      </div>
+    </div>
+  </main>
+  <div class="divider-v" id="dv-right"></div>
+
+  <aside class="viz-right">
+    <div class="right-header">
+      <h3 class="panel-title">💬 Model Responses</h3>
+      <button id="clearMessagesBtn" class="btn-small">🧹 Clear</button>
+    </div>
+    <div id="messages" class="messages-container">
+      <div class="messages-empty">Responses from models will appear here</div>
+    </div>
+  </aside>
+</div>
+
+<div id="addModelModal" class="modal hidden">
+  <div class="modal-content" style="max-width:400px;">
+    <div class="modal-header">
+      <h3>➕ Add Model</h3>
+      <button class="modal-close">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <label>Provider</label>
+        <select id="addProviderSelect" class="form-input"></select>
+      </div>
+      <div class="form-row">
+        <label>Model</label>
+        <select id="addModelSelect" class="form-input"></select>
+      </div>
+      <div class="form-row" id="addModelSearchRow" style="display:none;">
+        <label>🔍 Filter</label>
+        <input type="text" id="addModelSearch" class="form-input"
+               placeholder="Type to filter models..." autocomplete="off">
+      </div>
+      <div class="form-actions">
+        <button id="confirmAddModel" class="btn-primary">➕ Add</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="modelSettingsModal" class="modal hidden">
+  <div class="modal-content" style="max-width:420px;">
+    <div class="modal-header">
+      <h3>⚙ Model Settings</h3>
+      <button class="modal-close">&times;</button>
+    </div>
+    <div class="modal-body" id="settingsBody">
+      <div class="form-row">
+        <label>Model</label>
+        <div id="settingsModelName" style="font-weight:600;font-size:14px;"></div>
+      </div>
+      <div class="form-row">
+        <label>Provider</label>
+        <div id="settingsProvider" style="color:var(--text-muted);"></div>
+      </div>
+      <div class="form-row">
+        <label>Preferred for</label>
+        <div id="settingsOutputTypes">
+          <label style="display:block;margin:4px 0;"><input type="checkbox" data-ot="documentation" checked> 📄 Documentation</label>
+          <label style="display:block;margin:4px 0;"><input type="checkbox" data-ot="image" checked> 🖼 Image</label>
+          <label style="display:block;margin:4px 0;"><input type="checkbox" data-ot="video"> 🎬 Video</label>
+          <label style="display:block;margin:4px 0;"><input type="checkbox" data-ot="audio"> 🔊 Audio</label>
+          <label style="display:block;margin:4px 0;"><input type="checkbox" data-ot="presentation" checked> 📊 Presentation</label>
+          <label style="display:block;margin:4px 0;"><input type="checkbox" data-ot="transcription"> 🎙 Transcription</label>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button id="saveModelSettings" class="btn-primary">💾 Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{{ url_for('static', filename='js/viz_lab.js') }}"></script>
+<script src="{{ url_for('static', filename='js/project_tree.js') }}"></script>
+<script src="{{ url_for('static', filename='js/conversation.js') }}"></script>
+<script src="{{ url_for('static', filename='js/preview_gallery.js') }}"></script>
+{% endblock %}

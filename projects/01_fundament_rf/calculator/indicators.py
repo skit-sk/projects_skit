@@ -3,6 +3,8 @@ from typing import List, Optional, Dict
 
 
 def compute_rsi(prices: List[float], period: int = 14) -> List[Optional[float]]:
+    if len(prices) < period + 1:
+        return [None] * len(prices)
     arr = np.array(prices, dtype=float)
     deltas = np.diff(arr)
     gains = np.where(deltas > 0, deltas, 0.0)
@@ -23,6 +25,8 @@ def compute_rsi(prices: List[float], period: int = 14) -> List[Optional[float]]:
 
 
 def compute_ema(prices: List[float], period: int) -> List[Optional[float]]:
+    if len(prices) < period:
+        return [None] * len(prices)
     arr = np.array(prices, dtype=float)
     result = np.full_like(arr, np.nan)
     k = 2.0 / (period + 1)
@@ -65,6 +69,8 @@ def compute_macd(prices: List[float], fast: int = 12, slow: int = 26,
 
 
 def compute_sma(values: List[float], period: int) -> List[Optional[float]]:
+    if len(values) < period:
+        return [None] * len(values)
     result: List[Optional[float]] = []
     for i in range(len(values)):
         if i < period - 1:

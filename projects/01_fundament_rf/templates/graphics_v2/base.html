@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Graphics V2 — Bento{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/graphics_v2.css') }}">
+    <script>
+        if (localStorage.getItem('theme') !== 'light') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
+        }
+    </script>
+    <style>html[data-theme="dark"] {background:#1a1a1a;}</style>
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="gv2-app">
+    <header class="gv2-header">
+        <a class="gv2-back" href="/graphics/all">← /graphics/all (v1)</a>
+        <span class="gv2-badge">🧪 V2 · Bento + Compact</span>
+        <button class="gv2-theme-btn" onclick="toggleTheme()" title="Переключить тему">🌙</button>
+    </header>
+    <main class="gv2-main">
+        {% block content %}{% endblock %}
+    </main>
+    <script>
+        function toggleTheme() {
+            const html = document.documentElement;
+            const isDark = html.getAttribute('data-theme') === 'dark';
+            if (isDark) {
+                html.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+    </script>
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>

@@ -223,8 +223,13 @@ class MetricsStorage:
                 json.dump({'records': [], 'aggregated': {'total_operations': 0, 'avg_api_ms': 0, 'avg_processing_ms': 0, 'avg_writing_ms': 0, 'avg_total_ms': 0, 'failed_count': 0, 'last_operation': None}}, f)
 
     def load(self) -> dict:
-        with open(self._metrics_path, 'r', encoding='utf-8') as f:
-            return json.load(f)
+        try:
+            with open(self._metrics_path, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except (json.JSONDecodeError, FileNotFoundError):
+            self._ensure_metrics()
+            with open(self._metrics_path, 'r', encoding='utf-8') as f:
+                return json.load(f)
 
     def save(self, data: dict):
         with open(self._metrics_path, 'w', encoding='utf-8') as f:

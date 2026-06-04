@@ -102,6 +102,7 @@ def _calculate_day(candle, entry_price, leverage, volume, prev_volatility=None):
 
 
 def _calculate_summary(days, leverage, volume):
+    days = [d for d in days if not d.get('pre_entry')]
     total = len(days)
     if total == 0:
         return {}
@@ -160,7 +161,7 @@ def _calculate_summary(days, leverage, volume):
 
 
 def _build_chart_data(days):
-    return [{"date": d['date'], "deviation_pct": d['deviation']['from_entry_pct'], "profitable": d['profitable']} for d in days]
+    return [{"date": d['date'], "deviation_pct": d['deviation']['from_entry_pct'], "profitable": d['profitable'], "pre_entry": d.get('pre_entry', False)} for d in days]
 
 
 def _calculate_ranges(days_data, entry_price, current_price, low_price, high_price):
@@ -286,28 +287,45 @@ def _process_object(obj_id, operation='create'):
         end_ts = time.time()
 
         api_start = int(time.time() * 1000)
+        pre_history_days = int(obj.data.get('pre_history_days', 60))
+        if pre_history_days > 0:
+            hist_start_ts = start_ts - pre_history_days * 86400
+            hist_candles = _fetch_candles(symbol, hist_start_ts, start_ts - 1)
+        else:
+            hist_candles = []
         candles = _fetch_candles(symbol, start_ts, end_ts)
+        all_candles = hist_candles + candles
         api_end = int(time.time() * 1000)
 
         raw_candles = []
         days_data = []
-        for i, c in enumerate(candles):
+        for i, c in enumerate(all_candles):
             ts, o, h, l, ci, v = c[:6]
+            c_date = time.strftime("%Y-%m-%d", time.gmtime(int(ts) / 1000))
+            is_pre = c_date < entry_date
             raw_candles.append({
-                "date": time.strftime("%Y-%m-%d", time.gmtime(int(ts) / 1000)),
+                "date": c_date,
                 "timestamp_ms": int(ts),
                 "open": float(o),
                 "high": float(h),
                 "low": float(l),
                 "close": float(ci),
-                "volume": float(v)
+                "volume": float(v),
+                "pre_entry": is_pre,
             })
 
         processing_start = int(time.time() * 1000)
-        for i, candle in enumerate(candles):
+        for i, candle in enumerate(all_candles):
             ts, o, h, l, ci, v = candle[:6]
+            c_date = time.strftime("%Y-%m-%d", time.gmtime(int(ts) / 1000))
+            is_pre = c_date < entry_date
             day = _calculate_day((ts, o, h, l, ci, v), entry_price, leverage, volume)
             day['day_index'] = i
+            day['pre_entry'] = is_pre
+            if is_pre:
+                day['roe_pct'] = 0
+                day['pnl_usdt'] = 0
+                day['profitable'] = False
             days_data.append(day)
         processing_end = int(time.time() * 1000)
 

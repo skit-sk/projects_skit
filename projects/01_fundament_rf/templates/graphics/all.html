@@ -48,7 +48,7 @@
   {% set entry = obj.data.get('emoji_entry', {}) %}
   {% if entry and entry.get('symbol') and entry.get('entry_price') and entry.get('entry_date') %}
   <div class="chart-card" data-id="{{ obj.id }}" data-symbol="{{ entry.symbol }}" data-entry-price="{{ entry.entry_price }}" data-entry-date="{{ entry.entry_date }}">
-    <h2><a href="/card/{{ obj.id }}">{{ obj.name }} <span style="font-size:11px; color:#888;">x{{ obj.data.get('leverage', 10) }}</span></a></h2>
+    <h2><a href="/card/{{ obj.id }}">{{ obj.name }} <span style="font-size:11px; color:#888;">x{{ obj.data.get('leverage', 10) }}</span></a>{% if obj.id in archived_ids %}<span style="font-size:10px; color:#888; background:var(--border-color); padding:1px 6px; border-radius:4px; margin-left:4px;">📦 archived</span>{% endif %}</h2>
     {% set upd = obj.data.get('emoji_upd', {}) %}
     {% set live_pos = obj.data.get('live_position', {}) %}
     {{ tg_row(obj, entry, upd, live_pos, show_spark=False) }}
@@ -110,9 +110,11 @@
       if (i > 0) {
         const px = pad.l + ((i-1)/(data.chart.length-1||1))*w;
         const py = pad.t + h - ((data.chart[i-1].deviation_percent - minY) / rangeY) * h;
-        ctx.strokeStyle = d.profitable ? '#16a34a' : '#dc2626'; ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(x, y); ctx.stroke();
+        ctx.strokeStyle = d.profitable ? '#16a34a' : '#dc2626';
+        ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(x, y); ctx.stroke();
       }
-      ctx.fillStyle = d.profitable ? '#16a34a' : '#dc2626'; ctx.beginPath(); ctx.arc(x, y, 2, 0, Math.PI*2); ctx.fill();
+      ctx.fillStyle = d.profitable ? '#16a34a' : '#dc2626';
+      ctx.beginPath(); ctx.arc(x, y, 2, 0, Math.PI*2); ctx.fill();
     });
     ctx.fillStyle = '#aaa'; ctx.font = '8px sans-serif';
     const step = Math.max(1, Math.ceil(data.chart.length / 8));
@@ -140,8 +142,9 @@
       }
       const ctx = canvas.getContext('2d'); drawChart(ctx, json);
       const s = json.summary;
-      const negDays = json.chart.filter(d => d.deviation_percent < 0).length;
-      const posDays = json.chart.filter(d => d.deviation_percent > 0).length;
+      const postChart = json.chart.filter(d => !d.pre_entry);
+      const negDays = postChart.filter(d => d.deviation_percent < 0).length;
+      const posDays = postChart.filter(d => d.deviation_percent > 0).length;
       spinner.style.display = 'none'; loader.textContent = 'Загружено за ' + json.loadTime + ' мс';
       const headerEl = card.querySelector('.chart-header');
       const sign = n => (n >= 0 ? '+' : '') + n;
@@ -185,4 +188,8 @@
     btn.textContent = '🔄';
   }
 </script>
+
+<p style="text-align:center;margin-top:2.5rem;font-size:11px;color:var(--text-muted);">
+  🧪 <a href="/graphics/v2">Попробовать новый дизайн → /graphics/v2</a>
+</p>
 {% endblock %}

@@ -25,8 +25,11 @@
             <li><a href="{{ url_for('ma_analytics.index') }}">База MA</a></li>
             <li><a href="{{ url_for('ccxt_api.index') }}">CCXT API</a></li>
             <li><a href="{{ url_for('ofd_api.index') }}" style="color:#8b5cf6;">🧪 OFD API</a></li>
+            <li><a href="/ofd_abonent/" style="color:#22c55e;">📋 OFD Abonent</a></li>
             <li><a href="{{ url_for('web.range_variants_demo') }}">Range Demo</a></li>
             <li><a href="{{ url_for('account_api.index') }}">🔐 Account</a></li>
+            <li><a href="{{ url_for('viz_lab.index') }}" style="color:#f59e0b;">🧪 Viz Lab</a></li>
+            <li><a href="{{ url_for('ai_models.index') }}" style="color:#22d3ee;">🤖 AI Models</a></li>
         </ul>
         <button onclick="toggleTheme()" style="background:var(--bg-card); border:1px solid var(--border-color); color:var(--text-main); padding:4px 8px; border-radius:4px; cursor:pointer;">🌙</button>
     </nav>
@@ -85,5 +88,6 @@
             }
         }
     </script>
+    {% block extra_scripts %}{% endblock %}
 </body>
 </html>

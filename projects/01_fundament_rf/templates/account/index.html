@@ -87,6 +87,16 @@
   <label style="display:flex; align-items:center; gap:3px; color:var(--text-muted);">
     🔆 <input type="number" id="flash-opacity" value="0.4" min="0.1" max="1" step="0.05" style="width:50px" onchange="setFlashOpacity(this.value)">
   </label>
+  <div style="position:relative; margin-left:auto;">
+    <button onclick="toggleColSettings()" title="Настройка колонок" style="background:none; border:1px solid var(--border-color); font-size:12px; cursor:pointer; padding:2px 6px; border-radius:4px; color:var(--text-muted);">⚙️ Колонки</button>
+    <div id="col-settings" class="col-settings-float">
+      <div class="col-settings-header" id="col-settings-header">
+        <span>⚙️ Настройка колонок</span>
+        <button onclick="closeColSettings()" style="background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:14px;padding:0;line-height:1;">✕</button>
+      </div>
+      <div id="col-list" class="col-list"></div>
+    </div>
+  </div>
 </div>
 
 <div id="account-loading" class="htmx-indicator" style="text-align:center; padding:2rem; display:none;">
@@ -142,8 +152,6 @@
     margin: 0.5rem 0;
     border-collapse: collapse;
     font-size: 12px;
-    display: block;
-    overflow-x: auto;
 }
 .account-table th {
     background: var(--border-color);
@@ -219,6 +227,32 @@
     100% { opacity: 1; text-shadow: 0 0 4px #22c55e; }
 }
 .live-pulse { animation: live-pulse 1.2s ease-out; }
+.col-settings-float {
+    display:none; position:fixed; z-index:1000;
+    background:var(--bg-card); border:1px solid var(--border-color);
+    border-radius:8px; padding:0; min-width:200px;
+    box-shadow:0 8px 24px rgba(0,0,0,0.4); font-size:12px;
+    top:50%; left:50%; transform:translate(-50%,-50%);
+}
+.col-settings-float.open { display:block; }
+.col-settings-header {
+    display:flex; justify-content:space-between; align-items:center;
+    padding:8px 12px; cursor:grab;
+    border-bottom:1px solid var(--border-color);
+    font-weight:bold; font-size:13px; user-select:none;
+}
+.col-settings-header:active { cursor:grabbing; }
+.col-list { padding:6px; }
+.col-item {
+    display:flex; align-items:center; gap:6px; padding:3px 6px;
+    cursor:grab; font-size:12px; border-radius:4px;
+    user-select:none;
+}
+.col-item:hover { background:var(--hover-bg, rgba(255,255,255,0.05)); }
+.col-item:active { cursor:grabbing; }
+.col-item.dragging { opacity:0.5; }
+.col-item.drag-over { border-top:2px solid #3498db; }
+.col-item .drag-handle { cursor:grab; color:var(--text-muted); font-size:14px; }
 </style>
 
 <script src="https://unpkg.com/htmx.org@1.9.11"></script>
@@ -628,8 +662,8 @@
         table.setAttribute('data-sort-asc', asc);
 
         rows.sort(function(a, b) {
-            var va = a.querySelectorAll('td')[col];
-            var vb = b.querySelectorAll('td')[col];
+            var va = a.querySelector('td[data-col="'+col+'"]');
+            var vb = b.querySelector('td[data-col="'+col+'"]');
             if (!va || !vb) return 0;
             var ta = va.textContent.trim();
             var tb = vb.textContent.trim();
@@ -652,7 +686,7 @@
         // Update saved row order after manual sort
         var curAfter = tbody.querySelectorAll('tr');
         window._savedRowOrder = Array.from(curAfter).map(function(r) {
-            return (r.cells[0] || {}).textContent || '';
+            return (r.querySelector('[data-col="0"]') || {}).textContent || '';
         });
 
         var ths = table.querySelectorAll('th.sortable');
@@ -664,6 +698,187 @@
 
         try { sessionStorage.setItem('tableSort', JSON.stringify({col: col, asc: asc})); } catch(e) {}
     };
+
+    // ── Column visibility + ordering ──
+    var COL_DEFS = [
+        {id:0,label:'Symbol'},{id:1,label:'Side'},{id:2,label:'Date'},
+        {id:3,label:'Entry'},{id:4,label:'Diff%'},{id:5,label:'Current'},
+        {id:6,label:'Days'},{id:7,label:'Last Trade'},{id:8,label:'Ord'},
+        {id:9,label:'Fills'},{id:10,label:'Size (coin)'},{id:11,label:'Size (USDT)'},
+        {id:12,label:'Margin'},{id:13,label:'Bal%'},{id:14,label:'Mgn%'},
+        {id:15,label:'Exp%'},{id:16,label:'PnL $'},{id:17,label:'PnL %'},
+        {id:18,label:'Achieved'},{id:19,label:'Fee'},{id:20,label:'SL'},
+        {id:21,label:'TP'},{id:22,label:'Lev'},{id:23,label:'Liq. Price'},
+        {id:24,label:'Risk'}
+    ];
+
+    function getColState() {
+        try { return JSON.parse(localStorage.getItem('tableColState')); } catch(e) {}
+        return null;
+    }
+    function saveColState(s) { localStorage.setItem('tableColState', JSON.stringify(s)); }
+    function initColState() {
+        var s = getColState();
+        if (s) return s;
+        s = {visible: COL_DEFS.map(function(c){return c.id;}), order:COL_DEFS.map(function(c){return c.id;})};
+        saveColState(s);
+        return s;
+    }
+
+    function toggleColSettings() {
+        var p = document.getElementById('col-settings');
+        p.classList.toggle('open');
+        if (p.classList.contains('open')) {
+            p.style.top = '';
+            p.style.left = '';
+            p.style.transform = 'translate(-50%, -50%)';
+            renderColList();
+        }
+    }
+    window.toggleColSettings = toggleColSettings;
+
+    function closeColSettings() {
+        document.getElementById('col-settings').classList.remove('open');
+    }
+    window.closeColSettings = closeColSettings;
+
+    // Drag floating window by header
+    document.addEventListener('mousedown', function(e) {
+        var header = e.target.closest('#col-settings-header');
+        if (!header) return;
+        var panel = document.getElementById('col-settings');
+        if (!panel.classList.contains('open')) return;
+        e.preventDefault();
+        var rect = panel.getBoundingClientRect();
+        var offX = e.clientX - rect.left;
+        var offY = e.clientY - rect.top;
+        panel.style.transform = 'none';
+        function onMove(ev) {
+            panel.style.left = (ev.clientX - offX) + 'px';
+            panel.style.top = (ev.clientY - offY) + 'px';
+        }
+        function onUp() {
+            document.removeEventListener('mousemove', onMove);
+            document.removeEventListener('mouseup', onUp);
+        }
+        document.addEventListener('mousemove', onMove);
+        document.addEventListener('mouseup', onUp);
+    });
+
+    function renderColList() {
+        var s = initColState();
+        var list = document.getElementById('col-list');
+        list.innerHTML = '';
+        s.order.forEach(function(id) {
+            var col = COL_DEFS.find(function(c){return c.id===id;});
+            if (!col) return;
+            var item = document.createElement('div');
+            item.className = 'col-item';
+            item.draggable = true;
+            item.dataset.colId = id;
+            var cb = document.createElement('input');
+            cb.type = 'checkbox';
+            cb.checked = s.visible.indexOf(id) >= 0;
+            cb.onchange = function(){ toggleCol(id); };
+            var h = document.createElement('span');
+            h.className = 'drag-handle';
+            h.textContent = '⠿';
+            var lbl = document.createTextNode(' ' + col.label);
+            item.appendChild(cb);
+            item.appendChild(h);
+            item.appendChild(lbl);
+            item.addEventListener('dragstart', onDragStart);
+            item.addEventListener('dragend', onDragEnd);
+            item.addEventListener('dragover', onDragOver);
+            item.addEventListener('drop', onDrop);
+            item.addEventListener('dragleave', onDragLeave);
+            list.appendChild(item);
+        });
+    }
+
+    function toggleCol(id) {
+        var s = initColState();
+        var idx = s.visible.indexOf(id);
+        if (idx >= 0) s.visible.splice(idx, 1);
+        else s.visible.push(id);
+        saveColState(s);
+        applyColState();
+    }
+
+    function applyColState() {
+        var s = getColState();
+        if (!s) return;
+        document.querySelectorAll('.account-table [data-col]').forEach(function(el) {
+            var col = parseInt(el.getAttribute('data-col'));
+            el.style.display = s.visible.indexOf(col) >= 0 ? '' : 'none';
+        });
+        document.querySelectorAll('.account-table thead tr, .account-table tbody tr, .account-table tfoot tr').forEach(function(tr) {
+            s.order.forEach(function(id) {
+                var cell = tr.querySelector('[data-col="'+id+'"]');
+                if (cell) tr.appendChild(cell);
+            });
+        });
+    }
+
+    function onDragStart(e) {
+        this.classList.add('dragging');
+        e.dataTransfer.effectAllowed = 'move';
+    }
+    function onDragEnd(e) { this.classList.remove('dragging'); }
+    function onDragOver(e) { e.preventDefault(); this.classList.add('drag-over'); }
+    function onDragLeave(e) { this.classList.remove('drag-over'); }
+    function onDrop(e) {
+        e.preventDefault();
+        this.classList.remove('drag-over');
+        var from = document.querySelector('.col-item.dragging');
+        if (!from || from === this) return;
+        var s = initColState();
+        var fromId = parseInt(from.dataset.colId);
+        var toId = parseInt(this.dataset.colId);
+        var fi = s.order.indexOf(fromId);
+        var ti = s.order.indexOf(toId);
+        if (fi >= 0 && ti >= 0) {
+            var _moved = s.order.splice(fi, 1)[0];
+            if (fi < ti) ti--;
+            s.order.splice(ti, 0, _moved);
+            saveColState(s);
+            renderColList();
+            applyColState();
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        applyColState();
+    });
+    document.body.addEventListener('htmx:beforeSwap', function(evt) {
+        if (evt.detail.target && evt.detail.target.id === 'account-content' && evt.detail.serverResponse) {
+            var s = getColState();
+            if (!s) return;
+            var _d = document.createElement('div');
+            _d.innerHTML = evt.detail.serverResponse;
+            _d.querySelectorAll('.account-table thead tr, .account-table tbody tr, .account-table tfoot tr').forEach(function(tr) {
+                s.order.forEach(function(id) {
+                    var cell = tr.querySelector('[data-col="'+id+'"]');
+                    if (cell) tr.appendChild(cell);
+                });
+            });
+            _d.querySelectorAll('[data-col]').forEach(function(el) {
+                el.style.display = s.visible.indexOf(parseInt(el.getAttribute('data-col'))) >= 0 ? '' : 'none';
+            });
+            // Restore sort indicator
+            try {
+                var _ss = JSON.parse(sessionStorage.getItem('tableSort'));
+                if (_ss) {
+                    _d.querySelectorAll('th.sortable').forEach(function(th) {
+                        var _i = parseInt(th.getAttribute('data-col'));
+                        th.textContent = th.textContent.replace(/ [↑↓]$/, '');
+                        if (_i == _ss.col) th.textContent += _ss.asc ? ' ↑' : ' ↓';
+                    });
+                }
+            } catch(e) {}
+            evt.detail.serverResponse = _d.innerHTML;
+        }
+    });
 })();
 </script>
 </div>

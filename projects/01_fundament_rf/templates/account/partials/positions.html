@@ -1,20 +1,21 @@
 {% if error %}
 <div class="error-state">❌ {{ error }}</div>
 {% elif positions %}
+<div style="overflow-x:auto;">
 <table class="account-table">
 <thead>
         <tr>
-            <th class="sortable" data-col="0" style="text-align:center; cursor:pointer;" onclick="sortTable(0)">Symbol</th>
-            <th class="sortable" data-col="1" style="text-align:center; cursor:pointer;" onclick="sortTable(1)">Side</th>
+            <th class="sortable" data-col="0" style="text-align:center; cursor:pointer; border-left:4px solid var(--border-color); width:{{ sym_width }}px;" onclick="sortTable(0)">Symbol</th>
+            <th class="sortable" data-col="1" style="text-align:center; cursor:pointer; width:25px;" onclick="sortTable(1)">Side</th>
             <th class="sortable" data-col="2" style="text-align:center; cursor:pointer;" onclick="sortTable(2)">Date</th>
-            <th style="text-align:center;">Entry</th>
+            <th data-col="3" style="text-align:center;">Entry</th>
             <th class="sortable" data-col="4" style="text-align:center; color:#888; font-weight:normal; cursor:pointer;" onclick="sortTable(4)">Diff%</th>
-            <th style="text-align:center;">Current</th>
+            <th data-col="5" style="text-align:center;">Current</th>
             <th class="sortable" data-col="6" style="text-align:center; cursor:pointer;" onclick="sortTable(6)">Days</th>
-            <th style="text-align:center; white-space:normal; max-width:40px;">Last Trade</th>
-            <th style="text-align:center;">Ord</th>
-            <th style="text-align:center;">Fills</th>
-            <th style="text-align:center; white-space:normal; max-width:50px;">Size (coin)</th>
+            <th data-col="7" style="text-align:center; white-space:normal; max-width:40px;">Last Trade</th>
+            <th data-col="8" style="text-align:center;">Ord</th>
+            <th data-col="9" style="text-align:center;">Fills</th>
+            <th data-col="10" style="text-align:center; white-space:normal; max-width:50px;">Size (coin)</th>
             <th class="sortable" data-col="11" style="text-align:center; white-space:normal; max-width:50px; cursor:pointer;" onclick="sortTable(11)">Size (USDT)</th>
             <th class="sortable" data-col="12" style="text-align:center; cursor:pointer;" onclick="sortTable(12)">Margin</th>
             <th class="sortable" data-col="13" style="text-align:center; color:#888; font-weight:normal; cursor:pointer;" onclick="sortTable(13)">Bal%</th>
@@ -24,11 +25,11 @@
             <th class="sortable" data-col="17" style="text-align:center; cursor:pointer;" onclick="sortTable(17)">PnL %</th>
             <th class="sortable" data-col="18" style="text-align:center; cursor:pointer;" onclick="sortTable(18)">Achieved</th>
             <th class="sortable" data-col="19" style="text-align:center; cursor:pointer;" onclick="sortTable(19)">Fee</th>
-            <th style="text-align:center;">SL</th>
-            <th style="text-align:center;">TP</th>
-            <th style="text-align:center;">Lev</th>
-            <th style="text-align:center;">Liq. Price</th>
-            <th style="text-align:center;">Risk</th>
+            <th data-col="20" style="text-align:center;">SL</th>
+            <th data-col="21" style="text-align:center;">TP</th>
+            <th data-col="22" style="text-align:center;">Lev</th>
+            <th data-col="23" style="text-align:center;">Liq. Price</th>
+            <th data-col="24" style="text-align:center;">Risk</th>
         </tr>
     </thead>
     <tbody>
@@ -36,66 +37,69 @@
         {% set ld = last_trade_days.get(p.symbol) %}
         {% set oc = order_counts.get(p.symbol, 0) %}
         <tr class="{{ 'row-profit' if p.unrealized_pl >= 0 else 'row-loss' }}">
-            <td style="text-align:center;"><strong>{{ p.ticker }}</strong></td>
-            <td style="text-align:center; color: {{ 'var(--color-profit)' if p.hold_side == 'long' else 'var(--color-loss)' }}">{{ p.hold_side }}</td>
-            <td style="text-align:center;">{{ p.open_date }}</td>
-            <td style="text-align:center;">{{ fmt_num(p.open_price_avg, 5) }}</td>
-            <td style="text-align:center;" class="{{ 'pl-positive' if p.entry_diff_pct >= 0 else 'pl-negative' }}">{{ fmt_num(p.entry_diff_pct, 2) }}%</td>
-            <td style="text-align:center;">{{ fmt_num(p.current_price, 5) }}</td>
-            <td style="text-align:center;">{{ p.days_open }}д</td>
-            <td style="text-align:center;">{% if ld is not none %}{{ ld|int }}д{% else %}—{% endif %}</td>
-            <td style="text-align:center;">{% if oc > 0 %}<span style="color:#3498db; font-weight:bold;">{{ oc }}</span>{% else %}—{% endif %}</td>
-            <td style="text-align:center;">{{ fill_counts.get(p.symbol, 0) }}</td>
-            <td style="text-align:center;">{{ fmt_num(p.total_coin, 4) }}</td>
-            <td style="text-align:center;">{{ fmt_num(p.position_value_usdt, 2) }}</td>
-            <td style="text-align:center;">{{ fmt_num(p.margin_size, 4) }}</td>
-            <td style="text-align:center; color:#888;">{{ fmt_num(p.bal_pct, 1) }}%</td>
-            <td style="text-align:center; color:#888;">{{ fmt_num(p.mgn_pct, 1) }}%</td>
-            <td style="text-align:center;" class="{{ 'pl-positive' if p.unrealized_pl >= 0 else 'pl-negative' }}">{{ fmt_num(p.exp_pct, 1) }}%</td>
-            <td style="text-align:center;" class="{{ 'pl-positive' if p.unrealized_pl >= 0 else 'pl-negative' }}">{{ '+ ' if p.unrealized_pl >= 0 else '' }}{{ fmt_num(p.unrealized_pl, 2) }}</td>
-            <td style="text-align:center;" class="{{ 'pl-positive' if p.pl_percent >= 0 else 'pl-negative' }}">{{ '+ ' if p.pl_percent >= 0 else '' }}{{ fmt_num(p.pl_percent, 2) }}%</td>
-            <td style="text-align:center;" class="pl-achieved">{{ '+ ' if p.achieved_profits >= 0 else '' }}{{ fmt_num(p.achieved_profits, 2) }}</td>
-            <td style="text-align:center; color:{{ '#6b8e6b' if p.total_fee > 0 else '#8b3a3a' if p.total_fee < 0 else '#888' }};">{{ fmt_num(p.total_fee, 4) }}</td>
-            <td style="text-align:center;">{% if p.has_sl %}{{ fmt_num(p.sl_distance_pct, 1) }}%{% else %}—{% endif %}</td>
-            <td style="text-align:center;">{% if p.has_tp %}{{ fmt_num(p.tp_distance_pct, 1) }}%{% else %}—{% endif %}</td>
-            <td style="text-align:center;">{{ fmt_num(p.leverage) }}x</td>
-            <td style="text-align:center;">{{ fmt_num(p.liquidation_price, 5) if p.liquidation_price > 0 else '—' }}</td>
-            <td style="text-align:center; color: {{ 'var(--color-profit)' if p.risk_to_liquidation > 50 else 'var(--color-loss)' }}">{{ fmt_num(p.risk_to_liquidation, 1) }}%</td>
+            <td data-col="0" style="text-align:center; border-left: 4px solid {{ 'var(--color-profit)' if p.unrealized_pl >= 0 else 'var(--color-loss)' }}; width:{{ sym_width }}px;"><strong>{{ p.ticker }}</strong></td>
+            <td data-col="1" style="text-align:center; width:25px;">{{ 'L' if p.hold_side == 'long' else 'S' }}</td>
+            <td data-col="2" style="text-align:center;">{{ p.open_date }}</td>
+            <td data-col="3" style="text-align:center;">{{ fmt_num(p.open_price_avg, 5) }}</td>
+            <td data-col="4" style="text-align:center;" class="{{ 'pl-positive' if p.entry_diff_pct >= 0 else 'pl-negative' }}">{{ fmt_num(p.entry_diff_pct, 2) }}%</td>
+            <td data-col="5" style="text-align:center;">{{ fmt_num(p.current_price, 5) }}</td>
+            <td data-col="6" style="text-align:center;">{{ p.days_open }}д</td>
+            <td data-col="7" style="text-align:center;">{% if ld is not none %}{{ ld|int }}д{% else %}—{% endif %}</td>
+            <td data-col="8" style="text-align:center;">{% if oc > 0 %}<span style="color:#3498db; font-weight:bold;">{{ oc }}</span>{% else %}—{% endif %}</td>
+            <td data-col="9" style="text-align:center;">{{ fill_counts.get(p.symbol, 0) }}</td>
+            <td data-col="10" style="text-align:center;">{{ fmt_num(p.total_coin, 4) }}</td>
+            <td data-col="11" style="text-align:center;">{{ fmt_num(p.position_value_usdt, 2) }}</td>
+            <td data-col="12" style="text-align:center;">{{ fmt_num(p.margin_size, 4) }}</td>
+            <td data-col="13" style="text-align:center; color:#888;">{{ fmt_num(p.bal_pct, 1) }}%</td>
+            <td data-col="14" style="text-align:center; color:#888;">{{ fmt_num(p.mgn_pct, 1) }}%</td>
+            <td data-col="15" style="text-align:center;" class="{{ 'pl-positive' if p.unrealized_pl >= 0 else 'pl-negative' }}">{{ fmt_num(p.exp_pct, 1) }}%</td>
+            <td data-col="16" style="text-align:center;" class="{{ 'pl-positive' if p.unrealized_pl >= 0 else 'pl-negative' }}">{{ '+ ' if p.unrealized_pl >= 0 else '' }}{{ fmt_num(p.unrealized_pl, 2) }}</td>
+            <td data-col="17" style="text-align:center;" class="{{ 'pl-positive' if p.pl_percent >= 0 else 'pl-negative' }}">{{ '+ ' if p.pl_percent >= 0 else '' }}{{ fmt_num(p.pl_percent, 2) }}%</td>
+            <td data-col="18" style="text-align:center;" class="pl-achieved">{{ '+ ' if p.achieved_profits >= 0 else '' }}{{ fmt_num(p.achieved_profits, 2) }}</td>
+            <td data-col="19" style="text-align:center; color:{{ '#6b8e6b' if p.total_fee > 0 else '#8b3a3a' if p.total_fee < 0 else '#888' }};">{{ fmt_num(p.total_fee, 4) }}</td>
+            <td data-col="20" style="text-align:center;">{% if p.has_sl %}{{ fmt_num(p.sl_distance_pct, 1) }}%{% else %}—{% endif %}</td>
+            <td data-col="21" style="text-align:center;">{% if p.has_tp %}{{ fmt_num(p.tp_distance_pct, 1) }}%{% else %}—{% endif %}</td>
+            <td data-col="22" style="text-align:center;">{{ fmt_num(p.leverage) }}x</td>
+            <td data-col="23" style="text-align:center;">{{ fmt_num(p.liquidation_price, 5) if p.liquidation_price > 0 else '—' }}</td>
+            <td data-col="24" style="text-align:center; color: {{ 'var(--color-profit)' if p.risk_to_liquidation > 50 else 'var(--color-loss)' }}">{{ fmt_num(p.risk_to_liquidation, 1) }}%</td>
         </tr>
         {% endfor %}
     </tbody>
     <tfoot>
         <tr style="font-weight:bold; border-top:2px solid var(--border-color);">
-            <td colspan="3" style="text-align:center;">Итого · 📋 {{ positions|length }}</td>
-            <td colspan="3"></td>
-            <td colspan="3"></td>
-            <td style="text-align:center;">{{ fill_counts.values()|sum }}</td>
-            <td style="text-align:center; color:#888;">—</td>
-            <td style="text-align:center;">{{ fmt_num(positions|sum(attribute='position_value_usdt'), 2) }}</td>
-            <td style="text-align:center;">{{ fmt_num(positions|sum(attribute='margin_size'), 4) }}</td>
             {% set sum_mgn = positions|sum(attribute='mgn_pct') %}
             {% set sum_exp = positions|sum(attribute='exp_pct') %}
-            <td style="text-align:center; color:#888;">{{ fmt_num(total_bal_pct, 1) }}%</td>
-            <td style="text-align:center; color:#888;">{{ fmt_num(sum_mgn, 1) }}%</td>
-            <td style="text-align:center;" class="{{ 'pl-positive' if sum_exp >= 0 else 'pl-negative' }}">{{ fmt_num(sum_exp, 1) }}%</td>
-            <td style="text-align:center;" class="{{ 'pl-positive' if positions|sum(attribute='unrealized_pl') >= 0 else 'pl-negative' }}">
-                {{ '+ ' if positions|sum(attribute='unrealized_pl') >= 0 else '' }}{{ fmt_num(positions|sum(attribute='unrealized_pl'), 2) }}
-            </td>
-            <td style="text-align:center;">
-                {% set avg_pl = positions|sum(attribute='pl_percent') / positions|length if positions else 0 %}
-                <span class="{{ 'pl-positive' if avg_pl >= 0 else 'pl-negative' }}">{{ '+ ' if avg_pl >= 0 else '' }}{{ fmt_num(avg_pl, 2) }}%</span>
-            </td>
-            <td style="text-align:center;" class="pl-achieved">
-                {{ '+ ' if positions|sum(attribute='achieved_profits') >= 0 else '' }}{{ fmt_num(positions|sum(attribute='achieved_profits'), 2) }}
-            </td>
-            <td style="text-align:center; color:{{ '#6b8e6b' if positions|sum(attribute='total_fee') > 0 else '#8b3a3a' if positions|sum(attribute='total_fee') < 0 else '#888' }};">{{ fmt_num(positions|sum(attribute='total_fee'), 4) }}</td>
-            <td colspan="2"></td>
-            <td colspan="3"></td>
+            {% set avg_pl = positions|sum(attribute='pl_percent') / positions|length if positions else 0 %}
+            <td data-col="0" style="text-align:center;">Итого · 📋 {{ positions|length }}</td>
+            <td data-col="1"></td>
+            <td data-col="2"></td>
+            <td data-col="3"></td>
+            <td data-col="4"></td>
+            <td data-col="5"></td>
+            <td data-col="6"></td>
+            <td data-col="7"></td>
+            <td data-col="8"></td>
+            <td data-col="9" style="text-align:center;">{{ fill_counts.values()|sum }}</td>
+            <td data-col="10" style="text-align:center; color:#888;">—</td>
+            <td data-col="11" style="text-align:center;">{{ fmt_num(positions|sum(attribute='position_value_usdt'), 2) }}</td>
+            <td data-col="12" style="text-align:center;">{{ fmt_num(positions|sum(attribute='margin_size'), 4) }}</td>
+            <td data-col="13" style="text-align:center; color:#888;">{{ fmt_num(total_bal_pct, 1) }}%</td>
+            <td data-col="14" style="text-align:center; color:#888;">{{ fmt_num(sum_mgn, 1) }}%</td>
+            <td data-col="15" style="text-align:center;" class="{{ 'pl-positive' if sum_exp >= 0 else 'pl-negative' }}">{{ fmt_num(sum_exp, 1) }}%</td>
+            <td data-col="16" style="text-align:center;" class="{{ 'pl-positive' if positions|sum(attribute='unrealized_pl') >= 0 else 'pl-negative' }}">{{ '+ ' if positions|sum(attribute='unrealized_pl') >= 0 else '' }}{{ fmt_num(positions|sum(attribute='unrealized_pl'), 2) }}</td>
+            <td data-col="17" style="text-align:center;"><span class="{{ 'pl-positive' if avg_pl >= 0 else 'pl-negative' }}">{{ '+ ' if avg_pl >= 0 else '' }}{{ fmt_num(avg_pl, 2) }}%</span></td>
+            <td data-col="18" style="text-align:center;" class="pl-achieved">{{ '+ ' if positions|sum(attribute='achieved_profits') >= 0 else '' }}{{ fmt_num(positions|sum(attribute='achieved_profits'), 2) }}</td>
+            <td data-col="19" style="text-align:center; color:{{ '#6b8e6b' if positions|sum(attribute='total_fee') > 0 else '#8b3a3a' if positions|sum(attribute='total_fee') < 0 else '#888' }};">{{ fmt_num(positions|sum(attribute='total_fee'), 4) }}</td>
+            <td data-col="20"></td>
+            <td data-col="21"></td>
+            <td data-col="22"></td>
+            <td data-col="23"></td>
+            <td data-col="24"></td>
         </tr>
     </tfoot>
 </table>
+</div>
 
-{% if not live %}
 <!-- ===== TG Compact Rows ===== -->
 <details class="tg-section-details" id="tg-details">
   <summary class="tg-section-summary" style="font-size:11px; cursor:pointer; padding:6px 8px; background:var(--bg-card); border:1px solid var(--border-color); border-radius:6px; margin-top:8px; color:var(--text-muted); display:flex; align-items:center; gap:6px;">
@@ -115,7 +119,7 @@
     <span style="font-size:12px; font-weight:bold; width:14px; color:{{ 'var(--color-profit)' if arrow_up else 'var(--color-loss)' }};">{{ '↑' if arrow_up else '↓' }}</span>
     <span class="tg-spark" style="width:36px; height:10px; flex-shrink:0;"{% if pd.deviation_pct and pd.deviation_pct|length > 1 %} data-values="{{ pd.deviation_pct | reverse | list | tojson }}"{% endif %}></span>
     <span style="font-size:15px; font-family:monospace; color:var(--text-muted); white-space:nowrap; overflow:hidden;">
-      <span style="width:36px; display:inline-block; text-align:left;">🏗️{{ pd.number }}</span><span style="margin-left:4px; width:90px; display:inline-block;">🚏{{ pd.symbol }}</span><span style="margin-left:4px; width:76px; display:inline-block;">🧾{{ fmt_num(p.open_price_avg, 4) }}</span><span style="margin-left:4px; width:110px; display:inline-block;">📆{{ pd.entry_date or p.open_date }}</span><span style="margin-left:4px; width:40px; display:inline-block;">🕒{{ p.days_open }}д</span><span style="margin-left:4px; width:76px; display:inline-block;">🧱{{ fmt_num(p.margin_size, 4) }}</span><span style="margin-left:4px; width:76px; display:inline-block;">🫧{{ fmt_num(p.pl_percent, 2) }}%</span><span style="margin-left:4px; width:85px; display:inline-block;">🪙{{ fmt_num(p.unrealized_pl, 4) }}</span><span style="margin-left:4px; width:22px; display:inline-block;">{{ '🟢' if arrow_up else '🔴' }}</span><span style="margin-left:4px; width:48px; display:inline-block;">⬆️{{ "%.0f"|format(p.leverage) }}x</span>
+      <span style="width:36px; display:inline-block; text-align:left;">🏗️{{ pd.number }}</span><span style="margin-left:4px; width:60px; display:inline-block;">🚏{{ pd.symbol }}</span><span style="margin-left:4px; width:90px; display:inline-block;">🧾{{ fmt_num(p.open_price_avg, 4) }}</span><span style="margin-left:4px; width:110px; display:inline-block;">📆{{ pd.entry_date or p.open_date }}</span><span style="margin-left:4px; width:40px; display:inline-block;">🕒{{ p.days_open }}д</span><span style="margin-left:4px; width:76px; display:inline-block;">🧱{{ fmt_num(p.margin_size, 4) }}</span><span style="margin-left:4px; width:76px; display:inline-block;">🫧{{ fmt_num(p.pl_percent, 2) }}%</span><span style="margin-left:4px; width:85px; display:inline-block;">🪙{{ fmt_num(p.unrealized_pl, 4) }}</span><span style="margin-left:4px; width:22px; display:inline-block;">{{ '🟢' if arrow_up else '🔴' }}</span><span style="margin-left:4px; width:48px; display:inline-block;">⬆️{{ "%.0f"|format(p.leverage) }}x</span>
     </span>
   </div>
   {% endif %}
@@ -250,7 +254,6 @@ document.addEventListener('toggle', function(e) {
     }
 }, true);
 </script>
-{% endif %}
 {% else %}
 <div class="empty-state">📭 Нет открытых позиций</div>
 {% include "account/partials/_debug_footer.html" %}

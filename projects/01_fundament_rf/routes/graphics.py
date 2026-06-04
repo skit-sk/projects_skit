@@ -82,7 +82,12 @@ def _round_usdt(val):
 def all_charts():
     storage = _get_storage()
     objects = storage.list()
-    return render_template("graphics/all.html", objects=objects)
+    archived_ids = set()
+    for obj in objects:
+        lp = obj.data.get('live_position')
+        if not lp or not lp.get('hold_side'):
+            archived_ids.add(obj.id)
+    return render_template("graphics/all.html", objects=objects, archived_ids=archived_ids)
 
 @bp.route("/graphics/chart/<obj_id>")
 def chart(obj_id):

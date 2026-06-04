@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+{% block title %}Model Catalog{% endblock %}
+{% block extra_head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/ai_models/index.css') }}">
+{% endblock %}
+{% block content %}
+<div class="models-page" id="modelsPage">
+  <div class="models-header">
+    <h2>📋 Model Catalog</h2>
+    <div class="header-actions">
+      <div class="btn-group">
+        <button id="refreshOnlineBtn" class="btn-primary">🔄 Online Refresh</button>
+        <button id="refreshJsonBtn" class="btn-secondary">⟳ Re-read JSON</button>
+        <button id="addProviderBtn" class="btn-secondary">➕ Add Provider</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats-bar" id="statsBar">
+    <span>Loading stats...</span>
+  </div>
+
+  <div class="filters-bar">
+    <select id="filterProvider" class="filter-select">
+      <option value="">All Providers</option>
+    </select>
+    <select id="filterType" class="filter-select">
+      <option value="">All Types</option>
+    </select>
+    <select id="filterBalance" class="filter-select">
+      <option value="">All Balance</option>
+      <option value="prepaid">Prepaid</option>
+      <option value="no_key">No Key</option>
+      <option value="needs-key">Needs Key</option>
+    </select>
+    <input type="text" id="searchInput" class="filter-search" placeholder="🔍 Search model...">
+    <span class="filter-count" id="filterCount"></span>
+  </div>
+
+  <div class="table-container">
+    <table class="models-table" id="modelsTable">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Model</th>
+          <th>Provider</th>
+          <th>Types</th>
+          <th>Context</th>
+          <th>Cost In</th>
+          <th>Cost Out</th>
+          <th>Σ Total</th>
+          <th>Balance</th>
+        </tr>
+      </thead>
+      <tbody id="modelsBody">
+        <tr><td colspan="9" class="loading-cell">Loading models...</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div id="addProviderModal" class="modal hidden">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>➕ Add Custom Provider</h3>
+      <button class="modal-close">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <label>Provider ID</label>
+        <input type="text" id="cpId" class="form-input" placeholder="my-provider">
+      </div>
+      <div class="form-row">
+        <label>Label</label>
+        <input type="text" id="cpLabel" class="form-input" placeholder="My Provider">
+      </div>
+      <div class="form-row">
+        <label>Base URL</label>
+        <input type="url" id="cpUrl" class="form-input" placeholder="https://api.myprovider.com/v1">
+      </div>
+      <div class="form-row">
+        <label>API Key (env var)</label>
+        <input type="text" id="cpKeyVar" class="form-input" placeholder="MY_PROVIDER_API_KEY">
+      </div>
+      <div class="form-row">
+        <label>Models (comma separated)</label>
+        <input type="text" id="cpModels" class="form-input" placeholder="model1, model2">
+      </div>
+      <div class="form-row">
+        <label>Type</label>
+        <select id="cpType" class="form-input">
+          <option value="llm">LLM</option>
+          <option value="vision">Vision</option>
+          <option value="audio">Audio</option>
+          <option value="tts">TTS</option>
+          <option value="stt">STT</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label>Pricing Unit</label>
+        <input type="text" id="cpPricing" class="form-input" placeholder="RUB per 1M tokens">
+      </div>
+      <div class="form-actions">
+        <button id="testConnectionBtn" class="btn-secondary">✅ Test Connection</button>
+        <button id="saveProviderBtn" class="btn-primary">💾 Save Provider</button>
+      </div>
+      <div id="testResult" class="test-result hidden"></div>
+    </div>
+  </div>
+</div>
+
+<div id="onlineRefreshModal" class="modal hidden">
+  <div class="modal-content" style="max-width:400px;">
+    <div class="modal-header">
+      <h3>🔄 Online Refresh</h3>
+      <button class="modal-close">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p>Select provider to refresh from API:</p>
+      <select id="refreshProviderSelect" class="form-input">
+        <option value="">All providers</option>
+      </select>
+      <div class="form-actions" style="margin-top:12px;">
+        <button id="startRefreshBtn" class="btn-primary">🔄 Start Refresh</button>
+      </div>
+      <div id="refreshProgress" class="refresh-progress hidden"></div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{{ url_for('static', filename='js/ai_models/index.js') }}"></script>
+{% endblock %}

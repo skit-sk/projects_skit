@@ -1,0 +1,624 @@
+{% extends "graphics_v2/base.html" %}
+{% import "_macros_v2.html" as m %}
+
+{% block title %}Все графики — Bento (V2){% endblock %}
+
+{% block extra_head %}
+<style>
+  body > main { max-width:100% !important; margin:0 !important; padding:0 !important; }
+  .gv2-tgwrap .tg-row { font-size:9px; }
+  .gv2-tgwrap .tg-row .tf:nth-child(1) { width:24px; }
+  .gv2-tgwrap .tg-row .tf:nth-child(2) { width:38px; }
+  .gv2-tgwrap .tg-row .tf:nth-child(3) { width:58px; }
+  .gv2-tgwrap .tg-row .tf:nth-child(4) { width:66px; }
+  .gv2-tgwrap .tg-row .tf:nth-child(5) { width:32px; }
+  .gv2-tgwrap .tg-row .tf:nth-child(6) { width:30px; }
+  .gv2-tgwrap .tg-row .tf:nth-child(7) { width:44px; }
+  .gv2-tgwrap .tg-row .tf:nth-child(8) { width:52px; }
+  .gv2-tgwrap .tg-row .tf:nth-child(9) { width:20px; }
+  .gv2-tgwrap .tg-row .tf:nth-child(10) { width:36px; }
+</style>
+{% endblock %}
+
+{% block content %}
+{% set _visible_list = [] %}
+{% for obj in objects %}{% if obj.data.get('emoji_entry', {}).get('symbol') and obj.data.get('emoji_entry', {}).get('entry_price') and obj.data.get('emoji_entry', {}).get('entry_date') %}{% set _ = _visible_list.append(1) %}{% endif %}{% endfor %}
+{% set has_visible = _visible_list|length %}
+
+{% if not has_visible %}
+  <div class="gv2-empty">
+    <h2>Нет сделок с заполненным emoji_entry</h2>
+    <p>Добавьте сделку с указанием 🏗️/🚏/🧾/📆</p>
+  </div>
+{% else %}
+
+<div class="gv2-layout">
+  <aside class="gv2-sidebar">
+    <div class="gv2-sidebar-head">
+      <h3>📡 Лента</h3>
+      <span class="gv2-sidebar-count">{{ has_visible }}</span>
+    </div>
+    <div class="gv2-tile-grid">
+      {% for obj in objects %}
+        {% set entry = obj.data.get('emoji_entry', {}) %}
+        {% if entry and entry.get('symbol') and entry.get('entry_price') and entry.get('entry_date') %}
+          {% set upd = obj.data.get('emoji_upd', {}) %}
+          {% set live_pos = obj.data.get('live_position', {}) %}
+          {{ m.chart_card_compact(obj, entry, upd, live_pos) }}
+        {% endif %}
+      {% endfor %}
+    </div>
+  </aside>
+
+  <main class="gv2-main-content">
+    <div class="gv2-page-head">
+      <h1>📊 Все графики <span class="gv2-subtitle">Bento</span></h1>
+      <div class="gv2-actions">
+        <button class="gv2-btn gv2-btn-orange" onclick="gv2SyncAll()" title="Sync Exchange">🔄 Sync Exchange</button>
+        <button class="gv2-btn gv2-btn-blue" onclick="location.reload()" title="Read JSON">📂 Read JSON</button>
+      </div>
+    </div>
+    <p class="gv2-muted">Отклонение цены от входа по всем сделкам · Glassmorphism Bento</p>
+
+    <div class="gv2-bento-grid" id="gv2BentoGrid">
+      {% for obj in objects %}
+        {% set entry = obj.data.get('emoji_entry', {}) %}
+        {% if entry and entry.get('symbol') and entry.get('entry_price') and entry.get('entry_date') %}
+          {% set upd = obj.data.get('emoji_upd', {}) %}
+          {% set live_pos = obj.data.get('live_position', {}) %}
+          {{ m.chart_card_bento(obj, entry, upd, live_pos) }}
+        {% endif %}
+      {% endfor %}
+    </div>
+  </main>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════════
+   /graphics/v2 — 4 chart variants (Smooth Area / Candlestick / ASCII / Range)
+   + animated draw + crosshair hover tooltip
+   ═══════════════════════════════════════════════════════════════════════ */
+(function() {
+  const bentos = document.querySelectorAll('[data-card="bento"]');
+  const tiles = document.querySelectorAll('[data-card="compact"]');
+
+  /* ─── Data fetching ──────────────────────────────────────────────── */
+  const chartCache = new Map();
+
+  async function fetchChart(objId) {
+    if (chartCache.has(objId)) return chartCache.get(objId);
+    const start = performance.now();
+    try {
+      const res = await fetch('/graphics/chart/' + objId);
+      const ms = Math.round(performance.now() - start);
+      const json = await res.json();
+      json.loadTime = ms;
+      chartCache.set(objId, json);
+      return json;
+    } catch (e) {
+      return { error: e.message, loadTime: Math.round(performance.now() - start) };
+    }
+  }
+
+  function sign(n) { return (n >= 0 ? '+' : '') + n; }
+
+  /* ─── Canvas helpers ─────────────────────────────────────────────── */
+  function setupCanvas(canvas, W, H) {
+    const dpr = window.devicePixelRatio || 1;
+    if (dpr !== 1) {
+      canvas.width = W * dpr;
+      canvas.height = H * dpr;
+      canvas.style.width = W + 'px';
+      canvas.style.height = H + 'px';
+      const ctx = canvas.getContext('2d');
+      ctx.scale(dpr, dpr);
+      return ctx;
+    }
+    canvas.width = W; canvas.height = H;
+    return canvas.getContext('2d');
+  }
+
+  const PAD = { l: 36, r: 48, t: 16, b: 30 };
+  const CW = 400, CH = 180;
+
+  function mapX(idx, n, w) { return PAD.l + (idx / (n - 1 || 1)) * w; }
+  function mapY(val, minY, rangeY, h) {
+    return PAD.t + h - ((val - minY) / (rangeY || 1)) * h;
+  }
+
+  /* ═══ VAR 1: Smooth Area (bezier + gradient fill) ══════════════════ */
+  function gv2DrawArea(ctx, data, opts) {
+    opts = opts || {};
+    const W = CW, H = CH;
+    const w = W - PAD.l - PAD.r;
+    const h = H - PAD.t - PAD.b;
+    const ys = data.chart.map(d => d.deviation_percent);
+    const minY = Math.min(0, ...ys);
+    const maxY = Math.max(0, ...ys);
+    const rangeY = maxY - minY || 1;
+    const progress = opts.progress != null ? opts.progress : 1;
+    const n = data.chart.length;
+    const limit = Math.max(1, Math.round(n * progress));
+
+    ctx.clearRect(0, 0, W, H);
+
+    /* grid */
+    ctx.strokeStyle = '#888'; ctx.lineWidth = 1;
+    const yZero = mapY(0, minY, rangeY, h);
+    ctx.beginPath(); ctx.moveTo(PAD.l, yZero); ctx.lineTo(PAD.l + w, yZero); ctx.stroke();
+    const steps = 4;
+    for (let i = 0; i <= steps; i++) {
+      const pct = minY + (rangeY / steps) * i;
+      const y = mapY(pct, minY, rangeY, h);
+      ctx.strokeStyle = 'rgba(128,128,128,0.3)'; ctx.lineWidth = 0.5;
+      ctx.beginPath(); ctx.moveTo(PAD.l, y); ctx.lineTo(PAD.l + w, y); ctx.stroke();
+      ctx.fillStyle = '#888'; ctx.font = '9px JetBrains Mono, monospace';
+      ctx.fillText(pct.toFixed(1) + '%', 2, y + 3);
+      const price = data.chart[0] && data.chart[0].close ? data.chart[0].close * (1 + pct / 100) : 0;
+      if (price) ctx.fillText(price.toFixed(4), PAD.l + w + 4, y + 3);
+    }
+
+    /* zero dashed */
+    ctx.setLineDash([3, 2]);
+    ctx.strokeStyle = '#aa66ee'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(PAD.l, yZero); ctx.lineTo(PAD.l + w, yZero); ctx.stroke();
+    ctx.setLineDash([]);
+
+    const visible = data.chart.slice(0, limit);
+    if (visible.length < 2) return;
+
+    /* fill */
+    const pts = visible.map((d, i) => ({
+      x: mapX(i, n, w), y: mapY(d.deviation_percent, minY, rangeY, h), d
+    }));
+    const isProfit = opts.profitable !== false;
+    const grad = ctx.createLinearGradient(0, PAD.t, 0, H - PAD.b);
+    grad.addColorStop(0, isProfit ? 'rgba(22,163,74,0.25)' : 'rgba(220,38,38,0.25)');
+    grad.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.beginPath(); ctx.moveTo(pts[0].x, yZero);
+    pts.forEach(p => ctx.lineTo(p.x, p.y));
+    ctx.lineTo(pts[pts.length - 1].x, yZero);
+    ctx.closePath(); ctx.fillStyle = grad; ctx.fill();
+
+    /* bezier spline */
+    ctx.beginPath();
+    pts.forEach((p, i) => {
+      if (i === 0) ctx.moveTo(p.x, p.y);
+      else {
+        const prev = pts[i - 1];
+        const cpX = (prev.x + p.x) / 2;
+        ctx.bezierCurveTo(cpX, prev.y, cpX, p.y, p.x, p.y);
+      }
+    });
+    ctx.strokeStyle = isProfit ? '#16a34a' : '#dc2626';
+    ctx.lineWidth = 2; ctx.stroke();
+
+    /* dots */
+    const dotStep = Math.max(1, Math.floor(pts.length / 20));
+    pts.forEach((p, i) => {
+      if (i % dotStep !== 0 && i !== pts.length - 1) return;
+      ctx.fillStyle = p.d.profitable ? '#16a34a' : '#dc2626';
+      ctx.beginPath(); ctx.arc(p.x, p.y, 2.5, 0, Math.PI * 2); ctx.fill();
+    });
+
+    /* date labels */
+    ctx.fillStyle = '#888'; ctx.font = '8px sans-serif';
+    const labelStep = Math.max(1, Math.ceil(n / 6));
+    data.chart.forEach((d, i) => {
+      if (i % labelStep !== 0 && i !== n - 1) return;
+      const x = mapX(i, n, w);
+      ctx.save(); ctx.translate(x, PAD.t + h + 10); ctx.rotate(-Math.PI / 6); ctx.fillText(d.date, 0, 0); ctx.restore();
+    });
+
+    /* crosshair data */
+    ctx.canvas._chartData = { data, pad: PAD, W, H, minY, rangeY, h, n, w };
+  }
+
+  /* ═══ VAR 2: Candlestick (OHLC bars) ════════════════════════════════ */
+  function gv2DrawCandle(ctx, data, opts) {
+    opts = opts || {};
+    const W = CW, H = CH;
+    const w = W - PAD.l - PAD.r;
+    const h = H - PAD.t - PAD.b;
+    const ys = data.chart.map(d => d.deviation_percent);
+    const minY = Math.min(0, ...ys);
+    const maxY = Math.max(0, ...ys);
+    const rangeY = maxY - minY || 1;
+    const progress = opts.progress != null ? opts.progress : 1;
+    const n = data.chart.length;
+    const limit = Math.max(1, Math.round(n * progress));
+
+    ctx.clearRect(0, 0, W, H);
+
+    /* grid */
+    const yZero = mapY(0, minY, rangeY, h);
+    ctx.strokeStyle = '#888'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(PAD.l, yZero); ctx.lineTo(PAD.l + w, yZero); ctx.stroke();
+    ctx.setLineDash([3, 2]);
+    ctx.strokeStyle = '#aa66ee'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(PAD.l, yZero); ctx.lineTo(PAD.l + w, yZero); ctx.stroke();
+    ctx.setLineDash([]);
+    for (let i = 0; i <= 4; i++) {
+      const pct = minY + (rangeY / 4) * i;
+      const y = mapY(pct, minY, rangeY, h);
+      ctx.strokeStyle = 'rgba(128,128,128,0.3)'; ctx.lineWidth = 0.5;
+      ctx.beginPath(); ctx.moveTo(PAD.l, y); ctx.lineTo(PAD.l + w, y); ctx.stroke();
+      ctx.fillStyle = '#888'; ctx.font = '9px JetBrains Mono, monospace';
+      ctx.fillText(pct.toFixed(1) + '%', 2, y + 3);
+    }
+
+    /* candles */
+    const candleW = Math.max(2, (w / n) * 0.6);
+    const halfCandle = candleW / 2;
+    const visible = data.chart.slice(0, limit);
+    const isProfit = opts.profitable !== false;
+
+    visible.forEach((d, i) => {
+      const idx = i + (n - limit);
+      if (idx < 0) return;
+      const x = mapX(idx, n, w);
+      const prevClose = (idx > 0 ? data.chart[idx - 1].deviation_percent : 0);
+      const open = prevClose;
+      const close = d.deviation_percent;
+      const isUp = close > open;
+      const color = d.profitable ? '#16a34a' : '#dc2626';
+      const oy = mapY(open, minY, rangeY, h);
+      const cy = mapY(close, minY, rangeY, h);
+      const bodyTop = Math.min(oy, cy);
+      const bodyBot = Math.max(oy, cy);
+      const bodyH = Math.max(1, bodyBot - bodyTop);
+      ctx.fillStyle = color;
+      ctx.fillRect(x - halfCandle, bodyTop, candleW, bodyH);
+      if (candleW >= 4) {
+        ctx.strokeStyle = color; ctx.lineWidth = 0.5;
+        ctx.strokeRect(x - halfCandle, bodyTop, candleW, bodyH);
+      }
+    });
+
+    /* date labels */
+    ctx.fillStyle = '#888'; ctx.font = '8px sans-serif';
+    const labelStep = Math.max(1, Math.ceil(n / 6));
+    data.chart.forEach((d, i) => {
+      if (i % labelStep !== 0 && i !== n - 1) return;
+      const x = mapX(i, n, w);
+      ctx.save(); ctx.translate(x, PAD.t + h + 10); ctx.rotate(-Math.PI / 6); ctx.fillText(d.date, 0, 0); ctx.restore();
+    });
+
+    ctx.canvas._chartData = { data, pad: PAD, W, H, minY, rangeY, h, n, w };
+  }
+
+  /* ═══ VAR 3: ASCII Unicode blocks ═══════════════════════════════════ */
+  const ASCII_BLOCKS = ['▁','▂','▃','▄','▅','▆','▇','█'];
+
+  function gv2RenderAscii(data) {
+    if (!data || data.error || !data.chart) return '<div class="gv2-rb-label">—</div>';
+    const vals = data.chart.map(d => d.deviation_percent);
+    const minY = Math.min(0, ...vals);
+    const maxY = Math.max(0, ...vals);
+    const rangeY = maxY - minY || 1;
+    const cols = Math.min(80, data.chart.length);
+    const step = Math.max(1, Math.floor(data.chart.length / cols));
+    const sampled = [];
+    for (let i = 0; i < data.chart.length; i += step) {
+      sampled.push(data.chart[i]);
+    }
+    const parts = sampled.map(d => {
+      const idx = Math.min(7, Math.max(0, Math.floor(((d.deviation_percent - minY) / rangeY) * 7)));
+      const cls = d.profitable ? 'profit' : 'loss';
+      return `<span class="gv2-ascii-char gv2-ac-${cls}" style="color:${d.profitable ? 'var(--gv2-profit)' : 'var(--gv2-loss)'}">${ASCII_BLOCKS[idx]}</span>`;
+    }).join('');
+    return `<div class="gv2-ascii-row"><span style="display:flex;gap:1px;align-items:flex-end;width:100%;height:100%;padding-top:${Math.round((maxY / rangeY) * 100)}px">${parts}</span></div>`;
+  }
+
+  /* ═══ VAR 4: Range Bar ────────────────────────────────────────────── */
+  function gv2RenderRange(data) {
+    if (!data || data.error || !data.summary) return '<div class="gv2-rb-label">—</div>';
+    const s = data.summary;
+    const minP = parseFloat(s.min_pct) || -5;
+    const maxP = parseFloat(s.max_pct) || 5;
+    const curP = parseFloat(s.total_deviation_percent) || 0;
+    const range = maxP - minP || 1;
+    const entryPos = ((0 - minP) / range) * 100;
+    const curPos = ((curP - minP) / range) * 100;
+    const isProfit = curP >= 0;
+    const fillLeft = Math.min(entryPos, curPos);
+    const fillRight = Math.max(entryPos, curPos);
+    return `
+      <div class="gv2-rb-wrap">
+        <div class="gv2-rb-label">Range: ${minP.toFixed(1)}% … +${maxP.toFixed(1)}%</div>
+        <div class="gv2-rb-track">
+          <div class="gv2-rb-fill ${isProfit ? 'profit' : 'loss'}"
+               style="left:${Math.min(entryPos, curPos)}%;width:${Math.abs(curPos - entryPos)}%"></div>
+          <div class="gv2-rb-entry-marker" style="left:${entryPos}%"></div>
+          <div class="gv2-rb-dot ${isProfit ? 'profit' : 'loss'}" style="left:${curPos}%"
+               title="Current: ${curP.toFixed(1)}%"></div>
+          <div class="gv2-rb-dot entry" style="left:${entryPos}%" title="Entry: 0%"></div>
+        </div>
+        <div class="gv2-rb-bottom">
+          <span style="color:var(--gv2-loss)">Min: ${s.min_usdt}U</span>
+          <span style="color:var(--gv2-muted)">Entry: ${s.entry_price}</span>
+          <span style="color:var(--gv2-profit)">Max: +${s.max_usdt}U</span>
+        </div>
+      </div>`;
+  }
+
+  /* ═══ Animated draw ══════════════════════════════════════════════════ */
+  function animateDraw(ctx, data, drawFn, duration, card) {
+    const start = performance.now();
+    const isProfit = data.summary && data.summary.profitable;
+    function frame(now) {
+      const progress = Math.min(1, (now - start) / duration);
+      drawFn(ctx, data, { progress, profitable: isProfit });
+      if (progress < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  /* ═══ Crosshair hover ═══════════════════════════════════════════════ */
+  function setupCrosshair(card, canvas, type) {
+    if (type !== 'area' && type !== 'candle') return;
+    let tooltip = card.querySelector('.gv2-tooltip');
+    if (!tooltip) {
+      tooltip = document.createElement('div');
+      tooltip.className = 'gv2-tooltip';
+      card.querySelector('.gv2-chart-wrap').appendChild(tooltip);
+    }
+
+    /* remove old handlers to avoid duplicates */
+    if (canvas._gv2Crosshair) {
+      canvas.removeEventListener('mousemove', canvas._gv2CrosshairMove);
+      canvas.removeEventListener('mouseleave', canvas._gv2CrosshairLeave);
+    }
+
+    const onMove = (e) => {
+      const cd = canvas._chartData;
+      if (!cd || !cd.data) return;
+      const rect = canvas.getBoundingClientRect();
+      const mx = (e.clientX - rect.left) * (CW / rect.width);
+      const idx = Math.round(((mx - cd.pad.l) / cd.w) * (cd.n - 1));
+      const d = cd.data.chart[Math.max(0, Math.min(cd.n - 1, idx))];
+      if (!d) return;
+      const x = mapX(idx, cd.n, cd.w);
+      const isProfit = cd.data.summary && cd.data.summary.profitable;
+      if (type === 'area') gv2DrawArea(ctx, cd.data, { profitable: isProfit });
+      else gv2DrawCandle(ctx, cd.data, { profitable: isProfit });
+      ctx.strokeStyle = 'rgba(255,255,255,0.4)';
+      ctx.lineWidth = 1;
+      ctx.setLineDash([3, 3]);
+      ctx.beginPath(); ctx.moveTo(x, cd.pad.t); ctx.lineTo(x, cd.H - cd.pad.b); ctx.stroke();
+      ctx.setLineDash([]);
+      tooltip.innerHTML = `${d.date} · <b style="color:${d.profitable ? 'var(--gv2-profit)' : 'var(--gv2-loss)'}">${sign(d.deviation_percent)}%</b> · ${d.close}U`;
+      tooltip.style.left = Math.min(e.clientX - rect.left + 10, rect.width - 120) + 'px';
+      tooltip.style.top = Math.max(e.clientY - rect.top - 30, 0) + 'px';
+      tooltip.classList.add('visible');
+    };
+
+    const onLeave = () => {
+      const cd = canvas._chartData;
+      if (!cd || !cd.data) return;
+      const isProfit = cd.data.summary && cd.data.summary.profitable;
+      if (type === 'area') gv2DrawArea(ctx, cd.data, { profitable: isProfit });
+      else gv2DrawCandle(ctx, cd.data, { profitable: isProfit });
+      tooltip.classList.remove('visible');
+    };
+
+    canvas.addEventListener('mousemove', onMove);
+    canvas.addEventListener('mouseleave', onLeave);
+    canvas._gv2Crosshair = true;
+    canvas._gv2CrosshairMove = onMove;
+    canvas._gv2CrosshairLeave = onLeave;
+  }
+
+  /* ═══ Chart type switching ═══════════════════════════════════════════ */
+  const STORAGE_KEY = 'gv2ChartType';
+
+  function getDefaultType() { return localStorage.getItem(STORAGE_KEY) || 'area'; }
+
+  function renderChartByType(card, canvas, chartHtml, data, type) {
+    const loader = card.querySelector('.gv2-loader');
+    const wrap = card.querySelector('.gv2-chart-wrap');
+    const ctx = canvas.getContext('2d');
+    if (loader) loader.style.display = 'none';
+
+    if (type === 'ascii') {
+      canvas.style.display = 'none';
+      chartHtml.style.display = '';
+      chartHtml.innerHTML = gv2RenderAscii(data);
+      return;
+    }
+    if (type === 'range') {
+      canvas.style.display = 'none';
+      chartHtml.style.display = '';
+      chartHtml.innerHTML = gv2RenderRange(data);
+      return;
+    }
+    canvas.style.display = '';
+    chartHtml.style.display = 'none';
+
+    if (type === 'area') {
+      animateDraw(ctx, data, gv2DrawArea, 600, card);
+      setupCrosshair(card, canvas, 'area');
+    } else if (type === 'candle') {
+      animateDraw(ctx, data, gv2DrawCandle, 600, card);
+      setupCrosshair(card, canvas, 'candle');
+    }
+  }
+
+  /* ═══ Sparkline (sidebar) ═════════════════════════════════════════════ */
+  function drawSparkline(ctx, data, isProfit) {
+    if (!data || data.error || !data.chart || data.chart.length < 2) return;
+    const W = 120, H = 32;
+    const dpr = window.devicePixelRatio || 1;
+    if (dpr !== 1) {
+      ctx.canvas.width = W * dpr;
+      ctx.canvas.height = H * dpr;
+      ctx.canvas.style.width = W + 'px';
+      ctx.canvas.style.height = H + 'px';
+      ctx.scale(dpr, dpr);
+    }
+    const ys = data.chart.map(d => d.deviation_percent);
+    const minY = Math.min(...ys);
+    const maxY = Math.max(...ys);
+    const rangeY = (maxY - minY) || 1;
+    const padX = 2, padY = 3;
+    const w = W - padX * 2;
+    const h = H - padY * 2;
+    ctx.clearRect(0, 0, W, H);
+    const grad = ctx.createLinearGradient(0, padY, 0, H - padY);
+    grad.addColorStop(0, isProfit ? 'rgba(22,163,74,0.35)' : 'rgba(220,38,38,0.35)');
+    grad.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.beginPath();
+    data.chart.forEach((d, i) => {
+      const x = padX + (i / (data.chart.length - 1)) * w;
+      const y = padY + h - ((d.deviation_percent - minY) / rangeY) * h;
+      if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    });
+    ctx.lineTo(padX + w, H - padY);
+    ctx.lineTo(padX, H - padY);
+    ctx.closePath();
+    ctx.fillStyle = grad; ctx.fill();
+    ctx.beginPath();
+    data.chart.forEach((d, i) => {
+      const x = padX + (i / (data.chart.length - 1)) * w;
+      const y = padY + h - ((d.deviation_percent - minY) / rangeY) * h;
+      if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    });
+    ctx.strokeStyle = isProfit ? '#16a34a' : '#dc2626';
+    ctx.lineWidth = 1.2; ctx.stroke();
+  }
+
+  /* ═══ Init charts ───────────────────────────────────────────────────── */
+  async function initBento() {
+    const defaultType = getDefaultType();
+
+    for (const card of bentos) {
+      const id = card.dataset.id;
+      const canvas = card.querySelector('.gv2-canvas');
+      const chartHtml = card.querySelector('.gv2-chart-html');
+      const loader = card.querySelector('.gv2-loader');
+      const timeSpan = card.querySelector('.gv2-load-time');
+
+      const start = performance.now();
+      const timer = setInterval(() => { if (timeSpan) timeSpan.textContent = Math.round(performance.now() - start); }, 50);
+      const json = await fetchChart(id);
+      clearInterval(timer);
+
+      if (json.error) {
+        if (loader) loader.innerHTML = '<span style="color:#c00;">Ошибка: ' + json.error + '</span>';
+        continue;
+      }
+
+      /* summary */
+      const s = json.summary;
+      const postChart = json.chart.filter(d => !d.pre_entry);
+      const negDays = postChart.filter(d => d.deviation_percent < 0).length;
+      const posDays = postChart.filter(d => d.deviation_percent > 0).length;
+      const totalDays = postChart.length;
+
+      if (loader) loader.innerHTML = '⏱ ' + json.loadTime + ' мс';
+      card.classList.toggle('is-profit', s.profitable);
+      card.classList.toggle('is-loss', !s.profitable);
+
+      const priceEl = card.querySelector('.gv2-price');
+      const devEl = card.querySelector('.gv2-deviation');
+      if (priceEl) priceEl.textContent = s.current_price;
+      if (devEl) {
+        devEl.textContent = sign(s.total_deviation_percent) + '% · ' + sign(s.total_deviation_usdt) + 'U';
+        devEl.style.color = s.profitable ? 'var(--gv2-profit)' : 'var(--gv2-loss)';
+      }
+      const maxEl = card.querySelector('.gv2-max');
+      const minEl = card.querySelector('.gv2-min');
+      if (maxEl) maxEl.textContent = '+' + s.max_usdt + 'U (' + s.max_pct + '%)';
+      if (minEl) minEl.textContent = s.min_usdt + 'U (' + s.min_pct + '%)';
+      const dpEl = card.querySelector('.gv2-dp');
+      const dnEl = card.querySelector('.gv2-dn');
+      const daEl = card.querySelector('.gv2-da');
+      if (dpEl) dpEl.textContent = posDays;
+      if (dnEl) dnEl.textContent = negDays;
+      if (daEl) daEl.textContent = totalDays;
+
+      /* chart render */
+      const type = defaultType;
+      renderChartByType(card, canvas, chartHtml, json, type);
+    }
+
+    /* activate chips */
+    activateChips();
+  }
+
+  /* ═══ Chips switching ═══════════════════════════════════════════════ */
+  function activateChips() {
+    const defaultType = getDefaultType();
+    document.querySelectorAll('.gv2-chip-btn').forEach(chip => {
+      const type = chip.dataset.type;
+      chip.classList.toggle('active', type === defaultType);
+      chip.addEventListener('click', () => {
+        const newType = chip.dataset.type;
+        localStorage.setItem(STORAGE_KEY, newType);
+        document.querySelectorAll('.gv2-chip-btn').forEach(c => c.classList.toggle('active', c.dataset.type === newType));
+        /* re-render all bento cards */
+        document.querySelectorAll('[data-card="bento"]').forEach(card => {
+          const id = card.dataset.id;
+          const canvas = card.querySelector('.gv2-canvas');
+          const chartHtml = card.querySelector('.gv2-chart-html');
+          const data = chartCache.get(id);
+          if (data) renderChartByType(card, canvas, chartHtml, data, newType);
+        });
+      });
+    });
+  }
+
+  async function initTiles() {
+    for (const tile of tiles) {
+      const id = tile.dataset.id;
+      const spark = tile.querySelector('.gv2-tile-spark');
+      if (!spark) continue;
+      const json = await fetchChart(id);
+      const isProfit = !tile.classList.contains('is-loss');
+      const ctx = spark.getContext('2d');
+      drawSparkline(ctx, json, isProfit);
+      if (json && json.summary) {
+        const s = json.summary;
+        const pctEl = tile.querySelector('.gv2-tile-pct-value');
+        const priceEl = tile.querySelector('.gv2-tile-curprice');
+        if (pctEl) {
+          pctEl.textContent = sign(s.total_deviation_percent) + '%';
+          pctEl.style.color = s.profitable ? 'var(--gv2-profit)' : 'var(--gv2-loss)';
+        }
+        if (priceEl && s.current_price) priceEl.textContent = s.current_price;
+        const usdtEl = tile.querySelector('.gv2-tile-usdt');
+        if (usdtEl) {
+          usdtEl.textContent = sign(s.total_deviation_usdt) + 'U';
+          usdtEl.style.color = s.profitable ? 'var(--gv2-profit)' : 'var(--gv2-loss)';
+        }
+      }
+    }
+  }
+
+  window.gv2SyncCard = async function(objId, btn) {
+    const timerEl = document.querySelector('.gv2-bento-timer[data-id="' + objId + '"]');
+    if (timerEl) timerEl.textContent = '⏳';
+    const oldBtn = btn ? btn.textContent : null;
+    if (btn) btn.textContent = '⏳';
+    try {
+      const start = Date.now();
+      await fetch('/api/sync-card/' + objId, { method: 'POST' });
+      if (timerEl) timerEl.textContent = (Date.now() - start) + 'мс ✅';
+    } catch (e) {
+      if (timerEl) timerEl.textContent = '❌';
+    }
+    if (btn) btn.textContent = oldBtn || '🔄';
+  };
+
+  window.gv2SyncAll = async function() {
+    await fetch('/api/sync-all', { method: 'POST' });
+    location.reload();
+  };
+
+  initBento();
+  initTiles();
+})();
+</script>
+
+{% endif %}
+{% endblock %}

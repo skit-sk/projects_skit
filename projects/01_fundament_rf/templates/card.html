@@ -9,6 +9,19 @@
       {{ obj.name }}
       <button onclick="syncCard('{{ obj.id }}')" style="background:#e67e22; border:none; font-size:12px; cursor:pointer; vertical-align:middle; padding:2px 6px; border-radius:4px; color:#fff;" title="Sync Exchange">🔄 Sync</button>
       <button onclick="location.reload()" style="background:#3498db; border:none; font-size:12px; cursor:pointer; vertical-align:middle; padding:2px 6px; border-radius:4px; color:#fff;" title="Read JSON">📂 Read JSON</button>
+      <label style="font-size:11px; margin-left:8px; vertical-align:middle;">
+        📜 История: <input type="number" id="historyDepth" value="{{ obj.data.get('pre_history_days', 60) }}"
+          min="0" max="365" style="width:45px; font-size:11px;">
+        <button onclick="setHistoryDepth('{{ obj.id }}')" style="font-size:10px; padding:1px 4px;">💾</button>
+        <span style="font-size:10px; color:#888;">
+          [<a href="#" onclick="return presetHistory(0)">0</a>]
+          [<a href="#" onclick="return presetHistory(14)">14</a>]
+          [<a href="#" onclick="return presetHistory(30)">30</a>]
+          [<a href="#" onclick="return presetHistory(60)">60</a>]
+          [<a href="#" onclick="return presetHistory(90)">90</a>]
+          [<a href="#" onclick="return presetHistory(180)">180</a>]
+        </span>
+      </label>
       <span id="cardRefreshTimer" style="display:none; margin-left:4px; color:#e74c3c; font-weight:bold;"></span>
     </h2>
 
@@ -819,6 +832,22 @@ async function syncCard(objId) {
 
 async function refreshCard(objId, btn) {
     await syncCard(objId);
+}
+
+async function setHistoryDepth(objId) {
+    const depth = parseInt(document.getElementById('historyDepth').value) || 0;
+    await fetch('/api/card/' + objId + '/set-history-depth', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({depth})
+    });
+    location.reload();
+}
+
+function presetHistory(depth) {
+    document.getElementById('historyDepth').value = depth;
+    setHistoryDepth(document.getElementById('cardData').dataset.objId);
+    return false;
 }
 
 async function loadOhlcChart(objId) {

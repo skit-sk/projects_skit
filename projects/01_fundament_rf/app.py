@@ -3,7 +3,7 @@ import os
 sys.path.insert(0, os.path.expanduser('~/.local/lib/python3.12/site-packages'))
 
 from flask import Flask
-from routes import api, web, graphics, processor_1d, dashboard, trade_analytics, ma_analytics, ccxt_api, account_api, processor
+from routes import api, web, graphics, processor_1d, dashboard, trade_analytics, ma_analytics, ccxt_api, account_api, processor, viz_lab, ai_models
 
 # Register OFD API blueprint from 08_ofd project
 _ofd_dir = os.path.join(os.path.dirname(__file__), '..', '08_ofd_api')
@@ -33,6 +33,25 @@ app.register_blueprint(ccxt_api.bp)
 app.register_blueprint(account_api.bp)
 app.register_blueprint(processor.bp)
 app.register_blueprint(ofd_api_bp)
+# Register OFD Abonent blueprint
+_spec2 = importlib.util.spec_from_file_location("ofd_abonent_routes", os.path.join(_ofd_dir, "routes_ofd_abonent.py"))
+_ofd2_mod = importlib.util.module_from_spec(_spec2)
+_sys_path_save2 = sys.path.copy()
+sys.path.insert(0, _ofd_dir)
+_spec2.loader.exec_module(_ofd2_mod)
+sys.path = _sys_path_save2
+app.register_blueprint(_ofd2_mod.bp)
+app.register_blueprint(viz_lab.bp)
+app.register_blueprint(ai_models.bp)
+
+# ── Experimental: graphics_v2 (Bento + Compact) ─────────────────────
+# Полностью изолирован: при ошибке основной проект продолжает работать.
+try:
+    from routes import graphics_v2
+    app.register_blueprint(graphics_v2.bp)
+    print('[OK] graphics_v2 loaded at /graphics/v2')
+except Exception as _gv2_err:
+    print(f'[skip] graphics_v2 not loaded: {_gv2_err}')
 
 
 if __name__ == '__main__':

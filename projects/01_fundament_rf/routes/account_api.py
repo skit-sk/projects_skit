@@ -218,6 +218,8 @@ def api_computed():
         'positions': result,
         'totals': load_aggregate(),
         'count': len(result),
+        'fill_counts': _load_fill_order_stats()[0],
+        'order_counts': _load_fill_order_stats()[2],
     })
 
 
@@ -473,10 +475,11 @@ def partial_positions():
     positions = [p for p, _ in combined]
     position_card_data = [c for _, c in combined]
     total_bal_pct = (total_margin / balance * 100) if balance else 0
+    sym_width = max((len(p.get('ticker', '')) for p in positions), default=3) * 7.5 + 28
     return render_template('account/partials/positions.html', error='', positions=positions,
         fill_counts=fill_counts, last_trade_days=last_trade_days, order_counts=order_counts,
         position_card_data=position_card_data, fmt_num=_fmt_num, debug=[],
-        total_bal_pct=total_bal_pct)
+        total_bal_pct=total_bal_pct, sym_width=sym_width)
 
 
 @bp.route('/partial/positions_live')
@@ -487,16 +490,67 @@ def partial_positions_live():
     try:
         from storage import get_storage
         client = _get_client()
-        fill_counts, last_trade_days, order_counts = _load_fill_order_stats()
+        live_accounts = client.get_mix_accounts()
+        live_balance = 0.0
+        for a in live_accounts:
+            if a.margin_coin == 'USDT':
+                live_balance = float(a.available)
+                break
+
         positions = client.get_positions()
         _t_api = _t.time()
 
-        balance_data = get_storage().load_balance()
-        live_balance = 0.0
-        for item in balance_data.get('futures', []):
-            if item.get('margin_coin') == 'USDT':
-                live_balance = float(item.get('available', 0))
-                break
+        # Live orders — one call for all symbols
+        _now_ms = _t.time() * 1000
+        spot_orders = client.get_spot_orders() or []
+        mix_orders = client.get_mix_orders() or []
+        order_counts = {}
+        for _o in spot_orders + mix_orders:
+            sym = _o.symbol
+            order_counts[sym] = order_counts.get(sym, 0) + 1
+
+        # Live fills — per symbol in parallel
+        fill_counts = {}
+        last_trade_days = {}
+        _syms = [p.symbol for p in positions]
+
+        from concurrent.futures import ThreadPoolExecutor, as_completed
+        def _fetch_fills(sym):
+            try:
+                mf = client.get_mix_fills(symbol=sym, limit=100) or []
+                sf = client.get_spot_fills(symbol=sym, limit=100) or []
+                return sym, mf + sf
+            except Exception:
+                return sym, []
+
+        with ThreadPoolExecutor(max_workers=4) as _pool:
+            _futures = {_pool.submit(_fetch_fills, s): s for s in _syms}
+            for _future in as_completed(_futures):
+                _sym, _fills = _future.result()
+                fill_counts[_sym] = len(_fills)
+                if _fills:
+                    _fills.sort(key=lambda _x: _x.c_time, reverse=True)
+                    _c = _fills[0].c_time
+                    if _c:
+                        last_trade_days[_sym] = max(0, (_now_ms - _c) / 86400000)
+
+        # Fallback: if live fills empty, fill from storage
+        if not any(fill_counts.values()):
+            try:
+                _s_fc, _s_ld, _ = _load_fill_order_stats()
+                for _s in _syms:
+                    for _k, _v in _s_fc.items():
+                        if _k == _s or _k.replace('USDT','') == _s.replace('USDT',''):
+                            fill_counts[_s] = fill_counts.get(_s, 0) + _v
+                            break
+                for _s in _syms:
+                    for _k, _v in _s_ld.items():
+                        if _k == _s or _k.replace('USDT','') == _s.replace('USDT',''):
+                            if _s not in last_trade_days or _v < last_trade_days.get(_s, 999):
+                                last_trade_days[_s] = _v
+                            break
+            except Exception:
+                pass
         total_margin_live = sum(float(p.margin_size) for p in positions)
         live_bal_pct = (total_margin_live / live_balance * 100) if live_balance else 0
 
@@ -544,8 +598,12 @@ def partial_positions_live():
             "symbol": p.ticker,
             "deviation_pct": [],
             "entry_price": p.open_price_avg,
-            "entry_date": "",
+            "entry_date": p.open_date or '',
+            "entry_time": p.days_open or 0,
             "volume": p.margin_size,
+            "pnl_percent": p.pl_percent,
+            "pnl_usdt": p.unrealized_pl,
+            "result": "🟢" if p.unrealized_pl >= 0 else "🔴",
         } for i, p in enumerate(positions)]
         _t_render = _t.time()
         timings = {
@@ -553,17 +611,18 @@ def partial_positions_live():
             "render_ms": int((_t_render - _t_api) * 1000),
             "total_ms": int((_t_render - _t_start) * 1000),
         }
+        sym_width = max((len(p.ticker) for p in positions), default=3) * 7.5 + 28
         return render_template('account/partials/positions.html', error='',
             positions=positions_raw, position_card_data=card_data,
             fill_counts=fill_counts, last_trade_days=last_trade_days, order_counts=order_counts,
             fmt_num=_fmt_num, debug=[], timings=timings,
-            total_bal_pct=live_bal_pct, live=True)
+            total_bal_pct=live_bal_pct, live=True, sym_width=sym_width)
     except Exception as e:
         import traceback
         return render_template('account/partials/positions.html', error=f'Live error: {e}',
             positions=None, position_card_data=None,
             fill_counts={}, last_trade_days={}, order_counts={},
-            fmt_num=_fmt_num, debug=[], total_bal_pct=0)
+            fmt_num=_fmt_num, debug=[], total_bal_pct=0, sym_width=0)
 
 
 @bp.route('/partial/orders')

@@ -146,7 +146,74 @@ def _obj_to_dict(obj):
 
 def _sync_all_cards():
     """Sync всех карт + account данных (параллельно в тредах)"""
+    from storage import clear_positions_cache
+    from models import FundObj
+    from datetime import datetime as _dt
+
     cards = storage.list()
+    existing_symbols = set()
+    for obj in cards:
+        sym = obj.data.get('emoji_entry', {}).get('symbol', '').upper()
+        if sym:
+            existing_symbols.add(sym)
+
+    # — Auto-create cards for new exchange positions BEFORE threads (avoid rate limits) —
+    try:
+        from account import BitgetAccountClient
+        client = BitgetAccountClient()
+        if client.has_credentials:
+            exchange_positions = client.get_positions()
+            for p in exchange_positions:
+                ticker = p.ticker.upper()
+                if ticker not in existing_symbols:
+                    entry_date = p.open_date or _dt.now().strftime('%Y-%m-%d')
+                    new_obj = FundObj(
+                        obj_type='сделка',
+                        name=f"{ticker} #?",
+                        data={
+                            "emoji_entry": {
+                                "symbol": ticker,
+                                "entry_price": p.open_price_avg,
+                                "entry_date": entry_date,
+                                "volume": p.margin_size,
+                                "number": 0,
+                                "entry_time": 0,
+                            },
+                            "live_position": {
+                                "hold_side": p.hold_side,
+                                "leverage": p.leverage,
+                                "margin_size": p.margin_size,
+                                "total_coin": p.total_coin,
+                                "position_value_usdt": p.position_value_usdt,
+                                "unrealized_pl": p.unrealized_pl,
+                                "pl_percent": p.pl_percent,
+                                "achieved_profits": p.achieved_profits,
+                                "total_fee": p.total_fee,
+                                "mark_price": p.current_price,
+                                "liquidation_price": p.liquidation_price,
+                                "risk_to_liquidation": p.risk_to_liquidation,
+                                "stop_loss_price": p.stop_loss_price,
+                                "take_profit_price": p.take_profit_price,
+                                "days_open": p.days_open,
+                                "risk_flags": [],
+                                "updated_at": _dt.now().strftime("%Y-%m-%d %H:%M"),
+                            },
+                        },
+                    )
+                    # inherit pre_history_days from any existing same-symbol card
+                    for existing in cards:
+                        s = existing.data.get('emoji_entry', {}).get('symbol', '').upper()
+                        if s == ticker:
+                            d = existing.data.get('pre_history_days', 0)
+                            if d:
+                                new_obj.data['pre_history_days'] = d
+                            break
+                    storage.save(new_obj)
+                    existing_symbols.add(ticker)
+    except Exception as e:
+        import logging
+        logging.getLogger("processor").error(f"auto-create cards failed: {e}")
+
     threads = []
     for obj in cards:
         t = Thread(target=_sync_card, args=(obj.id,))
@@ -181,7 +248,38 @@ def _sync_all_cards():
         import logging
         logging.getLogger("processor").error(f"calculator pipeline failed: {e}")
 
-    return {"ok": True, "count": len(cards)}
+    # Renumber all cards by entry date
+    try:
+        _renumber_cards()
+    except Exception as e:
+        import logging
+        logging.getLogger("processor").error(f"renumber cards failed: {e}")
+
+    clear_positions_cache()
+    return {"ok": True, "count": len(storage.list())}
+
+
+def _renumber_cards():
+    """Присвоить номера #1, #2... всем картам с live_position, сортируя по entry_date (oldest first)."""
+    cards = storage.list()
+    active = []
+    for obj in cards:
+        lp = obj.data.get('live_position')
+        if not lp or not lp.get('hold_side'):
+            continue
+        entry = obj.data.get('emoji_entry', {})
+        entry_date = entry.get('entry_date', '') or lp.get('open_date', '')
+        active.append((entry_date, obj))
+
+    active.sort(key=lambda x: x[0] if x[0] else '9999-12-31')
+
+    for i, (_, obj) in enumerate(active, start=1):
+        if 'emoji_entry' not in obj.data:
+            obj.data['emoji_entry'] = {}
+        obj.data['emoji_entry']['number'] = i
+        sym = obj.data.get('emoji_entry', {}).get('symbol', '')
+        obj.name = f"{sym} #{i}"
+        storage.save(obj)
 
 
 def _run_calculator_pipeline():

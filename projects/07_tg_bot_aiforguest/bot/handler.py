@@ -67,9 +67,7 @@ def _try_parse_tradingview_url(url: str):
 
 
 def _kill_process_group(proc_pid):
-    """Kill the process group of a spawned process (not other users' processes).
-    
-    Uses os.killpg on the stored PID (which is the PGID when using os.setpgrp).
+    """Kill a spawned process's PID directly (not its process group).
     Safe to call after process exits — handles ESRCH gracefully.
     """
     import errno
@@ -78,14 +76,58 @@ def _kill_process_group(proc_pid):
     import time
     for sig in (signal.SIGTERM, signal.SIGKILL):
         try:
-            os.killpg(proc_pid, sig)
+            os.kill(proc_pid, sig)
             if sig == signal.SIGTERM:
                 time.sleep(0.5)
         except OSError as e:
             if e.errno == errno.ESRCH:
-                break  # all processes in group are gone
+                break  # process already gone
             if e.errno == errno.EPERM:
                 break  # no permission (already reaped)
+
+
+# ── Sync cache: avoid re-syncing if previous sync was <60s ago ──
+_LAST_SYNC_TS = 0.0
+_SYNC_TTL = 60.0
+
+
+async def _sync_exchange(status_msg=None, force: bool = False) -> tuple:
+    """POST /api/sync-all with 60s cache.
+
+    Returns: (sync_ok: bool, sync_count: int, sync_err: str, cached: bool)
+    """
+    global _LAST_SYNC_TS
+    import urllib.request
+    import json as _json
+
+    now = time.time()
+    age = now - _LAST_SYNC_TS
+    if not force and age < _SYNC_TTL and _LAST_SYNC_TS > 0:
+        log.info(f"sync: cache hit (age {age:.1f}s < {_SYNC_TTL}s)")
+        return True, 0, "", True
+
+    sync_ok = True
+    sync_count = 0
+    sync_err = ""
+    try:
+        sync_url = os.environ.get("FLASK_BASE_URL", "http://localhost:5000") + "/api/sync-all"
+        req = urllib.request.Request(sync_url, method='POST',
+                                     headers={'Content-Type': 'application/json'})
+        loop = asyncio.get_event_loop()
+        resp_body = await loop.run_in_executor(
+            None,
+            lambda: urllib.request.urlopen(req, timeout=60).read()
+        )
+        j = _json.loads(resp_body)
+        sync_count = j.get("count", 0) if isinstance(j, dict) else 0
+        _LAST_SYNC_TS = time.time()
+        log.info(f"sync: ok count={sync_count} age={age:.1f}s")
+    except Exception as e:
+        sync_ok = False
+        sync_err = str(e)[:200]
+        log.warning(f"sync: failed: {sync_err}")
+
+    return sync_ok, sync_count, sync_err, False
 
 
 async def _handle_task_stats(update, uid, text):
@@ -135,15 +177,20 @@ async def _handle_tg_positions(update, uid):
 
     proc = None
     try:
-        proc = await asyncio.create_subprocess_exec(
-            sys.executable, str(script),
-            stdout=asyncio.subprocess.PIPE,
-            stderr=asyncio.subprocess.PIPE,
-            preexec_fn=os.setpgrp
+        loop = asyncio.get_event_loop()
+        proc = await loop.run_in_executor(
+            None,
+            lambda: subprocess.Popen(
+                [sys.executable, str(script)],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+            )
         )
-        stdout, stderr = await asyncio.wait_for(proc.communicate(), timeout=30)
+        stdout, stderr = await asyncio.wait_for(
+            loop.run_in_executor(None, proc.communicate), timeout=30
+        )
         elapsed = int((_time.time() - t0) * 1000)
-
+        
         if proc.returncode != 0:
             err_txt = stderr.decode()[:200] or f"(пустой stderr, stdout: {stdout.decode()[:200]})"
             await status_msg.edit_text(f"❌ Ошибка скрипта (rc={proc.returncode}): {err_txt}")
@@ -171,7 +218,18 @@ async def _handle_tg_positions(update, uid):
 async def _handle_sc_positions(update, uid):
     import time as _time
     t0 = _time.time()
-    status_msg = await update.message.reply_text("📸 Делаю скриншот позиций...")
+    status_msg = await update.message.reply_text("🔄 Синхронизирую с Bitget...")
+
+    sync_ok, sync_count, sync_err, cached = await _sync_exchange(status_msg)
+    if sync_ok:
+        if cached:
+            await status_msg.edit_text(f"⚡ Sync из кэша\n📸 Делаю скриншот позиций...")
+        else:
+            await status_msg.edit_text(f"✅ Sync: {sync_count} карт обновлено\n📸 Делаю скриншот позиций...")
+    else:
+        await status_msg.edit_text(
+            f"⚠️ Sync не удался: {sync_err}\n📸 Скриншот устаревших данных..."
+        )
 
     script = SCRIPTS_DIR / "screenshot_positions.py"
     if not script.exists():
@@ -180,13 +238,18 @@ async def _handle_sc_positions(update, uid):
 
     proc = None
     try:
-        proc = await asyncio.create_subprocess_exec(
-            sys.executable, str(script),
-            stdout=asyncio.subprocess.PIPE,
-            stderr=asyncio.subprocess.PIPE,
-            preexec_fn=os.setpgrp
+        loop = asyncio.get_event_loop()
+        proc = await loop.run_in_executor(
+            None,
+            lambda: subprocess.Popen(
+                [sys.executable, str(script)],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+            )
         )
-        stdout, stderr = await asyncio.wait_for(proc.communicate(), timeout=60)
+        stdout, stderr = await asyncio.wait_for(
+            loop.run_in_executor(None, proc.communicate), timeout=60
+        )
         elapsed = int((_time.time() - t0) * 1000)
 
         if proc.returncode != 0:
@@ -262,13 +325,18 @@ async def _handle_sc_analytics(update, uid, args):
         else:
             cmd_args = [sys.executable, str(script), "--symbols", ",".join(raw_symbols)]
 
-        proc = await asyncio.create_subprocess_exec(
-            *cmd_args,
-            stdout=asyncio.subprocess.PIPE,
-            stderr=asyncio.subprocess.PIPE,
-            preexec_fn=os.setpgrp
+        loop = asyncio.get_event_loop()
+        proc = await loop.run_in_executor(
+            None,
+            lambda: subprocess.Popen(
+                cmd_args,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+            )
         )
-        stdout, stderr = await asyncio.wait_for(proc.communicate(), timeout=120)
+        stdout, stderr = await asyncio.wait_for(
+            loop.run_in_executor(None, proc.communicate), timeout=120
+        )
         elapsed = int((_time.time() - t0) * 1000)
 
         if proc.returncode != 0:
@@ -323,8 +391,19 @@ async def _handle_sc_analytics(update, uid, args):
 async def _handle_sc_graphs(update, uid):
     import json as _json
     import time as _time
+    import httpx
     t0 = _time.time()
-    status_msg = await update.message.reply_text("📊 Генерирую графики...")
+    log.info(f"sc_graphs: start uid={uid}")
+    status_msg = await update.message.reply_text("🔄 Синхронизирую с Bitget...")
+
+    sync_ok, sync_count, sync_err, cached = await _sync_exchange(status_msg)
+    if sync_ok:
+        if cached:
+            await status_msg.edit_text("⚡ Sync из кэша\n📊 Генерирую графики...")
+        else:
+            await status_msg.edit_text(f"✅ Sync: {sync_count} карт\n📊 Генерирую графики...")
+    else:
+        await status_msg.edit_text(f"⚠️ Sync: {sync_err}\n📊 Графики устаревших данных...")
 
     script = SCRIPTS_DIR / "generate_graphs.py"
     if not script.exists():
@@ -333,27 +412,61 @@ async def _handle_sc_graphs(update, uid):
 
     proc = None
     try:
-        proc = await asyncio.create_subprocess_exec(
-            config.VENV_PYTHON, str(script),
-            "--uid", str(uid),
-            stdout=asyncio.subprocess.PIPE,
-            stderr=asyncio.subprocess.PIPE,
-            preexec_fn=os.setpgrp,
+        log.info("sc_graphs: about to create_subprocess_exec")
+        loop = asyncio.get_event_loop()
+        proc = await loop.run_in_executor(
+            None,
+            lambda: subprocess.Popen(
+                [VENV_PYTHON, str(script), "--uid", str(uid)],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+            )
         )
-        stdout, stderr = await asyncio.wait_for(proc.communicate(), timeout=180)
+        log.info(f"sc_graphs: proc started pid={proc.pid}")
+        stdout, stderr = await asyncio.wait_for(
+            loop.run_in_executor(None, proc.communicate), timeout=180
+        )
+        log.info(f"sc_graphs: subprocess done rc={proc.returncode} stdout={len(stdout)}b stderr={len(stderr)}b")
 
         if proc.returncode != 0:
             err = (stderr.decode()[:300] or stdout.decode()[:200])
+            log.error(f"sc_graphs: subprocess failed rc={proc.returncode} stderr={err!r}")
             await status_msg.edit_text(f"❌ Ошибка генерации графиков: {err}")
             return
 
         raw = stdout.decode().strip()
         result = _json.loads(raw) if raw else {"files": []}
         files = result.get("files", [])
+        log.info(f"sc_graphs: parsed files={len(files)} total={result.get('total_ms')}")
 
         if not files:
             await status_msg.edit_text("❌ Нет данных для графиков.")
             return
+
+        # Build position map for TG row lines
+        pos_map = {}
+        try:
+            async with httpx.AsyncClient(base_url="http://localhost:5000", timeout=httpx.Timeout(10)) as _hc:
+                _r = await _hc.get("/account-api/api/computed")
+                for _p in _r.json().get("positions", []):
+                    pos_map[_p["ticker"]] = _p
+        except Exception:
+            pass
+
+        def _make_tg_row(p):
+            if not p:
+                return ""
+            n = p.get("number", "?")
+            sym = p.get("ticker", "?")
+            price = float(p.get("current_price", 0))
+            ed = p.get("open_date", "")
+            days = p.get("days_open", 0)
+            vol = float(p.get("margin_size", 0))
+            pp = float(p.get("pl_percent", 0))
+            pu = float(p.get("unrealized_pl", 0))
+            res = "🟢" if pu >= 0 else "🔴"
+            lev = float(p.get("leverage", 10))
+            return f"🏗️{n} 🚏{sym} 🧾{price:.4f} 📆{ed} 🕒{days}дн 🧱{vol:.4f} 🫧{pp:+.2f} 🪙{pu:+.4f} 📦{res} ⬆️{lev:.0f}x"
 
         await status_msg.delete()
         total = result.get("total_ms", 0)
@@ -364,13 +477,18 @@ async def _handle_sc_graphs(update, uid):
             date_str = f.get("date", "")
             ms = f.get("ms", 0)
             if not os.path.isfile(path):
+                log.warning(f"sc_graphs: file missing {path}")
                 continue
+            log.info(f"sc_graphs: sending {symbol} from {path} size={os.path.getsize(path)}b")
+            _pos = pos_map.get(symbol)
+            _tg_line = _make_tg_row(_pos)
             try:
                 with open(path, "rb") as fp:
-                    await update.message.reply_photo(
-                        photo=fp,
-                        caption=f"📊 {symbol} | {date_str} | {ms}ms",
-                    )
+                    if _tg_line:
+                        caption = f"{_tg_line}\n🔄 📊 {symbol} | {date_str} | {ms}ms"
+                    else:
+                        caption = f"📊 {symbol} | {date_str} | {ms}ms"
+                    await update.message.reply_photo(photo=fp, caption=caption)
                 sent += 1
                 await asyncio.sleep(0.5)
             except Exception as e:
@@ -418,10 +536,23 @@ async def _handle_chart(update, uid, args):
     is_all = chart_type == "all"
     target_types = _ALL_TYPES if is_all else [chart_type]
 
-    status_msg = await update.message.reply_text(
-        f"📊 Генерирую {len(target_types)} графиков..." if is_all
-        else f"📊 Генерирую {chart_type}..."
-    )
+    status_msg = await update.message.reply_text("🔄 Синхронизирую с Bitget...")
+
+    sync_ok, sync_count, sync_err, cached = await _sync_exchange(status_msg)
+    if sync_ok:
+        if cached:
+            prefix = "⚡ Sync из кэша"
+        else:
+            prefix = f"✅ Sync: {sync_count} карт"
+        if is_all:
+            await status_msg.edit_text(f"{prefix}\n📊 Генерирую {len(target_types)} графиков...")
+        else:
+            await status_msg.edit_text(f"{prefix}\n📊 Генерирую {chart_type}...")
+    else:
+        if is_all:
+            await status_msg.edit_text(f"⚠️ Sync: {sync_err}\n📊 Графики устаревших данных...")
+        else:
+            await status_msg.edit_text(f"⚠️ Sync: {sync_err}\n📊 График устаревших данных...")
 
     script = SCRIPTS_DIR / "generate_chart.py"
     if not script.exists():
@@ -749,7 +880,7 @@ async def _handle_chart(update, uid, args):
 
 
 async def _handle_positions(update, uid):
-    import time as _time, subprocess
+    import time as _time
     t0 = _time.time()
     status_msg = await update.message.reply_text("📊 Получаю сводку...")
 
@@ -760,13 +891,18 @@ async def _handle_positions(update, uid):
 
     proc = None
     try:
-        proc = await asyncio.create_subprocess_exec(
-            sys.executable, str(script),
-            stdout=asyncio.subprocess.PIPE,
-            stderr=asyncio.subprocess.PIPE,
-            preexec_fn=os.setpgrp
+        loop = asyncio.get_event_loop()
+        proc = await loop.run_in_executor(
+            None,
+            lambda: subprocess.Popen(
+                [sys.executable, str(script)],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+            )
         )
-        stdout, stderr = await asyncio.wait_for(proc.communicate(), timeout=60)
+        stdout, stderr = await asyncio.wait_for(
+            loop.run_in_executor(None, proc.communicate), timeout=60
+        )
         elapsed = int((_time.time() - t0) * 1000)
 
         if proc.returncode != 0:
@@ -793,104 +929,116 @@ async def _handle_positions(update, uid):
 
 async def _handle_positions_image(update, uid):
     import time as _time
-    import json, urllib.request
+    import httpx
     t0 = _time.time()
-    status_msg = await update.message.reply_text("📊 Готовлю скриншот сводки...")
+    status_msg = await update.message.reply_text("🔄 Синхронизирую с Bitget...")
+    log.info(f"positions_image: start uid={uid}")
+
+    sync_ok, sync_count, sync_err, cached = await _sync_exchange(status_msg)
+    if sync_ok:
+        if cached:
+            await status_msg.edit_text("⚡ Sync из кэша\n📊 Готовлю скриншот сводки...")
+        else:
+            await status_msg.edit_text(f"✅ Sync: {sync_count} карт\n📊 Готовлю скриншот сводки...")
+    else:
+        await status_msg.edit_text(f"⚠️ Sync: {sync_err}\n📊 Готовлю скриншот устаревших данных...")
 
     try:
-        # Sync exchange first
-        try:
-            req = urllib.request.Request(
-                "http://localhost:5000/api/sync-all",
-                data=b"",
-                method="POST"
-            )
-            urllib.request.urlopen(req, timeout=30)
-        except Exception:
-            pass
+        async with httpx.AsyncClient(base_url="http://localhost:5000", timeout=httpx.Timeout(15.0)) as _hclient:
+            resp = await _hclient.get("/account-api/api/computed")
+            data = resp.json()
+            log.info(f"positions_image: computed loaded n={len(data.get('positions', []))}")
 
-        # Получить данные с API
-        resp = urllib.request.urlopen(f"http://localhost:5000/account-api/api/computed", timeout=10)
-        data = json.loads(resp.read())
-        
-        if "error" in data:
-            await status_msg.edit_text(f"❌ {data['error']}")
-            return
-        
-        positions = data.get("positions", [])
-        totals = data.get("totals", {})
-        fill_counts = data.get("fill_counts", {})
-        order_counts = data.get("order_counts", {})
-        
-        # Balance
-        balance = 0.0
-        try:
-            bresp = urllib.request.urlopen(f"http://localhost:5000/account-api/api/balance", timeout=5)
-            bdata = json.loads(bresp.read())
-            for item in bdata.get("futures", []):
-                if item.get("margin_coin") == "USDT":
-                    balance = float(item.get("available", 0))
-                    break
-            if not balance:
-                for item in bdata.get("spot", []):
-                    if item.get("coin") == "USDT":
+            if "error" in data:
+                await status_msg.edit_text(f"❌ {data['error']}")
+                return
+
+            positions = data.get("positions", [])
+            totals = data.get("totals", {})
+            fill_counts = data.get("fill_counts", {})
+            order_counts = data.get("order_counts", {})
+
+            balance = 0.0
+            try:
+                bresp = await _hclient.get("/account-api/api/balance", timeout=httpx.Timeout(5.0))
+                bdata = bresp.json()
+                for item in bdata.get("futures", []):
+                    if item.get("margin_coin") == "USDT":
                         balance = float(item.get("available", 0))
                         break
-        except Exception:
-            pass
+                if not balance:
+                    for item in bdata.get("spot", []):
+                        if item.get("coin") == "USDT":
+                            balance = float(item.get("available", 0))
+                            break
+            except Exception:
+                pass
+            log.info(f"positions_image: balance={balance}")
         
         from formatters.positions_risk import format_risk_summary
         from rich.console import Console
-        from formatters.screenshot import render_rich_to_png
+        from formatters.screenshot import async_render_rich_to_png
         
         # Build Rich Table with record=True
         console = Console(record=True, width=100)
         from rich.table import Table
         table = Table(title=f"📊 Risk Summary (Balance: {balance:.2f} USDT)", width=100)
         table.add_column("Ticker", style="bold", no_wrap=True)
-        table.add_column("Cnt", justify="right")
         table.add_column("Side", no_wrap=True)
         table.add_column("Margin", justify="right")
         table.add_column("Bal%", justify="right")
-        table.add_column("Exp%", justify="right")
         table.add_column("P&L", justify="right")
+        table.add_column("Exp%", justify="right")
         table.add_column("ROE%", justify="right")
-        table.add_column("Lev", justify="right")
+        table.add_column("Mgn%", justify="right")
         table.add_column("LiqΔ%", justify="right")
+        table.add_column("Cnt", justify="right")
+        table.add_column("Lev", justify="right")
         
-        total_margin = 0.0
-        total_pl = 0.0
+        sum_mgn_pct = 0.0
         for pos in positions:
             margin = float(pos.get("margin_size", 0))
             pl = float(pos.get("unrealized_pl", 0))
-            lev = float(pos.get("leverage", 0))
-            total_margin += margin
-            total_pl += pl
-            bal_pct = (margin / balance * 100) if balance else 0
-            exp_pct = (margin * lev / balance * 100) if balance else 0
-            roe = (pl / margin * 100) if margin else 0
-            open_p = float(pos.get("open_price_avg", 0))
-            liq_p = float(pos.get("liquidation_price", 0))
-            liq_d = abs((open_p - liq_p) / open_p * 100) if open_p and liq_p else 0
-            side = "🟢 LONG" if pos.get("hold_side") == "long" else "🔴 SHORT"
+            bal_pct = float(pos.get("bal_pct", 0))
+            mgn_pct = float(pos.get("mgn_pct", 0))
+            exp_pct = float(pos.get("ror", 0))
+            roe = float(pos.get("roe", 0))
+            liq_d = float(pos.get("liq_delta", 0))
+            side = "L" if pos.get("hold_side") == "long" else "S"
+            sum_mgn_pct += mgn_pct
             
-            table.add_row(pos.get("symbol","?"), str(fill_counts.get(pos.get("symbol",""), 0)),
-                         side, f"{margin:.6f}", f"{bal_pct:.2f}", f"{exp_pct:.2f}",
-                         f"{pl:+.6f}", f"{'🔮' if roe>=100 else '💚' if roe>=30 else '🟢' if roe>=5 else '⚪' if roe>=-5 else '⚠️' if roe>=-30 else '🔶' if roe>=-100 else '🛑'}{roe:+.1f}",
-                         f"{int(lev)}x", f"{liq_d:.1f}")
+            _abs = abs(roe)
+            if _abs > 100:
+                _lvl = "bright"
+            elif _abs > 50:
+                _lvl = "mid"
+            else:
+                _lvl = "dim"
+            row_style = {"bright": "on #00cc44", "mid": "on #00882e", "dim": "on #004418"}[_lvl] if pl >= 0 else {"bright": "on #cc3333", "mid": "on #882222", "dim": "on #441111"}[_lvl]
+            _sym = pos.get("symbol", "?")
+            _cnt = fill_counts.get(_sym, 0)
+            table.add_row(_sym, side, f"{margin:.2f}",
+                         f"{bal_pct:.2f}", f"{pl:+.2f}", f"{exp_pct:.2f}",
+                         f"{roe:+.1f}", f"{mgn_pct:.2f}", f"{liq_d:.1f}",
+                         str(_cnt), f"{int(pos.get('leverage', 0))}x",
+                         style=row_style)
         
         table.add_section()
-        total_margin_f = totals.get('total_margin', total_margin)
-        total_pl_f = totals.get('total_pl', total_pl)
+        total_margin_f = totals.get('total_margin', 0)
+        total_pl_f = totals.get('total_pl', 0)
         total_roe = (total_pl_f / total_margin_f * 100) if total_margin_f else 0
         total_bal_pct = (total_margin_f / balance * 100) if balance else 0
-        table.add_row("TOTAL", str(len(positions)), "", f"{total_margin_f:.6f}",
-                     f"{total_bal_pct:.2f}", "",
-                     f"{total_pl_f:+.6f}", f"{total_roe:+.1f}", "", "")
+        total_exp_pct = (total_pl_f / balance * 100) if balance else 0
+        _total_cnt = sum(fill_counts.values())
+        table.add_row("TOTAL", "", f"{total_margin_f:.2f}",
+                     f"{total_bal_pct:.2f}", f"{total_pl_f:+.2f}", f"{total_exp_pct:.2f}",
+                     f"{total_roe:+.1f}", f"{sum_mgn_pct:.2f}", "", str(_total_cnt), "")
         
         console.print(table)
         img_path = f"/tmp/positions_risk_{int(_time.time())}.png"
-        result = render_rich_to_png(console, img_path)
+        log.info(f"positions_image: starting render path={img_path}")
+        result = await async_render_rich_to_png(console, img_path)
+        log.info(f"positions_image: rendered {'ok' if result else 'fail'} size={os.path.getsize(img_path) if result else 0}")
         
         if result:
             await status_msg.delete()
@@ -900,6 +1048,7 @@ async def _handle_positions_image(update, uid):
             # Fallback to text
             text = format_risk_summary(positions, balance, fill_counts, order_counts, totals)
             await status_msg.edit_text(f"{text}\n\n📊 Positions | {int((_time.time()-t0)*1000)}ms" if len(text) < 3500 else "❌ Ошибка создания изображения")
+        log.info(f"positions_image: done total={int((_time.time()-t0)*1000)}ms")
     
     except Exception as e:
         await status_msg.edit_text(f"❌ Ошибка: {e}")
@@ -978,7 +1127,7 @@ async def _handle_ws_ob(update, uid, args):
     
     if want_image:
         # Rich → HTML → PNG → send photo
-        from formatters.screenshot import render_rich_to_png
+        from formatters.screenshot import async_render_rich_to_png
         
         table_title = f"📊 Order Book {symbol}"
         if bucket_size:
@@ -1016,7 +1165,7 @@ async def _handle_ws_ob(update, uid, args):
         
         console.print(tbl)
         img_path = f"/tmp/ob_{symbol}_{int(_time.time())}.png"
-        result = render_rich_to_png(console, img_path, title=table_title)
+        result = await async_render_rich_to_png(console, img_path, title=table_title)
         
         if result:
             await status_msg.delete()
