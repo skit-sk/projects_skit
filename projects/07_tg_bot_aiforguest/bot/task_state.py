@@ -26,7 +26,7 @@ CMD_CODES = {
     "/setmodel": "B27", "/setlimit": "B28", "/approve": "B29",
     "/approve-model": "B30", "/deny": "B31", "/request": "B32",
     "/unauthorized": "B33", "/sandbox": "B34", "/shutdown": "B35",
-    "/sc_positions": "C01", "/tg_positions": "C02",
+    "/sc_positions": "C01", "/emj_positions": "C02",
     "/audit_ip": "A01", "/audit_deep": "A02",
     "/wgc": "S03", "/task_stats": "B36", "/task_errors": "B37",
 }

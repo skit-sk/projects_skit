@@ -1,0 +1,38 @@
+import os
+from pathlib import Path
+
+PROJECT_DIR = Path(os.getenv("MAX_PROJECT_DIR", Path(__file__).resolve().parent))
+WORKSPACE_DIR = Path(os.getenv("WORKSPACE_DIR", PROJECT_DIR.parent.parent))
+
+_env_path = PROJECT_DIR / ".env"
+if _env_path.exists():
+    with open(_env_path) as _f:
+        for _line in _f:
+            _line = _line.strip()
+            if _line and not _line.startswith("#") and "=" in _line:
+                _k, _v = _line.split("=", 1)
+                os.environ.setdefault(_k.strip(), _v.strip())
+
+MAX_BOT_TOKEN = os.getenv("MAX_BOT_TOKEN", "")
+MAX_WEBHOOK_URL = os.getenv("MAX_WEBHOOK_URL", "")
+MAX_WEBHOOK_SECRET = os.getenv("MAX_WEBHOOK_SECRET", "")
+SUPER_USER = int(os.getenv("MAX_SUPER_USER", "0"))
+if not MAX_BOT_TOKEN:
+    raise RuntimeError("MAX_BOT_TOKEN not set")
+if not SUPER_USER:
+    raise RuntimeError("MAX_SUPER_USER not set")
+
+STATE_FILE = WORKSPACE_DIR / "projects" / "07_tg_bot_aiforguest" / "bot" / "state.json"
+UNAUTHORIZED_FILE = PROJECT_DIR / "bot" / "unauthorized.json"
+TG_ALL_DIR = PROJECT_DIR / "TG_ALL"
+ALL_USERS_DIR = WORKSPACE_DIR / "ALL_USERS"
+VENV_PYTHON = str(WORKSPACE_DIR / "venv" / "bin" / "python3")
+
+DEFAULT_MODEL = "opencode/deepseek-v4-flash-free"
+DEFAULT_MSG_LIMIT = 50
+DEFAULT_TOKEN_LIMIT = 1_000_000
+DEFAULT_STORAGE_MB = 500
+DEFAULT_FILE_LIMIT = 1000
+OPCODE_TIMEOUT = 180
+
+LOG_FILE = PROJECT_DIR / "bot.log"

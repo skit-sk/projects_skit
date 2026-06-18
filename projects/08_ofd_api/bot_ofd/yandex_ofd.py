@@ -3,7 +3,7 @@ import json, os, urllib.request
 
 class YandexOfdClient:
     def __init__(self, token=None):
-        self.token = token or os.environ.get("OFD_API_TOKEN", "")
+        self.token = token or os.environ.get("OFD_YARU_TOKEN", "")
         self.base = "https://api.ofd-ya.ru/ofdapi"
 
     def call(self, method, params=None):

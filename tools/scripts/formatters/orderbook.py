@@ -1,5 +1,7 @@
 """Order Book utilities — normalize symbol, fetch from Bitget, aggregate levels."""
 
+import json
+import asyncio
 import requests
 
 
@@ -58,36 +60,111 @@ def aggregate_levels(entries: list, bucket_size: float) -> list:
     return [(v["label"], f"{v['vol']:.4f}") for _, v in sorted_items]
 
 
-def fetch_aggregated_ob(symbol: str, depth: int = 15, bucket_size: float = 0) -> dict | None:
-    """Запросить стакан, агрегировать, гарантировать глубину depth корзин.
+WS_URL = "wss://ws.bitget.com/v2/ws/public"
+
+
+async def fetch_aggregated_ob_ws(symbol: str, depth: int = 15, bucket_size: float = 0, ws_timeout: float = 15) -> dict | None:
+    """Получить стакан через Bitget v2 WebSocket (канал books, 500 уровней).
     
-    Если после агрегации корзин меньше чем depth — дозапрашивает с большим limit.
+    Даёт 500 asks + 500 bids — достаточно для любых агрегаций.
     """
-    raw_limit = depth * 3  # первая попытка: в 3 раза больше нужной глубины
-    max_limit = 2000
-    last_result = None
+    import websockets
 
-    while raw_limit <= max_limit:
-        data = fetch_order_book_raw(symbol, raw_limit)
-        if not data:
-            return last_result
+    subscribe = json.dumps({
+        "op": "subscribe",
+        "args": [{"channel": "books", "instId": symbol, "instType": "SPOT"}]
+    })
 
-        asks_raw = data.get("asks", [])
-        bids_raw = data.get("bids", [])
+    try:
+        async with websockets.connect(WS_URL, ping_interval=10, ping_timeout=5) as ws:
+            await ws.send(subscribe)
 
-        asks = aggregate_levels(asks_raw, bucket_size)
-        bids = aggregate_levels(bids_raw, bucket_size)
+            # Response 1: subscribe-ack (пропускаем)
+            try:
+                raw = await asyncio.wait_for(ws.recv(), timeout=ws_timeout)
+                ack = json.loads(raw)
+                if ack.get("event") == "error":
+                    print(f"WS subscribe error: {ack.get('msg', '')}")
+                    return None
+            except asyncio.TimeoutError:
+                print("WS timeout waiting for subscribe-ack")
+                return None
 
-        result = {
-            "asks": asks[:depth],
-            "bids": bids[:depth],
-            "ts": data.get("ts", ""),
-        }
-        last_result = result
+            # Response 2: snapshot (полный стакан)
+            raw = await asyncio.wait_for(ws.recv(), timeout=ws_timeout)
+            msg = json.loads(raw)
+            if msg.get("action") != "snapshot":
+                print(f"WS unexpected response: {json.dumps(msg)[:100]}")
+                return None
 
-        if len(asks) >= depth and len(bids) >= depth:
-            return result
+            data_list = msg.get("data", [])
+            if not data_list:
+                return None
+            data = data_list[0] if isinstance(data_list, list) else data_list
 
-        raw_limit *= 2  # дозапрос
+            asks_raw = data.get("asks", [])
+            bids_raw = data.get("bids", [])
 
-    return last_result
+            asks = aggregate_levels(asks_raw, bucket_size)
+            bids = aggregate_levels(bids_raw, bucket_size)
+
+            return {
+                "asks": asks[:depth],
+                "bids": bids[:depth],
+                "ts": data.get("ts", ""),
+                "actual_asks": len(asks),
+                "actual_bids": len(bids),
+                "bucket_size": bucket_size,
+                "requested_bucket_size": bucket_size,
+                "source": "ws",
+            }
+    except asyncio.TimeoutError:
+        print(f"WS timeout for {symbol}")
+    except Exception as e:
+        print(f"WS error for {symbol}: {e}")
+
+    return None
+
+
+def fetch_aggregated_ob(symbol: str, depth: int = 15, bucket_size: float = 0) -> dict | None:
+    """Запросить стакан через REST API Bitget, агрегировать.
+    
+    Если задан bucket_size > 0 и после агрегации меньше depth уровней —
+    автоматически уменьшает bucket_size (делит на 2) пока не достигнет depth
+    или bucket_size не станет ≤ 0.01 (дальше мельчить смысла нет).
+    Возвращает фактический bucket_size в поле `bucket_size`.
+    """
+    raw_limit = min(depth * 3, 150)
+    data = fetch_order_book_raw(symbol, raw_limit)
+    if not data:
+        return None
+
+    asks_raw = data.get("asks", [])
+    bids_raw = data.get("bids", [])
+
+    actual_bs = bucket_size
+    if bucket_size > 0:
+        for _ in range(10):
+            asks = aggregate_levels(asks_raw, actual_bs)
+            bids = aggregate_levels(bids_raw, actual_bs)
+            if len(asks) >= depth and len(bids) >= depth:
+                break
+            actual_bs = round(actual_bs / 2, 2)
+            if actual_bs < 0.01:
+                actual_bs = bucket_size
+                asks = aggregate_levels(asks_raw, actual_bs)
+                bids = aggregate_levels(bids_raw, actual_bs)
+                break
+    else:
+        asks = aggregate_levels(asks_raw, 0)
+        bids = aggregate_levels(bids_raw, 0)
+
+    return {
+        "asks": asks[:depth],
+        "bids": bids[:depth],
+        "ts": data.get("ts", ""),
+        "actual_asks": len(asks),
+        "actual_bids": len(bids),
+        "bucket_size": actual_bs,
+        "requested_bucket_size": bucket_size,
+    }

@@ -8,9 +8,12 @@ from session import (
     auto_session, create_session, switch_session, rename_session,
     drop_session, get_current_session, increment_msg, get_quota,
     set_user_model, set_default_model, set_limit, ensure_super,
-    get_session_opencode_id, set_session_opencode_id, get_session_agent,
+    get_session_opencode_id, set_session_opencode_id, reset_opencode_id,
+    get_session_agent, is_super,
     set_build_mode, get_build_mode,
     save_last_task, clear_last_task, reset_session_counters,
+    append_model_history,
+    link_platforms, add_platform_link, user_dir,
 )
 from security import run_opencode, pre_filter
 import monitor as _Mon
@@ -49,10 +52,6 @@ def _model_by_number(n_str):
 
 def block(text: str) -> str:
     return f"⚠️ Действие запрещено политикой безопасности.\n{text}"
-
-
-def is_super(uid):
-    return uid == SUPER_USER
 
 
 def _check_user(uid):
@@ -269,6 +268,14 @@ def cmd_request_limit(uid, limit_type, value):
     )
 
 
+def _is_session_error(resp=None, err_msg=None) -> bool:
+    if err_msg and ("Session not found" in err_msg or "session not found" in err_msg.lower()):
+        return True
+    if resp and ("Session not found" in resp or "session not found" in resp.lower()):
+        return True
+    return False
+
+
 def cmd_message(uid, text):
     err = _check_user(uid)
     if err:
@@ -311,9 +318,9 @@ def cmd_message(uid, text):
     if is_super(uid):
         u = get_user(uid)
         cd = u.get("_cwd") if u else None
-        wd = cd or TG_ALL_DIR / f"TG_{uid}"
+        wd = cd or user_dir(uid, "tg")
     else:
-        wd = TG_ALL_DIR / f"TG_{uid}"
+        wd = user_dir(uid, "tg")
     wd.mkdir(parents=True, exist_ok=True)
 
     before = set(wd.rglob("*.[pj][np]g"))
@@ -323,8 +330,12 @@ def cmd_message(uid, text):
     if is_super(uid) and get_build_mode(uid):
         agent = None
         agent_label = "build"
+    elif not is_super(uid):
+        has_session = bool(opencode_id)
+        agent = get_session_agent(uid, key) or (None if not has_session else "tg-reader")
+        agent_label = agent or "tg-reader"
     else:
-        agent = get_session_agent(uid, key) or ("tg-reader" if not is_super(uid) else "plan")
+        agent = get_session_agent(uid, key) or "plan"
         agent_label = agent
 
     save_last_task(uid, text, key)
@@ -342,11 +353,26 @@ def cmd_message(uid, text):
             uid, text, opencode_id=opencode_id, model=model, work_dir=wd,
             title=title, agent=agent
         )
+        # Auto-retry: if session expired, reset and try again
+        if _is_session_error(resp, err_msg):
+            reset_opencode_id(uid, key)
+            key, sess = get_current_session(uid)
+            opencode_id = get_session_opencode_id(uid, key) if sess else None
+            if not opencode_id:
+                auto_session(uid)
+                key, sess = get_current_session(uid)
+            sname = sess["name"] if sess else key
+            title = sname if not opencode_id else None
+            retry_agent = None if not opencode_id else agent
+            resp, parsed_sid, json_lines, err_msg = run_opencode(
+                uid, text, opencode_id=opencode_id, model=model, work_dir=wd,
+                title=title, agent=retry_agent
+            )
     finally:
         clear_last_task(uid)
 
-    if err_msg:
-        return None, err_msg, [], agent_label
+    if err_msg or _is_session_error(resp, None):
+        return None, resp or err_msg, [], agent_label
 
     if parsed_sid and parsed_sid != opencode_id:
         set_session_opencode_id(uid, key, parsed_sid)
@@ -360,7 +386,6 @@ def cmd_message(uid, text):
     if live:
         set_session_tokens(uid, key, live)
 
-    # Save usage/last_msg + cost for footer render
     try:
         from session import _load, _save
         _sd = _load()
@@ -406,7 +431,7 @@ def cmd_cd(uid, target=None):
     if target == "workspace":
         new_dir = str(WORKSPACE_DIR)
     elif target == "tg":
-        new_dir = str(TG_ALL_DIR / f"TG_{uid}")
+        new_dir = str(user_dir(uid, "tg"))
     else:
         p = target if target.startswith("/") else str(WORKSPACE_DIR / target)
         if not os.path.isdir(p):
@@ -485,6 +510,54 @@ def cmd_removeuser(uid, user_id):
     return f"✅ Пользователь {uid_int} удалён."
 
 
+def cmd_link(uid, args):
+    if not args:
+        return "❌ /link usr_xxxxxxx tg <id> [max <id>]\n/link tg <id>  или  /link max <id>"
+
+    if args[0].startswith("usr_") and is_super(uid):
+        internal_uid = args[0]
+        if len(args) < 3:
+            return "❌ /link usr_xxxxxxx tg <id> [max <id>]"
+        err_parts = []
+        for i in range(1, len(args), 2):
+            if i + 1 >= len(args):
+                break
+            platform = args[i].lower()
+            if platform not in ("tg", "max"):
+                err_parts.append(f"❌ Неизвестная платформа: {platform}")
+                continue
+            try:
+                pid = int(args[i + 1])
+            except ValueError:
+                err_parts.append(f"❌ Неверный id: {args[i+1]}")
+                continue
+            err = add_platform_link(internal_uid, platform, pid)
+            if err:
+                err_parts.append(err)
+            else:
+                err_parts.append(f"✅ {internal_uid} {platform} -> {pid}")
+        return "\n".join(err_parts)
+
+    if len(args) == 2:
+        platform = args[0].lower()
+        platform_id = args[1]
+        try:
+            pid = int(platform_id)
+        except ValueError:
+            return "❌ ID должен быть числом."
+        if platform == "tg":
+            err = link_platforms(pid, uid, caller_uid=uid)
+        elif platform == "max":
+            err = link_platforms(uid, pid, caller_uid=uid)
+        else:
+            return f"❌ Неизвестная платформа: {platform}. Используй tg или max."
+        if err:
+            return err
+        return f"✅ Привязан {platform}:{pid} к вашему аккаунту."
+
+    return "❌ Неверный формат."
+
+
 def cmd_userinfo(uid, target_id=None):
     if not is_super(uid):
         return "❌ Только super."
@@ -543,14 +616,87 @@ def _resolve_provider_model(provider, model):
     return matches[0], None
 
 
-def cmd_setmodel(uid, target, provider, model):
+def _find_model_anywhere(model_query: str) -> tuple[str | None, str | None]:
+    """Search model across ALL providers by name or number."""
+    all_models, groups, _ = _get_providers_map()
+    if model_query.isdigit():
+        idx = int(model_query) - 1
+        if 0 <= idx < len(all_models):
+            return all_models[idx], None
+        return None, f"❌ Модель #{model_query} не найдена. Всего: {len(all_models)}"
+    # 1. Exact match (full model ID)
+    if model_query in all_models:
+        return model_query, None
+    # 2. Ends-with match (e.g. "deepseek-v4-flash" → ".../deepseek-v4-flash")
+    exact_matches = [m for m in all_models if m.endswith(f"/{model_query}") or m == model_query]
+    if not exact_matches:
+        exact_matches = [m for m in all_models if m.endswith(model_query)]
+    if len(exact_matches) == 1:
+        return exact_matches[0], None
+    if len(exact_matches) > 1:
+        # Prefer opencode-go, then opencode, then others
+        priority = [m for m in exact_matches if m.startswith("opencode-go/") or m.startswith("opencode/")]
+        if priority:
+            return priority[0], None
+        return exact_matches[0], None
+    # 3. Partial match
+    matches = []
+    for prov_name, ms in groups.items():
+        for m in ms:
+            if model_query.lower() in m.lower():
+                matches.append(m)
+    if len(matches) == 1:
+        return matches[0], None
+    if len(matches) > 1:
+        return None, f"❌ Найдено несколько моделей по запросу \"{model_query}\":\n" + "\n".join(f"  {m}" for m in matches[:10])
+    return None, f"❌ Модель \"{model_query}\" не найдена."
+
+
+def _resolve_model_arg(model_arg: str) -> str | None:
+    """Parse model arg: 'provider/model' or just 'model' (search all)."""
+    if "/" in model_arg:
+        parts = model_arg.split("/", 1)
+        resolved, err = _resolve_provider_model(parts[0], parts[1])
+        if err:
+            # Try full match as model ID
+            all_models, _, _ = _get_providers_map()
+            if model_arg in all_models:
+                return model_arg
+            return None
+        return resolved
+    resolved, err = _find_model_anywhere(model_arg)
+    return resolved if not err else None
+
+
+def cmd_setmodel(uid, target, model_str):
+    """Установить модель для пользователя.
+    
+    Форматы:
+      /setmodel <uid> <provider/model> [msg_limit]
+      /setmodel <uid> <model_name> [msg_limit]
+      /setmodel <uid> <model_number> [msg_limit]
+      /setmodel default <model>
+    """
     if not is_super(uid):
         return "❌ Только super."
-    if not provider or not model:
-        return "❌ /setmodel <провайдер> <модель>\n   /setmodel default <провайдер> <модель>\n   /setmodel <uid> <провайдер> <модель>"
-    resolved, err = _resolve_provider_model(provider, model)
+    if not model_str:
+        return "❌ /setmodel <uid> <модель> [лимит]\n   /setmodel default <модель>"
+
+    parts = model_str.split()
+    model_query = parts[0]
+    msg_limit = int(parts[1]) if len(parts) > 1 and parts[1].isdigit() else None
+
+    if "/" in model_query:
+        provider, model = model_query.split("/", 1)
+        resolved, err = _resolve_provider_model(provider, model)
+    else:
+        resolved, err = _find_model_anywhere(model_query)
+
     if err:
         return err
+    if not resolved:
+        return "❌ Модель не найдена."
+
     if target == "default":
         set_default_model(resolved)
         return f"✅ Модель по умолчанию: {resolved}"
@@ -558,9 +704,16 @@ def cmd_setmodel(uid, target, provider, model):
         tid = int(target)
     except:
         return "❌ ID должен быть числом."
-    if set_user_model(tid, resolved):
-        return f"✅ Модель для {tid}: {resolved}"
-    return "❌ Пользователь не найден."
+    if not user_exists(tid):
+        return "❌ Пользователь не найден."
+
+    set_user_model(tid, resolved)
+    append_model_history(tid, resolved, uid)
+    reply = f"✅ Модель для {tid}: {resolved}"
+    if msg_limit is not None:
+        set_limit(tid, "msg", msg_limit)
+        reply += f"\n📩 Лимит сообщений: {msg_limit}"
+    return reply
 
 
 def cmd_setlimit(uid, target_id, limit_type, value):
@@ -587,7 +740,10 @@ def cmd_approve_model(uid, target_id, model):
     except:
         return "❌ ID должен быть числом."
     model = _resolve_model_arg(model)
+    if model is None:
+        return "❌ Модель не найдена."
     if set_user_model(tid, model):
+        append_model_history(tid, model, uid)
         return f"✅ Запрос одобрен. Модель для {tid}: {model}"
     return "❌ Пользователь не найден."
 
@@ -672,7 +828,7 @@ def cmd_sandbox(uid, target_id=None):
             return "❌ ID должен быть числом."
         fcount, fsize = get_quota(tid)
         user = get_user(tid)
-        u = TG_ALL_DIR / f"TG_{tid}"
+        u = user_dir(tid, "tg")
         log = u / "sandbox.log"
         log_content = ""
         if log.exists():
@@ -762,9 +918,10 @@ COMMANDS = [
         ("/approve <id> <тип> <n>", "super", "Одобрить запрос лимита"),
     ]),
     ("📈 Торговля", [
-        ("/tg_positions", "super", "Текстовые строки позиций Bitget"),
+        ("/emj_positions", "super", "Эмодзи-строки позиций Bitget"),
         ("/sc_positions", "super", "Скриншот таблицы позиций Bitget"),
         ("/sc_analytics", "super", "Скриншот графиков аналитики [symbol] [all]"),
+        ("/sc_graphs", "super", "Скриншот всех графиков (graphics/all)"),
         ("/positions", "super", "Риск-сводка: маржа, P&L, экспозиция"),
         ("/positions --image", "super", "Риск-сводка как PNG (Rich)"),
         ("/ws_ob <SYMBOL> [depth] [aggr]", "super", "Стакан (пример: /ws_ob BTC 50 1)"),
@@ -831,7 +988,7 @@ def cmd_files(uid):
     if err:
         return err
     from templates import _fmt_size
-    u = TG_ALL_DIR / f"TG_{uid}" / "uploads"
+    u = user_dir(uid, "tg") / "uploads"
     if not u.exists():
         return "📂 (пусто)"
     files = sorted(u.iterdir(), key=lambda p: p.stat().st_mtime, reverse=True)
@@ -852,7 +1009,7 @@ def cmd_rm(uid, filename):
     err = _check_user(uid)
     if err:
         return err
-    path = TG_ALL_DIR / f"TG_{uid}" / "uploads" / filename
+    path = user_dir(uid, "tg") / "uploads" / filename
     if not path.exists() or not path.is_file():
         return "❌ Файл не найден."
     path.unlink()
@@ -904,7 +1061,7 @@ def cmd_clean(uid):
     if err:
         return err
     import shutil
-    u = TG_ALL_DIR / f"TG_{uid}" / "uploads"
+    u = user_dir(uid, "tg") / "uploads"
     if u.exists():
         count = sum(1 for f in u.iterdir() if f.is_file())
         shutil.rmtree(u)

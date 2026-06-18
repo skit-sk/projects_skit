@@ -1,7 +1,8 @@
 import json
 import time
+import secrets
 from pathlib import Path
-from config import STATE_FILE, UNAUTHORIZED_FILE, TG_ALL_DIR, SUPER_USER
+from config import STATE_FILE, UNAUTHORIZED_FILE, TG_ALL_DIR, ALL_USERS_DIR, SUPER_USER
 
 _EMPTY_SESSION = {
     "super": SUPER_USER,
@@ -23,7 +24,51 @@ def _load():
     with open(STATE_FILE, encoding="utf-8") as f:
         data = json.load(f)
     _ensure_meta(data)
+    _migrate_to_uid(data)
     return data
+
+
+def _migrate_to_uid(state):
+    changed = False
+    new_users = {}
+    all_users_dir = ALL_USERS_DIR
+    for old_key, user in state.get("users", {}).items():
+        if not old_key.startswith("usr_"):
+            new_key = "usr_" + secrets.token_hex(4)[:7]
+            old_num = int(old_key)
+            user.setdefault("platform_links", {})
+            tg_ids = user["platform_links"].setdefault("tg", [])
+            if old_num not in tg_ids:
+                tg_ids.append(old_num)
+
+            old_dir = TG_ALL_DIR / f"TG_{old_key}"
+            new_dir = all_users_dir / new_key / f"tg_{old_num}"
+            if old_dir.exists() and not new_dir.exists():
+                new_dir.parent.mkdir(parents=True, exist_ok=True)
+                old_dir.rename(new_dir)
+
+            new_users[new_key] = user
+            changed = True
+            continue
+
+        user.setdefault("platform_links", {})
+        new_users[old_key] = user
+
+    for usr_key, user in new_users.items():
+        links = user.get("platform_links", {})
+        for platform, ids in links.items():
+            pid = ids[0] if ids else None
+            if not pid:
+                continue
+            old_legacy = TG_ALL_DIR / f"TG_{usr_key}"
+            new_all = all_users_dir / usr_key / f"{platform}_{pid}"
+            if old_legacy.exists() and not new_all.exists():
+                new_all.parent.mkdir(parents=True, exist_ok=True)
+                old_legacy.rename(new_all)
+
+    if changed:
+        state["users"] = new_users
+        _save(state)
 
 
 def _ensure_meta(state):
@@ -39,7 +84,6 @@ def _ensure_meta(state):
 
 
 def _recalc_stats(state):
-    """Пересчитать session_stats и seq для всех сессий."""
     stats = state.setdefault("session_stats", {"total_created": 0, "total_deleted": 0, "active": 0})
     seq = state.get("session_seq", 0)
     active = 0
@@ -52,7 +96,6 @@ def _recalc_stats(state):
                 active += 1
     state["session_seq"] = seq
     stats["active"] = active
-    # total_created/total_deleted не пересчитываются — они исторические
 
 
 def _save(state):
@@ -61,12 +104,21 @@ def _save(state):
         json.dump(state, f, indent=2, ensure_ascii=False)
 
 
-def _user_dir(uid):
-    return TG_ALL_DIR / f"TG_{uid}"
+def user_dir(uid, platform="tg"):
+    state = _load()
+    resolved = resolve_uid(uid) or str(uid)
+    user = state["users"].get(resolved)
+    plat_id = uid
+    if user:
+        links = user.get("platform_links", {})
+        ids = links.get(platform, [])
+        if ids:
+            plat_id = ids[0]
+    return ALL_USERS_DIR / resolved / f"{platform}_{plat_id}"
 
 
 def get_quota(uid):
-    d = _user_dir(uid)
+    d = user_dir(uid)
     size = 0
     count = 0
     if d.exists():
@@ -77,24 +129,127 @@ def get_quota(uid):
     return count, size
 
 
-def user_exists(uid):
+def resolve_uid(any_id: int) -> str | None:
+    """Поиск внутреннего usr_xxxxxxx по platform id (TG/MAX)."""
     state = _load()
+    sid = str(any_id)
+    if sid.startswith("usr_"):
+        if sid in state["users"]:
+            return sid
+        return None
+    if sid in state["users"]:
+        return sid
+    for uid_key, user in state["users"].items():
+        links = user.get("platform_links", {})
+        for platform, ids in links.items():
+            if any_id in ids:
+                return uid_key
+    return None
+
+
+def _collect_super_ids(state) -> set:
+    super_key = resolve_uid(SUPER_USER)
+    if not super_key:
+        return {SUPER_USER}
+    user = state["users"].get(super_key, {})
+    ids = {SUPER_USER}
+    for platform, plat_ids in user.get("platform_links", {}).items():
+        for pid in plat_ids:
+            ids.add(pid)
+    return ids
+
+
+def link_platforms(tg_uid: int, max_uid: int, caller_uid: int | None = None) -> str | None:
+    """Привязать TG и MAX id к одному внутреннему пользователю.
+    caller_uid — id вызывающего для проверки прав.
+    Возвращает None при успехе или строку ошибки."""
+    state = _load()
+
+    if caller_uid is not None and not is_super(caller_uid):
+        super_ids = _collect_super_ids(state)
+        if tg_uid in super_ids or max_uid in super_ids:
+            return "❌ Нельзя привязаться к super-пользователю."
+
+    resolved_tg = resolve_uid(tg_uid)
+    resolved_max = resolve_uid(max_uid)
+
+    if resolved_tg and resolved_max and resolved_tg != resolved_max:
+        return "❌ Оба ID уже привязаны к разным пользователям."
+    target = resolved_tg or resolved_max
+    if not target:
+        return "❌ Пользователь не найден. Сначала создайте его через /adduser."
+
+    user = state["users"][target]
+    links = user.setdefault("platform_links", {})
+    tg_list = links.setdefault("tg", [])
+    max_list = links.setdefault("max", [])
+
+    if tg_uid not in tg_list:
+        tg_list.append(tg_uid)
+    if max_uid not in max_list:
+        max_list.append(max_uid)
+    _save(state)
+    return None
+
+
+def add_platform_link(internal_uid: str, platform: str, platform_id: int) -> str | None:
+    """Добавить platform_id к внутреннему пользователю.
+    internal_uid — usr_xxxxxxx, platform — 'tg' или 'max'.
+    Возвращает None при успехе или строку ошибки."""
+    state = _load()
+    if internal_uid not in state["users"]:
+        return f"❌ Внутренний uid {internal_uid} не найден."
+    user = state["users"][internal_uid]
+    links = user.setdefault("platform_links", {})
+    plist = links.setdefault(platform, [])
+    if platform_id not in plist:
+        plist.append(platform_id)
+    _save(state)
+    return None
+
+
+def user_exists(uid) -> bool:
+    state = _load()
+    resolved = resolve_uid(uid)
+    if resolved:
+        return True
     return str(uid) in state["users"]
 
 
-def get_user(uid):
+def get_user(uid) -> dict | None:
     state = _load()
+    resolved = resolve_uid(uid)
+    if resolved:
+        return state["users"].get(resolved)
     return state["users"].get(str(uid))
 
 
-def add_user(uid, name, msg_limit=None, token_limit=None, storage_mb=None, file_limit=None):
+def is_super(uid) -> bool:
+    resolved = resolve_uid(uid)
+    if resolved:
+        state = _load()
+        user = state["users"].get(resolved, {})
+        return user.get("role") == "super"
+    return str(uid) == str(SUPER_USER)
+
+
+def _sid(uid):
+    """Get internal user key string."""
+    resolved = resolve_uid(uid)
+    if resolved:
+        return resolved
+    return str(uid)
+
+
+def add_user(uid, name, msg_limit=None, token_limit=None, storage_mb=None, file_limit=None, platform="tg"):
     state = _load()
-    sid = str(uid)
+    sid = _sid(uid)
     if sid not in state["users"]:
         state["users"][sid] = {
             "name": name,
             "role": "normal",
             "model": None,
+            "platform_links": {},
             "limits": {
                 "msg": msg_limit or 50,
                 "token": token_limit or 1_000_000,
@@ -103,14 +258,14 @@ def add_user(uid, name, msg_limit=None, token_limit=None, storage_mb=None, file_
             },
             "sessions": {"current": None, "list": {}},
         }
-        _user_dir(uid).mkdir(parents=True, exist_ok=True)
-        (_user_dir(uid) / "uploads").mkdir(exist_ok=True)
+        user_dir(sid, platform).mkdir(parents=True, exist_ok=True)
+        (user_dir(sid, platform) / "uploads").mkdir(exist_ok=True)
     _save(state)
 
 
 def remove_user(uid):
     state = _load()
-    state["users"].pop(str(uid), None)
+    state["users"].pop(_sid(uid), None)
     _save(state)
 
 
@@ -121,21 +276,24 @@ def list_users():
 
 def ensure_super():
     state = _load()
-    sid = str(SUPER_USER)
+    sid = _sid(SUPER_USER)
     if sid not in state["users"]:
         state["users"][sid] = {
             "name": "SK",
             "role": "super",
             "model": None,
+            "platform_links": {"tg": [SUPER_USER]},
             "limits": None,
             "sessions": {"current": None, "list": {}},
         }
+        user_dir(sid, "tg").mkdir(parents=True, exist_ok=True)
+        (user_dir(sid, "tg") / "uploads").mkdir(exist_ok=True)
     _save(state)
 
 
 def set_session_opencode_id(uid, key, opencode_id):
     state = _load()
-    sid = str(uid)
+    sid = _sid(uid)
     u = state["users"].get(sid)
     if u and key in u["sessions"]["list"]:
         u["sessions"]["list"][key]["opencode_id"] = opencode_id
@@ -144,9 +302,21 @@ def set_session_opencode_id(uid, key, opencode_id):
     return False
 
 
+def reset_opencode_id(uid, key):
+    state = _load()
+    sid = _sid(uid)
+    u = state["users"].get(sid)
+    if u and key in u["sessions"]["list"]:
+        u["sessions"]["list"][key].pop("opencode_id", None)
+        u["sessions"]["list"][key]["tokens"] = 0
+        _save(state)
+        return True
+    return False
+
+
 def set_session_tokens(uid, key, total):
     state = _load()
-    sid = str(uid)
+    sid = _sid(uid)
     u = state["users"].get(sid)
     if u and key in u["sessions"]["list"]:
         u["sessions"]["list"][key]["tokens"] = total
@@ -157,7 +327,7 @@ def set_session_tokens(uid, key, total):
 
 def get_session_opencode_id(uid, key):
     state = _load()
-    sid = str(uid)
+    sid = _sid(uid)
     u = state["users"].get(sid)
     if u and key in u["sessions"]["list"]:
         return u["sessions"]["list"][key].get("opencode_id")
@@ -166,7 +336,7 @@ def get_session_opencode_id(uid, key):
 
 def get_session_agent(uid, key):
     state = _load()
-    sid = str(uid)
+    sid = _sid(uid)
     u = state["users"].get(sid)
     if u and key in u["sessions"]["list"]:
         return u["sessions"]["list"][key].get("agent")
@@ -175,13 +345,13 @@ def get_session_agent(uid, key):
 
 def create_session(uid, name=None):
     state = _load()
-    sid = str(uid)
+    sid = _sid(uid)
     if sid not in state["users"]:
         return None
     ts = int(time.time())
     key = f"ses_{uid}_{ts}"
     if not name:
-        nick = state["users"][sid].get("name", str(uid))
+        nick = state["users"][sid].get("name", _sid(uid))
         from datetime import datetime
         ts_str = datetime.now().strftime("%d%m%Y_%H%M")
         name = f"[TG] {uid}_{nick}_{ts_str}"
@@ -199,7 +369,7 @@ def create_session(uid, name=None):
         "model": None,
         "opencode_id": None,
     }
-    if str(uid) != str(SUPER_USER):
+    if _sid(uid) != _sid(SUPER_USER):
         sess["agent"] = "tg-reader"
     state["users"][sid]["sessions"]["list"][key] = sess
     _recalc_stats(state)
@@ -209,7 +379,7 @@ def create_session(uid, name=None):
 
 def switch_session(uid, key):
     state = _load()
-    sid = str(uid)
+    sid = _sid(uid)
     if sid in state["users"] and key in state["users"][sid]["sessions"]["list"]:
         state["users"][sid]["sessions"]["current"] = key
         _save(state)
@@ -219,7 +389,7 @@ def switch_session(uid, key):
 
 def rename_session(uid, key, new_name):
     state = _load()
-    sid = str(uid)
+    sid = _sid(uid)
     u = state["users"].get(sid)
     if u and key in u["sessions"]["list"]:
         u["sessions"]["list"][key]["name"] = new_name
@@ -230,7 +400,7 @@ def rename_session(uid, key, new_name):
 
 def drop_session(uid):
     state = _load()
-    sid = str(uid)
+    sid = _sid(uid)
     u = state["users"].get(sid)
     if u and u["sessions"]["current"]:
         key = u["sessions"]["current"]
@@ -248,9 +418,8 @@ def drop_session(uid):
 
 
 def dropsession_by_key(uid, key):
-    """Удалить конкретную сессию по ключу."""
     state = _load()
-    sid = str(uid)
+    sid = _sid(uid)
     u = state["users"].get(sid)
     if not u or key not in u["sessions"]["list"]:
         return False
@@ -270,7 +439,6 @@ _RANKS_CACHE_TS: float = 0
 
 
 def rebuild_ranks(uid=None):
-    """Вычислить GID и LID. Кеш 10с."""
     import time as _t
     now = _t.time()
     global _RANKS_CACHE, _RANKS_CACHE_TS
@@ -282,7 +450,8 @@ def rebuild_ranks(uid=None):
     state = _load()
     result = {}
     for sid, u in state.get("users", {}).items():
-        if uid is not None and int(sid) != uid:
+        resolved = _sid(uid) if uid is not None else None
+        if uid is not None and sid != resolved:
             continue
         active = [(k, v) for k, v in u["sessions"]["list"].items()
                   if v.get("status", SESSION_ACTIVE) in (SESSION_ACTIVE, SESSION_ERROR)]
@@ -301,7 +470,7 @@ def rebuild_ranks(uid=None):
             except StopIteration:
                 gid = lid
             user_result[key] = {"gid": gid, "lid": lid}
-        result[int(sid)] = user_result
+        result[sid] = user_result
 
     _RANKS_CACHE = result
     _RANKS_CACHE_TS = now
@@ -309,50 +478,43 @@ def rebuild_ranks(uid=None):
 
 
 def resolve_session(uid, query):
-    """Найти сессию по gid/lid/имени/ключу.
-    Возвращает (key, session_dict) или (None, None)."""
     if not query:
         return None, None
 
     state = _load()
     ranks = rebuild_ranks(uid)
-    user_ranks = ranks.get(uid, {})
+    user_ranks = ranks.get(_sid(uid), {})
 
-    # прямой ключ
     for sid in state.get("users", {}):
         u = state["users"][sid]
         if query in u["sessions"]["list"]:
             return query, u["sessions"]["list"][query]
 
-    super_mode = uid == SUPER_USER
+    super_mode = is_super(uid)
 
-    # цифра → lid (свой) или gid (с префиксом g)
     if query.lstrip("-").isdigit():
         n = int(query)
-        # сначала lid среди своих
+        sid = _sid(uid)
         for key, r in user_ranks.items():
             if r["lid"] == n:
-                u = state["users"].get(str(uid), {})
+                u = state["users"].get(sid, {})
                 if key in u.get("sessions", {}).get("list", {}):
                     return key, u["sessions"]["list"][key]
-        # если super, то gid
         if super_mode:
             for sid, u in state.get("users", {}).items():
                 for key, s in u.get("sessions", {}).get("list", {}).items():
-                    r = rebuild_ranks(int(sid)).get(int(sid), {}).get(key, {})
+                    r = rebuild_ranks(None).get(sid, {}).get(key, {})
                     if r.get("gid") == n:
                         return key, s
 
-    # g префикс → gid
     if query.lower().startswith("g") and query[1:].lstrip("-").isdigit():
         n = int(query[1:])
         for sid, u in state.get("users", {}).items():
             for key, s in u.get("sessions", {}).get("list", {}).items():
-                r = rebuild_ranks(int(sid)).get(int(sid), {}).get(key, {})
+                r = rebuild_ranks(None).get(sid, {}).get(key, {})
                 if r.get("gid") == n:
                     return key, s
 
-    # частичное совпадение по имени
     ql = query.lower()
     for sid, u in state.get("users", {}).items():
         for key, s in u.get("sessions", {}).get("list", {}).items():
@@ -365,7 +527,7 @@ def resolve_session(uid, query):
 
 def get_current_session(uid):
     state = _load()
-    sid = str(uid)
+    sid = _sid(uid)
     u = state["users"].get(sid)
     if u and u["sessions"]["current"]:
         key = u["sessions"]["current"]
@@ -376,7 +538,6 @@ def get_current_session(uid):
 
 
 def get_session_full(uid):
-    """Возвращает dict со всеми данными сессии для рендеринга футера/статуса."""
     from config import DEFAULT_MODEL
     user = get_user(uid)
     if not user:
@@ -385,13 +546,13 @@ def get_session_full(uid):
     model = user.get("model") or DEFAULT_MODEL
     role = user.get("role", "normal")
     key, sess = get_current_session(uid)
-    fcount, fsize = get_quota(uid)
+    uid_internal = _sid(uid)
+    fcount, fsize = get_quota(uid_internal)
 
-    # gid / lid
     gid, lid = None, None
     if key:
         ranks = rebuild_ranks(uid)
-        user_ranks = ranks.get(uid, {})
+        user_ranks = ranks.get(uid_internal, {})
         r = user_ranks.get(key, {})
         gid, lid = r.get("gid"), r.get("lid")
 
@@ -400,7 +561,7 @@ def get_session_full(uid):
     last_msg = sess.get("last_msg", {}) or {} if sess else {}
 
     result = {
-        "uid": uid,
+        "uid": uid_internal,
         "name": user.get("name", ""),
         "role": role,
         "model": model,
@@ -470,7 +631,7 @@ def _context_limit(model: str) -> int:
 
 def save_last_task(uid, text, session_key):
     state = _load()
-    sid = str(uid)
+    sid = _sid(uid)
     if sid in state["users"]:
         state["users"][sid]["_last_task"] = {
             "text": text,
@@ -482,7 +643,7 @@ def save_last_task(uid, text, session_key):
 
 def clear_last_task(uid):
     state = _load()
-    sid = str(uid)
+    sid = _sid(uid)
     if sid in state["users"]:
         state["users"][sid].pop("_last_task", None)
         _save(state)
@@ -494,13 +655,13 @@ def get_all_pending_tasks():
     for sid, u in state.get("users", {}).items():
         task = u.get("_last_task")
         if task:
-            result.append((int(sid), task))
+            result.append((sid, task))
     return result
 
 
 def reset_session_counters(uid, key):
     state = _load()
-    sid = str(uid)
+    sid = _sid(uid)
     u = state["users"].get(sid)
     if u and key in u["sessions"]["list"]:
         u["sessions"]["list"][key]["messages"] = 0
@@ -545,13 +706,11 @@ def update_session_tokens(uid, key):
                     log.warning(f"update_session_tokens: no total found in export")
                     return
             else:
-                # get session-level token info and cost from `info`
                 info = data.get("info", {})
                 info_tok = info.get("tokens", {}) or {}
                 inp_total = info_tok.get("input", 0) or 0
                 out_total = info_tok.get("output", 0) or 0
                 cost = info.get("cost", 0) or 0.0
-                # get last message total from messages
                 messages = data.get("messages", [])
                 if isinstance(messages, list):
                     for item in reversed(messages):
@@ -566,7 +725,7 @@ def update_session_tokens(uid, key):
             log.warning(f"update_session_tokens: empty export for {opencode_id}")
             return
         state = _load()
-        sid = str(uid)
+        sid = _sid(uid)
         u = state["users"].get(sid)
         if u and key in u["sessions"]["list"]:
             sess = u["sessions"]["list"][key]
@@ -585,7 +744,7 @@ def update_session_tokens(uid, key):
 
 def increment_msg(uid):
     state = _load()
-    sid = str(uid)
+    sid = _sid(uid)
     u = state["users"].get(sid)
     if u and u["sessions"]["current"]:
         key = u["sessions"]["current"]
@@ -597,7 +756,7 @@ def increment_msg(uid):
 
 def set_user_model(uid, model):
     state = _load()
-    sid = str(uid)
+    sid = _sid(uid)
     if sid in state["users"]:
         state["users"][sid]["model"] = model
         _save(state)
@@ -611,9 +770,21 @@ def set_default_model(model):
     _save(state)
 
 
+def append_model_history(target_uid: int, model: str, setter_uid: int):
+    import time
+    state = _load()
+    sid = _sid(target_uid)
+    if sid not in state["users"]:
+        return
+    history = state["users"][sid].setdefault("_model_history", [])
+    history.append({"ts": time.time(), "model": model, "by": setter_uid})
+    state["users"][sid]["_model_history"] = history[-50:]
+    _save(state)
+
+
 def set_limit(uid, limit_type, value):
     state = _load()
-    sid = str(uid)
+    sid = _sid(uid)
     u = state["users"].get(sid)
     if u and u.get("limits"):
         key_map = {"msg": "msg", "token": "token", "storage": "storage_mb", "file": "file_count"}
@@ -646,7 +817,6 @@ def log_unauthorized(uid, username, first_name, text):
     else:
         data = []
     data.append(entry)
-    # Keep last 500
     if len(data) > 500:
         data = data[-500:]
     UNAUTHORIZED_FILE.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
@@ -660,7 +830,7 @@ def list_unauthorized():
 
 def set_build_mode(uid, active=True):
     state = _load()
-    sid = str(uid)
+    sid = _sid(uid)
     u = state["users"].get(sid)
     if u and u["sessions"]["current"]:
         key = u["sessions"]["current"]
@@ -674,7 +844,7 @@ def set_build_mode(uid, active=True):
 
 def get_build_mode(uid):
     state = _load()
-    sid = str(uid)
+    sid = _sid(uid)
     u = state["users"].get(sid)
     if u and u["sessions"]["current"]:
         key = u["sessions"]["current"]

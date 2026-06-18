@@ -13,6 +13,7 @@
 | 07 | `projects/07_tg_bot_aiforguest/` | Telegram bot proxy → opencode | `bot/main.py` |
 | 08 | `projects/08_ofd_api/` | OFD API (Blueprint в 01) | `routes.py` |
 | 09 | `projects/09_model_catalog/` | Каталог моделей AI | `models_catalog.json` |
+| 10 | `projects/10_max_bot/` | MAX bot (сателлит Telegram бота) | `main.py` |
 | VizLab | `projects/01_fundament_rf/viz_lab/` | 🧪 Visualization Lab (Blueprint в 01) | `/viz-lab/` |
 
 ## Структура
@@ -43,6 +44,7 @@ workspace/
 | `token`, `secret`, `.env` | `skills/instructions/security.md` |
 | `venv`, `pip`, `python-dotenv` | `skills/instructions/python-env.md` |
 | `tg_bot`, `telegram`, `бот`, `tg` | `skills/instructions/tg_bot.md` |
+| `max_bot`, `max`, `platform-api` | `projects/10_max_bot/scripts/max_bot.sh` |
 | `sc`, `скрин`, `screenshot` | — встроенные скриншоты TradingView (bot/screenshot_*.py) |
 | `viz_lab`, `лаборатория`, `lab`, `визуализация` | `skills/instructions/viz_lab.md` |
 
@@ -82,6 +84,21 @@ workspace/
 ```
 
 ❌ **НИКОГДА** не запускать `python bot/main.py` напрямую.
+
+## ⚠️ MAX Bot — СТРОГОЕ ПРАВИЛО
+
+**MAX bot запускать/перезапускать ТОЛЬКО через `projects/10_max_bot/scripts/max_bot.sh`.**
+
+```bash
+./projects/10_max_bot/scripts/max_bot.sh start              # запуск
+./projects/10_max_bot/scripts/max_bot.sh stop               # остановка
+./projects/10_max_bot/scripts/max_bot.sh restart            # перезапуск
+./projects/10_max_bot/scripts/max_bot.sh status             # статус
+./projects/10_max_bot/scripts/max_bot.sh logs               # tail -f лога
+./projects/10_max_bot/scripts/max_bot.sh webhook <url>      # установка webhook
+```
+
+❌ **НИКОГДА** не запускать `python main.py` напрямую.
 
 ## Quick Start
 

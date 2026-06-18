@@ -2,7 +2,7 @@
   "super": 248207602,
   "default_model": "opencode/deepseek-v4-flash-free",
   "users": {
-    "248207602": {
+    "usr_fb43907": {
       "name": "SK",
       "role": "super",
       "model": "opencode-go/deepseek-v4-flash",
@@ -13,43 +13,46 @@
           "ses_248207602_1779061887": {
             "name": "[TG] 248207602_SK_18052026_0251",
             "created": 1779061887,
-            "messages": 321,
+            "messages": 331,
             "model": null,
             "opencode_id": "ses_1c7a4a12fffejyYldtxGsionyv",
             "agent": "plan",
-            "tokens": 491997,
+            "tokens": 829726,
             "usage": {
-              "input": 2297902,
-              "output": 28769543,
+              "input": 2298048,
+              "output": 32912104,
               "cost": 3.135,
               "cost_in": 0.0017,
-              "cost_out": 29.1294
+              "cost_out": 33.6863
             },
-            "cost": 29.1311,
+            "cost": 33.688,
             "_build_mode": true,
             "seq": 1,
             "status": "ACT",
             "last_msg": {
-              "input": 521,
-              "output": 491476,
-              "cost_in": 0.0001,
-              "cost_out": 0.5406
+              "input": 0,
+              "output": 0,
+              "cost_in": 0.0,
+              "cost_out": 0.0
             }
           }
         }
       },
-      "_last_task": {
-        "text": "Применить",
-        "session": "ses_248207602_1779061887",
-        "ts": 1779565637
+      "platform_links": {
+        "tg": [
+          248207602
+        ],
+        "max": [
+          3309222
+        ]
       }
     },
-    "8334836991": {
+    "usr_b6d3fda": {
       "name": "А С",
       "role": "normal",
-      "model": null,
+      "model": "opencode-go/deepseek-v4-flash",
       "limits": {
-        "msg": 100,
+        "msg": 150,
         "token": 1000000,
         "storage_mb": 500,
         "file_count": 1000
@@ -60,13 +63,89 @@
           "ses_8334836991_1778948252": {
             "name": "analyze",
             "created": 1778948252,
-            "messages": 2,
+            "messages": 19,
             "model": null,
-            "opencode_id": "ses_1ce4aa8f2ffe2J7h2NRmtUolJl",
             "seq": 2,
-            "status": "ACT"
+            "status": "ACT",
+            "last_msg": {
+              "input": 69,
+              "output": 173957,
+              "cost_in": 0.0,
+              "cost_out": 0.1914
+            },
+            "tokens": 174026,
+            "opencode_id": "ses_1a355d7e2ffeqHPoddFA3sKpL3",
+            "usage": {
+              "input": 899,
+              "output": 1017546,
+              "cost_in": 0.0001,
+              "cost_out": 1.1194
+            },
+            "cost": 1.1195
           }
         }
+      },
+      "_model_history": [
+        {
+          "ts": 1779666591.8158329,
+          "model": "opencode-go/deepseek-v4-flash",
+          "by": 248207602
+        },
+        {
+          "ts": 1779666591.8177497,
+          "model": "opencode-go/deepseek-v4-flash",
+          "by": 248207602
+        },
+        {
+          "ts": 1779666623.3891282,
+          "model": "opencode-go/deepseek-v4-flash",
+          "by": 248207602
+        },
+        {
+          "ts": 1779666623.3938577,
+          "model": "opencode-go/deepseek-v4-flash",
+          "by": 248207602
+        },
+        {
+          "ts": 1779666667.6029258,
+          "model": "opencode-go/deepseek-v4-flash",
+          "by": 248207602
+        },
+        {
+          "ts": 1779666667.6051593,
+          "model": "opencode/gemini-3.5-flash",
+          "by": 248207602
+        },
+        {
+          "ts": 1779666667.607725,
+          "model": "opencode-go/deepseek-v4-pro",
+          "by": 248207602
+        },
+        {
+          "ts": 1779666679.8991966,
+          "model": "opencode-go/deepseek-v4-flash",
+          "by": 248207602
+        },
+        {
+          "ts": 1779666870.9227726,
+          "model": "opencode-go/deepseek-v4-flash",
+          "by": 248207602
+        },
+        {
+          "ts": 1779666881.8738527,
+          "model": "opencode-go/deepseek-v4-flash",
+          "by": 248207602
+        }
+      ],
+      "_last_task": {
+        "text": "проверь состояние задачи",
+        "session": "ses_8334836991_1778948252",
+        "ts": 1779912215
+      },
+      "platform_links": {
+        "tg": [
+          8334836991
+        ]
       }
     }
   },

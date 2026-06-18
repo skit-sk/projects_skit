@@ -1,0 +1,543 @@
+{
+  "provider": "OFD.RU",
+  "version": "2.0",
+  "env_token": "OFD_OFDRU_TOKEN",
+  "base_url": "https://ofd.ru/api/integration/v2",
+  "auth_type": "api_key_query",
+  "category_map": {
+    "kkt_list": "👤 Клиент: 🔍 Проверка",
+    "kkt_addresses": "👤 Клиент: 🔍 Проверка",
+    "kkt_groups": "👤 Клиент: 🔍 Проверка",
+    "kkt_by_inn": "👤 Клиент: 🔍 Проверка",
+    "users": "👤 Клиент: 🔍 Проверка",
+    "user_delete": "👤 Клиент: 🔍 Проверка",
+    "kkt_errors": "👤 Клиент: 📟 ККТ",
+    "kkt_receipt_errors": "👤 Клиент: 📟 ККТ",
+    "receipts_by_period": "👤 Клиент: 📄 Чеки",
+    "receipts_by_shift": "👤 Клиент: 📄 Чеки",
+    "receipt_detail": "👤 Клиент: 📄 Чеки",
+    "receipt_search": "👤 Клиент: 📄 Чеки",
+    "receipt_tlv": "👤 Клиент: 📄 Чеки",
+    "receipts_with_fpd": "👤 Клиент: 📄 Чеки",
+    "receipts_with_marking": "👤 Клиент: 📄 Чеки",
+    "receipt_public": "👤 Клиент: 📄 Чеки",
+    "reg_receipts": "👤 Клиент: 📊 Смены",
+    "zreports_list": "👤 Клиент: 📊 Смены",
+    "zreports_by_period": "👤 Клиент: 📊 Смены",
+    "report_create": "👤 Клиент: 📋 Отчёты",
+    "report_list": "👤 Клиент: 📋 Отчёты",
+    "report_delete": "👤 Клиент: 📋 Отчёты",
+    "report_download": "👤 Клиент: 📋 Отчёты",
+    "report_templates": "👤 Клиент: 📋 Отчёты",
+    "template_list": "👤 Клиент: 🧾 Шаблоны",
+    "template_get": "👤 Клиент: 🧾 Шаблоны",
+    "template_create": "👤 Клиент: 🧾 Шаблоны",
+    "template_edit": "👤 Клиент: 🧾 Шаблоны",
+    "template_delete": "👤 Клиент: 🧾 Шаблоны",
+    "balance_list": "👤 Клиент: 💰 Баланс",
+    "activation_codes": "🤝 Партнер: 🔑 Активация",
+    "kkt_book": "🤝 Партнер: 🔑 Активация",
+    "kkt_pay": "🤝 Партнер: 💳 Оплата",
+    "pay_status": "🤝 Партнер: 💳 Оплата",
+    "client_kkt_list": "🤝 Партнер: 💳 Оплата",
+    "registration_create": "🤝 Партнер: 📋 Регистрация ФНС",
+    "registration_simplified": "🤝 Партнер: 📋 Регистрация ФНС",
+    "simplified_status": "🤝 Партнер: 📋 Регистрация ФНС",
+    "prepare_document": "🤝 Партнер: 📋 Регистрация ФНС",
+    "sign_app": "🤝 Партнер: 📋 Регистрация ФНС",
+    "app_status": "🤝 Партнер: 📋 Регистрация ФНС",
+    "submit_report": "🤝 Партнер: 📋 Регистрация ФНС",
+    "check_report": "🤝 Партнер: 📋 Регистрация ФНС",
+    "app_modify": "🤝 Партнер: 📋 Регистрация ФНС",
+    "rereg_create": "🤝 Партнер: 📋 Регистрация ФНС",
+    "rereg_status": "🤝 Партнер: 📋 Регистрация ФНС",
+    "dereg_create": "🤝 Партнер: 📋 Регистрация ФНС",
+    "dereg_status": "🤝 Партнер: 📋 Регистрация ФНС",
+    "create_client_cabinet": "🤝 Партнер: 👥 Клиенты",
+    "booking_kkt": "🤝 Партнер: 👥 Клиенты",
+    "order_status": "🤝 Партнер: 👥 Клиенты"
+  },
+  "endpoints": {
+    "kkt_list": {
+      "method": "GET /inn/{INN}/kkts",
+      "desc": "Информация о ККТ",
+      "docs": "Возвращает список ККТ по ИНН. Фильтры: FNSerialNumber, KKTSerialNumber, KKTRegNumber.",
+      "params": {
+        "AuthToken": {"type": "string", "required": true, "desc": "Ключ доступа API", "example": ""},
+        "INN": {"type": "string", "required": true, "desc": "ИНН организации", "example": "7727563778"},
+        "FNSerialNumber": {"type": "string", "required": false, "desc": "Заводской номер ФН", "example": ""},
+        "KKTSerialNumber": {"type": "string", "required": false, "desc": "Заводской номер ККТ", "example": ""},
+        "KKTRegNumber": {"type": "string", "required": false, "desc": "Регистрационный номер ККТ", "example": ""}
+      }
+    },
+    "kkt_addresses": {
+      "method": "GET /kkt/address/list",
+      "desc": "Список адресов всех касс",
+      "docs": "Возвращает список всех адресов установки ККТ для данного токена.",
+      "params": {
+        "AuthToken": {"type": "string", "required": true, "desc": "Ключ доступа API", "example": ""}
+      }
+    },
+    "kkt_groups": {
+      "method": "GET /kktgroup/list",
+      "desc": "Список папок с ККТ",
+      "docs": "Возвращает список групп (папок) с ККТ организации.",
+      "params": {
+        "AuthToken": {"type": "string", "required": true, "desc": "Ключ доступа API", "example": ""}
+      }
+    },
+    "kkt_by_inn": {
+      "method": "GET /kkts",
+      "desc": "Список ККТ по адресу",
+      "docs": "Возвращает список ККТ с фильтрацией по адресу.",
+      "params": {
+        "AuthToken": {"type": "string", "required": true, "desc": "Ключ доступа API", "example": ""},
+        "Address": {"type": "string", "required": false, "desc": "Адрес для фильтрации", "example": ""}
+      }
+    },
+    "users": {
+      "method": "GET /users",
+      "desc": "Список учетных записей ЛКК",
+      "docs": "Возвращает список пользователей личного кабинета ККТ.",
+      "params": {
+        "AuthToken": {"type": "string", "required": true, "desc": "Ключ доступа API", "example": ""}
+      }
+    },
+    "user_delete": {
+      "method": "DELETE /user/delete",
+      "desc": "Удалить учетную запись ЛКК",
+      "docs": "Удаляет пользователя личного кабинета ККТ.",
+      "params": {
+        "AuthToken": {"type": "string", "required": true, "desc": "Ключ доступа API", "example": ""},
+        "UserId": {"type": "string", "required": true, "desc": "ID пользователя", "example": ""}
+      }
+    },
+    "kkt_errors": {
+      "method": "GET /kkts/errors",
+      "desc": "ККТ с ошибками",
+      "docs": "Возвращает список ККТ с ошибками за период (макс. 1 день).",
+      "params": {
+        "AuthToken": {"type": "string", "required": true, "desc": "Ключ доступа API", "example": ""},
+        "DateFrom": {"type": "string", "required": true, "desc": "Дата начала YYYY-MM-DD", "example": "2026-05-01"},
+        "DateTo": {"type": "string", "required": true, "desc": "Дата конца YYYY-MM-DD", "example": "2026-05-01"}
+      }
+    },
+    "kkt_receipt_errors": {
+      "method": "GET /kkt/{rnm}/receipts/errors",
+      "desc": "Чеки с ошибками по ККТ",
+      "docs": "Возвращает список чеков с ошибками для указанной ККТ.",
+      "params": {
+        "AuthToken": {"type": "string", "required": true, "desc": "Ключ доступа API", "example": ""},
+        "RNM": {"type": "string", "required": true, "desc": "Регистрационный номер ККТ", "example": ""}
+      }
+    },
+    "receipts_by_period": {
+      "method": "GET /inn/{INN}/kkt/{KKT}/receipts",
+      "desc": "Список чеков за период по ККТ",
+      "docs": "Возвращает список чеков за указанный период по заданной кассе.",
+      "params": {
+        "AuthToken": {"type": "string", "required": true, "desc": "Ключ доступа API", "example": ""},
+        "INN": {"type": "string", "required": true, "desc": "ИНН организации", "example": "7727563778"},
+        "KKT": {"type": "string", "required": true, "desc": "Рег.номер ККТ", "example": ""},
+        "DateFrom": {"type": "string", "required": false, "desc": "Начало периода YYYY-MM-DD", "example": "2026-05-01"},
+        "DateTo": {"type": "string", "required": false, "desc": "Конец периода YYYY-MM-DD", "example": "2026-05-07"}
+      }
+    },
+    "receipts_by_shift": {
+      "method": "GET /inn/{INN}/kkt/{KKT}/receipts",
+      "desc": "Список чеков за смену",
+      "docs": "Возвращает список чеков за указанную смену по ККТ.",
+      "params": {
+        "AuthToken": {"type": "string", "required": true, "desc": "Ключ доступа API", "example": ""},
+        "INN": {"type": "string", "required": true, "desc": "ИНН организации", "example": "7727563778"},
+        "KKT": {"type": "string", "required": true, "desc": "Рег.номер ККТ", "example": ""},
+        "ShiftNumber": {"type": "string", "required": true, "desc": "Номер смены", "example": "1"},
+        "FnNumber": {"type": "string", "required": false, "desc": "Номер ФН", "example": ""}
+      }
+    },
+    "receipt_detail": {
+      "method": "GET /inn/{INN}/kkt/{KKT}/receipt/{RawId}",
+      "desc": "Подробная информация по чеку",
+      "docs": "Возвращает детальную информацию по чеку по его RawId.",
+      "params": {
+        "AuthToken": {"type": "string", "required": true, "desc": "Ключ доступа API", "example": ""},
+        "INN": {"type": "string", "required": true, "desc": "ИНН организации", "example": "7727563778"},
+        "KKT": {"type": "string", "required": true, "desc": "Рег.номер ККТ", "example": ""},
+        "RawId": {"type": "string", "required": true, "desc": "RawId чека", "example": ""}
+      }
+    },
+    "receipt_search": {
+      "method": "GET /inn/{INN}/receipts/search",
+      "desc": "Поиск чеков по данным покупателя",
+      "docs": "Поиск чеков по телефону/email покупателя или ИНН",
+      "params": {
+        "AuthToken": {"type": "string", "required": true, "desc": "Ключ доступа API", "example": ""},
+        "INN": {"type": "string", "required": true, "desc": "ИНН организации", "example": "7727563778"},
+        "contact": {"type": "string", "required": false, "desc": "Телефон или email покупателя", "example": "+79991112233"},
+        "customerInn": {"type": "string", "required": false, "desc": "ИНН покупателя", "example": ""}
+      }
+    },
+    "receipt_tlv": {
+      "method": "GET /receipts/json-doc",
+      "desc": "Получить TLV чек",
+      "docs": "Возвращает чек в формате TLV/json по KktAgreementId и DocNumber.",
+      "params": {
+        "AuthToken": {"type": "string", "required": false, "desc": "Ключ доступа API", "example": ""},
+        "KktAgreementId": {"type": "string", "required": true, "desc": "ID договора ККТ", "example": ""},
+        "DocNumber": {"type": "string", "required": true, "desc": "Номер документа", "example": ""},
+        "CustomFnNumber": {"type": "string", "required": false, "desc": "Номер ФН (кастомный)", "example": ""}
+      }
+    },
+    "receipts_with_fpd": {
+      "method": "GET /inn/{INN}/kkt/{RNM}/receipts-with-fpd-short",
+      "desc": "Чеки с FPD (кратко)",
+      "docs": "Возвращает чеки с подробной информацией по ФПД.",
+      "params": {
+        "AuthToken": {"type": "string", "required": true, "desc": "Ключ доступа API", "example": ""},
+        "INN": {"type": "string", "required": true, "desc": "ИНН организации", "example": "7727563778"},
+        "RNM": {"type": "string", "required": true, "desc": "Регистрационный номер ККТ", "example": ""}
+      }
+    },
+    "receipts_with_marking": {
+      "method": "GET /inn/{INN}/kkt/{RNM}/receipts-info",
+      "desc": "Чеки с маркировкой",
+      "docs": "Возвращает чеки с кодами маркировки и детальной информацией.",
+      "params": {
+        "AuthToken": {"type": "string", "required": true, "desc": "Ключ доступа API", "example": ""},
+        "INN": {"type": "string", "required": true, "desc": "ИНН организации", "example": "7727563778"},
+        "RNM": {"type": "string", "required": true, "desc": "Регистрационный номер ККТ", "example": ""}
+      }
+    },
+    "receipt_public": {
+      "method": "GET /rec/{inn}/{kktregnumber}/{fnnumber}/{docnumber}/{decsign}",
+      "desc": "Просмотр электронного чека (публичный)",
+      "docs": "Публичная страница просмотра чека (без авторизации).",
+      "params": {
+        "inn": {"type": "string", "required": true, "desc": "ИНН организации", "example": "7727563778"},
+        "kktregnumber": {"type": "string", "required": true, "desc": "Регистрационный номер ККТ", "example": ""},
+        "fnnumber": {"type": "string", "required": true, "desc": "Номер ФН", "example": ""},
+        "docnumber": {"type": "string", "required": true, "desc": "Номер документа", "example": ""},
+        "decsign": {"type": "string", "required": true, "desc": "Подпись документа", "example": ""}
+      }
+    },
+    "reg_receipts": {
+      "method": "POST /kkt/registration/{RNM}/regReceipts",
+      "desc": "Отчеты о регистрации/перерегистрации ККТ",
+      "docs": "Возвращает отчеты о регистрации и изменении параметров регистрации ККТ.",
+      "params": {
+        "AuthToken": {"type": "string", "required": true, "desc": "Ключ доступа API", "example": ""},
+        "RNM": {"type": "string", "required": true, "desc": "Регистрационный номер ККТ", "example": ""},
+        "body": {"type": "object", "required": false, "desc": "Параметры запроса", "example": "{}"}
+      }
+    },
+    "zreports_list": {
+      "method": "GET /inn/{INN}/kkt/{KKT}/zreports",
+      "desc": "Список Z-отчетов по ККТ",
+      "docs": "Возвращает список отчетов о закрытии смены для указанной ККТ.",
+      "params": {
+        "AuthToken": {"type": "string", "required": true, "desc": "Ключ доступа API", "example": ""},
+        "INN": {"type": "string", "required": true, "desc": "ИНН организации", "example": "7727563778"},
+        "KKT": {"type": "string", "required": true, "desc": "Рег.номер ККТ", "example": ""},
+        "dateFrom": {"type": "string", "required": false, "desc": "Начало периода", "example": "2026-05-01"},
+        "dateTo": {"type": "string", "required": false, "desc": "Конец периода", "example": "2026-05-07"}
+      }
+    },
+    "zreports_by_period": {
+      "method": "GET /inn/{INN}/zreports",
+      "desc": "Список Z-отчетов за период (все ККТ)",
+      "docs": "Возвращает отчеты о закрытии смены для всех ККТ за период.",
+      "params": {
+        "AuthToken": {"type": "string", "required": true, "desc": "Ключ доступа API", "example": ""},
+        "INN": {"type": "string", "required": true, "desc": "ИНН организации", "example": "7727563778"},
+        "dateFrom": {"type": "string", "required": true, "desc": "Начало периода", "example": "2026-05-01"},
+        "dateTo": {"type": "string", "required": true, "desc": "Конец периода", "example": "2026-05-07"}
+      }
+    },
+    "report_create": {
+      "method": "POST /reports/create",
+      "desc": "Создать пользовательский отчет",
+      "docs": "Генерирует пользовательский отчет по заданным параметрам.",
+      "params": {
+        "AuthToken": {"type": "string", "required": true, "desc": "Ключ доступа API", "example": ""},
+        "body": {"type": "object", "required": true, "desc": "Параметры отчета", "example": "{\"ReportType\": 1}"}
+      }
+    },
+    "report_list": {
+      "method": "GET /reports/list",
+      "desc": "Список сгенерированных отчетов",
+      "docs": "Возвращает список ранее созданных отчетов.",
+      "params": {
+        "AuthToken": {"type": "string", "required": true, "desc": "Ключ доступа API", "example": ""}
+      }
+    },
+    "report_delete": {
+      "method": "DELETE /reports/delete",
+      "desc": "Удалить отчет",
+      "docs": "Удаляет сгенерированный отчет по ID.",
+      "params": {
+        "AuthToken": {"type": "string", "required": true, "desc": "Ключ доступа API", "example": ""},
+        "ReportId": {"type": "string", "required": true, "desc": "ID отчета", "example": ""}
+      }
+    },
+    "report_download": {
+      "method": "GET /reports/download",
+      "desc": "Скачать отчет",
+      "docs": "Скачивает сгенерированный отчет по ID.",
+      "params": {
+        "AuthToken": {"type": "string", "required": true, "desc": "Ключ доступа API", "example": ""},
+        "ReportId": {"type": "string", "required": true, "desc": "ID отчета", "example": ""}
+      }
+    },
+    "report_templates": {
+      "method": "GET /reports/custom/templates",
+      "desc": "Список базовых шаблонов отчетов",
+      "docs": "Возвращает список доступных базовых шаблонов для создания отчетов.",
+      "params": {
+        "AuthToken": {"type": "string", "required": true, "desc": "Ключ доступа API", "example": ""}
+      }
+    },
+    "template_list": {
+      "method": "GET /reports/custom/list",
+      "desc": "Список шаблонов пользователя",
+      "docs": "Возвращает список шаблонов отчетов, созданных пользователем.",
+      "params": {
+        "AuthToken": {"type": "string", "required": true, "desc": "Ключ доступа API", "example": ""}
+      }
+    },
+    "template_get": {
+      "method": "GET /reports/custom",
+      "desc": "Шаблон отчета по ID",
+      "docs": "Загружает шаблон пользовательского отчета по идентификатору.",
+      "params": {
+        "AuthToken": {"type": "string", "required": true, "desc": "Ключ доступа API", "example": ""},
+        "TemplateId": {"type": "string", "required": true, "desc": "ID шаблона", "example": ""}
+      }
+    },
+    "template_create": {
+      "method": "POST /reports/custom/create",
+      "desc": "Создать шаблон отчета",
+      "docs": "Создает новый шаблон пользовательского отчета.",
+      "params": {
+        "AuthToken": {"type": "string", "required": true, "desc": "Ключ доступа API", "example": ""},
+        "body": {"type": "object", "required": true, "desc": "Данные шаблона", "example": "{\"Name\": \"Мой отчет\"}"}
+      }
+    },
+    "template_edit": {
+      "method": "PUT /reports/custom/edit",
+      "desc": "Изменить шаблон отчета",
+      "docs": "Обновляет существующий шаблон пользовательского отчета.",
+      "params": {
+        "AuthToken": {"type": "string", "required": true, "desc": "Ключ доступа API", "example": ""},
+        "body": {"type": "object", "required": true, "desc": "Обновленные данные шаблона", "example": "{}"}
+      }
+    },
+    "template_delete": {
+      "method": "DELETE /reports/custom/delete",
+      "desc": "Удалить шаблон отчета",
+      "docs": "Удаляет шаблон пользовательского отчета по идентификатору.",
+      "params": {
+        "AuthToken": {"type": "string", "required": true, "desc": "Ключ доступа API", "example": ""},
+        "TemplateId": {"type": "string", "required": true, "desc": "ID шаблона", "example": ""}
+      }
+    },
+    "balance_list": {
+      "method": "GET /balance/list",
+      "desc": "Баланс организации",
+      "docs": "Возвращает информацию о балансе организации.",
+      "params": {
+        "AuthToken": {"type": "string", "required": true, "desc": "Ключ доступа API", "example": ""}
+      }
+    },
+    "activation_codes": {
+      "method": "GET /kkt/code/list",
+      "desc": "Список кодов активации",
+      "docs": "Возвращает список кодов активации для ККТ.",
+      "params": {
+        "AuthToken": {"type": "string", "required": true, "desc": "Ключ доступа API", "example": ""}
+      }
+    },
+    "kkt_book": {
+      "method": "POST /kkt/book",
+      "desc": "Забронировать ККТ",
+      "docs": "Бронирует ККТ по серийным номерам и коду активации.",
+      "params": {
+        "AuthToken": {"type": "string", "required": true, "desc": "Ключ доступа API", "example": ""},
+        "KktSerialNumber": {"type": "string", "required": true, "desc": "Заводской номер ККТ", "example": ""},
+        "FnSerialNumber": {"type": "string", "required": false, "desc": "Заводской номер ФН", "example": ""},
+        "ActivationCode": {"type": "string", "required": true, "desc": "Код активации", "example": ""}
+      }
+    },
+    "kkt_pay": {
+      "method": "POST /partner/v2/kkt/pay",
+      "desc": "Активировать ККТ / оплатить услуги ОФД",
+      "docs": "Активирует ККТ и производит оплату услуг ОФД.",
+      "params": {
+        "AuthToken": {"type": "string", "required": true, "desc": "Ключ доступа API", "example": ""},
+        "body": {"type": "object", "required": true, "desc": "Данные для активации", "example": "{\"Inn\": \"7727563778\", \"Email\": \"test@test.ru\"}"}
+      }
+    },
+    "pay_status": {
+      "method": "GET /partner/v2/kkt/paystatus",
+      "desc": "Статусы оплаты",
+      "docs": "Возвращает список статусов оплаты.",
+      "params": {
+        "AuthToken": {"type": "string", "required": true, "desc": "Ключ доступа API", "example": ""}
+      }
+    },
+    "client_kkt_list": {
+      "method": "GET /partner/v2/inn/{inn}/kkts",
+      "desc": "Список касс клиента",
+      "docs": "Возвращает список ККТ клиента по ИНН.",
+      "params": {
+        "AuthToken": {"type": "string", "required": true, "desc": "Ключ доступа API", "example": ""},
+        "INN": {"type": "string", "required": true, "desc": "ИНН клиента", "example": "7727563778"}
+      }
+    },
+    "registration_create": {
+      "method": "POST /b2b/kkt/registration",
+      "desc": "Создать заявку на регистрацию ККТ в ФНС",
+      "docs": "Создает заявление на регистрацию ККТ в налоговой службе.",
+      "params": {
+        "AuthToken": {"type": "string", "required": true, "desc": "Ключ доступа API", "example": ""},
+        "body": {"type": "object", "required": true, "desc": "Данные заявления", "example": "{}"}
+      }
+    },
+    "registration_simplified": {
+      "method": "POST /b2b/kkt/registration/simplified",
+      "desc": "Упрощенная авторегистрация ККТ",
+      "docs": "Автоматическая регистрация ККТ в упрощенном режиме.",
+      "params": {
+        "AuthToken": {"type": "string", "required": true, "desc": "Ключ доступа API", "example": ""},
+        "body": {"type": "object", "required": true, "desc": "Данные для упрощенной регистрации", "example": "{}"}
+      }
+    },
+    "simplified_status": {
+      "method": "GET /b2b/kkt/registration/{id}/simplified/status",
+      "desc": "Статус упрощенной регистрации",
+      "docs": "Проверяет статус упрощенной регистрации ККТ.",
+      "params": {
+        "AuthToken": {"type": "string", "required": true, "desc": "Ключ доступа API", "example": ""},
+        "id": {"type": "string", "required": true, "desc": "UUID заявки", "example": ""}
+      }
+    },
+    "prepare_document": {
+      "method": "POST /b2b/kkt/registration/{id}/prepareDocument",
+      "desc": "Подготовить документ для подписания",
+      "docs": "Подготавливает документ для отправки на подписание в ФНС.",
+      "params": {
+        "AuthToken": {"type": "string", "required": true, "desc": "Ключ доступа API", "example": ""},
+        "id": {"type": "string", "required": true, "desc": "UUID заявки", "example": ""}
+      }
+    },
+    "sign_app": {
+      "method": "POST /b2b/kkt/registration/{id}/sign",
+      "desc": "Отправить подписанное заявление в ФНС",
+      "docs": "Отправляет подписанное заявление на регистрацию в ФНС.",
+      "params": {
+        "AuthToken": {"type": "string", "required": true, "desc": "Ключ доступа API", "example": ""},
+        "id": {"type": "string", "required": true, "desc": "UUID заявки", "example": ""}
+      }
+    },
+    "app_status": {
+      "method": "GET /b2b/kkt/registration/{id}",
+      "desc": "Проверить статус заявки",
+      "docs": "Проверяет статус обработки заявления в ФНС.",
+      "params": {
+        "AuthToken": {"type": "string", "required": true, "desc": "Ключ доступа API", "example": ""},
+        "id": {"type": "string", "required": true, "desc": "UUID заявки", "example": ""}
+      }
+    },
+    "submit_report": {
+      "method": "PUT /b2b/kkt/registration/{id}",
+      "desc": "Передать данные отчета о регистрации",
+      "docs": "Передает данные отчета о регистрации в ФНС.",
+      "params": {
+        "AuthToken": {"type": "string", "required": true, "desc": "Ключ доступа API", "example": ""},
+        "id": {"type": "string", "required": true, "desc": "UUID заявки", "example": ""},
+        "body": {"type": "object", "required": true, "desc": "Данные отчета", "example": "{}"}
+      }
+    },
+    "check_report": {
+      "method": "GET /b2b/kkt/registration/{id}",
+      "desc": "Проверить статус после отчета",
+      "docs": "Проверяет статус заявки после отправки отчета о регистрации.",
+      "params": {
+        "AuthToken": {"type": "string", "required": true, "desc": "Ключ доступа API", "example": ""},
+        "id": {"type": "string", "required": true, "desc": "UUID заявки", "example": ""}
+      }
+    },
+    "app_modify": {
+      "method": "PUT /b2b/kkt/registration/{id}",
+      "desc": "Изменить существующую заявку",
+      "docs": "Модифицирует существующее заявление на регистрацию.",
+      "params": {
+        "AuthToken": {"type": "string", "required": true, "desc": "Ключ доступа API", "example": ""},
+        "id": {"type": "string", "required": true, "desc": "UUID заявки", "example": ""},
+        "body": {"type": "object", "required": true, "desc": "Новые данные заявления", "example": "{}"}
+      }
+    },
+    "rereg_create": {
+      "method": "POST /b2b/kkt/registration",
+      "desc": "Создать заявку на перерегистрацию ККТ",
+      "docs": "Создает заявление на перерегистрацию ККТ в ФНС.",
+      "params": {
+        "AuthToken": {"type": "string", "required": true, "desc": "Ключ доступа API", "example": ""},
+        "body": {"type": "object", "required": true, "desc": "Данные заявления", "example": "{}"}
+      }
+    },
+    "rereg_status": {
+      "method": "GET /b2b/kkt/registration/{id}",
+      "desc": "Статус перерегистрации",
+      "docs": "Проверяет статус заявки на перерегистрацию ККТ.",
+      "params": {
+        "AuthToken": {"type": "string", "required": true, "desc": "Ключ доступа API", "example": ""},
+        "id": {"type": "string", "required": true, "desc": "UUID заявки", "example": ""}
+      }
+    },
+    "dereg_create": {
+      "method": "POST /b2b/kkt/registration",
+      "desc": "Создать заявку на снятие ККТ с учета",
+      "docs": "Создает заявление на снятие ККТ с регистрационного учета.",
+      "params": {
+        "AuthToken": {"type": "string", "required": true, "desc": "Ключ доступа API", "example": ""},
+        "body": {"type": "object", "required": true, "desc": "Данные заявления", "example": "{}"}
+      }
+    },
+    "dereg_status": {
+      "method": "GET /b2b/kkt/registration/{id}",
+      "desc": "Статус снятия с учета",
+      "docs": "Проверяет статус заявки на снятие ККТ с учета.",
+      "params": {
+        "AuthToken": {"type": "string", "required": true, "desc": "Ключ доступа API", "example": ""},
+        "id": {"type": "string", "required": true, "desc": "UUID заявки", "example": ""}
+      }
+    },
+    "create_client_cabinet": {
+      "method": "POST /partner/v2/PartnerCreateClientCabinet",
+      "desc": "Создать ЛКК клиента",
+      "docs": "Создает личный кабинет ККТ для клиента с одним пользователем.",
+      "params": {
+        "AuthToken": {"type": "string", "required": true, "desc": "Ключ доступа API", "example": ""},
+        "body": {"type": "object", "required": true, "desc": "Данные клиента", "example": "{}"}
+      }
+    },
+    "booking_kkt": {
+      "method": "POST /partner/v2/PartnerBookingKkt",
+      "desc": "Бронирование ККТ + ссылка на оплату (Ferma)",
+      "docs": "Бронирует ККТ и формирует ссылку на оплату для нового клиента.",
+      "params": {
+        "AuthToken": {"type": "string", "required": true, "desc": "Ключ доступа API", "example": ""},
+        "body": {"type": "object", "required": true, "desc": "Данные для бронирования", "example": "{}"}
+      }
+    },
+    "order_status": {
+      "method": "GET /partner/v2/kkt/GetStatus",
+      "desc": "Статус заказа",
+      "docs": "Возвращает статус заказа по ID.",
+      "params": {
+        "AuthToken": {"type": "string", "required": true, "desc": "Ключ доступа API", "example": ""},
+        "OrderId": {"type": "string", "required": true, "desc": "ID заказа", "example": ""}
+      }
+    }
+  }
+}

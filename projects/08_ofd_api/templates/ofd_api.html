@@ -10,17 +10,23 @@
 <div class="ccxt-container">
     <div class="ccxt-toolbar">
         <div class="toolbar-group">
-            <label for="ofd-token-input">🔑 OFD API Token:</label>
-            <input type="text" id="ofd-token-input" class="key-input" style="width:200px" placeholder="из .env" autocomplete="off">
+            <label for="ofd-provider-select">Провайдер:</label>
+            <select id="ofd-provider-select" onchange="onProviderChange()">
+                <option value="">Загрузка...</option>
+            </select>
         </div>
         <div class="toolbar-group">
-            <label style="font-size:11px;color:var(--text-muted);">🧪 Песочница — OFD API (ОФД-Я)</label>
+            <label for="ofd-token-input">🔑 Token:</label>
+            <input type="text" id="ofd-token-input" class="key-input" style="width:200px" placeholder="из .env" autocomplete="off" onchange="saveToken()">
+        </div>
+        <div class="toolbar-group">
+            <label style="font-size:11px;color:var(--text-muted);">🧪 Sandbox — OFD API</label>
         </div>
     </div>
 
     <div class="ccxt-split">
         <div class="ccxt-left" id="tree-panel">
-            <div class="panel-header">📡 OFD Methods <span style="font-size:10px;color:var(--text-muted);font-weight:normal;">— api.ofd-ya.ru</span></div>
+            <div class="panel-header">📡 OFD Methods</div>
             <div id="method-tree">
                 <div class="loading">Загрузка методов...</div>
             </div>
@@ -29,11 +35,7 @@
         <div class="ccxt-divider" id="divider"></div>
 
         <div class="ccxt-right" id="result-panel">
-            <div class="panel-header">🔍 Request
-                <span id="code-legend" style="font-size:10px;color:var(--text-muted);font-weight:normal;margin-left:8px;">
-                    Method → ofd_api.js ← routes/ofd_api.py
-                </span>
-            </div>
+            <div class="panel-header">🔍 Request</div>
             <div id="method-info">
                 <div class="placeholder">Выберите метод слева</div>
             </div>
@@ -47,7 +49,17 @@
                 </div>
             </div>
             <div id="request-url" class="request-url" style="display:none"></div>
-            <div id="param-form" class="param-form" style="display:none"></div>
+            <div id="param-form" class="param-form" style="display:none">
+                <div class="param-mode-tabs">
+                    <label><input type="radio" name="param-mode" id="param-mode-basic" value="basic" checked onchange="buildParamForm(currentParamMeta)"> Basic</label>
+                    <label><input type="radio" name="param-mode" id="param-mode-advanced" value="advanced" onchange="buildParamForm(currentParamMeta)"> Advanced</label>
+                </div>
+                <div id="param-basic"></div>
+                <div id="param-advanced" style="display:none;">
+                    <textarea id="param-advanced-input" class="param-input" rows="6" style="width:100%;font-family:monospace;font-size:12px;"></textarea>
+                    <button class="execute-btn" style="margin-top:4px;font-size:10px;" onclick="syncAdvancedToBasic()">⬆ Sync to Basic</button>
+                </div>
+            </div>
             <div id="execute-area" style="display:none">
                 <button id="execute-btn" onclick="executeMethod()" class="execute-btn">▶ Execute</button>
                 <span id="timing-info" class="timing-info"></span>

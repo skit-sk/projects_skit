@@ -14,5 +14,5 @@ def make_collage(input_paths, output_path):
         collage.paste(im, (x, y))
         y += im.height
 
-    collage.save(output_path, "PNG")
+    collage.save(output_path, "PNG", dpi=(144, 144))
     return output_path

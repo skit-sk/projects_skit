@@ -20,7 +20,7 @@ TASK_INSTANT = {
     "rename", "dropsession",
     "build", "plan", "cd", "unauthorized",
     "sandbox", "broadcast", "shutdown",
-    "sc_positions", "tg_positions",
+    "sc_positions", "emj_positions",
     "task_stats", "task_errors",
 }
 
@@ -34,7 +34,7 @@ def _type_by_cmd(cmd: str) -> str | None:
     base = parts[0].lower().lstrip("/") if parts else "text"
     if base in TASK_INSTANT:
         return "instant"
-    if base in ("sc", "wg", "wgc", "sc_positions", "tg_positions"):
+    if base in ("sc", "wg", "wgc", "sc_positions", "emj_positions"):
         return "screenshot"
     if base in ("audit_ip", "audit_deep"):
         return "audit"

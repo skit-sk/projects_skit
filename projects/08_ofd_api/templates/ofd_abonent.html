@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}OFD Abonent{% endblock %}
+{% block extra_head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/ccxt_api.css') }}">
+<style>
+#oa-status.error { background:rgba(239,68,68,0.15); color:#ef4444; border:1px solid rgba(239,68,68,0.3); }
+#oa-status:not(.error) { background:rgba(34,197,94,0.15); color:#22c55e; border:1px solid rgba(34,197,94,0.3); }
+.oa-tab-content { min-height:200px; }
+</style>
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="ccxt-container">
+  <div class="ccxt-toolbar">
+    <div class="toolbar-group">
+      <label for="oa-inn">ИНН:</label>
+      <select id="oa-inn" onchange="loadData()">
+        <option value="">— выберите —</option>
+      </select>
+      <button onclick="showAddInnDialog()" class="execute-btn" style="font-size:10px;padding:2px 6px;">➕</button>
+      <button onclick="deleteInn()" class="execute-btn" style="font-size:10px;padding:2px 6px;background:#ef4444;">🗑</button>
+    </div>
+    <div class="toolbar-group">
+      <label for="oa-provider">Провайдер:</label>
+      <select id="oa-provider">
+        <option value="yandex_ofd">Яндекс.ОФД</option>
+        <option value="ofd_ru">OFD.RU</option>
+      </select>
+    </div>
+    <div class="toolbar-group">
+      <label>Период:</label>
+      <input type="date" id="oa-from" style="width:130px">
+      <input type="date" id="oa-to" style="width:130px">
+    </div>
+    <div class="toolbar-group">
+      <button onclick="doSync()" class="execute-btn" style="font-size:11px;">🔄 Sync</button>
+    </div>
+  </div>
+
+  <div id="oa-status" style="display:none;padding:0.5rem;margin-bottom:0.5rem;border-radius:6px;"></div>
+
+  <div id="oa-add-dialog" style="display:none;background:var(--bg-card);border:1px solid var(--border-color);border-radius:8px;padding:1rem;margin-bottom:1rem;">
+    <div style="font-weight:600;margin-bottom:0.5rem;">➕ Добавить ИНН</div>
+    <div style="display:flex;gap:0.5rem;flex-wrap:wrap;align-items:center;">
+      <label>ИНН: <input type="text" id="oa-new-inn" placeholder="7727563778" style="width:130px"></label>
+      <label>Token: <input type="text" id="oa-new-token" placeholder="из .env или ввести" style="width:200px"></label>
+      <label>Провайдер:
+        <select id="oa-new-provider">
+          <option value="yandex_ofd">Яндекс.ОФД</option>
+          <option value="ofd_ru">OFD.RU</option>
+        </select>
+      </label>
+      <button onclick="discoverInn()" class="execute-btn" style="font-size:11px;">🔍 Узнать ИНН по токену</button>
+      <button onclick="addInn()" class="execute-btn" style="font-size:11px;">✅ Добавить</button>
+      <button onclick="hideAddInnDialog()" class="execute-btn" style="font-size:11px;background:transparent;color:var(--text-muted);">✕</button>
+    </div>
+  </div>
+
+  <div class="account-tabs" style="display:flex;gap:4px;margin:0.5rem 0;flex-wrap:wrap;">
+    <button class="account-tab active" onclick="switchTab('overview')">📊 Сводка</button>
+    <button class="account-tab" onclick="switchTab('kkt')">📟 ККТ</button>
+    <button class="account-tab" onclick="switchTab('charts')">📈 Графики</button>
+    <button class="account-tab" onclick="switchTab('export')">📤 Выгрузка</button>
+    <button class="account-tab" onclick="switchTab('data')">📋 Данные</button>
+  </div>
+
+  <div id="oa-overview" class="oa-tab-content"></div>
+  <div id="oa-kkt" class="oa-tab-content" style="display:none;"></div>
+  <div id="oa-charts" class="oa-tab-content" style="display:none;"></div>
+  <div id="oa-export" class="oa-tab-content" style="display:none;"></div>
+  <div id="oa-data" class="oa-tab-content" style="display:none;"></div>
+</div>
+
+<script>
+{% include "ofd_abonent.js" %}
+</script>
+{% endblock %}

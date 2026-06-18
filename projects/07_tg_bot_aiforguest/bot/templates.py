@@ -1,4 +1,4 @@
-from session import get_quota, get_user, get_current_session, get_session_full, _context_limit
+from session import get_quota, get_user, get_current_session, get_session_full, _context_limit, user_dir
 from config import DEFAULT_MODEL, TG_ALL_DIR
 
 def _context_hint(model):
@@ -314,7 +314,7 @@ def fmt_quota(uid):
         lines.append(f"Свободно: {_fmt_size(smb - fsize)} / {fc - fcount} файлов")
 
     lines.append("")
-    uploads = TG_ALL_DIR / f"TG_{uid}" / "uploads"
+    uploads = user_dir(uid, "tg") / "uploads"
     if uploads.exists():
         files = sorted(uploads.iterdir(), key=lambda p: p.stat().st_mtime, reverse=True)[:15]
         if files:

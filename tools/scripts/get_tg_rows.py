@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fetch positions JSON → format as Risk Summary → save to TG user dir."""
+"""Fetch positions JSON → format as Risk Summary → save to ALL_USERS."""
 
 import os
 import sys
@@ -9,8 +9,9 @@ import urllib.request
 sys.path.insert(0, os.path.expanduser("~/workspace/tools/scripts"))
 from formatters.positions_risk import format_risk_summary
 
-TG_PROJECT = os.path.expanduser("~/workspace/projects/07_tg_bot_aiforguest")
-TG_ALL_DIR = os.path.join(TG_PROJECT, "TG_ALL")
+WORKSPACE = os.path.expanduser("~/workspace")
+STATE_FILE = os.path.join(WORKSPACE, "projects", "07_tg_bot_aiforguest", "bot", "state.json")
+ALL_USERS_DIR = os.path.join(WORKSPACE, "ALL_USERS")
 BASE_URL = "http://localhost:5000"
 
 
@@ -48,18 +49,23 @@ def get_balance():
 
 
 def get_super_users():
-    if not os.path.isdir(TG_ALL_DIR):
+    if not os.path.exists(STATE_FILE):
         return []
+    with open(STATE_FILE, encoding="utf-8") as f:
+        state = json.load(f)
     users = []
-    for name in os.listdir(TG_ALL_DIR):
-        if name.startswith("TG_"):
-            uid = name.replace("TG_", "")
-            users.append(uid)
+    for uid_key, user in state.get("users", {}).items():
+        role = user.get("role")
+        if role == "super" or role == "normal":
+            links = user.get("platform_links", {})
+            tg_ids = links.get("tg", [])
+            if tg_ids:
+                dir_path = os.path.join(ALL_USERS_DIR, uid_key, f"tg_{tg_ids[0]}")
+                users.append((uid_key, tg_ids[0], dir_path))
     return users
 
 
 def sync_exchange():
-    """POST /api/sync-all для обновления данных с биржи."""
     try:
         req = urllib.request.Request(
             f"{BASE_URL}/api/sync-all",
@@ -72,8 +78,13 @@ def sync_exchange():
         return {"error": str(e)}
 
 
+def _sfmt(v, dec):
+    if abs(v) >= 10:
+        dec = min(dec, 2)
+    return f"{v:.{dec}f}"
+
+
 def format_tg_rows(positions_data):
-    """API-ответ → эмодзи-строки для Telegram."""
     positions = positions_data.get("positions", [])
     lines = []
     header = f"📊 Bitget Positions | {len(positions)} позиций\n"
@@ -82,9 +93,9 @@ def format_tg_rows(positions_data):
         side = "🟢" if arrow == "↑" else "🔴"
         lines.append(
             f"{arrow} 🏗️{p.get('number', 0)} 🚏{p.get('ticker', '?')} "
-            f"🧾{p.get('open_price_avg', 0):.4f} 📆{p.get('open_date', '')} "
-            f"🕒{p.get('days_open', 0)}д 🧱{p.get('margin_size', 0):.4f} "
-            f"🫧{p.get('pl_percent', 0):+.2f} 🪙{p.get('unrealized_pl', 0):+.4f} "
+            f"🧾{_sfmt(p.get('open_price_avg', 0), 4)} 📆{p.get('entry_date') or p.get('open_date', '')} "
+            f"🕒{p.get('days_open', 0)}д 🧱{_sfmt(p.get('margin_size', 0), 4)} "
+            f"🫧{_sfmt(p.get('pl_percent', 0), 2)}% 🪙{_sfmt(p.get('unrealized_pl', 0), 4)} "
             f"{side} ⬆️{p.get('leverage', 10):.0f}x"
         )
     return header + "\n".join(lines)
@@ -94,20 +105,19 @@ def main():
     sync_exchange()
     users = get_super_users()
     if not users:
-        print("No TG users found in", TG_ALL_DIR)
+        print("No users found in", STATE_FILE)
         sys.exit(1)
 
     data = get_positions_json()
     if "error" in data:
         msg = f"❌ API Error: {data['error']}"
         print(msg)
-        for uid in users:
-            user_dir = os.path.join(TG_ALL_DIR, f"TG_{uid}")
-            os.makedirs(user_dir, exist_ok=True)
-            out_path = os.path.join(user_dir, "positions_risk.txt")
+        for uid_key, tg_id, dir_path in users:
+            os.makedirs(dir_path, exist_ok=True)
+            out_path = os.path.join(dir_path, "positions_risk.txt")
             with open(out_path, "w", encoding="utf-8") as f:
                 f.write(msg)
-            out_path2 = os.path.join(user_dir, "positions_tg_rows.txt")
+            out_path2 = os.path.join(dir_path, "positions_tg_rows.txt")
             with open(out_path2, "w", encoding="utf-8") as f:
                 f.write(msg)
         sys.exit(1)
@@ -119,14 +129,13 @@ def main():
     text = format_risk_summary(positions, balance, totals=totals)
     tg_text = format_tg_rows(data)
 
-    for uid in users:
-        user_dir = os.path.join(TG_ALL_DIR, f"TG_{uid}")
-        os.makedirs(user_dir, exist_ok=True)
-        out_path = os.path.join(user_dir, "positions_risk.txt")
+    for uid_key, tg_id, dir_path in users:
+        os.makedirs(dir_path, exist_ok=True)
+        out_path = os.path.join(dir_path, "positions_risk.txt")
         with open(out_path, "w", encoding="utf-8") as f:
             f.write(text)
         print(f"✅ Risk → {out_path}")
-        out_path2 = os.path.join(user_dir, "positions_tg_rows.txt")
+        out_path2 = os.path.join(dir_path, "positions_tg_rows.txt")
         with open(out_path2, "w", encoding="utf-8") as f:
             f.write(tg_text)
         print(f"✅ TG   → {out_path2}")

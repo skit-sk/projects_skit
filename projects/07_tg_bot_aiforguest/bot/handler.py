@@ -12,7 +12,7 @@ import numpy as np
 from config import SUPER_USER, TG_ALL_DIR, WORKSPACE_DIR, VENV_PYTHON
 sys.path.insert(0, str(WORKSPACE_DIR / "projects" / "08_ofd_api" / "bot_ofd"))
 from commands import *
-from session import ensure_super, get_user, user_exists, get_quota, get_current_session, log_unauthorized
+from session import ensure_super, get_user, user_exists, get_quota, get_current_session, log_unauthorized, user_dir as sud
 from security import pre_filter, cancel_process, _active_processes
 import monitor as _Monitor
 import task_state
@@ -166,22 +166,23 @@ async def _handle_task_stats(update, uid, text):
         await _reply(update, f"❌ Ошибка формирования отчёта: {e}", uid)
 
 
-async def _handle_tg_positions(update, uid):
+async def _handle_emj_positions(update, uid):
     import time as _time
     t0 = _time.time()
     status_msg = await update.message.reply_text("📊 Получаю строки позиций...")
-    script = SCRIPTS_DIR / "get_tg_rows.py"
+    script = SCRIPTS_DIR / "get_emj_rows.py"
     if not script.exists():
         await status_msg.edit_text(f"❌ Скрипт не найден: {script}")
         return
 
+    user_dir = sud(uid)
     proc = None
     try:
         loop = asyncio.get_event_loop()
         proc = await loop.run_in_executor(
             None,
             lambda: subprocess.Popen(
-                [sys.executable, str(script)],
+                [sys.executable, str(script), "--output-dir", str(user_dir)],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
             )
@@ -196,8 +197,7 @@ async def _handle_tg_positions(update, uid):
             await status_msg.edit_text(f"❌ Ошибка скрипта (rc={proc.returncode}): {err_txt}")
             return
 
-        user_dir = TG_ALL_DIR / f"TG_{uid}"
-        txt_path = user_dir / "positions_tg_rows.txt"
+        txt_path = user_dir / "positions_emj_rows.txt"
         if txt_path.exists():
             txt = txt_path.read_text(encoding="utf-8")
             ts = datetime.now().strftime("%d.%m.%y %H:%M:%S")
@@ -257,7 +257,7 @@ async def _handle_sc_positions(update, uid):
             await status_msg.edit_text(f"❌ Ошибка скриншота: {err}")
             return
 
-        user_dir = TG_ALL_DIR / f"TG_{uid}"
+        user_dir = sud(uid)
         img_path = user_dir / "positions_table.png"
         if img_path.exists():
             ts = datetime.now().strftime("%d.%m.%y %H:%M:%S")
@@ -343,10 +343,10 @@ async def _handle_sc_analytics(update, uid, args):
             err = (stderr.decode()[:200] or stdout.decode()[:200])
             await status_msg.edit_text(f"❌ Ошибка скриншота: {err}")
             return
-        user_dir = TG_ALL_DIR / f"TG_{uid}"
+        user_dir = sud(uid)
 
         def _tg_line(ticker: str) -> str:
-            tg_path = user_dir / "positions_tg_rows.txt"
+            tg_path = user_dir / "positions_emj_rows.txt"
             if not tg_path.exists():
                 return ""
             txt = tg_path.read_text(encoding="utf-8")
@@ -836,7 +836,7 @@ async def _handle_chart(update, uid, args):
 
         return d
 
-    user_dir = TG_ALL_DIR / f"TG_{uid}"
+    user_dir = sud(uid)
     user_dir.mkdir(parents=True, exist_ok=True)
 
     sys.path.insert(0, str(SCRIPTS_DIR))
@@ -884,18 +884,19 @@ async def _handle_positions(update, uid):
     t0 = _time.time()
     status_msg = await update.message.reply_text("📊 Получаю сводку...")
 
-    script = SCRIPTS_DIR / "get_tg_rows.py"
+    script = SCRIPTS_DIR / "get_emj_rows.py"
     if not script.exists():
         await status_msg.edit_text(f"❌ Скрипт не найден: {script}")
         return
 
+    user_dir = sud(uid)
     proc = None
     try:
         loop = asyncio.get_event_loop()
         proc = await loop.run_in_executor(
             None,
             lambda: subprocess.Popen(
-                [sys.executable, str(script)],
+                [sys.executable, str(script), "--output-dir", str(user_dir)],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
             )
@@ -910,7 +911,6 @@ async def _handle_positions(update, uid):
             await status_msg.edit_text(f"❌ Ошибка скрипта (rc={proc.returncode}): {err_text}")
             return
 
-        user_dir = TG_ALL_DIR / f"TG_{uid}"
         txt_path = user_dir / "positions_risk.txt"
         if txt_path.exists():
             text = txt_path.read_text(encoding="utf-8")
@@ -1352,6 +1352,7 @@ async def dispatch(update, context):
         "/build": lambda: cmd_build(uid),
         "/plan": lambda: cmd_plan(uid),
         "/format": lambda: "обработка в dispatch",
+        "/link": lambda: cmd_link(uid, args),
         "/unauthorized": lambda: cmd_unauthorized(uid),
         "/shutdown": lambda: _handle_shutdown(uid),
         "/sysinfo": lambda: cmd_sysinfo(uid),
@@ -1370,8 +1371,8 @@ async def dispatch(update, context):
             await _reply(update, reply, uid, agent="plan")
         return
 
-    if cmd == "/tg_positions":
-        await _handle_tg_positions(update, uid)
+    if cmd == "/emj_positions":
+        await _handle_emj_positions(update, uid)
         return
 
     if cmd == "/sc_positions":
@@ -1832,7 +1833,7 @@ async def _handle_screenshot(update, context, uid, symbol, tf, range_val="", use
     rng = f" range={range_val}" if range_val else ""
     status_msg = await update.message.reply_text(f"📸 Делаю скриншот {symbol} {tf} ({label}){rng}...")
 
-    user_dir = TG_ALL_DIR / f"TG_{uid}"
+    user_dir = sud(uid)
     user_dir.mkdir(parents=True, exist_ok=True)
 
     log.info(f"_handle_screenshot: symbol={symbol} tf={tf} range={range_val or '-'} uid={uid} widget={use_widget}")
@@ -1874,7 +1875,7 @@ async def _handle_widget_collage(update, context, uid, text):
     tfs = ["1d", "4h", "1h"]
     await _reply(update, f"📸 Делаю коллаж {symbol_raw} (1d+4h+1h)...", uid)
 
-    user_dir = TG_ALL_DIR / f"TG_{uid}"
+    user_dir = sud(uid)
     user_dir.mkdir(parents=True, exist_ok=True)
     t0 = time.time()
 
@@ -2353,7 +2354,7 @@ async def _handle_file(update, context, uid, doc):
                     f"({_fmt_size(fsize + file_size)} > {limits['storage_mb']}MB)", uid)
                 return
 
-    upload_dir = TG_ALL_DIR / f"TG_{uid}" / "uploads"
+    upload_dir = sud(uid) / "uploads"
     upload_dir.mkdir(parents=True, exist_ok=True)
 
     try:

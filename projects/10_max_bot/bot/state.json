@@ -1,0 +1,53 @@
+{
+  "super": 248207602,
+  "default_model": "opencode/gpt-5.1-codex",
+  "users": {
+    "usr_0445e2a": {
+      "name": "SK",
+      "role": "super",
+      "model": null,
+      "limits": null,
+      "sessions": {
+        "current": "ses_248207602_1781540027",
+        "list": {
+          "ses_248207602_1781540027": {
+            "seq": 1,
+            "status": "ACT",
+            "name": "[TG] 248207602_SK_15062026_1913",
+            "created": 1781540027,
+            "messages": 0,
+            "model": null,
+            "opencode_id": null
+          }
+        }
+      },
+      "platform_links": {
+        "tg": [
+          248207602
+        ]
+      }
+    },
+    "usr_b421fc7": {
+      "name": "SK",
+      "role": "super",
+      "model": null,
+      "limits": null,
+      "sessions": {
+        "current": null,
+        "list": {}
+      },
+      "platform_links": {
+        "tg": [
+          3309222
+        ]
+      }
+    }
+  },
+  "files": {},
+  "session_seq": 1,
+  "session_stats": {
+    "total_created": 1,
+    "total_deleted": 0,
+    "active": 1
+  }
+}

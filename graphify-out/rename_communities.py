@@ -126,15 +126,16 @@ def update_graph_html(
 
     # Replace "Community N" with project name in the embedded data
     # Pattern: "community_name": "Community N"
+    # Pattern: "label": "Community N" (in LEGEND)
     updated_count = 0
     for comm_num, project_name in community_names.items():
         if project_name:
-            # Match "Community N" where N is the community number
-            pattern = f'"community_name": "Community {comm_num}"'
-            replacement = f'"community_name": "{project_name}"'
-            if pattern in content:
-                content = content.replace(pattern, replacement)
-                updated_count += 1
+            for attr in ("community_name", "label"):
+                pattern = f'"{attr}": "Community {comm_num}"'
+                replacement = f'"{attr}": "{project_name}"'
+                if pattern in content:
+                    content = content.replace(pattern, replacement)
+                    updated_count += 1
 
     html_file.write_text(content)
     print(f"Updated {updated_count} community names in {html_path}")

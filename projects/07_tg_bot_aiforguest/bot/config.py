@@ -23,6 +23,7 @@ if not SUPER_USER:
 STATE_FILE = PROJECT_DIR / "bot" / "state.json"
 UNAUTHORIZED_FILE = PROJECT_DIR / "bot" / "unauthorized.json"
 TG_ALL_DIR = PROJECT_DIR / "TG_ALL"
+ALL_USERS_DIR = WORKSPACE_DIR / "ALL_USERS"
 VENV_PYTHON = str(WORKSPACE_DIR / "venv" / "bin" / "python3")
 
 DEFAULT_MODEL = "opencode/deepseek-v4-flash-free"

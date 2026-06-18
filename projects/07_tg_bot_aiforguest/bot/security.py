@@ -9,6 +9,7 @@ import select
 import time as _time
 import logging
 from config import DEFAULT_MODEL, TG_ALL_DIR
+from session import user_dir
 import monitor as _mon
 
 _log = logging.getLogger("tg_bot")
@@ -160,7 +161,7 @@ def post_check(user_id, json_lines):
 
 def run_opencode(user_id, message, opencode_id=None, model=None, work_dir=None, files=None, title=None, agent=None):
     if work_dir is None:
-        work_dir = TG_ALL_DIR / f"TG_{user_id}"
+        work_dir = user_dir(user_id, "tg")
         work_dir.mkdir(parents=True, exist_ok=True)
 
     cmd = [

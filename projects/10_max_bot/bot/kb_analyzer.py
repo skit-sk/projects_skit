@@ -1,0 +1,1 @@
+/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/kb_analyzer.py

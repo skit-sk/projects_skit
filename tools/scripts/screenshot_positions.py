@@ -1,25 +1,29 @@
 #!/usr/bin/env python3
-"""Screenshot the positions table (without TG rows) and save to TG user directory."""
+"""Screenshot the positions table (without TG rows) and save to ALL_USERS."""
 
 import os
 import sys
 import time
+import argparse
+from PIL import Image
 
-TG_PROJECT = os.path.expanduser("~/workspace/projects/07_tg_bot_aiforguest")
+parser = argparse.ArgumentParser()
+parser.add_argument("--output-dir", help="Single output directory")
+args, _ = parser.parse_known_args()
+
+WORKSPACE = os.path.expanduser("~/workspace")
+TG_PROJECT = os.path.join(WORKSPACE, "projects", "07_tg_bot_aiforguest")
 TG_ALL_DIR = os.path.join(TG_PROJECT, "TG_ALL")
 BASE_URL = "http://localhost:5000"
 
-# Force Playwright to use our browser-temp
-os.environ["PLAYWRIGHT_BROWSERS_PATH"] = os.path.expanduser("~/workspace/tools/browser-temp/browsers")
-# Also try old path as fallback
-_old_pw = os.path.expanduser("~/workspace/tools/playwright/browsers")
-if not os.path.isdir(os.path.expanduser("~/workspace/tools/browser-temp/browsers")) and os.path.isdir(_old_pw):
+os.environ["PLAYWRIGHT_BROWSERS_PATH"] = os.path.expanduser("~/workspace/tools/playwright/browsers")
+_old_pw = os.path.expanduser("~/workspace/tools/browser-temp/browsers")
+if not os.path.isdir(os.path.expanduser("~/workspace/tools/playwright/browsers")) and os.path.isdir(_old_pw):
     os.environ["PLAYWRIGHT_BROWSERS_PATH"] = _old_pw
 
-# Ensure pango libs are available
-pango_libs = os.path.expanduser("~/workspace/tools/browser-temp/pango_libs/usr/lib/x86_64-linux-gnu")
+pango_libs = os.path.expanduser("~/workspace/tools/playwright/lib")
 if not os.path.isdir(pango_libs):
-    pango_libs = os.path.expanduser("~/workspace/tools/playwright/lib")
+    pango_libs = os.path.expanduser("~/workspace/tools/browser-temp/pango_libs/usr/lib/x86_64-linux-gnu")
 if os.path.isdir(pango_libs):
     ld_path = os.environ.get("LD_LIBRARY_PATH", "")
     if pango_libs not in ld_path:
@@ -50,20 +54,22 @@ def main():
             headless=True,
             args=["--no-sandbox", "--disable-setuid-sandbox"]
         )
-        page = browser.new_page(viewport={"width": 1400, "height": 900})
+        page = browser.new_page(viewport={"width": 2560, "height": 1440})
 
         page.goto(f"{BASE_URL}/account-api/", wait_until="networkidle")
         time.sleep(1)
+        page.evaluate("localStorage.setItem('theme', 'dark')")
 
-        page.click("button:has-text('Positions')")
+        page.click("button:has-text('📍 Positions')")
         page.wait_for_selector("table.account-table", timeout=5000)
-        time.sleep(1)
+        page.wait_for_selector("table.account-table tbody tr", timeout=10000)
+        time.sleep(2)
 
-        tg = page.query_selector(".tg-section")
-        if tg:
-            tg.evaluate("el => el.style.display = 'none'")
-
-        time.sleep(0.3)
+        page.evaluate("""
+            const tg = document.querySelector('.tg-section-details') || document.querySelector('.tg-section');
+            if (tg) tg.style.display = 'none';
+        """)
+        time.sleep(0.5)
 
         table = page.query_selector("table.account-table")
         if not table:
@@ -71,11 +77,32 @@ def main():
             browser.close()
             sys.exit(1)
 
-        for uid in users:
-            user_dir = os.path.join(TG_ALL_DIR, f"TG_{uid}")
-            os.makedirs(user_dir, exist_ok=True)
-            out_path = os.path.join(user_dir, "positions_table.png")
-            table.screenshot(path=out_path)
+        box = table.bounding_box()
+        if not box:
+            print("ERROR: Table has no bounding box")
+            browser.close()
+            sys.exit(1)
+
+        page.screenshot(path="/tmp/positions_full.png", full_page=True)
+        padding = 15
+        crop = (
+            max(0, int(box["x"]) - padding),
+            max(0, int(box["y"]) - padding),
+            min(int(box["x"] + box["width"] + padding), 2560),
+            min(int(box["y"] + box["height"] + padding + 30), 9000),
+        )
+        img = Image.open("/tmp/positions_full.png")
+        cropped = img.crop(crop)
+
+        if args.output_dir:
+            dirs = [args.output_dir]
+        else:
+            dirs = [os.path.join(TG_ALL_DIR, f"TG_{uid}") for uid in users]
+
+        for d in dirs:
+            os.makedirs(d, exist_ok=True)
+            out_path = os.path.join(d, "positions_table.png")
+            cropped.save(out_path, dpi=(144, 144))
             print(f"✅ Screenshot saved → {out_path}")
 
         browser.close()
