@@ -1,11 +1,9 @@
 {% if error %}
-<div style="font-size:10px; color:#888; margin-bottom:0.25rem;"><span class="section-timer"></span></div>
 <div class="error-state">
     <strong>❌ {{ error }}</strong><br>
     <span style="font-size:13px;">Укажите <code>BITGET_API_KEY</code>, <code>BITGET_SECRET_KEY</code> и <code>BITGET_PASSPHRASE</code> в <code>.env</code>.</span>
 </div>
 {% elif status and status.connected %}
-<div style="font-size:10px; color:#888; text-align:center;"><span class="section-timer"></span></div>
 <div class="kpi-grid">
     <div class="kpi-card" style="border-left-color: #3498db;">
         <div class="kpi-label">API Status</div>
@@ -41,7 +39,6 @@
     </div>
 </div>
 {% else %}
-<div style="font-size:10px; color:#888; margin-bottom:0.25rem;"><span class="section-timer"></span></div>
 <div class="error-state">
     <strong>❌ Connection failed</strong><br>
     <span>{{ status.error if status else 'Unknown error' }}</span>

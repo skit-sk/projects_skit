@@ -1,0 +1,25 @@
+{
+  "object_id": "usr_0000000",
+  "label": "ФИО или псевдоним объекта",
+  "birth_year": null,
+  "sex": "male | female | other",
+  "diagnosis_primary": {
+    "code": "ICD-11 код (пока необязательно)",
+    "text": "Основной диагноз"
+  },
+  "diagnosis_secondary": [
+    { "code": "", "text": "Сопутствующий диагноз 1" },
+    { "code": "", "text": "Сопутствующий диагноз 2" }
+  ],
+  "allergies": [
+    "аллергия 1",
+    "аллергия 2"
+  ],
+  "blood_type": "A | B | AB | O",
+  "rh_factor": "+ | -",
+  "weight_kg": null,
+  "height_cm": null,
+  "created": "YYYY-MM-DD",
+  "updated": "YYYY-MM-DD",
+  "notes": "Произвольная заметка об объекте"
+}

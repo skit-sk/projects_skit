@@ -16,7 +16,7 @@ from pathlib import Path
 
 PROJECT_DIR = Path(__file__).resolve().parent
 CONFIG_PATH = PROJECT_DIR / "config.yaml"
-CATALOG_PATH = PROJECT_DIR / "models_catalog.json"
+CATALOG_PATH = PROJECT_DIR.parent / '09_model_catalog' / 'models_catalog.json'
 
 
 def load_catalog() -> dict:
@@ -120,9 +120,7 @@ def main():
         if result.get("error"):
             print(f"❌ Ошибка: {result['error']}")
             sys.exit(1)
-        print(f"✅ Готово: {result['output']}")
-        print(f"⏱ {result.get('duration', 0):.1f}s · 💰 ${result.get('cost', 0):.4f} · "
-              f"📊 {result.get('tokens', 0)} токенов")
+        _print_result(result, chain_id, selected_model, args.url, language)
 
     elif chain["mode"] == "split":
         models_dict = chain.get("models", {})
@@ -150,13 +148,46 @@ def main():
         if result.get("error"):
             print(f"❌ Ошибка: {result['error']}")
             sys.exit(1)
-        print(f"✅ Готово: {result['output']}")
-        print(f"⏱ {result.get('duration', 0):.1f}s · 💰 ${result.get('cost', 0):.4f} · "
-              f"📊 {result.get('tokens', 0)} токенов")
+        _print_result(result, chain_id, asr_model, args.url, language)
 
     else:
         print(f"❌ Неизвестный режим цепочки: {chain.get('mode')}", file=sys.stderr)
         sys.exit(1)
+
+
+def _print_result(result: dict, chain_id: str, model: str, url: str, language: str):
+    from datetime import datetime
+    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    from audio import get_title
+    topic = get_title(url) if url.startswith("http") else url
+    dur_ms = int(result.get("duration", 0) * 1000)
+    cost = result.get("cost", 0)
+    tokens = result.get("tokens", 0)
+    steps = result.get("steps", [])
+
+    lines = [f"🎬 **{topic[:80]}**"]
+    lines.append(f"🔗 {url}")
+    lines.append("")
+    lines.append(f"📝 {chain_id}")
+    lines.append(f"🌐 {language}")
+    lines.append("")
+    lines.append("━━━")
+    lines.append(f"🕐 {now}")
+    lines.append(f"⏱ {dur_ms:,}ms")
+    lines.append(f"⚙ {chain_id} → {model}")
+    for s in steps:
+        lines.append(f"  ├─ {s}")
+    lines.append(f"  └─ total(tokens:{tokens:,} · cost:${cost:.4f})")
+    lines.append("")
+
+    output = result.get("output")
+    if output and os.path.exists(output):
+        with open(output) as f:
+            preview = f.read()[:500]
+        lines.append(f"📄 {output}")
+        lines.append(preview[:200])
+
+    print("\n".join(lines))
 
 
 if __name__ == "__main__":

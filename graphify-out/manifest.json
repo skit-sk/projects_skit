@@ -95,21 +95,29 @@
     "mtime": 1779582338.7360122,
     "hash": "28c31fd38904817de611b2531672180a"
   },
+  "/home/user_aioc/workspace/tools/scripts/get_emj_rows.py": {
+    "mtime": 1781547909.6212025,
+    "hash": "40cca538c57c59f6207ef6f8803ee127"
+  },
   "/home/user_aioc/workspace/tools/scripts/generate_graphs.py": {
-    "mtime": 1780265816.0086126,
-    "hash": "b31f9c86d00188eb491f35d8e837eb35"
+    "mtime": 1780410441.7111177,
+    "hash": "4d807185b6aaef57c1ad244cff4f3515"
   },
   "/home/user_aioc/workspace/tools/scripts/metrics_logger.py": {
     "mtime": 1779395735.9442267,
     "hash": "834086e014fcd92b1f6ff51b094a9c21"
   },
   "/home/user_aioc/workspace/tools/scripts/get_tg_rows.py": {
-    "mtime": 1779918379.299966,
-    "hash": "2574cd3e238fd235423f8dcec8261619"
+    "mtime": 1781545516.671517,
+    "hash": "7582350afd75470258cc410419d8550f"
   },
   "/home/user_aioc/workspace/tools/scripts/screenshot_analytics.py": {
-    "mtime": 1779584960.4533832,
-    "hash": "fb299064d704947622814655fe275f4a"
+    "mtime": 1781562543.1662173,
+    "hash": "757d4f9ed1def21962a334c0dad71f6d"
+  },
+  "/home/user_aioc/workspace/tools/scripts/screenshot_card.py": {
+    "mtime": 1781561735.8490329,
+    "hash": "f19f94538aae405aade2f5536869c072"
   },
   "/home/user_aioc/workspace/tools/scripts/chart_lib.py": {
     "mtime": 1780275828.3537214,
@@ -120,24 +128,24 @@
     "hash": "69da8f7e8e0243bbc0ef4c20209e745a"
   },
   "/home/user_aioc/workspace/tools/scripts/screenshot_positions.py": {
-    "mtime": 1779919553.6910121,
-    "hash": "82de2da3cc409524b7df85d162e8ed9c"
+    "mtime": 1781562547.6773102,
+    "hash": "7ea53c7db12825c62db8f73bcffa572c"
   },
   "/home/user_aioc/workspace/tools/scripts/screenshot_graphs.py": {
-    "mtime": 1779584497.8253655,
-    "hash": "cf74b60e4ddb21e4227c1f188651ed05"
+    "mtime": 1781562538.7651267,
+    "hash": "cf2a6514bea3ad3602f61555109ca590"
   },
   "/home/user_aioc/workspace/tools/scripts/formatters/positions_risk.py": {
     "mtime": 1779569657.3106546,
     "hash": "fbd5fae1b7c67a4e06774ed4ed3f4bd3"
   },
   "/home/user_aioc/workspace/tools/scripts/formatters/orderbook.py": {
-    "mtime": 1779246912.5903473,
-    "hash": "b90b191ead8b77cc2da7aa16fd140ed0"
+    "mtime": 1781566938.4736357,
+    "hash": "35728386873d46e366e0da4ef7497ab6"
   },
   "/home/user_aioc/workspace/tools/scripts/formatters/screenshot.py": {
-    "mtime": 1779582381.3309736,
-    "hash": "0ac8a247c0c490d52b983baaa2f5b8bf"
+    "mtime": 1780416478.639681,
+    "hash": "b62d3c000ee423636a80a25ef0228182"
   },
   "/home/user_aioc/workspace/tools/scripts/formatters/__init__.py": {
     "mtime": 1779245396.5335042,
@@ -151,9 +159,121 @@
     "mtime": 1779582272.1645095,
     "hash": "eca7a80e363bd254502c41f6e4b5c236"
   },
+  "/home/user_aioc/workspace/projects/10_max_bot/max_client.py": {
+    "mtime": 1781958409.6642306,
+    "hash": "dda63158d31d2d10ce97fc595020fa1a"
+  },
+  "/home/user_aioc/workspace/projects/10_max_bot/config.py": {
+    "mtime": 1781544092.9219444,
+    "hash": "b3c46c83a985de0648d3a0ff0ff9d5dd"
+  },
+  "/home/user_aioc/workspace/projects/10_max_bot/handler.py": {
+    "mtime": 1781983755.7205753,
+    "hash": "31a1cb89582b02304b0a73acaaf5b575"
+  },
+  "/home/user_aioc/workspace/projects/10_max_bot/main.py": {
+    "mtime": 1781541370.549581,
+    "hash": "eba784245492d11a2d4bcfeb8186acfa"
+  },
+  "/home/user_aioc/workspace/projects/10_max_bot/bot/screenshot_browser.py": {
+    "mtime": 1779077550.092932,
+    "hash": "793f2044c7f0453f462f2d09817759e0"
+  },
+  "/home/user_aioc/workspace/projects/10_max_bot/bot/send_queue.py": {
+    "mtime": 1779078849.1381817,
+    "hash": "bac05562f77f1259ed815132cf4e5a43"
+  },
+  "/home/user_aioc/workspace/projects/10_max_bot/bot/session.py": {
+    "mtime": 1781977988.9619658,
+    "hash": "5fb71c6b904b6e235bdaa7829cbe739c"
+  },
+  "/home/user_aioc/workspace/projects/10_max_bot/bot/monitor.py": {
+    "mtime": 1779396364.1638227,
+    "hash": "355fedec9d4eb9afc53a14d3d24eb5b1"
+  },
+  "/home/user_aioc/workspace/projects/10_max_bot/bot/collage.py": {
+    "mtime": 1781562552.1924033,
+    "hash": "d7e71ba197ab87b4edd867fd850836ad"
+  },
+  "/home/user_aioc/workspace/projects/10_max_bot/bot/screenshot_widget.py": {
+    "mtime": 1779077556.4280727,
+    "hash": "dc31f5cbf7241b9e4a3546a662f8d26a"
+  },
+  "/home/user_aioc/workspace/projects/10_max_bot/bot/kb.py": {
+    "mtime": 1780263202.9529817,
+    "hash": "7070c466c7bafda126e3d02dfcb43bc2"
+  },
+  "/home/user_aioc/workspace/projects/10_max_bot/bot/ip_audit.py": {
+    "mtime": 1779397066.4020772,
+    "hash": "2147d0b10f605865303090dfa0c6923a"
+  },
+  "/home/user_aioc/workspace/projects/10_max_bot/bot/task_state.py": {
+    "mtime": 1781545529.670776,
+    "hash": "99e43841e817f5e85d5d422666967505"
+  },
+  "/home/user_aioc/workspace/projects/10_max_bot/bot/commands.py": {
+    "mtime": 1781977960.8974266,
+    "hash": "d0d2c74b8fca0227a8959710b1d0e098"
+  },
+  "/home/user_aioc/workspace/projects/10_max_bot/bot/voice.py": {
+    "mtime": 1779076140.1078618,
+    "hash": "3f040369f0172e02f954277d60367755"
+  },
+  "/home/user_aioc/workspace/projects/10_max_bot/bot/security.py": {
+    "mtime": 1781544147.026048,
+    "hash": "5412e2a741fb862c3c5f662045ea040e"
+  },
+  "/home/user_aioc/workspace/projects/10_max_bot/bot/kb_analyzer.py": {
+    "mtime": 1780265200.1837354,
+    "hash": "530ea940934d53982bd36d586cc1f8ef"
+  },
+  "/home/user_aioc/workspace/projects/10_max_bot/bot/rutube_transcribe.py": {
+    "mtime": 1780263837.159404,
+    "hash": "5960bdfbb45f8f0fb7bbe43666ed25b5"
+  },
+  "/home/user_aioc/workspace/projects/10_max_bot/bot/system_info.py": {
+    "mtime": 1779248599.2600136,
+    "hash": "d7187865a0ed5d5cf91d8efe34af90bb"
+  },
+  "/home/user_aioc/workspace/projects/10_max_bot/bot/templates.py": {
+    "mtime": 1781544150.5891206,
+    "hash": "3c856f9394f12989c2d59819da125294"
+  },
+  "/home/user_aioc/workspace/projects/10_max_bot/bot/send_examples.py": {
+    "mtime": 1779057815.8624423,
+    "hash": "69eaac5f8b07964d1fb3d4a1d8ca8949"
+  },
+  "/home/user_aioc/workspace/projects/10_max_bot/bot/youtube_transcribe.py": {
+    "mtime": 1779080225.5214958,
+    "hash": "7d17cd9d8bfbf53ef92bb657d7ad148d"
+  },
+  "/home/user_aioc/workspace/projects/10_max_bot/bot/kb_commands.py": {
+    "mtime": 1780263264.3843791,
+    "hash": "1dd85df4ad7163a53547971637c2be21"
+  },
+  "/home/user_aioc/workspace/projects/10_max_bot/bot/metrics.py": {
+    "mtime": 1779394997.0344727,
+    "hash": "c53733799a7d4b69892dd2a8cfcdac68"
+  },
+  "/home/user_aioc/workspace/projects/10_max_bot/bot/task_stats.py": {
+    "mtime": 1779224408.8616774,
+    "hash": "d5c698bfd36b8585c22dfe5e9a86b074"
+  },
+  "/home/user_aioc/workspace/projects/10_max_bot/bot/sync.py": {
+    "mtime": 1781984634.5962863,
+    "hash": "ef1c88a64b436a93352316b067f75113"
+  },
+  "/home/user_aioc/workspace/projects/10_max_bot/bot/task_control.py": {
+    "mtime": 1781545544.8670785,
+    "hash": "a97a859b1e106c4aa58422e043379209"
+  },
+  "/home/user_aioc/workspace/projects/10_max_bot/bot/__init__.py": {
+    "mtime": 1778851294.318197,
+    "hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/config.py": {
-    "mtime": 1780275925.6309206,
-    "hash": "312cdd41104db06d5245910bd8c248b6"
+    "mtime": 1781544088.3368506,
+    "hash": "62c15b529abe99e43231f4d11a7378cf"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/screenshot_browser.py": {
     "mtime": 1779077550.092932,
@@ -164,16 +284,16 @@
     "hash": "bac05562f77f1259ed815132cf4e5a43"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/session.py": {
-    "mtime": 1779669092.358907,
-    "hash": "0c316af0ebd272ce62dc45eb0c592a73"
+    "mtime": 1781977988.9619658,
+    "hash": "5fb71c6b904b6e235bdaa7829cbe739c"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/monitor.py": {
     "mtime": 1779396364.1638227,
     "hash": "355fedec9d4eb9afc53a14d3d24eb5b1"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/collage.py": {
-    "mtime": 1779081960.6183343,
-    "hash": "0027e40fee7f6fadb8214f4fc2d9e270"
+    "mtime": 1781562552.1924033,
+    "hash": "d7e71ba197ab87b4edd867fd850836ad"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/screenshot_widget.py": {
     "mtime": 1779077556.4280727,
@@ -184,28 +304,28 @@
     "hash": "7070c466c7bafda126e3d02dfcb43bc2"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/handler.py": {
-    "mtime": 1780276453.306836,
-    "hash": "dfe677452cbc6ccd8730a67dce1c3619"
+    "mtime": 1781983751.814501,
+    "hash": "9419ed9bb71c363752df812f3a1ea10b"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/ip_audit.py": {
     "mtime": 1779397066.4020772,
     "hash": "2147d0b10f605865303090dfa0c6923a"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/task_state.py": {
-    "mtime": 1779396361.592767,
-    "hash": "04a13745228976b1a9ad70e65ad751ba"
+    "mtime": 1781545529.670776,
+    "hash": "99e43841e817f5e85d5d422666967505"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/commands.py": {
-    "mtime": 1779671084.3228304,
-    "hash": "439cd68e5ebeeae48ec75093b2b91465"
+    "mtime": 1781977960.8974266,
+    "hash": "d0d2c74b8fca0227a8959710b1d0e098"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/voice.py": {
     "mtime": 1779076140.1078618,
     "hash": "3f040369f0172e02f954277d60367755"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/security.py": {
-    "mtime": 1779248560.6111424,
-    "hash": "5591faf92757386d151150a859aa009a"
+    "mtime": 1781544147.026048,
+    "hash": "5412e2a741fb862c3c5f662045ea040e"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/kb_analyzer.py": {
     "mtime": 1780265200.1837354,
@@ -220,8 +340,8 @@
     "hash": "d7187865a0ed5d5cf91d8efe34af90bb"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/templates.py": {
-    "mtime": 1779290043.341249,
-    "hash": "f1aa98f8867c6c87a83c398c458af575"
+    "mtime": 1781544150.5891206,
+    "hash": "3c856f9394f12989c2d59819da125294"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/send_examples.py": {
     "mtime": 1779057815.8624423,
@@ -243,9 +363,13 @@
     "mtime": 1779224408.8616774,
     "hash": "d5c698bfd36b8585c22dfe5e9a86b074"
   },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/sync.py": {
+    "mtime": 1781984634.5962863,
+    "hash": "ef1c88a64b436a93352316b067f75113"
+  },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/task_control.py": {
-    "mtime": 1779224450.0805714,
-    "hash": "e7b74f64c42c07fb7720a18361900c1c"
+    "mtime": 1781545544.8670785,
+    "hash": "a97a859b1e106c4aa58422e043379209"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot/main.py": {
     "mtime": 1780265046.9342916,
@@ -286,6 +410,50 @@
   "/home/user_aioc/workspace/projects/05_transcript/playlist_transcript.py": {
     "mtime": 1776896282.5456152,
     "hash": "1591a9010463739c2644039423f3600b"
+  },
+  "/home/user_aioc/workspace/projects/11_med_life/scripts/generate_prescriptions_pdf.py": {
+    "mtime": 1781859826.7383206,
+    "hash": "b036c263a0a6ee4b503262840bdaa94e"
+  },
+  "/home/user_aioc/workspace/projects/11_med_life/scripts/generate_combined_analysis.py": {
+    "mtime": 1781963558.0843012,
+    "hash": "dd9e9e13b4e23496787bdfb0bbdfebda"
+  },
+  "/home/user_aioc/workspace/projects/11_med_life/scripts/price_parser/config.py": {
+    "mtime": 1781863275.2264285,
+    "hash": "71337ce00b6b79e4c53e3b16ae19d598"
+  },
+  "/home/user_aioc/workspace/projects/11_med_life/scripts/price_parser/base.py": {
+    "mtime": 1781790671.8458555,
+    "hash": "3cc1b4bc6f09a89ace5aa7062b36d2c3"
+  },
+  "/home/user_aioc/workspace/projects/11_med_life/scripts/price_parser/models.py": {
+    "mtime": 1781790669.5178049,
+    "hash": "1b35ae93cdd5622efbe4b3ab503241a7"
+  },
+  "/home/user_aioc/workspace/projects/11_med_life/scripts/price_parser/main.py": {
+    "mtime": 1781790695.3883681,
+    "hash": "63152fda083d27230627f661cbc39e48"
+  },
+  "/home/user_aioc/workspace/projects/11_med_life/scripts/price_parser/parsers/apteka_ru.py": {
+    "mtime": 1781790681.3970635,
+    "hash": "8be4c8e7ae552e9a5ea1f7d84b5e36af"
+  },
+  "/home/user_aioc/workspace/projects/11_med_life/scripts/price_parser/parsers/eapteka.py": {
+    "mtime": 1781790678.7680063,
+    "hash": "3c1441c29a8f72a353aebd791d8f4b0f"
+  },
+  "/home/user_aioc/workspace/projects/11_med_life/scripts/price_parser/parsers/__init__.py": {
+    "mtime": 1781863276.586456,
+    "hash": "2a501fdda348c55fc4b53d075839b888"
+  },
+  "/home/user_aioc/workspace/projects/11_med_life/scripts/price_parser/parsers/budzdorov.py": {
+    "mtime": 1781863268.2122874,
+    "hash": "759be5e201f13e7257df95c5ce0c46aa"
+  },
+  "/home/user_aioc/workspace/projects/11_med_life/scripts/price_parser/parsers/megapteka.py": {
+    "mtime": 1781790676.2999525,
+    "hash": "c916baf8a521ba9b7e78755e0e26d017"
   },
   "/home/user_aioc/workspace/projects/03_demo_charts_ascii/ascii_charts.py": {
     "mtime": 1778093445.0838857,
@@ -504,8 +672,8 @@
     "hash": "6caee07675c93cd94d1305990b8ca4d4"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/app.py": {
-    "mtime": 1779755862.3310943,
-    "hash": "fdb44d84f91a15244692dadd889b0207"
+    "mtime": 1781990891.4388068,
+    "hash": "d9698d1a49384b329bca73a24561f66d"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/api/bitget_ws.py": {
     "mtime": 1778699181.6236172,
@@ -516,8 +684,8 @@
     "hash": "7a61fd66176a5cff48294410b9f979db"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/account/api_client.py": {
-    "mtime": 1779415380.8740013,
-    "hash": "a1670b0abda6c7d7b46e42bc6a5060c8"
+    "mtime": 1781991772.3920565,
+    "hash": "a4f056f2d27f99640cc9a551e1062d68"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/account/models.py": {
     "mtime": 1778965545.7248478,
@@ -636,12 +804,12 @@
     "hash": "e75803ba6c0749b0b4184d8bbf13467a"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/routes/processor.py": {
-    "mtime": 1779915981.8033895,
-    "hash": "250c35e735158cfc9a6276a9c216e10e"
+    "mtime": 1781984633.5042632,
+    "hash": "ddd44f7667b5d5fba82c399b7a7facb0"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/routes/account_api.py": {
-    "mtime": 1780284629.64377,
-    "hash": "bbeeabd43176ec766b9cdc040bbd3952"
+    "mtime": 1781992939.0582435,
+    "hash": "d1f7e51b828c3ce003930ab76908c4d8"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/routes/trade_analytics.py": {
     "mtime": 1779577094.224338,
@@ -670,6 +838,10 @@
   "/home/user_aioc/workspace/projects/01_fundament_rf/routes/web.py": {
     "mtime": 1779402887.3605506,
     "hash": "0f0b97652f2511327b05f80630de4299"
+  },
+  "/home/user_aioc/workspace/projects/01_fundament_rf/routes/graphics_v2.py": {
+    "mtime": 1780349934.2046044,
+    "hash": "1fc24e0f7e2463c4da7051e0e254339c"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/routes/dashboard.py": {
     "mtime": 1777677403.372532,
@@ -764,16 +936,60 @@
     "hash": "cca05186a2a8ca6480ab3679d4674427"
   },
   "/home/user_aioc/workspace/AGENTS.md": {
-    "mtime": 1779835419.6379216,
-    "hash": "bf4bcd3847f64ded4d0afb64746687b5"
+    "mtime": 1781540076.2377717,
+    "hash": "9334f4425161508085c6de85083bd618"
   },
   "/home/user_aioc/workspace/future.md": {
     "mtime": 1776896861.5189066,
     "hash": "a3195d4c89d049734bae623960a51172"
   },
+  "/home/user_aioc/workspace/neuro_antidopamine_antiandrogen.md": {
+    "mtime": 1781377520.0169938,
+    "hash": "f6e2640ecc2532f7a21b179c5c9871f2"
+  },
   "/home/user_aioc/workspace/analyse_HBM_1805.md": {
     "mtime": 1779123664.6797173,
     "hash": "03f155655100be8f4ab0e1b8b9f88e9e"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/positions_emj_rows.txt": {
+    "mtime": 1781593620.8674219,
+    "hash": "9038ad636dccd9f81145a1918b0097d2"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/positions_risk.txt": {
+    "mtime": 1781593620.8664217,
+    "hash": "aee5c8e6c84d0282971ec4ff3b5bc000"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/tgandcompany.md": {
+    "mtime": 1778861904.7620175,
+    "hash": "7f985d244b2fb1e9c524b4effca9fffe"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/positions_tg_rows.txt": {
+    "mtime": 1781546994.3609786,
+    "hash": "7f2c8337eafcad1f3b7741a018e554c6"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/positions_emj_rows.txt": {
+    "mtime": 1781560572.3484676,
+    "hash": "1a4d3fc0d072df6f17e289f2dba4b457"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/positions_risk.txt": {
+    "mtime": 1781560572.3484676,
+    "hash": "ee481ac9cb0e3999c8efe7c1d9dc8b1a"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/positions_tg_rows.txt": {
+    "mtime": 1781546994.3609786,
+    "hash": "7f2c8337eafcad1f3b7741a018e554c6"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/positions_emj_rows.txt": {
+    "mtime": 1781560572.3484676,
+    "hash": "1a4d3fc0d072df6f17e289f2dba4b457"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/\u0442\u0440\u0430\u043d\u0441\u043a\u0440\u0438\u043f\u0442-\u0434\u0430\u0448\u0431\u043e\u0440\u0434.md": {
+    "mtime": 1779673561.657666,
+    "hash": "fcf11487947718fc76ba658505022e33"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/positions_risk.txt": {
+    "mtime": 1781560572.3484676,
+    "hash": "ee481ac9cb0e3999c8efe7c1d9dc8b1a"
   },
   "/home/user_aioc/workspace/sessions/session-ses_22c8.md": {
     "mtime": 1777426883.546909,
@@ -1871,6 +2087,10 @@
     "mtime": 1778023279.8309221,
     "hash": "421f64bdc246cd72088a5c0d43023edc"
   },
+  "/home/user_aioc/workspace/kb/bookmarks/2026/06/github-arlandarenproagents-a-curated-skillstack-for-ai-agent.md": {
+    "mtime": 1781212612.9859498,
+    "hash": "f9c94c041109198bbe88a4f4db178157"
+  },
   "/home/user_aioc/workspace/kb/bookmarks/2026/06/alibaba-\u0432\u044b\u043f\u0443\u0441\u0442\u0438\u043b\u0430-\u043c\u043e\u0434\u0435\u043b\u044c-\u0441\u0438\u043d\u0445\u0440\u043e\u043d\u043d\u043e\u0433\u043e-\u043f\u0435\u0440\u0435\u0432\u043e\u0434\u0430-\u043d\u0430-60-\u044f\u0437\u044b\u043a\u043e\u0432-\u0441.md": {
     "mtime": 1780265221.999226,
     "hash": "cbc33bffd30fd1f3ec775583d5717af8"
@@ -1879,9 +2099,37 @@
     "mtime": 1780265113.5657883,
     "hash": "430770209e86c6c26f72eb94034786be"
   },
+  "/home/user_aioc/workspace/kb/bookmarks/2026/06/the-agent-skills-directory.md": {
+    "mtime": 1781111449.4170911,
+    "hash": "4b6d0c67465e23076be2dfeea0797eba"
+  },
   "/home/user_aioc/workspace/kb/bookmarks/2026/06/\u0430\u0432\u0442\u043e\u0440\u044b-\u043b\u0435\u0433\u0435\u043d\u0434\u0430\u0440\u043d\u043e\u0433\u043e-\u0442\u0430\u043c\u0430\u0433\u043e\u0447\u0438-\u0434\u043b\u044f-\u0445\u0430\u043a\u0435\u0440\u043e\u0432-flipper-zero-\u0441\u043e\u0437\u0434\u0430\u043b.md": {
     "mtime": 1780265243.0697,
     "hash": "10a380a80b4bf5d4e1bcd8075906edb2"
+  },
+  "/home/user_aioc/workspace/kb/bookmarks/2026/06/1c-skills-\u0434\u043b\u044f-\u0438\u0438-\u0430\u0433\u0435\u043d\u0442\u043e\u0432-\u0438\u043d\u0441\u0442\u0440\u0443\u043c\u0435\u043d\u0442\u044b-\u0434\u043b\u044f-\u0440\u0430\u0437\u0440\u0430\u0431\u043e\u0442\u043a\u0438-\u043f\u0440\u043e\u0432\u0435\u0440\u043a\u0438.md": {
+    "mtime": 1780563265.3691175,
+    "hash": "2c00fc0afa812695759c5787c17cdbc7"
+  },
+  "/home/user_aioc/workspace/kb/bookmarks/2026/06/httpssharegooglexvjvipjzeujlqfaov.md": {
+    "mtime": 1781295237.0731611,
+    "hash": "828e2b9fc9e8442e31ac12213a408b07"
+  },
+  "/home/user_aioc/workspace/kb/bookmarks/2026/06/httpssharegooglexvjvipjzeujlqfaov-1.md": {
+    "mtime": 1781295332.450007,
+    "hash": "bb7429ff6b28699007fc684aac482a35"
+  },
+  "/home/user_aioc/workspace/kb/bookmarks/2026/06/models-archive-menthorq.md": {
+    "mtime": 1781115979.4475508,
+    "hash": "13e93dadfb082e941813c1ffc6bd0683"
+  },
+  "/home/user_aioc/workspace/kb/bookmarks/2026/06/helix-\u00e2-ai-\u00f0\u00f0\u00b3\u00f0\u00b5\u00f0\u00bd\u00f1-\u00f1-\u00f0\u00f0\u00f0\u00bc\u00f1\u00f1\u00f1\u00f1-mcp-\u00f0-telegram-\u00e2-\u00f0-\u00f0\u00be\u00f1\u00f1\u00f0\u00f0\u00b9\u00f1\u00f0\u00ba.md": {
+    "mtime": 1781212613.9909732,
+    "hash": "8961078b730b0adc07747094fd8c93e4"
+  },
+  "/home/user_aioc/workspace/kb/bookmarks/2026/06/\u043f\u0440\u043e\u0438\u0437\u0432\u043e\u0434\u0438\u0442\u0435\u043b\u044c\u043d\u043e\u0441\u0442\u044c-1\u0441-\u0431\u0435\u0437-\u043c\u0438\u0441\u0442\u0438\u043a\u0438-\u043a\u0430\u043a-\u0438\u0441\u043a\u0430\u0442\u044c-\u0442\u043e\u0440\u043c\u043e\u0437\u0430-\u043d\u0435-\u043d\u0430\u0443\u0433.md": {
+    "mtime": 1781295235.718135,
+    "hash": "6ab6c0b5448acffcfca7ad1d279096b7"
   },
   "/home/user_aioc/workspace/kb/bookmarks/2026/06/voordat-je-verdergaat-naar-youtube.md": {
     "mtime": 1780265231.8114467,
@@ -1890,6 +2138,10 @@
   "/home/user_aioc/workspace/kb/bookmarks/2026/06/\u043e\u0442\u043a\u0440\u044b\u0442\u044b\u0439-\u043f\u0440\u043e\u0435\u043a\u0442-claude-desktop-buddy-\u043e\u0442-anthropic-\u043f\u0440\u0435\u0432\u0440\u0430\u0449\u0430\u0435\u0442.md": {
     "mtime": 1780265256.7760084,
     "hash": "6f2b6be64dfe13e4a42add0112a4fa1b"
+  },
+  "/home/user_aioc/workspace/kb/bookmarks/2026/06/deepdom-pricing.md": {
+    "mtime": 1781114104.6659648,
+    "hash": "db85594197606f5bc88853dc145e8b68"
   },
   "/home/user_aioc/workspace/tasks/kilocode.md": {
     "mtime": 1776977300.4593563,
@@ -1919,33 +2171,13 @@
     "mtime": 1777591860.0792084,
     "hash": "9f1ed8210923377a348c0b6e43855348"
   },
+  "/home/user_aioc/workspace/projects/10_max_bot/requirements.txt": {
+    "mtime": 1781541337.0628717,
+    "hash": "c6e70129a14944a3ca00274adfa198f7"
+  },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/requirements.txt": {
-    "mtime": 1778851425.4202278,
-    "hash": "1be60bbe14bd165d533331213bb8ae07"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/positions_tg_rows.txt": {
-    "mtime": 1780277358.378253,
-    "hash": "8d3972e9f96c336afd5c31215ecef1d9"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/\u0442\u0440\u0430\u043d\u0441\u043a\u0440\u0438\u043f\u0442-\u0434\u0430\u0448\u0431\u043e\u0440\u0434.md": {
-    "mtime": 1779673561.657666,
-    "hash": "fcf11487947718fc76ba658505022e33"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/positions_risk.txt": {
-    "mtime": 1780277358.378253,
-    "hash": "fed76f1ec32f73090b0bdf233d940430"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/tgandcompany.md": {
-    "mtime": 1778861904.7620175,
-    "hash": "7f985d244b2fb1e9c524b4effca9fffe"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/positions_tg_rows.txt": {
-    "mtime": 1780277358.3792531,
-    "hash": "8d3972e9f96c336afd5c31215ecef1d9"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/positions_risk.txt": {
-    "mtime": 1780277358.378253,
-    "hash": "fed76f1ec32f73090b0bdf233d940430"
+    "mtime": 1781532408.49153,
+    "hash": "51634dd0712949d7667b3143d3322732"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/audits/audit_194_79_46_206_s2.md": {
     "mtime": 1779247246.4097843,
@@ -2002,6 +2234,110 @@
   "/home/user_aioc/workspace/projects/05_transcript/README.md": {
     "mtime": 1776957860.5130773,
     "hash": "1535cac81e0f130a6199e7e747525df3"
+  },
+  "/home/user_aioc/workspace/projects/11_med_life/README.md": {
+    "mtime": 1781790530.341775,
+    "hash": "f4a628ce5879012a7a1bf7e947f2c829"
+  },
+  "/home/user_aioc/workspace/projects/11_med_life/data/drug_reference/d_8df41fca/analysis/notes.md": {
+    "mtime": 1781790616.0606408,
+    "hash": "3d3b996bed5210b366b508decbb44ab2"
+  },
+  "/home/user_aioc/workspace/projects/11_med_life/data/drug_reference/d_8df41fca/analysis/pharmacodynamics.md": {
+    "mtime": 1781790610.8365269,
+    "hash": "e0b87e84ca4d2e1de11e737cf292a0ad"
+  },
+  "/home/user_aioc/workspace/projects/11_med_life/data/drug_reference/d_8df41fca/analysis/clinical_efficacy.md": {
+    "mtime": 1781790613.589587,
+    "hash": "a36f6ee229296de21b1a3e6238a4f48a"
+  },
+  "/home/user_aioc/workspace/projects/11_med_life/data/drug_reference/d_79ca8af0/analysis/notes.md": {
+    "mtime": 1781790587.1570115,
+    "hash": "a997f2af8df6966376935016e19e2dc4"
+  },
+  "/home/user_aioc/workspace/projects/11_med_life/data/drug_reference/d_79ca8af0/analysis/pharmacodynamics.md": {
+    "mtime": 1781790581.7858946,
+    "hash": "cc44cb60bebe471e7f77d60f9ed4acae"
+  },
+  "/home/user_aioc/workspace/projects/11_med_life/data/drug_reference/d_79ca8af0/analysis/clinical_efficacy.md": {
+    "mtime": 1781790584.6229563,
+    "hash": "d287d62274fd7244ff4d53c2457aa57e"
+  },
+  "/home/user_aioc/workspace/projects/11_med_life/data/drug_reference/d_9eb22e4d/analysis/notes.md": {
+    "mtime": 1781790631.5859787,
+    "hash": "cc0e0eaadb2111f122cc9c03472d6c52"
+  },
+  "/home/user_aioc/workspace/projects/11_med_life/data/drug_reference/d_9eb22e4d/analysis/pharmacodynamics.md": {
+    "mtime": 1781790627.3458865,
+    "hash": "343ff06e3d71fd6751e1c0ced6f97e7f"
+  },
+  "/home/user_aioc/workspace/projects/11_med_life/data/drug_reference/d_9eb22e4d/analysis/clinical_efficacy.md": {
+    "mtime": 1781790629.6099358,
+    "hash": "90ce6b5be9186782a4385f9299d160a0"
+  },
+  "/home/user_aioc/workspace/projects/11_med_life/data/drug_reference/d_b63225cd/analysis/notes.md": {
+    "mtime": 1781790624.016814,
+    "hash": "5e7775194c79ae9991489cd230bdaea9"
+  },
+  "/home/user_aioc/workspace/projects/11_med_life/data/drug_reference/d_b63225cd/analysis/pharmacodynamics.md": {
+    "mtime": 1781790619.69672,
+    "hash": "9b270db8493e0b09a0ee3777cfb291d6"
+  },
+  "/home/user_aioc/workspace/projects/11_med_life/data/drug_reference/d_b63225cd/analysis/clinical_efficacy.md": {
+    "mtime": 1781790621.949769,
+    "hash": "ebf21c4eec61542109d36d8418c70273"
+  },
+  "/home/user_aioc/workspace/projects/11_med_life/data/drug_reference/d_e13601c2/analysis/notes.md": {
+    "mtime": 1781790607.7444596,
+    "hash": "62f7c5ab7ef9036a4b9eb18dc1add0a9"
+  },
+  "/home/user_aioc/workspace/projects/11_med_life/data/drug_reference/d_e13601c2/analysis/pharmacodynamics.md": {
+    "mtime": 1781790604.6083913,
+    "hash": "bf03aeea5ed872a8e1bf65c524274208"
+  },
+  "/home/user_aioc/workspace/projects/11_med_life/data/drug_reference/d_e13601c2/analysis/clinical_efficacy.md": {
+    "mtime": 1781790606.6484358,
+    "hash": "a12f3460d117154915d3832e3c153d18"
+  },
+  "/home/user_aioc/workspace/projects/11_med_life/data/drug_reference/d_719db761/analysis/notes.md": {
+    "mtime": 1781790598.7822645,
+    "hash": "4e1bdaf5ddfb0c847ef9685b36c4b745"
+  },
+  "/home/user_aioc/workspace/projects/11_med_life/data/drug_reference/d_719db761/analysis/pharmacodynamics.md": {
+    "mtime": 1781790596.9312243,
+    "hash": "dd49cbfb9d21fb314ebe2d838d556d3f"
+  },
+  "/home/user_aioc/workspace/projects/11_med_life/data/drug_reference/d_719db761/analysis/clinical_efficacy.md": {
+    "mtime": 1781790597.4522357,
+    "hash": "f46e46ab7a38e0353d0185326deb7cbd"
+  },
+  "/home/user_aioc/workspace/projects/11_med_life/data/drug_reference/d_59ca28a6/analysis/notes.md": {
+    "mtime": 1781790595.4241915,
+    "hash": "e8f7039a867cb4c20bc4dd63d653a044"
+  },
+  "/home/user_aioc/workspace/projects/11_med_life/data/drug_reference/d_59ca28a6/analysis/pharmacodynamics.md": {
+    "mtime": 1781790590.4700837,
+    "hash": "ab771397c9b65355a1df9a1b55c14d4a"
+  },
+  "/home/user_aioc/workspace/projects/11_med_life/data/drug_reference/d_59ca28a6/analysis/clinical_efficacy.md": {
+    "mtime": 1781790593.3551464,
+    "hash": "795fae72d3f95d70943b208e7b0fdf10"
+  },
+  "/home/user_aioc/workspace/projects/11_med_life/data/user/users/usr_8e498be/combined_analysis.md": {
+    "mtime": 1781964971.1092818,
+    "hash": "8e9c53fa1786cf485ca1bf85409c03ab"
+  },
+  "/home/user_aioc/workspace/projects/11_med_life/data/user/users/usr_8e498be/prescriptions_prices.md": {
+    "mtime": 1781863287.820682,
+    "hash": "7049ca84f94b559f41aecd3947c1ac56"
+  },
+  "/home/user_aioc/workspace/projects/11_med_life/scripts/price_parser/requirements.txt": {
+    "mtime": 1781790665.7077217,
+    "hash": "e50f1a22b2c76b76e583d3d5ae26d67a"
+  },
+  "/home/user_aioc/workspace/projects/11_med_life/model/schema.md": {
+    "mtime": 1781790510.4703424,
+    "hash": "dfb903f4e5cd4b3fde41275fdfb9aa22"
   },
   "/home/user_aioc/workspace/projects/03_demo_charts_ascii/requirements.txt": {
     "mtime": 1778031454.8203743,
@@ -2939,41 +3275,53 @@
     "mtime": 1779920891.3592544,
     "hash": "98d419442f8f1fbfc609ea4dff3ea870"
   },
+  "/home/user_aioc/workspace/projects/01_fundament_rf/templates/_macros_v2.html": {
+    "mtime": 1780351507.2297943,
+    "hash": "0c5d6a564fe70f2c5c71bb1832a927c2"
+  },
   "/home/user_aioc/workspace/projects/01_fundament_rf/templates/graphics/all.html": {
-    "mtime": 1779917404.5286903,
-    "hash": "311aed16e0495d61c4ae640c7c206f63"
+    "mtime": 1780350178.2859526,
+    "hash": "c813d022f4c704c69fd6f66585917b13"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/templates/ai_models/index.html": {
     "mtime": 1779755852.6058736,
     "hash": "0daa069b67521ac0ee4972d1adf4be5b"
   },
+  "/home/user_aioc/workspace/projects/01_fundament_rf/templates/graphics_v2/all.html": {
+    "mtime": 1780351887.1249053,
+    "hash": "4ae2855dd0a7fe23c69bdd3b02fe85f2"
+  },
+  "/home/user_aioc/workspace/projects/01_fundament_rf/templates/graphics_v2/base.html": {
+    "mtime": 1780349956.235087,
+    "hash": "a25ee64b49502a56abb521c2230f5eab"
+  },
   "/home/user_aioc/workspace/projects/01_fundament_rf/templates/account/index.html": {
-    "mtime": 1780284666.4255862,
-    "hash": "f3fae095ab7d93567627f718d13bb076"
+    "mtime": 1781993110.996778,
+    "hash": "5b4c894622b5013a9ccc4d7b1ad06868"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/templates/account/partials/balance.html": {
-    "mtime": 1778969124.0243948,
-    "hash": "c81b4e777a6e6771f8588ffb29bbbe17"
+    "mtime": 1781990941.418685,
+    "hash": "f36a5e5083f6361fb895df58407c23be"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/templates/account/partials/overview.html": {
-    "mtime": 1779558630.5987232,
-    "hash": "03e73d1494eec359773be1f4600f8cfd"
+    "mtime": 1781990918.0432732,
+    "hash": "0c9cb2385f1550948cc2844778a5aa7b"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/templates/account/partials/positions.html": {
-    "mtime": 1780283905.280414,
-    "hash": "3812e4a5d859424d0f64a28d9dbe0aa7"
+    "mtime": 1780424085.2887678,
+    "hash": "a5c94082b5ce399f8fb75faffb8e66e8"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/templates/account/partials/_debug_footer.html": {
     "mtime": 1780280932.1460023,
     "hash": "a0a0aeb84f88799c6347f52e06101273"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/templates/account/partials/orders.html": {
-    "mtime": 1778969131.436563,
-    "hash": "dd6c150d80928f3840bb013e4fb1ec98"
+    "mtime": 1781990942.4777036,
+    "hash": "f4dbefe6ae92d2af5d68bd5c42ecf813"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/templates/account/partials/fills.html": {
-    "mtime": 1780277305.9250689,
-    "hash": "90c02b70ebc92317101c21fa90e1a4a0"
+    "mtime": 1781990940.4176672,
+    "hash": "5c2d61d8653a1a2b065edb08657f5e29"
   },
   "/home/user_aioc/workspace/projects/01_fundament_rf/templates/viz_lab/lab.html": {
     "mtime": 1779835116.5032346,
@@ -3019,6 +3367,14 @@
     "mtime": 1779306439.9335394,
     "hash": "9c7724e9972b9febf73f91b5eb265c8d"
   },
+  "/home/user_aioc/workspace/projects/11_med_life/data/user/users/usr_8e498be/prescriptions_prices.pdf": {
+    "mtime": 1781863288.5876975,
+    "hash": "cf45941f902d7cbb9158c70d21405cff"
+  },
+  "/home/user_aioc/workspace/projects/11_med_life/data/user/users/usr_8e498be/combined_analysis.pdf": {
+    "mtime": 1781964972.6603146,
+    "hash": "9406fd7756a5f6deef906b50d469e77b"
+  },
   "/home/user_aioc/workspace/dotusdt_tv_1d_fresh.png": {
     "mtime": 1778876680.6324723,
     "hash": "3f2126ada49e00936a15ec2300293aeb"
@@ -3026,6 +3382,1114 @@
   "/home/user_aioc/workspace/dotusdt_dark_test.png": {
     "mtime": 1778876942.5954373,
     "hash": "603a574f157680c005d1c5c42630c53c"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/API3_chart.png": {
+    "mtime": 1781560611.3722734,
+    "hash": "4439c5260ba5899ff51d8c91e125d658"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/collage_bitget_crvusdt.png": {
+    "mtime": 1781593837.0472932,
+    "hash": "ec2632c9d3261d597c6f276e2d00a064"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/FIL_kpi.png": {
+    "mtime": 1781560606.6751764,
+    "hash": "4318322546cfec1ea5359e9d82bf4939"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/CRV_main_chart.png": {
+    "mtime": 1781556033.1025002,
+    "hash": "a94d0df920ac5aea50d260eaee65f7c5"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/CRV_tg_format.png": {
+    "mtime": 1781560601.9740794,
+    "hash": "0278087aa4a4604bd73eb11cabaebc7c"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/SKYAI_analytics.png": {
+    "mtime": 1781560616.117371,
+    "hash": "82f13453488bc08426e1772723e57f26"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/positions_table.png": {
+    "mtime": 1781984515.6247568,
+    "hash": "4556489b818dfb8919c36764070743e8"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/SKYAI_kpi.png": {
+    "mtime": 1781560615.6903625,
+    "hash": "d108c8caa543fcba4bef90d40d34e10d"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/SKYAI_main_chart.png": {
+    "mtime": 1781553635.1911943,
+    "hash": "e77f6e284512581fb5676b233f6723a3"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/ETH_indicators.png": {
+    "mtime": 1781560579.588617,
+    "hash": "45d993293081e3ae69bdc24261a96348"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/CAKE_indicators.png": {
+    "mtime": 1781560629.7006512,
+    "hash": "ff643f66805794a7102dbcca72f5fbc0"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/FIL_main_chart.png": {
+    "mtime": 1781553622.927947,
+    "hash": "f619ade157ff22564d0e333d13440563"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/XRP_tg_format.png": {
+    "mtime": 1781560597.4779866,
+    "hash": "6c2dbd24a36c76cf93d2f5977496d247"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/tv_bitget_adausdt_1D.png": {
+    "mtime": 1781550693.4140704,
+    "hash": "d3351f26b310bcf6b5643778a6ab601b"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/CRV_chart.png": {
+    "mtime": 1781560602.202084,
+    "hash": "182dd4fde6b8718a9f62a56775077b8a"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/CKB_analytics.png": {
+    "mtime": 1781560593.429903,
+    "hash": "90c6bc2d85e8fa4bac32e68ab8ce2429"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/tv_bitget_api3usdt_1D.png": {
+    "mtime": 1781550993.0867565,
+    "hash": "1b40f71119b63c6b4a8c3162ca2c21f2"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/CAKE_analytics.png": {
+    "mtime": 1781560629.841654,
+    "hash": "d349209e9ad257548663c9386a17a41a"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/FIL_tg_format.png": {
+    "mtime": 1781560606.5611742,
+    "hash": "86b9c3efd6b9945ff5c8be6751f12cff"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/ATOM_kpi.png": {
+    "mtime": 1781560624.7575493,
+    "hash": "1151a1c2ea0831011d05ae1d323d9988"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/tv_bitget_adausdt_60.png": {
+    "mtime": 1781550714.414549,
+    "hash": "d1b45d34c46732dc4c60f3a6025c9565"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/DOT_kpi.png": {
+    "mtime": 1781560620.1714547,
+    "hash": "4787f93cdcaca5e9bc96fa570b40fb88"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/tv_bitget_api3usdt_240.png": {
+    "mtime": 1781551004.128998,
+    "hash": "bcbca76608a402c9a6cb6a0df6571528"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/ETH_main_chart.png": {
+    "mtime": 1781553585.8211997,
+    "hash": "e96365acf184582246f63eec65638cc0"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/CKB_kpi.png": {
+    "mtime": 1781560593.0088944,
+    "hash": "2e78d80b875c3a363859c174b3d58bb5"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/collage_bitget_cakeusdt.png": {
+    "mtime": 1781549368.0125136,
+    "hash": "061109fc78050e658c5792adbada59c7"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/API3_main_chart.png": {
+    "mtime": 1781553629.0510705,
+    "hash": "c3b791c49479e716de767abb6573bdb5"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/graphs_all.png": {
+    "mtime": 1781563107.5277214,
+    "hash": "11c1a6eaf988e337899ae66053def3da"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/tv_bitget_cakeusdt_60.png": {
+    "mtime": 1781549367.431502,
+    "hash": "3843b1d81a46e5f4a8ca122d1810d79b"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/ATOM_analytics.png": {
+    "mtime": 1781560625.2055585,
+    "hash": "e7c9b791f173eaeb0d6e540e4a0b2e62"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/ETH_chart.png": {
+    "mtime": 1781560579.4516144,
+    "hash": "3fd8370adc3ba21dfe4feba1de097450"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/CRV_analytics.png": {
+    "mtime": 1781560602.4630895,
+    "hash": "9d7ef80bf425613873729916186aaa39"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/ATOM_indicators.png": {
+    "mtime": 1781560625.0195546,
+    "hash": "294797c4315ccc75e0d599c6f8c9ee41"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/SKYAI_indicators.png": {
+    "mtime": 1781560615.9583678,
+    "hash": "426bf906ee972a3f2ef84ca4d93eeba5"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/CAKE_chart.png": {
+    "mtime": 1781560629.5836487,
+    "hash": "77040f25fab54c012125f037eeae326d"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/XRP_indicators.png": {
+    "mtime": 1781560597.8619945,
+    "hash": "81cb2fc2d18ed6427102461b6dc08db6"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/CRV_indicators.png": {
+    "mtime": 1781560602.3160865,
+    "hash": "8dce0820907df3988841afe0d79a9fd6"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/XRP_chart.png": {
+    "mtime": 1781560597.7399921,
+    "hash": "ec674ce76ab6e646f3e5c23dd2b4f7e1"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/DOT_tg_format.png": {
+    "mtime": 1781560620.0744529,
+    "hash": "d0e83852c785cc1f8f06dfc464a35fb6"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/ETH_analytics.png": {
+    "mtime": 1781560579.73462,
+    "hash": "189757d452da30d8bcbe3eaf8ad7edc6"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/ATOM_chart.png": {
+    "mtime": 1781560624.9055524,
+    "hash": "328fa0e891fb577535bbccebcde0160b"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/ETC_analytics.png": {
+    "mtime": 1781560584.3187149,
+    "hash": "066e964f7e6fa13a3d6884840926b32f"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/ETH_tg_format.png": {
+    "mtime": 1781560579.24461,
+    "hash": "8fab625f389ed8bf5a9840e7899dfd23"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/tv_bitget_crvusdt_1D.png": {
+    "mtime": 1781593816.4468355,
+    "hash": "8be41afe9b999ec428840146846605ec"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/API3_tg_format.png": {
+    "mtime": 1781560611.111268,
+    "hash": "266f868e34518e79d4e430f843df5abc"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/ADA_indicators.png": {
+    "mtime": 1781560588.7048056,
+    "hash": "0e53a07512932c8db97cb543ad583c14"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/ETC_kpi.png": {
+    "mtime": 1781560583.9067063,
+    "hash": "3e0422ae38af9474a5f3405288d837c9"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/FIL_indicators.png": {
+    "mtime": 1781560606.9511821,
+    "hash": "fd5c2e76e1b7554dda4860590dd897e0"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/CKB_indicators.png": {
+    "mtime": 1781560593.2799,
+    "hash": "67b68ef6d814f4170757b79dfc22d1af"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/ADA_kpi.png": {
+    "mtime": 1781560588.4458,
+    "hash": "c51f6bda361018aa6f3f711c8f4c9ebc"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/tv_bitget_api3usdt_60.png": {
+    "mtime": 1781551014.9242337,
+    "hash": "32a16910044b0c73ab7d3b3bba94b194"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/ETC_chart.png": {
+    "mtime": 1781560584.0527093,
+    "hash": "a5b853b1a2f3aeaf5a060a0eebfcc81c"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/tv_bitget_crvusdt_240.png": {
+    "mtime": 1781593826.458058,
+    "hash": "1d768fbafc1f56f94eb0a2123717c0c3"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/CKB_chart.png": {
+    "mtime": 1781560593.1548975,
+    "hash": "060d486cbd704649834f7542ce6197ba"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/tv_bitget_cakeusdt_240.png": {
+    "mtime": 1781549357.541304,
+    "hash": "85c8e64027b21dd2668158c6314089dd"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/ATOM_tg_format.png": {
+    "mtime": 1781560624.6575472,
+    "hash": "9b6576223523cb0e7b1f3028e4034ac4"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/CAKE_main_chart.png": {
+    "mtime": 1781553653.541564,
+    "hash": "687dbb59b5fe19edc107efbc54096d16"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/CKB_main_chart.png": {
+    "mtime": 1781553604.4905758,
+    "hash": "d3df5cdca5cbd690ae9c46c27606bb6f"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/XRP_analytics.png": {
+    "mtime": 1781560598.0169978,
+    "hash": "81d41f35dac427e3cb798a5ae1df3d57"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/DOT_main_chart.png": {
+    "mtime": 1781553641.284317,
+    "hash": "79f1ddd9614e3b9905631edea63f19a6"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/XRP_kpi.png": {
+    "mtime": 1781560597.5739887,
+    "hash": "a17a0be8d3127a06955ce18fdfe2beb7"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/FIL_analytics.png": {
+    "mtime": 1781560607.0991852,
+    "hash": "d06b4921daa5d68fba14d268e2615de3"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/collage_bitget_adausdt.png": {
+    "mtime": 1781550714.9545615,
+    "hash": "a3719787e653034292a6f68d08ecc600"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/ETC_main_chart.png": {
+    "mtime": 1781553592.2513292,
+    "hash": "4fef6de611652d82d90ae8d2a22136e0"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/ADA_main_chart.png": {
+    "mtime": 1781553598.3884528,
+    "hash": "cc72585f9a14fbb7299946ff6990a977"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/tv_bitget_cakeusdt_1D.png": {
+    "mtime": 1781549347.0300937,
+    "hash": "b9ea6f2a85eb7c4f71dfd9a95823a70f"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/API3_kpi.png": {
+    "mtime": 1781560611.2252703,
+    "hash": "bd88c6228cb9263686ed8bb38b945264"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/ETC_tg_format.png": {
+    "mtime": 1781560583.8097043,
+    "hash": "b470885bd703c5a5b01bfd8312158643"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/ADA_tg_format.png": {
+    "mtime": 1781560588.342798,
+    "hash": "93b9f60a7e16506543be4ecbe21d85b3"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/DOT_chart.png": {
+    "mtime": 1781560620.3154578,
+    "hash": "b62a591ad983dde54010e0a8e825ab3d"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/DOT_analytics.png": {
+    "mtime": 1781560620.5954635,
+    "hash": "c8ca19da8dd5a75885116b6b99ae7f8f"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/XRP_main_chart.png": {
+    "mtime": 1781553610.6376996,
+    "hash": "c5952327d4236604400f26b52826840b"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/ADA_chart.png": {
+    "mtime": 1781560588.588803,
+    "hash": "36dfd688aaa50aaec4990ecbba27890a"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/ETC_indicators.png": {
+    "mtime": 1781560584.1637118,
+    "hash": "dda439e14f82981a6762b7043b08434f"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/SKYAI_chart.png": {
+    "mtime": 1781560615.8263652,
+    "hash": "fd68a2cd029ee1b06f2cff45d3f88334"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/tv_bitget_crvusdt_60.png": {
+    "mtime": 1781593836.5322816,
+    "hash": "4a498d2992cd2e8013d09144270eadd7"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/FIL_chart.png": {
+    "mtime": 1781560606.8211794,
+    "hash": "80bc29db14ed39faa714cc26d7afb8cf"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/CKB_tg_format.png": {
+    "mtime": 1781560592.9098923,
+    "hash": "a6a25f70d14f677b1b60158861ae5e2a"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/ADA_analytics.png": {
+    "mtime": 1781560588.8608088,
+    "hash": "985c4133ef962b84480bbc4673e632a1"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/collage_bitget_api3usdt.png": {
+    "mtime": 1781551015.4772458,
+    "hash": "973618bb6593c3619b99459374c9447e"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/SKYAI_tg_format.png": {
+    "mtime": 1781560615.5593598,
+    "hash": "b29a5b2cc65a7b693f04a5909ad8db1e"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/CAKE_tg_format.png": {
+    "mtime": 1781560629.3426437,
+    "hash": "d99dcb695df786b0ca5545e16e942cf5"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/ob_btcusdt.png": {
+    "mtime": 1781574150.0650253,
+    "hash": "bc11bd0792d4d883e94d784973aa0bf6"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/API3_indicators.png": {
+    "mtime": 1781560611.5262766,
+    "hash": "28f9ef83cf67d26dd1e758b77cd9a972"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/API3_analytics.png": {
+    "mtime": 1781560611.6832798,
+    "hash": "66fb8a43873cc5d6b428228f996a8dc1"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/tv_bitget_adausdt_240.png": {
+    "mtime": 1781550703.608303,
+    "hash": "bd520446b8436bf7afc1d3d798d736dc"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/CAKE_kpi.png": {
+    "mtime": 1781560629.4376457,
+    "hash": "99a46dfc1460a18eeae353cd5667dca0"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/CRV_kpi.png": {
+    "mtime": 1781560602.0730815,
+    "hash": "3bb498e894ac95f2e499d0649a2db109"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/ATOM_main_chart.png": {
+    "mtime": 1781553647.3694396,
+    "hash": "b3035d6985795b62f6bcde3d9801aabc"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/ETH_kpi.png": {
+    "mtime": 1781560579.337612,
+    "hash": "dfd65ddfed44a21a7bd97078bfe08911"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/max_3309222/DOT_indicators.png": {
+    "mtime": 1781560620.4564607,
+    "hash": "be7b68d04cff34ad4c79a0ced2fdc3a7"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/ch_histogram.png": {
+    "mtime": 1780276685.1510608,
+    "hash": "a1e51ee66adfa34f4b74eecaf1cef27b"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/ch_grouped_bar.png": {
+    "mtime": 1780276690.1961746,
+    "hash": "3573a9f88f88aeaad18ff039658f389a"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/sim_workflow.gif": {
+    "mtime": 1779065362.7263157,
+    "hash": "a9c0f846fc97e5d940ecdd5f3d1fbc58"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/grapheteria_mcp.png": {
+    "mtime": 1779065359.702249,
+    "hash": "e6964203f434a2b0722daac2c6a5d173"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/ADA_graph.png": {
+    "mtime": 1780562760.678023,
+    "hash": "358528f988672be82621e4142c18e3c6"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/CRV_main_chart.png": {
+    "mtime": 1781531470.4951332,
+    "hash": "2b42f6bf91c46d725002baccd7124861"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/SKYAI_analytics.png": {
+    "mtime": 1781531490.049522,
+    "hash": "3706527f32556ae3e7980d23cfa7764d"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/grapheteria_nodes.png": {
+    "mtime": 1779065358.704227,
+    "hash": "43849f88b221943554dd966cbcccd7ac"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/positions_table.png": {
+    "mtime": 1780563293.9436889,
+    "hash": "3a5e5b75a03088f3bff3174d115e82c5"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/SKYAI_main_chart.png": {
+    "mtime": 1781531489.8205175,
+    "hash": "43d73d4319036bc96443f743bef62b3c"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/ETH_indicators.png": {
+    "mtime": 1781531438.2314916,
+    "hash": "9bad45f4c913f7452c5772d233f0304b"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/CAKE_indicators.png": {
+    "mtime": 1781531509.3379056,
+    "hash": "e76c12d69b76de26ec270ab46293ef96"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/klinika_city2.jpg": {
+    "mtime": 1779078409.4651058,
+    "hash": "d546d9d24061ea5d5b36eb33cdcd89f0"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/FIL_main_chart.png": {
+    "mtime": 1781531476.9662619,
+    "hash": "34b451e8cde4666d53bb0a4ac2157c8b"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/ch_heatmap.png": {
+    "mtime": 1780276685.784075,
+    "hash": "2b9514577099dd4329a2bb6c64f3c19e"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/CKB_analytics.png": {
+    "mtime": 1781531457.7498796,
+    "hash": "f4479e45252ab29a90e36c5f8a21f05e"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/CAKE_analytics.png": {
+    "mtime": 1781531509.4409075,
+    "hash": "4b4134e5902fe26b88952db268fb7ec7"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/tv_bitget_xrp_240.png": {
+    "mtime": 1779098594.267774,
+    "hash": "e4ce563627382e8e9a0a2c8591d1d4dc"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/ch_stacked_bar.png": {
+    "mtime": 1780276690.348178,
+    "hash": "6453bbbc2babbce7d4bbbb67b8785821"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/ETH_graph.png": {
+    "mtime": 1780562757.1449525,
+    "hash": "b4968d8e6c45711f32876a76e81a12a8"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/tv_bitget_atomusdt_1D.png": {
+    "mtime": 1781533430.5376465,
+    "hash": "7da62e368c81d20d044659e99cdea6b9"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/ch_bubble.png": {
+    "mtime": 1780276684.7710524,
+    "hash": "7de9ba3f20a37796062e0d80ac28c8eb"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/ETC_graph.png": {
+    "mtime": 1780562758.9059877,
+    "hash": "d867ef992ece8a1702e1b2ed607587b7"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/FIL_graph.png": {
+    "mtime": 1780562767.8761673,
+    "hash": "10eb21115abed0fcecee7e5b45ec6813"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/tv_bitget_cake_1D.png": {
+    "mtime": 1781532902.443394,
+    "hash": "8d9b21a6a695438dc48877d57c0dee80"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/ETH_main_chart.png": {
+    "mtime": 1781531438.108489,
+    "hash": "2b5f36c5f1f9bea0a25c00e333d90402"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/tv_bitget_xrp_60.png": {
+    "mtime": 1779098603.8879905,
+    "hash": "237f88bc660b0380099cfabf86c3d36b"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/ch_line.png": {
+    "mtime": 1780276684.103037,
+    "hash": "505e910295e0477ae13f55125d5042a3"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/collage_bitget_xrp.png": {
+    "mtime": 1779098604.3049998,
+    "hash": "1435a6b7da9b1d33ebe3b6e38b19aa2b"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/klinika_arnika.jpg": {
+    "mtime": 1779078379.3294318,
+    "hash": "adb5a783edc61b2603697e8931e44bd6"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/ch_scatter.png": {
+    "mtime": 1780276684.9620566,
+    "hash": "2a76ef9c4d99449bb2d7d7bf06e8cd9b"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/collage_bitget_cakeusdt.png": {
+    "mtime": 1781533335.0106254,
+    "hash": "270cabf4f04bd86b9a264de0e1e1bf48"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/SKYAI_graph.png": {
+    "mtime": 1780562771.6472428,
+    "hash": "e4fc4ec19e8fa8ba06173f2a79719b62"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/klinika_expert.jpg": {
+    "mtime": 1779078389.6396623,
+    "hash": "9f51cd3527e7d9af5a17092b8f73d013"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/ch_scatter_matrix.png": {
+    "mtime": 1780276690.0561714,
+    "hash": "4546a9de5dce29e5d72ec86928b45060"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/tv_bitget_etcusdt_60.png": {
+    "mtime": 1779095634.566195,
+    "hash": "c82ae4f925ad714c607504e43fc1cf3c"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/ch_parallel_coords.png": {
+    "mtime": 1780276687.466113,
+    "hash": "8a84bfcbbeb3254666122283f67120e0"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/API3_main_chart.png": {
+    "mtime": 1781531483.3923895,
+    "hash": "88d88b02ea3d5653c228ee3083b53457"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/ATOM_tg_line.png": {
+    "mtime": 1779584459.897513,
+    "hash": "14cdfb71b4f1357b7c87e60c7a0401a5"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/graphs_all.png": {
+    "mtime": 1780270303.6839802,
+    "hash": "cd7de58f4052ecaf444a47ab49b10da0"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/clawx_chat.png": {
+    "mtime": 1779065365.7783833,
+    "hash": "07b59dff940a44b569c7cb5af3d8c466"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/tv_bitget_cake_60.png": {
+    "mtime": 1781532921.3908021,
+    "hash": "6f9c57362459745d869e3acb8d1be92c"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/tv_bitget_skyaiusdt_60.png": {
+    "mtime": 1779092169.665905,
+    "hash": "3e738a6d619155ec983f8a13f3b649eb"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/tv_bitget_cakeusdt_60.png": {
+    "mtime": 1781533334.5296152,
+    "hash": "f13f50431fd916de9fde4128c2b10d01"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/clawx_cron.png": {
+    "mtime": 1779065365.9793878,
+    "hash": "0925435bb1ef594c8ea5d622c6b87576"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/ATOM_analytics.png": {
+    "mtime": 1781531503.0547807,
+    "hash": "fac1210b67e0458957049434d5334b47"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/ch_circular_bar.png": {
+    "mtime": 1780276686.489091,
+    "hash": "0d661d86421e6589eb7d63bc557888e9"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/tv_bitget_cake_240.png": {
+    "mtime": 1781532912.0886018,
+    "hash": "e64c5fa34067e8a793deecb17a82b8b7"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/sim_copilot.gif": {
+    "mtime": 1779065363.6973374,
+    "hash": "d3601e921a926b4188d328da3f87d883"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/tv_bitget_etcusdt_240.png": {
+    "mtime": 1779095624.9409816,
+    "hash": "6667298ef2bb5eafa383dcd031d356c2"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/CRV_analytics.png": {
+    "mtime": 1781531470.738138,
+    "hash": "d9d67cfd9f77101bbdb20534efaa03a4"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/ch_histogram2d.png": {
+    "mtime": 1780276687.1571062,
+    "hash": "4ae0b2997e3a818c5724bf847c4b1f0f"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/ch_pie.png": {
+    "mtime": 1780276686.225085,
+    "hash": "35211cef4fe43bb5a99718607ddd23bf"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/ATOM_indicators.png": {
+    "mtime": 1781531502.9317782,
+    "hash": "7d13e7e2183ba4dc5ba990250582754d"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/SKYAI_indicators.png": {
+    "mtime": 1781531489.94552,
+    "hash": "8acbf5502ebac99fdcb4a560f65826cc"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/XRP_indicators.png": {
+    "mtime": 1781531464.152007,
+    "hash": "7dd421dbc11a76ff420cdd1806eefe8e"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/CRV_indicators.png": {
+    "mtime": 1781531470.6131356,
+    "hash": "186d078f4c4fa8b7195ee21763f2d60c"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/ch_violin.png": {
+    "mtime": 1780276684.584048,
+    "hash": "d88ddfd342bf413e3e751bc47f33a6cb"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/ETH_analytics.png": {
+    "mtime": 1781531438.3854945,
+    "hash": "c540b872e714603a77409970fe717086"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/ch_dendrogram.png": {
+    "mtime": 1780276687.2931092,
+    "hash": "36262f0f4cd39aac0f275d311f2eaa1b"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/tv_bitget_atomusdt_240.png": {
+    "mtime": 1781533440.6288598,
+    "hash": "a1fc55b832b3e19df3088e88413d86e6"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/ch_correlogram.png": {
+    "mtime": 1780276686.1040823,
+    "hash": "b9a75f7b456a3352ebe9cf8ddb21dae1"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/ETC_analytics.png": {
+    "mtime": 1781531444.9736257,
+    "hash": "0bcd14d37dc192dc7f81fb0465b7c90d"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/sim_knowledge.gif": {
+    "mtime": 1779065364.9343646,
+    "hash": "84b78fb82538b7464350579255829e63"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/skillpad_global.png": {
+    "mtime": 1779065365.218371,
+    "hash": "be33e39158dd05d669b50f7fbda8b03f"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/tv_bitget_atomusdt_60.png": {
+    "mtime": 1781533450.4180667,
+    "hash": "ffff9cb69268e873512745d589db5a1c"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/tv_bitget_symbol_1D.png": {
+    "mtime": 1779214895.9465594,
+    "hash": "50cbae1cafd86d81f15c94f02e7bc092"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/tv_bitget_skyaiusdt_1D.png": {
+    "mtime": 1779092193.7984533,
+    "hash": "6ff46f9259b48cb6d79ac71cf252b8db"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/ADA_indicators.png": {
+    "mtime": 1781531451.2537506,
+    "hash": "dfd5de8d83763e0b3c18a354e50db449"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/FIL_indicators.png": {
+    "mtime": 1781531477.0822642,
+    "hash": "4b2ff098c6c8da8fad50a708aa8e6de4"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/CKB_indicators.png": {
+    "mtime": 1781531457.6288772,
+    "hash": "5fd64c0f1c5d95e72be205f88f8d9bc3"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/klinika_gippokrat.jpg": {
+    "mtime": 1779078379.7264407,
+    "hash": "1c260c6c8200b478587c8e9a2f1c029e"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/collage_bitget_atomusdt.png": {
+    "mtime": 1781533450.9750783,
+    "hash": "0a6efad17ef10f9ec672ba944779ab17"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/XRP_graph.png": {
+    "mtime": 1780562764.5551007,
+    "hash": "c37c04c58273e88192e09ec221bdba95"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/ETC_tg_line.png": {
+    "mtime": 1779584292.121741,
+    "hash": "ddabd699a52a2578e8c44282bcdb90dd"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/sim_started.png": {
+    "mtime": 1779065363.8083398,
+    "hash": "966cdee315e15636f3332fd9de319594"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/ch_lollipop.png": {
+    "mtime": 1780276686.9511013,
+    "hash": "a1803ed101539a699d3975968f7d3fe8"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/tv_bitget_cakeusdt_240.png": {
+    "mtime": 1781533324.3894005,
+    "hash": "c92aeec6876c080342a2843b48a5b9f1"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/API3_graph.png": {
+    "mtime": 1780562770.7222242,
+    "hash": "9b367f87769cdaad9b0bf44aedd45ae2"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/collage_skyaiusdt.png": {
+    "mtime": 1779092194.2774644,
+    "hash": "4d6b23a6807bf06234a588c0f736b8a3"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/__graph.png": {
+    "mtime": 1780409299.7911088,
+    "hash": "8f11d89f79d34d0e27c74cb65fbe9c3a"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/CAKE_main_chart.png": {
+    "mtime": 1781531509.214903,
+    "hash": "1dfac4e1426e3b51d252ae205203a00e"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/CKB_main_chart.png": {
+    "mtime": 1781531457.510875,
+    "hash": "5fa3121adc50604770ebdeef9619c6e7"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/ATOM_graph.png": {
+    "mtime": 1780562775.369317,
+    "hash": "adeacaf331d3f2dd1709c9a58a2ede2e"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/codelegate_ref.png": {
+    "mtime": 1779065365.447376,
+    "hash": "08bf99a91fc7ace19cdfd071b9c2c53a"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/XRP_analytics.png": {
+    "mtime": 1781531464.2810097,
+    "hash": "ddfb7888e1ec74322b7cd784f7fef2e6"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/DOT_main_chart.png": {
+    "mtime": 1781531496.2456453,
+    "hash": "7d0599df7454ff85f89da006046cd483"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/clawx_skills.png": {
+    "mtime": 1779065366.2453935,
+    "hash": "b1c5d00fd45d2372f788871c24010c75"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/tv_bitget_xrp_1D.png": {
+    "mtime": 1779098584.9765651,
+    "hash": "8f7ecd584ac9ab1e01afc8d01cd0060a"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/collage_bitget_cake.png": {
+    "mtime": 1781532921.8638122,
+    "hash": "267519aa6adb2dc96ca4f4d37a871608"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/FIL_analytics.png": {
+    "mtime": 1781531477.1992664,
+    "hash": "06b56b28d403b8ec9b7a09fb609e1c9d"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/tv_bitget_skyaiusdt_240.png": {
+    "mtime": 1779092181.77218,
+    "hash": "460b9af7829e109a68791d69b767c341"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/klinika_city.jpg": {
+    "mtime": 1779078409.2851017,
+    "hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/ch_bar.png": {
+    "mtime": 1780276684.2640407,
+    "hash": "fdc035d218fe8f1d8184d026eaedb722"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/ETC_main_chart.png": {
+    "mtime": 1781531444.7356207,
+    "hash": "82961d2d474262a735733aecc374ec89"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/ADA_main_chart.png": {
+    "mtime": 1781531451.1517484,
+    "hash": "4696eb4e092313cb8afe3400139916c1"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/tv_bitget_cakeusdt_1D.png": {
+    "mtime": 1781533314.7261956,
+    "hash": "3de45885058214f54cfcd8a2c83bcb4e"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/ch_stream.png": {
+    "mtime": 1780276687.8741221,
+    "hash": "30e472cdadd28732fc32f41f5deec04a"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/CRV_graph.png": {
+    "mtime": 1780562766.3431365,
+    "hash": "8a6cdb0dbba4eaf8c72a1eca42d42452"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/grapheteria_human.png": {
+    "mtime": 1779065359.243239,
+    "hash": "73eaac3c2e0419d73a1f083ca9c44a87"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/CAKE_graph.png": {
+    "mtime": 1780562777.4323585,
+    "hash": "b775ddab5e67e14f054447b309802d6b"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/collage_etcusdt.png": {
+    "mtime": 1779095635.096207,
+    "hash": "f3d7a673e05dc2efc691cabfa022b739"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/ch_radar.png": {
+    "mtime": 1780276686.7700973,
+    "hash": "1ec29903f57235d31c99850313d58119"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/DOT_analytics.png": {
+    "mtime": 1781531496.48865,
+    "hash": "46a3920264372377aec520fd169253ff"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/ch_venn.png": {
+    "mtime": 1780276688.1081276,
+    "hash": "f7e3b3f2303cff4c1ce0ab0517d28bce"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/ch_scatter3d.png": {
+    "mtime": 1780276688.394134,
+    "hash": "c7c189860c6a5749b0394a72901f9e2e"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/ch_density.png": {
+    "mtime": 1780276685.4580677,
+    "hash": "6ae1a8c7fcb59fdd00754356f8033c04"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/ch_ridgeline.png": {
+    "mtime": 1780276687.6611173,
+    "hash": "6301dd5d7d1a654ab6e873520051b267"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/XRP_main_chart.png": {
+    "mtime": 1781531464.0170043,
+    "hash": "99d4b436da9c9658f5288e976a629083"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/ETC_indicators.png": {
+    "mtime": 1781531444.8586233,
+    "hash": "0dc426a467f1d902d4897849ab2bd41f"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/clawx_channels.png": {
+    "mtime": 1779065366.4553983,
+    "hash": "1f4c5e5d36306dd37ab6662a75ded243"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/clawx_settings.png": {
+    "mtime": 1779065366.8534071,
+    "hash": "6549d8793946d890524533c7fb12dcf7"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/CKB_graph.png": {
+    "mtime": 1780562762.7300642,
+    "hash": "67ea8031088e3982a6f200456e72c94b"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/ch_wordcloud.png": {
+    "mtime": 1780276688.2261302,
+    "hash": "a29558dc229e01cc800ba8cd59f3d936"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/ADA_analytics.png": {
+    "mtime": 1781531451.3557525,
+    "hash": "e6e1c6e5ced23b5de700b5ba96a85ef0"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/ch_boxplot.png": {
+    "mtime": 1780276684.406044,
+    "hash": "2751f408f6e1da9cce5bbaf30d961283"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/ch_treemap.png": {
+    "mtime": 1780276687.998125,
+    "hash": "600fd044f25281270eb5de17adf8044e"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/grapheteria_debug.gif": {
+    "mtime": 1779065361.785295,
+    "hash": "fe8d6f51f3d5f6affe3b221213b75843"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/API3_indicators.png": {
+    "mtime": 1781531483.510392,
+    "hash": "a73ee8b99e1917d48a13556db16a7436"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/API3_analytics.png": {
+    "mtime": 1781531483.6373944,
+    "hash": "817cd2cade3be78106fc55b54a3f3fb0"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/agno_os.png": {
+    "mtime": 1779065365.5623784,
+    "hash": "bd0933759e99db43111a8e1e6940ab70"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/tv_bitget_etcusdt_1D.png": {
+    "mtime": 1779095615.3917701,
+    "hash": "cf031be0a292c398a65fb3dcb8f6e08a"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/DOT_graph.png": {
+    "mtime": 1780562773.555281,
+    "hash": "9df5f0ccdb5f39232e6c59015558270e"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/grapheteria_workflow.png": {
+    "mtime": 1779065360.1652591,
+    "hash": "7724cadf9d2ef61c72cd902e73ead54f"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/ATOM_main_chart.png": {
+    "mtime": 1781531502.8167758,
+    "hash": "c66e4952b3622495f451eb33b175fcbb"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_fb43907/tg_248207602/DOT_indicators.png": {
+    "mtime": 1781531496.3636477,
+    "hash": "5605706b7cf7d2116ef8910ab8df997f"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/tv_skyaiusdt_1D.png": {
+    "mtime": 1778879472.8601553,
+    "hash": "5c92e02d7f006b6adfb443cccdac421d"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/dotusdt_bitget_1d.png": {
+    "mtime": 1778872891.0208867,
+    "hash": "b4c61325f4ba99ce6f67486f78591ce4"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/tv_skyaiusdt_60.png": {
+    "mtime": 1778893371.3332672,
+    "hash": "e846c1f4ab175a2fc36b795a61894c26"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/2ip.png": {
+    "mtime": 1778869003.0124128,
+    "hash": "50058ba15bbfbdd3190669adf46e2548"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/CRV_main_chart.png": {
+    "mtime": 1781531470.1971273,
+    "hash": "2b42f6bf91c46d725002baccd7124861"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/positions_table.png": {
+    "mtime": 1780563293.8386867,
+    "hash": "3a5e5b75a03088f3bff3174d115e82c5"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/6_checkipamazon.png": {
+    "mtime": 1778869330.949819,
+    "hash": "d2bd6a316d57b004ed2ea174afe8a0b2"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/SKYAI_main_chart.png": {
+    "mtime": 1781531489.4975111,
+    "hash": "43d73d4319036bc96443f743bef62b3c"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/ETH_indicators.png": {
+    "mtime": 1781531437.9184852,
+    "hash": "9bad45f4c913f7452c5772d233f0304b"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/7_ipify.png": {
+    "mtime": 1778869331.1818244,
+    "hash": "793529af93b4ce14974d4b18854a1358"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/CAKE_indicators.png": {
+    "mtime": 1781531509.0528998,
+    "hash": "e76c12d69b76de26ec270ab46293ef96"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/FIL_main_chart.png": {
+    "mtime": 1781531476.6572556,
+    "hash": "34b451e8cde4666d53bb0a4ac2157c8b"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/tv_bitget:skyaiusdt_60.png": {
+    "mtime": 1778894046.004372,
+    "hash": "d31eb20a7983d298ee1c36fb1883aa2d"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/tv_etcusdt_60.png": {
+    "mtime": 1778891213.8257937,
+    "hash": "82236ce722d91b815b427b0305601b81"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/ETH_main_chart.png": {
+    "mtime": 1781531437.7804825,
+    "hash": "2b5f36c5f1f9bea0a25c00e333d90402"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/tv_bitget_etcusdt_60.png": {
+    "mtime": 1778900386.924237,
+    "hash": "9af66c641b358bad7ca4054d8264a246"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/API3_main_chart.png": {
+    "mtime": 1781531483.0953836,
+    "hash": "88d88b02ea3d5653c228ee3083b53457"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/ATOM_tg_line.png": {
+    "mtime": 1779584459.546505,
+    "hash": "14cdfb71b4f1357b7c87e60c7a0401a5"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/graphs_all.png": {
+    "mtime": 1780270303.68298,
+    "hash": "cd7de58f4052ecaf444a47ab49b10da0"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/tv_bitget_skyaiusdt_60.png": {
+    "mtime": 1778953392.9966862,
+    "hash": "6bffbf85a231c89b304cfb57efbb68d8"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/ATOM_analytics.png": {
+    "mtime": 1779584459.6655078,
+    "hash": "3570023ea28490111936cb72e94f140f"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/tv_btcusdt_1D.png": {
+    "mtime": 1778877870.6925108,
+    "hash": "bdc155b5e349c6638b1fad30d5812ad0"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/2_ipinfo.png": {
+    "mtime": 1778869317.4285142,
+    "hash": "76f489802b8554f420dccbe1f4a8edde"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/ATOM_indicators.png": {
+    "mtime": 1781531502.6017716,
+    "hash": "7d13e7e2183ba4dc5ba990250582754d"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/SKYAI_indicators.png": {
+    "mtime": 1781531489.6615143,
+    "hash": "8acbf5502ebac99fdcb4a560f65826cc"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/XRP_indicators.png": {
+    "mtime": 1781531463.801,
+    "hash": "7dd421dbc11a76ff420cdd1806eefe8e"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/CRV_indicators.png": {
+    "mtime": 1781531470.3131297,
+    "hash": "186d078f4c4fa8b7195ee21763f2d60c"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/2ip_t.jpg": {
+    "mtime": 1778869013.7816565,
+    "hash": "1c6bd390ce05cacf2b4357f955efe611"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/dotusdt_1d.png": {
+    "mtime": 1778872693.6375043,
+    "hash": "3355ae322687fea52c0bb0e746ae24a1"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/ETC_analytics.png": {
+    "mtime": 1779584291.856735,
+    "hash": "05841f1bf1922e08a62d3b6b626ece9b"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/dotusdt_tv_1d.png": {
+    "mtime": 1778872886.5067866,
+    "hash": "91625fc667bf29bf632326fb5dcdf5f2"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/3_myip.png": {
+    "mtime": 1778869320.217577,
+    "hash": "df4ca7e7eac211574dae43a84d3f9f62"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/tv_bitget_skyaiusdt_1D.png": {
+    "mtime": 1778951892.907165,
+    "hash": "4fa1333f8c6596d0fe77d0d59a221997"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/ADA_indicators.png": {
+    "mtime": 1781531450.979745,
+    "hash": "dfd5de8d83763e0b3c18a354e50db449"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/FIL_indicators.png": {
+    "mtime": 1781531476.7842581,
+    "hash": "4b2ff098c6c8da8fad50a708aa8e6de4"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/CKB_indicators.png": {
+    "mtime": 1781531457.3458717,
+    "hash": "5fd64c0f1c5d95e72be205f88f8d9bc3"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/tv_etcusdt_240.png": {
+    "mtime": 1778881790.3922603,
+    "hash": "5627dc28e15b64e7e1a5f312b265e59a"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/ETC_tg_line.png": {
+    "mtime": 1779584291.7347324,
+    "hash": "ddabd699a52a2578e8c44282bcdb90dd"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/CAKE_main_chart.png": {
+    "mtime": 1781531508.9378977,
+    "hash": "1dfac4e1426e3b51d252ae205203a00e"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/tv_ethusdt_1D.png": {
+    "mtime": 1778877990.7109346,
+    "hash": "922f8a2e7261c9941b42c4dc9597f3ae"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/CKB_main_chart.png": {
+    "mtime": 1781531457.220869,
+    "hash": "5fa3121adc50604770ebdeef9619c6e7"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/1_ifconfig.png": {
+    "mtime": 1778869316.3344896,
+    "hash": "66c6510def11b34a6916a53492236e20"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/DOT_main_chart.png": {
+    "mtime": 1781531495.9266388,
+    "hash": "7d0599df7454ff85f89da006046cd483"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/tv_xrpusdt_60.png": {
+    "mtime": 1778881606.8891442,
+    "hash": "9882ca6303cd67d8ed414cb1a1371c1d"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/ETC_main_chart.png": {
+    "mtime": 1781531444.4526153,
+    "hash": "82961d2d474262a735733aecc374ec89"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/ADA_main_chart.png": {
+    "mtime": 1781531450.8527424,
+    "hash": "4696eb4e092313cb8afe3400139916c1"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/tv_xrpusdt_1D.png": {
+    "mtime": 1778880721.2012546,
+    "hash": "3c03dbc1e61b22c27665fe288e846029"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/tv_dotusdt_240.png": {
+    "mtime": 1778881390.166282,
+    "hash": "8e7734b6b0e4113e56e339784e8b7176"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/mailru.png": {
+    "mtime": 1778872596.4003458,
+    "hash": "4339165fd4b6464f896edc2be3cacb97"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/XRP_main_chart.png": {
+    "mtime": 1781531463.6699975,
+    "hash": "99d4b436da9c9658f5288e976a629083"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/ETC_indicators.png": {
+    "mtime": 1781531444.5596173,
+    "hash": "0dc426a467f1d902d4897849ab2bd41f"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/5_icanhazip.png": {
+    "mtime": 1778869330.764815,
+    "hash": "793529af93b4ce14974d4b18854a1358"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/tv_skyaiusdt_240.png": {
+    "mtime": 1778891554.2813056,
+    "hash": "1493dbb68cac776f80a6c98571fb628f"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/API3_indicators.png": {
+    "mtime": 1781531483.213386,
+    "hash": "a73ee8b99e1917d48a13556db16a7436"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/4_whatismyip.png": {
+    "mtime": 1778869330.5378098,
+    "hash": "316c635ad0043650dcde98a827ab93d4"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/tv_bitget:etcusdt_60.png": {
+    "mtime": 1778898783.2106974,
+    "hash": "bbe71037769948f1c9dec72a3deac4e5"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/tv_bitget_etcusdt_1D.png": {
+    "mtime": 1778900428.1492176,
+    "hash": "d2f77c0a5b5b678b7029427e84f851b4"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/ATOM_main_chart.png": {
+    "mtime": 1781531502.463769,
+    "hash": "c66e4952b3622495f451eb33b175fcbb"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/DOT_indicators.png": {
+    "mtime": 1781531496.0466413,
+    "hash": "5605706b7cf7d2116ef8910ab8df997f"
+  },
+  "/home/user_aioc/workspace/ALL_USERS/usr_b6d3fda/tg_8334836991/2ip.jpg": {
+    "mtime": 1778869008.057527,
+    "hash": "57e7e0d73779166206100818094b4f1d"
   },
   "/home/user_aioc/workspace/skills/ui-ux-design-pro/public/assets/hero.png": {
     "mtime": 1777911194.403886,
@@ -3455,657 +4919,201 @@
     "mtime": 1777643173.8895862,
     "hash": "1ed47c10a672832ad08fc9d46240909d"
   },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/tv_skyaiusdt_1D.png": {
-    "mtime": 1778879472.8601553,
-    "hash": "5c92e02d7f006b6adfb443cccdac421d"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/dotusdt_bitget_1d.png": {
-    "mtime": 1778872891.0208867,
-    "hash": "b4c61325f4ba99ce6f67486f78591ce4"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/tv_skyaiusdt_60.png": {
-    "mtime": 1778893371.3332672,
-    "hash": "e846c1f4ab175a2fc36b795a61894c26"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/2ip.png": {
-    "mtime": 1778869003.0124128,
-    "hash": "50058ba15bbfbdd3190669adf46e2548"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/CRV_main_chart.png": {
-    "mtime": 1780270472.661769,
-    "hash": "0f400628caead9f0b73a10368251bc68"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/positions_table.png": {
-    "mtime": 1780284740.1582253,
-    "hash": "c96ab861138552ed75fa00e04ef43660"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/6_checkipamazon.png": {
-    "mtime": 1778869330.949819,
-    "hash": "d2bd6a316d57b004ed2ea174afe8a0b2"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/SKYAI_main_chart.png": {
-    "mtime": 1780270491.996203,
-    "hash": "60bfa1c523d070d167141e2163401e0c"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/ETH_indicators.png": {
-    "mtime": 1780270440.4000452,
-    "hash": "e27e0231068d93a0e7be5018b06dc775"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/7_ipify.png": {
-    "mtime": 1778869331.1818244,
-    "hash": "793529af93b4ce14974d4b18854a1358"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/CAKE_indicators.png": {
-    "mtime": 1780270511.5226414,
-    "hash": "95cb4627bc2fb8c22a56594cfae545c4"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/FIL_main_chart.png": {
-    "mtime": 1780270479.114914,
-    "hash": "fb95eb0356387e3f5b922ab3e3bc8e28"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/tv_bitget:skyaiusdt_60.png": {
-    "mtime": 1778894046.004372,
-    "hash": "d31eb20a7983d298ee1c36fb1883aa2d"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/tv_etcusdt_60.png": {
-    "mtime": 1778891213.8257937,
-    "hash": "82236ce722d91b815b427b0305601b81"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/ETH_main_chart.png": {
-    "mtime": 1780270440.2760422,
-    "hash": "de7a93c7a967caf1dfa72b4e10b419a4"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/tv_bitget_etcusdt_60.png": {
-    "mtime": 1778900386.924237,
-    "hash": "9af66c641b358bad7ca4054d8264a246"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/API3_main_chart.png": {
-    "mtime": 1780270485.5540583,
-    "hash": "e945a6deab16d9ecd121405107696699"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/ATOM_tg_line.png": {
-    "mtime": 1779584459.546505,
-    "hash": "14cdfb71b4f1357b7c87e60c7a0401a5"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/graphs_all.png": {
-    "mtime": 1780270303.68298,
-    "hash": "cd7de58f4052ecaf444a47ab49b10da0"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/tv_bitget_skyaiusdt_60.png": {
-    "mtime": 1778953392.9966862,
-    "hash": "6bffbf85a231c89b304cfb57efbb68d8"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/ATOM_analytics.png": {
-    "mtime": 1779584459.6655078,
-    "hash": "3570023ea28490111936cb72e94f140f"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/tv_btcusdt_1D.png": {
-    "mtime": 1778877870.6925108,
-    "hash": "bdc155b5e349c6638b1fad30d5812ad0"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/2_ipinfo.png": {
-    "mtime": 1778869317.4285142,
-    "hash": "76f489802b8554f420dccbe1f4a8edde"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/ATOM_indicators.png": {
-    "mtime": 1780270505.0794966,
-    "hash": "53b30a4df9ec8f84b23f44501cead1ac"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/SKYAI_indicators.png": {
-    "mtime": 1780270492.1062055,
-    "hash": "1a12a299a688036ebd54f4a03ca99d49"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/XRP_indicators.png": {
-    "mtime": 1780270466.2606254,
-    "hash": "61fb9e397e4ac632924a8efc95ed9df5"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/CRV_indicators.png": {
-    "mtime": 1780270472.798772,
-    "hash": "eeb02e013de7f8bfeb96880d0a5f741a"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/2ip_t.jpg": {
-    "mtime": 1778869013.7816565,
-    "hash": "1c6bd390ce05cacf2b4357f955efe611"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/dotusdt_1d.png": {
-    "mtime": 1778872693.6375043,
-    "hash": "3355ae322687fea52c0bb0e746ae24a1"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/ETC_analytics.png": {
-    "mtime": 1779584291.856735,
-    "hash": "05841f1bf1922e08a62d3b6b626ece9b"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/dotusdt_tv_1d.png": {
-    "mtime": 1778872886.5067866,
-    "hash": "91625fc667bf29bf632326fb5dcdf5f2"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/3_myip.png": {
-    "mtime": 1778869320.217577,
-    "hash": "df4ca7e7eac211574dae43a84d3f9f62"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/tv_bitget_skyaiusdt_1D.png": {
-    "mtime": 1778951892.907165,
-    "hash": "4fa1333f8c6596d0fe77d0d59a221997"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/ADA_indicators.png": {
-    "mtime": 1780270453.4893386,
-    "hash": "6787d46d5edaa45bef670573dd3c08bd"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/FIL_indicators.png": {
-    "mtime": 1780270479.2469168,
-    "hash": "ab1c11814953102812a3bab1d26e6ca5"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/CKB_indicators.png": {
-    "mtime": 1780270459.8534815,
-    "hash": "6fb82fe8cfc1fff9d05df244675ab285"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/tv_etcusdt_240.png": {
-    "mtime": 1778881790.3922603,
-    "hash": "5627dc28e15b64e7e1a5f312b265e59a"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/ETC_tg_line.png": {
-    "mtime": 1779584291.7347324,
-    "hash": "ddabd699a52a2578e8c44282bcdb90dd"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/CAKE_main_chart.png": {
-    "mtime": 1780270511.4016387,
-    "hash": "fbdd6ce7930c2306a87830c902734c93"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/tv_ethusdt_1D.png": {
-    "mtime": 1778877990.7109346,
-    "hash": "922f8a2e7261c9941b42c4dc9597f3ae"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/CKB_main_chart.png": {
-    "mtime": 1780270459.7484791,
-    "hash": "8df6e939cfd042a000e90bf7b62024f9"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/1_ifconfig.png": {
-    "mtime": 1778869316.3344896,
-    "hash": "66c6510def11b34a6916a53492236e20"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/DOT_main_chart.png": {
-    "mtime": 1780270498.4273474,
-    "hash": "1173bdfed6a5a7114b67a2799d997e02"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/tv_xrpusdt_60.png": {
-    "mtime": 1778881606.8891442,
-    "hash": "9882ca6303cd67d8ed414cb1a1371c1d"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/ETC_main_chart.png": {
-    "mtime": 1780270446.9741926,
-    "hash": "27f19a210e3e103b868e5a258f488e9d"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/ADA_main_chart.png": {
-    "mtime": 1780270453.370336,
-    "hash": "5a68b4749a9395c727a238fc344ca7d6"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/tv_xrpusdt_1D.png": {
-    "mtime": 1778880721.2012546,
-    "hash": "3c03dbc1e61b22c27665fe288e846029"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/tv_dotusdt_240.png": {
-    "mtime": 1778881390.166282,
-    "hash": "8e7734b6b0e4113e56e339784e8b7176"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/mailru.png": {
-    "mtime": 1778872596.4003458,
-    "hash": "4339165fd4b6464f896edc2be3cacb97"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/XRP_main_chart.png": {
-    "mtime": 1780270466.1396227,
-    "hash": "5a3c972bb2aadae8e53376149637eccb"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/ETC_indicators.png": {
-    "mtime": 1780270447.0901952,
-    "hash": "a49cbbdef952e4deeb1338c1d4728d2e"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/5_icanhazip.png": {
-    "mtime": 1778869330.764815,
-    "hash": "793529af93b4ce14974d4b18854a1358"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/tv_skyaiusdt_240.png": {
-    "mtime": 1778891554.2813056,
-    "hash": "1493dbb68cac776f80a6c98571fb628f"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/API3_indicators.png": {
-    "mtime": 1780270485.6940615,
-    "hash": "e59244646d9bcbb541ecf06d7395fea8"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/4_whatismyip.png": {
-    "mtime": 1778869330.5378098,
-    "hash": "316c635ad0043650dcde98a827ab93d4"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/tv_bitget:etcusdt_60.png": {
-    "mtime": 1778898783.2106974,
-    "hash": "bbe71037769948f1c9dec72a3deac4e5"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/tv_bitget_etcusdt_1D.png": {
-    "mtime": 1778900428.1492176,
-    "hash": "d2f77c0a5b5b678b7029427e84f851b4"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/ATOM_main_chart.png": {
-    "mtime": 1780270504.9304934,
-    "hash": "0dfc14b95f3059ab3111536e260bc7d4"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/DOT_indicators.png": {
-    "mtime": 1780270498.5553503,
-    "hash": "9e3b28f3246d80930dce16939d32d9d5"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_8334836991/2ip.jpg": {
-    "mtime": 1778869008.057527,
-    "hash": "57e7e0d73779166206100818094b4f1d"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_histogram.png": {
-    "mtime": 1780276685.1510608,
-    "hash": "a1e51ee66adfa34f4b74eecaf1cef27b"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_grouped_bar.png": {
-    "mtime": 1780276690.1961746,
-    "hash": "3573a9f88f88aeaad18ff039658f389a"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/sim_workflow.gif": {
-    "mtime": 1779065362.7263157,
-    "hash": "a9c0f846fc97e5d940ecdd5f3d1fbc58"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/grapheteria_mcp.png": {
-    "mtime": 1779065359.702249,
-    "hash": "e6964203f434a2b0722daac2c6a5d173"
-  },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ADA_graph.png": {
-    "mtime": 1780265793.4041026,
-    "hash": "483f77be5bf4fa18dd4e821c19ce3ab8"
+    "mtime": 1781546923.6755702,
+    "hash": "b003072d543247f94908f023adc3c013"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/CRV_main_chart.png": {
-    "mtime": 1780270472.9907763,
-    "hash": "0f400628caead9f0b73a10368251bc68"
+    "mtime": 1781547034.0087683,
+    "hash": "308f7e06471085d9bb333ddc4320e130"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/SKYAI_analytics.png": {
-    "mtime": 1780270492.5052145,
-    "hash": "52b9520d4e5735ef913315fe402ff65d"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/grapheteria_nodes.png": {
-    "mtime": 1779065358.704227,
-    "hash": "43849f88b221943554dd966cbcccd7ac"
+    "mtime": 1781547052.9281454,
+    "hash": "5a2412530c6938e00a2a69b3070696b6"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/positions_table.png": {
-    "mtime": 1780284740.2952285,
-    "hash": "c96ab861138552ed75fa00e04ef43660"
+    "mtime": 1781546976.9056308,
+    "hash": "9259d3eafdc3592df6e21956b091603e"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/SKYAI_main_chart.png": {
-    "mtime": 1780270492.265209,
-    "hash": "60bfa1c523d070d167141e2163401e0c"
+    "mtime": 1781547052.65214,
+    "hash": "56bdc27d93dda45b70f403b6cda48636"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ETH_indicators.png": {
-    "mtime": 1780270440.6940517,
-    "hash": "e27e0231068d93a0e7be5018b06dc775"
+    "mtime": 1781547003.418159,
+    "hash": "37a7263f3e2ce075c5b12844e5196ac3"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/CAKE_indicators.png": {
-    "mtime": 1780270511.8016477,
-    "hash": "95cb4627bc2fb8c22a56594cfae545c4"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/klinika_city2.jpg": {
-    "mtime": 1779078409.4651058,
-    "hash": "d546d9d24061ea5d5b36eb33cdcd89f0"
+    "mtime": 1781547071.3515122,
+    "hash": "c61cb9c2ae5408c6004aba2c926291b0"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/FIL_main_chart.png": {
-    "mtime": 1780270479.4169207,
-    "hash": "fb95eb0356387e3f5b922ab3e3bc8e28"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_heatmap.png": {
-    "mtime": 1780276685.784075,
-    "hash": "2b9514577099dd4329a2bb6c64f3c19e"
+    "mtime": 1781547040.157891,
+    "hash": "0ff6aaff9b07d3b8fcab6aa4bfe4a5c8"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/CKB_analytics.png": {
-    "mtime": 1780270460.2584906,
-    "hash": "6b812613e03505e63a3b58aa40e291cf"
+    "mtime": 1781547021.9985292,
+    "hash": "809d252c14e762ea7422707c2e2721ed"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/CAKE_analytics.png": {
-    "mtime": 1780270511.9236503,
-    "hash": "81a19864177f4737cdefaf0a17253f08"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/tv_bitget_xrp_240.png": {
-    "mtime": 1779098594.267774,
-    "hash": "e4ce563627382e8e9a0a2c8591d1d4dc"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_stacked_bar.png": {
-    "mtime": 1780276690.348178,
-    "hash": "6453bbbc2babbce7d4bbbb67b8785821"
+    "mtime": 1781547071.4635146,
+    "hash": "7188692ecc9bb4760a7fadf3aef3a333"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ETH_graph.png": {
-    "mtime": 1780265821.5617378,
-    "hash": "c2d8d8d5b371ca1289740e598a57ebff"
+    "mtime": 1781546919.8964949,
+    "hash": "8f8e419192820260f6f02256ca51129c"
   },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_bubble.png": {
-    "mtime": 1780276684.7710524,
-    "hash": "7de9ba3f20a37796062e0d80ac28c8eb"
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ETC_graph.png": {
+    "mtime": 1781546921.8265333,
+    "hash": "b2a478aef9782cf1690319fdfc6ff1c2"
+  },
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/FIL_graph.png": {
+    "mtime": 1781546932.3657434,
+    "hash": "d839fd7d38c4bbe116af27a2d39075f5"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ETH_main_chart.png": {
-    "mtime": 1780270440.5700488,
-    "hash": "de7a93c7a967caf1dfa72b4e10b419a4"
+    "mtime": 1781547003.3101568,
+    "hash": "2b0f2d2f671dd3b10507bb2c4cbe8620"
   },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/tv_bitget_xrp_60.png": {
-    "mtime": 1779098603.8879905,
-    "hash": "237f88bc660b0380099cfabf86c3d36b"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_line.png": {
-    "mtime": 1780276684.103037,
-    "hash": "505e910295e0477ae13f55125d5042a3"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/collage_bitget_xrp.png": {
-    "mtime": 1779098604.3049998,
-    "hash": "1435a6b7da9b1d33ebe3b6e38b19aa2b"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/klinika_arnika.jpg": {
-    "mtime": 1779078379.3294318,
-    "hash": "adb5a783edc61b2603697e8931e44bd6"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_scatter.png": {
-    "mtime": 1780276684.9620566,
-    "hash": "2a76ef9c4d99449bb2d7d7bf06e8cd9b"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/klinika_expert.jpg": {
-    "mtime": 1779078389.6396623,
-    "hash": "9f51cd3527e7d9af5a17092b8f73d013"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_scatter_matrix.png": {
-    "mtime": 1780276690.0561714,
-    "hash": "4546a9de5dce29e5d72ec86928b45060"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/tv_bitget_etcusdt_60.png": {
-    "mtime": 1779095634.566195,
-    "hash": "c82ae4f925ad714c607504e43fc1cf3c"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_parallel_coords.png": {
-    "mtime": 1780276687.466113,
-    "hash": "8a84bfcbbeb3254666122283f67120e0"
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/SKYAI_graph.png": {
+    "mtime": 1781546936.564827,
+    "hash": "6dffb743bd74bc4fedaa7074e9f418db"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/API3_main_chart.png": {
-    "mtime": 1780270485.8670654,
-    "hash": "e945a6deab16d9ecd121405107696699"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ATOM_tg_line.png": {
-    "mtime": 1779584459.897513,
-    "hash": "14cdfb71b4f1357b7c87e60c7a0401a5"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/graphs_all.png": {
-    "mtime": 1780270303.6839802,
-    "hash": "cd7de58f4052ecaf444a47ab49b10da0"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/clawx_chat.png": {
-    "mtime": 1779065365.7783833,
-    "hash": "07b59dff940a44b569c7cb5af3d8c466"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/tv_bitget_skyaiusdt_60.png": {
-    "mtime": 1779092169.665905,
-    "hash": "3e738a6d619155ec983f8a13f3b649eb"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/clawx_cron.png": {
-    "mtime": 1779065365.9793878,
-    "hash": "0925435bb1ef594c8ea5d622c6b87576"
+    "mtime": 1781547046.5510182,
+    "hash": "afd8a6db7d703f28e595db8bb9261e3a"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ATOM_analytics.png": {
-    "mtime": 1780270505.5165064,
-    "hash": "c4d7b28ba8cf1780e9e2d64f566d5f08"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_circular_bar.png": {
-    "mtime": 1780276686.489091,
-    "hash": "0d661d86421e6589eb7d63bc557888e9"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/sim_copilot.gif": {
-    "mtime": 1779065363.6973374,
-    "hash": "d3601e921a926b4188d328da3f87d883"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/tv_bitget_etcusdt_240.png": {
-    "mtime": 1779095624.9409816,
-    "hash": "6667298ef2bb5eafa383dcd031d356c2"
+    "mtime": 1781547065.3463926,
+    "hash": "699b18b4ce9ac79523a5d63b047301d5"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/CRV_analytics.png": {
-    "mtime": 1780270473.240782,
-    "hash": "d27ed54c8596281f16b41f9c151f1445"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_histogram2d.png": {
-    "mtime": 1780276687.1571062,
-    "hash": "4ae0b2997e3a818c5724bf847c4b1f0f"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_pie.png": {
-    "mtime": 1780276686.225085,
-    "hash": "35211cef4fe43bb5a99718607ddd23bf"
+    "mtime": 1781547034.2537732,
+    "hash": "835a2c3460a31aade6c11268863d9727"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ATOM_indicators.png": {
-    "mtime": 1780270505.3945038,
-    "hash": "53b30a4df9ec8f84b23f44501cead1ac"
+    "mtime": 1781547065.2363906,
+    "hash": "b5f98ac50669ac016d00b813b9a3dc4a"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/SKYAI_indicators.png": {
-    "mtime": 1780270492.3862116,
-    "hash": "1a12a299a688036ebd54f4a03ca99d49"
+    "mtime": 1781547052.812143,
+    "hash": "b1b7810d566a5a40cdca22a067eedc73"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/XRP_indicators.png": {
-    "mtime": 1780270466.5886326,
-    "hash": "61fb9e397e4ac632924a8efc95ed9df5"
+    "mtime": 1781547028.011649,
+    "hash": "5e81f3e220eba3be1b73325ceda4cf61"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/CRV_indicators.png": {
-    "mtime": 1780270473.110779,
-    "hash": "eeb02e013de7f8bfeb96880d0a5f741a"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_violin.png": {
-    "mtime": 1780276684.584048,
-    "hash": "d88ddfd342bf413e3e751bc47f33a6cb"
+    "mtime": 1781547034.127771,
+    "hash": "5f23bc7a7f397897eff3b60af177538e"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ETH_analytics.png": {
-    "mtime": 1780270440.845055,
-    "hash": "6d76af318643a0e6bb8a19ff0835c609"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_dendrogram.png": {
-    "mtime": 1780276687.2931092,
-    "hash": "36262f0f4cd39aac0f275d311f2eaa1b"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_correlogram.png": {
-    "mtime": 1780276686.1040823,
-    "hash": "b9a75f7b456a3352ebe9cf8ddb21dae1"
+    "mtime": 1781547003.5411615,
+    "hash": "b3b5ca3dcea80489f4f8ee25e09850db"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ETC_analytics.png": {
-    "mtime": 1780270447.493204,
-    "hash": "d5eb0b54e8780dfcdd5af762c209bd27"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/sim_knowledge.gif": {
-    "mtime": 1779065364.9343646,
-    "hash": "84b78fb82538b7464350579255829e63"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/skillpad_global.png": {
-    "mtime": 1779065365.218371,
-    "hash": "be33e39158dd05d669b50f7fbda8b03f"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/tv_bitget_symbol_1D.png": {
-    "mtime": 1779214895.9465594,
-    "hash": "50cbae1cafd86d81f15c94f02e7bc092"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/tv_bitget_skyaiusdt_1D.png": {
-    "mtime": 1779092193.7984533,
-    "hash": "6ff46f9259b48cb6d79ac71cf252b8db"
+    "mtime": 1781547009.7772856,
+    "hash": "5cbff0bf89daefb4f21385d3a10f9bd9"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ADA_indicators.png": {
-    "mtime": 1780270453.775345,
-    "hash": "6787d46d5edaa45bef670573dd3c08bd"
+    "mtime": 1781547015.7784052,
+    "hash": "d018ca5c7980295daa45dfa2af87acde"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/FIL_indicators.png": {
-    "mtime": 1780270479.5269232,
-    "hash": "ab1c11814953102812a3bab1d26e6ca5"
+    "mtime": 1781547040.414896,
+    "hash": "7ae83d50baf528d257c416c2a2ab6858"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/CKB_indicators.png": {
-    "mtime": 1780270460.140488,
-    "hash": "6fb82fe8cfc1fff9d05df244675ab285"
+    "mtime": 1781547021.885527,
+    "hash": "f528c36d41407961ccc3583a35609652"
   },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/klinika_gippokrat.jpg": {
-    "mtime": 1779078379.7264407,
-    "hash": "1c260c6c8200b478587c8e9a2f1c029e"
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/XRP_graph.png": {
+    "mtime": 1781546928.2256608,
+    "hash": "b9c79bd62c7cc3ab5a5d419c2b1cb139"
   },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ETC_tg_line.png": {
-    "mtime": 1779584292.121741,
-    "hash": "ddabd699a52a2578e8c44282bcdb90dd"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/sim_started.png": {
-    "mtime": 1779065363.8083398,
-    "hash": "966cdee315e15636f3332fd9de319594"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_lollipop.png": {
-    "mtime": 1780276686.9511013,
-    "hash": "a1803ed101539a699d3975968f7d3fe8"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/collage_skyaiusdt.png": {
-    "mtime": 1779092194.2774644,
-    "hash": "4d6b23a6807bf06234a588c0f736b8a3"
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/API3_graph.png": {
+    "mtime": 1781546935.4398046,
+    "hash": "2295235a190c4855ce4eb8f91e8ef05c"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/CAKE_main_chart.png": {
-    "mtime": 1780270511.683645,
-    "hash": "fbdd6ce7930c2306a87830c902734c93"
+    "mtime": 1781547071.2185097,
+    "hash": "5ee1328a24259e9fe42240cc6a728236"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/CKB_main_chart.png": {
-    "mtime": 1780270460.0174851,
-    "hash": "8df6e939cfd042a000e90bf7b62024f9"
+    "mtime": 1781547021.7725246,
+    "hash": "9527a2d076867faca99d2b282dcdbb9c"
   },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/codelegate_ref.png": {
-    "mtime": 1779065365.447376,
-    "hash": "08bf99a91fc7ace19cdfd071b9c2c53a"
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ATOM_graph.png": {
+    "mtime": 1781546940.6939092,
+    "hash": "b89f8acb111292e57b403b6fa1efaba5"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/XRP_analytics.png": {
-    "mtime": 1780270466.730636,
-    "hash": "cb144bec643e157432c6bfc93b9c38cd"
+    "mtime": 1781547028.1266513,
+    "hash": "6381a5b2cfa3cfd82578dd3b4e5c9663"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/DOT_main_chart.png": {
-    "mtime": 1780270498.7343543,
-    "hash": "1173bdfed6a5a7114b67a2799d997e02"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/clawx_skills.png": {
-    "mtime": 1779065366.2453935,
-    "hash": "b1c5d00fd45d2372f788871c24010c75"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/tv_bitget_xrp_1D.png": {
-    "mtime": 1779098584.9765651,
-    "hash": "8f7ecd584ac9ab1e01afc8d01cd0060a"
+    "mtime": 1781547058.8422632,
+    "hash": "be86d016f50210775cc6640b6abdc490"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/FIL_analytics.png": {
-    "mtime": 1780270479.6439257,
-    "hash": "68fdb1a814b740006371dae7680f9b2b"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/tv_bitget_skyaiusdt_240.png": {
-    "mtime": 1779092181.77218,
-    "hash": "460b9af7829e109a68791d69b767c341"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/klinika_city.jpg": {
-    "mtime": 1779078409.2851017,
-    "hash": "d41d8cd98f00b204e9800998ecf8427e"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_bar.png": {
-    "mtime": 1780276684.2640407,
-    "hash": "fdc035d218fe8f1d8184d026eaedb722"
+    "mtime": 1781547040.5438986,
+    "hash": "a5ad49ebaa7e85969da8cc2b475527ef"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ETC_main_chart.png": {
-    "mtime": 1780270447.2571988,
-    "hash": "27f19a210e3e103b868e5a258f488e9d"
+    "mtime": 1781547009.5592813,
+    "hash": "164108f25ea424a31250407638a288fb"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ADA_main_chart.png": {
-    "mtime": 1780270453.6513424,
-    "hash": "5a68b4749a9395c727a238fc344ca7d6"
+    "mtime": 1781547015.6504028,
+    "hash": "f53188c681b51c80e84cf1f4d2d753e8"
   },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_stream.png": {
-    "mtime": 1780276687.8741221,
-    "hash": "30e472cdadd28732fc32f41f5deec04a"
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/CRV_graph.png": {
+    "mtime": 1781546930.251701,
+    "hash": "6dd0e5ebc6ce172f34e39fc23a678055"
   },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/grapheteria_human.png": {
-    "mtime": 1779065359.243239,
-    "hash": "73eaac3c2e0419d73a1f083ca9c44a87"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/collage_etcusdt.png": {
-    "mtime": 1779095635.096207,
-    "hash": "f3d7a673e05dc2efc691cabfa022b739"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_radar.png": {
-    "mtime": 1780276686.7700973,
-    "hash": "1ec29903f57235d31c99850313d58119"
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/CAKE_graph.png": {
+    "mtime": 1781546942.73995,
+    "hash": "d06e70abfd0b2ae6d087fbf58865a2f7"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/DOT_analytics.png": {
-    "mtime": 1780270498.9723597,
-    "hash": "e2745cc9e6feb1acae85373c0ee3bdae"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_venn.png": {
-    "mtime": 1780276688.1081276,
-    "hash": "f7e3b3f2303cff4c1ce0ab0517d28bce"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_scatter3d.png": {
-    "mtime": 1780276688.394134,
-    "hash": "c7c189860c6a5749b0394a72901f9e2e"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_density.png": {
-    "mtime": 1780276685.4580677,
-    "hash": "6ae1a8c7fcb59fdd00754356f8033c04"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_ridgeline.png": {
-    "mtime": 1780276687.6611173,
-    "hash": "6301dd5d7d1a654ab6e873520051b267"
+    "mtime": 1781547059.2002702,
+    "hash": "53b917cd1b736d59c44b99a3c5a3db88"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/XRP_main_chart.png": {
-    "mtime": 1780270466.4406295,
-    "hash": "5a3c972bb2aadae8e53376149637eccb"
+    "mtime": 1781547027.8866465,
+    "hash": "60bbd4dee416990c526fa3547f952287"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ETC_indicators.png": {
-    "mtime": 1780270447.3722014,
-    "hash": "a49cbbdef952e4deeb1338c1d4728d2e"
+    "mtime": 1781547009.6702836,
+    "hash": "d11b84e230e14f7819ebac9e634ad0da"
   },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/clawx_channels.png": {
-    "mtime": 1779065366.4553983,
-    "hash": "1f4c5e5d36306dd37ab6662a75ded243"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/clawx_settings.png": {
-    "mtime": 1779065366.8534071,
-    "hash": "6549d8793946d890524533c7fb12dcf7"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_wordcloud.png": {
-    "mtime": 1780276688.2261302,
-    "hash": "a29558dc229e01cc800ba8cd59f3d936"
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/CKB_graph.png": {
+    "mtime": 1781546926.0886183,
+    "hash": "0c2035c4a823eb9d8d1f387f4b4da35a"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ADA_analytics.png": {
-    "mtime": 1780270453.8923478,
-    "hash": "faa8f06f65d44523b40c98a5cbc972a8"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_boxplot.png": {
-    "mtime": 1780276684.406044,
-    "hash": "2751f408f6e1da9cce5bbaf30d961283"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ch_treemap.png": {
-    "mtime": 1780276687.998125,
-    "hash": "600fd044f25281270eb5de17adf8044e"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/grapheteria_debug.gif": {
-    "mtime": 1779065361.785295,
-    "hash": "fe8d6f51f3d5f6affe3b221213b75843"
+    "mtime": 1781547015.9004076,
+    "hash": "575fa02462c5bbfc6ea76265ce692f47"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/API3_indicators.png": {
-    "mtime": 1780270486.0000684,
-    "hash": "e59244646d9bcbb541ecf06d7395fea8"
+    "mtime": 1781547046.6670206,
+    "hash": "15bb42466f32b10bc2fb15db9d94ca46"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/API3_analytics.png": {
-    "mtime": 1780270486.1350715,
-    "hash": "033026f3ced3a9135ccd7af212e87062"
+    "mtime": 1781547046.7740228,
+    "hash": "23dead6972695fe96e13e438a8e6c5cb"
   },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/agno_os.png": {
-    "mtime": 1779065365.5623784,
-    "hash": "bd0933759e99db43111a8e1e6940ab70"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/tv_bitget_etcusdt_1D.png": {
-    "mtime": 1779095615.3917701,
-    "hash": "cf031be0a292c398a65fb3dcb8f6e08a"
-  },
-  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/grapheteria_workflow.png": {
-    "mtime": 1779065360.1652591,
-    "hash": "7724cadf9d2ef61c72cd902e73ead54f"
+  "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/DOT_graph.png": {
+    "mtime": 1781546938.6888692,
+    "hash": "b7e2d1e53e619a4d8dfc4b647ee2bc27"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/ATOM_main_chart.png": {
-    "mtime": 1780270505.2585008,
-    "hash": "0dfc14b95f3059ab3111536e260bc7d4"
+    "mtime": 1781547065.1203883,
+    "hash": "cf694e8f70b3a2d47ffa8a858663d824"
   },
   "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/TG_ALL/TG_248207602/DOT_indicators.png": {
-    "mtime": 1780270498.861357,
-    "hash": "9e3b28f3246d80930dce16939d32d9d5"
+    "mtime": 1781547059.0522673,
+    "hash": "33503bfaa239227e1b04bced273e655d"
   },
   "/home/user_aioc/workspace/projects/06_screenshots_project/demo_charts_ascii/index.png": {
     "mtime": 1778027487.9650676,

@@ -32,6 +32,7 @@ from youtube_transcribe import transcribe_youtube
 from rutube_transcribe import transcribe_rutube
 import kb_commands
 import kb_analyzer
+from sync import sync_exchange
 
 log = logging.getLogger("tg_bot")
 
@@ -86,48 +87,7 @@ def _kill_process_group(proc_pid):
                 break  # no permission (already reaped)
 
 
-# ── Sync cache: avoid re-syncing if previous sync was <60s ago ──
-_LAST_SYNC_TS = 0.0
-_SYNC_TTL = 60.0
-
-
-async def _sync_exchange(status_msg=None, force: bool = False) -> tuple:
-    """POST /api/sync-all with 60s cache.
-
-    Returns: (sync_ok: bool, sync_count: int, sync_err: str, cached: bool)
-    """
-    global _LAST_SYNC_TS
-    import urllib.request
-    import json as _json
-
-    now = time.time()
-    age = now - _LAST_SYNC_TS
-    if not force and age < _SYNC_TTL and _LAST_SYNC_TS > 0:
-        log.info(f"sync: cache hit (age {age:.1f}s < {_SYNC_TTL}s)")
-        return True, 0, "", True
-
-    sync_ok = True
-    sync_count = 0
-    sync_err = ""
-    try:
-        sync_url = os.environ.get("FLASK_BASE_URL", "http://localhost:5000") + "/api/sync-all"
-        req = urllib.request.Request(sync_url, method='POST',
-                                     headers={'Content-Type': 'application/json'})
-        loop = asyncio.get_event_loop()
-        resp_body = await loop.run_in_executor(
-            None,
-            lambda: urllib.request.urlopen(req, timeout=60).read()
-        )
-        j = _json.loads(resp_body)
-        sync_count = j.get("count", 0) if isinstance(j, dict) else 0
-        _LAST_SYNC_TS = time.time()
-        log.info(f"sync: ok count={sync_count} age={age:.1f}s")
-    except Exception as e:
-        sync_ok = False
-        sync_err = str(e)[:200]
-        log.warning(f"sync: failed: {sync_err}")
-
-    return sync_ok, sync_count, sync_err, False
+# sync_exchange() moved to sync.py
 
 
 async def _handle_task_stats(update, uid, text):
@@ -169,7 +129,19 @@ async def _handle_task_stats(update, uid, text):
 async def _handle_emj_positions(update, uid):
     import time as _time
     t0 = _time.time()
-    status_msg = await update.message.reply_text("📊 Получаю строки позиций...")
+    status_msg = await update.message.reply_text("🔄 Синхронизирую с Bitget...")
+
+    sync_ok, sync_count, sync_err, cached = await sync_exchange(status_msg)
+    if sync_ok:
+        status_msg = await update.message.reply_text(
+            "⚡ Sync из кэша\n📊 Получаю строки позиций..." if cached
+            else f"✅ Sync: {sync_count} карт\n📊 Получаю строки позиций..."
+        )
+    else:
+        status_msg = await update.message.reply_text(
+            f"⚠️ Sync: {sync_err}\n📊 Строки устаревших данных..."
+        )
+
     script = SCRIPTS_DIR / "get_emj_rows.py"
     if not script.exists():
         await status_msg.edit_text(f"❌ Скрипт не найден: {script}")
@@ -220,12 +192,9 @@ async def _handle_sc_positions(update, uid):
     t0 = _time.time()
     status_msg = await update.message.reply_text("🔄 Синхронизирую с Bitget...")
 
-    sync_ok, sync_count, sync_err, cached = await _sync_exchange(status_msg)
+    sync_ok, sync_count, sync_err, cached = await sync_exchange(status_msg, force=True)
     if sync_ok:
-        if cached:
-            await status_msg.edit_text(f"⚡ Sync из кэша\n📸 Делаю скриншот позиций...")
-        else:
-            await status_msg.edit_text(f"✅ Sync: {sync_count} карт обновлено\n📸 Делаю скриншот позиций...")
+        await status_msg.edit_text(f"✅ Sync: {sync_count} карт обновлено\n📸 Делаю скриншот позиций...")
     else:
         await status_msg.edit_text(
             f"⚠️ Sync не удался: {sync_err}\n📸 Скриншот устаревших данных..."
@@ -301,7 +270,18 @@ async def _handle_sc_analytics(update, uid, args):
 
     target = args[0]
 
-    status_msg = await update.message.reply_text("📸 Делаю скриншот аналитики...")
+    status_msg = await update.message.reply_text("🔄 Синхронизирую с Bitget...")
+
+    sync_ok, sync_count, sync_err, cached = await sync_exchange(status_msg)
+    if sync_ok:
+        status_msg = await update.message.reply_text(
+            "⚡ Sync из кэша\n📸 Делаю скриншот аналитики..." if cached
+            else f"✅ Sync: {sync_count} карт\n📸 Делаю скриншот аналитики..."
+        )
+    else:
+        status_msg = await update.message.reply_text(
+            f"⚠️ Sync: {sync_err}\n📸 Скриншот устаревших данных..."
+        )
 
     script = SCRIPTS_DIR / "screenshot_analytics.py"
     if not script.exists():
@@ -396,7 +376,7 @@ async def _handle_sc_graphs(update, uid):
     log.info(f"sc_graphs: start uid={uid}")
     status_msg = await update.message.reply_text("🔄 Синхронизирую с Bitget...")
 
-    sync_ok, sync_count, sync_err, cached = await _sync_exchange(status_msg)
+    sync_ok, sync_count, sync_err, cached = await sync_exchange(status_msg)
     if sync_ok:
         if cached:
             await status_msg.edit_text("⚡ Sync из кэша\n📊 Генерирую графики...")
@@ -538,7 +518,7 @@ async def _handle_chart(update, uid, args):
 
     status_msg = await update.message.reply_text("🔄 Синхронизирую с Bitget...")
 
-    sync_ok, sync_count, sync_err, cached = await _sync_exchange(status_msg)
+    sync_ok, sync_count, sync_err, cached = await sync_exchange(status_msg)
     if sync_ok:
         if cached:
             prefix = "⚡ Sync из кэша"
@@ -882,7 +862,18 @@ async def _handle_chart(update, uid, args):
 async def _handle_positions(update, uid):
     import time as _time
     t0 = _time.time()
-    status_msg = await update.message.reply_text("📊 Получаю сводку...")
+    status_msg = await update.message.reply_text("🔄 Синхронизирую с Bitget...")
+
+    sync_ok, sync_count, sync_err, cached = await sync_exchange(status_msg)
+    if sync_ok:
+        status_msg = await update.message.reply_text(
+            "⚡ Sync из кэша\n📊 Получаю сводку..." if cached
+            else f"✅ Sync: {sync_count} карт\n📊 Получаю сводку..."
+        )
+    else:
+        status_msg = await update.message.reply_text(
+            f"⚠️ Sync: {sync_err}\n📊 Сводка устаревших данных..."
+        )
 
     script = SCRIPTS_DIR / "get_emj_rows.py"
     if not script.exists():
@@ -934,7 +925,7 @@ async def _handle_positions_image(update, uid):
     status_msg = await update.message.reply_text("🔄 Синхронизирую с Bitget...")
     log.info(f"positions_image: start uid={uid}")
 
-    sync_ok, sync_count, sync_err, cached = await _sync_exchange(status_msg)
+    sync_ok, sync_count, sync_err, cached = await sync_exchange(status_msg)
     if sync_ok:
         if cached:
             await status_msg.edit_text("⚡ Sync из кэша\n📊 Готовлю скриншот сводки...")

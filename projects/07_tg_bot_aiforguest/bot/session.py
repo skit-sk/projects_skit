@@ -1,8 +1,27 @@
+import contextlib
+import fcntl
 import json
+import os
 import time
 import secrets
 from pathlib import Path
 from config import STATE_FILE, UNAUTHORIZED_FILE, TG_ALL_DIR, ALL_USERS_DIR, SUPER_USER
+
+_LOCK_FILE = STATE_FILE.parent / (STATE_FILE.name + ".lock")
+
+
+@contextlib.contextmanager
+def _transaction():
+    """Атомарная read-modify-write транзакция с cross-process блокировкой."""
+    _LOCK_FILE.parent.mkdir(parents=True, exist_ok=True)
+    fd = os.open(str(_LOCK_FILE), os.O_CREAT | os.O_RDWR)
+    try:
+        fcntl.flock(fd, fcntl.LOCK_EX)
+        yield
+    finally:
+        fcntl.flock(fd, fcntl.LOCK_UN)
+        os.close(fd)
+
 
 _EMPTY_SESSION = {
     "super": SUPER_USER,
@@ -163,32 +182,33 @@ def link_platforms(tg_uid: int, max_uid: int, caller_uid: int | None = None) -> 
     """Привязать TG и MAX id к одному внутреннему пользователю.
     caller_uid — id вызывающего для проверки прав.
     Возвращает None при успехе или строку ошибки."""
-    state = _load()
+    with _transaction():
+        state = _load()
 
-    if caller_uid is not None and not is_super(caller_uid):
-        super_ids = _collect_super_ids(state)
-        if tg_uid in super_ids or max_uid in super_ids:
-            return "❌ Нельзя привязаться к super-пользователю."
+        if caller_uid is not None and not is_super(caller_uid):
+            super_ids = _collect_super_ids(state)
+            if tg_uid in super_ids or max_uid in super_ids:
+                return "❌ Нельзя привязаться к super-пользователю."
 
-    resolved_tg = resolve_uid(tg_uid)
-    resolved_max = resolve_uid(max_uid)
+        resolved_tg = resolve_uid(tg_uid)
+        resolved_max = resolve_uid(max_uid)
 
-    if resolved_tg and resolved_max and resolved_tg != resolved_max:
-        return "❌ Оба ID уже привязаны к разным пользователям."
-    target = resolved_tg or resolved_max
-    if not target:
-        return "❌ Пользователь не найден. Сначала создайте его через /adduser."
+        if resolved_tg and resolved_max and resolved_tg != resolved_max:
+            return "❌ Оба ID уже привязаны к разным пользователям."
+        target = resolved_tg or resolved_max
+        if not target:
+            return "❌ Пользователь не найден. Сначала создайте его через /adduser."
 
-    user = state["users"][target]
-    links = user.setdefault("platform_links", {})
-    tg_list = links.setdefault("tg", [])
-    max_list = links.setdefault("max", [])
+        user = state["users"][target]
+        links = user.setdefault("platform_links", {})
+        tg_list = links.setdefault("tg", [])
+        max_list = links.setdefault("max", [])
 
-    if tg_uid not in tg_list:
-        tg_list.append(tg_uid)
-    if max_uid not in max_list:
-        max_list.append(max_uid)
-    _save(state)
+        if tg_uid not in tg_list:
+            tg_list.append(tg_uid)
+        if max_uid not in max_list:
+            max_list.append(max_uid)
+        _save(state)
     return None
 
 
@@ -196,15 +216,16 @@ def add_platform_link(internal_uid: str, platform: str, platform_id: int) -> str
     """Добавить platform_id к внутреннему пользователю.
     internal_uid — usr_xxxxxxx, platform — 'tg' или 'max'.
     Возвращает None при успехе или строку ошибки."""
-    state = _load()
-    if internal_uid not in state["users"]:
-        return f"❌ Внутренний uid {internal_uid} не найден."
-    user = state["users"][internal_uid]
-    links = user.setdefault("platform_links", {})
-    plist = links.setdefault(platform, [])
-    if platform_id not in plist:
-        plist.append(platform_id)
-    _save(state)
+    with _transaction():
+        state = _load()
+        if internal_uid not in state["users"]:
+            return f"❌ Внутренний uid {internal_uid} не найден."
+        user = state["users"][internal_uid]
+        links = user.setdefault("platform_links", {})
+        plist = links.setdefault(platform, [])
+        if platform_id not in plist:
+            plist.append(platform_id)
+        _save(state)
     return None
 
 
@@ -242,31 +263,33 @@ def _sid(uid):
 
 
 def add_user(uid, name, msg_limit=None, token_limit=None, storage_mb=None, file_limit=None, platform="tg"):
-    state = _load()
-    sid = _sid(uid)
-    if sid not in state["users"]:
-        state["users"][sid] = {
-            "name": name,
-            "role": "normal",
-            "model": None,
-            "platform_links": {},
-            "limits": {
-                "msg": msg_limit or 50,
-                "token": token_limit or 1_000_000,
-                "storage_mb": storage_mb or 500,
-                "file_count": file_limit or 1000,
-            },
-            "sessions": {"current": None, "list": {}},
-        }
-        user_dir(sid, platform).mkdir(parents=True, exist_ok=True)
-        (user_dir(sid, platform) / "uploads").mkdir(exist_ok=True)
-    _save(state)
+    with _transaction():
+        state = _load()
+        sid = _sid(uid)
+        if sid not in state["users"]:
+            state["users"][sid] = {
+                "name": name,
+                "role": "normal",
+                "model": None,
+                "platform_links": {},
+                "limits": {
+                    "msg": msg_limit or 50,
+                    "token": token_limit or 1_000_000,
+                    "storage_mb": storage_mb or 500,
+                    "file_count": file_limit or 1000,
+                },
+                "sessions": {"current": None, "list": {}},
+            }
+            user_dir(sid, platform).mkdir(parents=True, exist_ok=True)
+            (user_dir(sid, platform) / "uploads").mkdir(exist_ok=True)
+        _save(state)
 
 
 def remove_user(uid):
-    state = _load()
-    state["users"].pop(_sid(uid), None)
-    _save(state)
+    with _transaction():
+        state = _load()
+        state["users"].pop(_sid(uid), None)
+        _save(state)
 
 
 def list_users():
@@ -275,53 +298,57 @@ def list_users():
 
 
 def ensure_super():
-    state = _load()
-    sid = _sid(SUPER_USER)
-    if sid not in state["users"]:
-        state["users"][sid] = {
-            "name": "SK",
-            "role": "super",
-            "model": None,
-            "platform_links": {"tg": [SUPER_USER]},
-            "limits": None,
-            "sessions": {"current": None, "list": {}},
-        }
-        user_dir(sid, "tg").mkdir(parents=True, exist_ok=True)
-        (user_dir(sid, "tg") / "uploads").mkdir(exist_ok=True)
-    _save(state)
+    with _transaction():
+        state = _load()
+        sid = _sid(SUPER_USER)
+        if sid not in state["users"]:
+            state["users"][sid] = {
+                "name": "SK",
+                "role": "super",
+                "model": None,
+                "platform_links": {"tg": [SUPER_USER]},
+                "limits": None,
+                "sessions": {"current": None, "list": {}},
+            }
+            user_dir(sid, "tg").mkdir(parents=True, exist_ok=True)
+            (user_dir(sid, "tg") / "uploads").mkdir(exist_ok=True)
+        _save(state)
 
 
 def set_session_opencode_id(uid, key, opencode_id):
-    state = _load()
-    sid = _sid(uid)
-    u = state["users"].get(sid)
-    if u and key in u["sessions"]["list"]:
-        u["sessions"]["list"][key]["opencode_id"] = opencode_id
-        _save(state)
-        return True
+    with _transaction():
+        state = _load()
+        sid = _sid(uid)
+        u = state["users"].get(sid)
+        if u and key in u["sessions"]["list"]:
+            u["sessions"]["list"][key]["opencode_id"] = opencode_id
+            _save(state)
+            return True
     return False
 
 
 def reset_opencode_id(uid, key):
-    state = _load()
-    sid = _sid(uid)
-    u = state["users"].get(sid)
-    if u and key in u["sessions"]["list"]:
-        u["sessions"]["list"][key].pop("opencode_id", None)
-        u["sessions"]["list"][key]["tokens"] = 0
-        _save(state)
-        return True
+    with _transaction():
+        state = _load()
+        sid = _sid(uid)
+        u = state["users"].get(sid)
+        if u and key in u["sessions"]["list"]:
+            u["sessions"]["list"][key].pop("opencode_id", None)
+            u["sessions"]["list"][key]["tokens"] = 0
+            _save(state)
+            return True
     return False
 
 
 def set_session_tokens(uid, key, total):
-    state = _load()
-    sid = _sid(uid)
-    u = state["users"].get(sid)
-    if u and key in u["sessions"]["list"]:
-        u["sessions"]["list"][key]["tokens"] = total
-        _save(state)
-        return True
+    with _transaction():
+        state = _load()
+        sid = _sid(uid)
+        u = state["users"].get(sid)
+        if u and key in u["sessions"]["list"]:
+            u["sessions"]["list"][key]["tokens"] = total
+            _save(state)
+            return True
     return False
 
 
@@ -344,93 +371,98 @@ def get_session_agent(uid, key):
 
 
 def create_session(uid, name=None):
-    state = _load()
-    sid = _sid(uid)
-    if sid not in state["users"]:
-        return None
-    ts = int(time.time())
-    key = f"ses_{uid}_{ts}"
-    if not name:
-        nick = state["users"][sid].get("name", _sid(uid))
-        from datetime import datetime
-        ts_str = datetime.now().strftime("%d%m%Y_%H%M")
-        name = f"[TG] {uid}_{nick}_{ts_str}"
-    state["users"][sid]["sessions"]["current"] = key
+    with _transaction():
+        state = _load()
+        sid = _sid(uid)
+        if sid not in state["users"]:
+            return None
+        ts = int(time.time())
+        key = f"ses_{uid}_{ts}"
+        if not name:
+            nick = state["users"][sid].get("name", _sid(uid))
+            from datetime import datetime
+            ts_str = datetime.now().strftime("%d%m%Y_%H%M")
+            name = f"[TG] {uid}_{nick}_{ts_str}"
+        state["users"][sid]["sessions"]["current"] = key
 
-    state["session_seq"] += 1
-    state["session_stats"]["total_created"] += 1
+        state["session_seq"] += 1
+        state["session_stats"]["total_created"] += 1
 
-    sess = {
-        "seq": state["session_seq"],
-        "status": SESSION_ACTIVE,
-        "name": name,
-        "created": ts,
-        "messages": 0,
-        "model": None,
-        "opencode_id": None,
-    }
-    if _sid(uid) != _sid(SUPER_USER):
-        sess["agent"] = "tg-reader"
-    state["users"][sid]["sessions"]["list"][key] = sess
-    _recalc_stats(state)
-    _save(state)
+        sess = {
+            "seq": state["session_seq"],
+            "status": SESSION_ACTIVE,
+            "name": name,
+            "created": ts,
+            "messages": 0,
+            "model": None,
+            "opencode_id": None,
+        }
+        if _sid(uid) != _sid(SUPER_USER):
+            sess["agent"] = "tg-reader"
+        state["users"][sid]["sessions"]["list"][key] = sess
+        _recalc_stats(state)
+        _save(state)
     return key
 
 
 def switch_session(uid, key):
-    state = _load()
-    sid = _sid(uid)
-    if sid in state["users"] and key in state["users"][sid]["sessions"]["list"]:
-        state["users"][sid]["sessions"]["current"] = key
-        _save(state)
-        return True
+    with _transaction():
+        state = _load()
+        sid = _sid(uid)
+        if sid in state["users"] and key in state["users"][sid]["sessions"]["list"]:
+            state["users"][sid]["sessions"]["current"] = key
+            _save(state)
+            return True
     return False
 
 
 def rename_session(uid, key, new_name):
-    state = _load()
-    sid = _sid(uid)
-    u = state["users"].get(sid)
-    if u and key in u["sessions"]["list"]:
-        u["sessions"]["list"][key]["name"] = new_name
-        _save(state)
-        return True
+    with _transaction():
+        state = _load()
+        sid = _sid(uid)
+        u = state["users"].get(sid)
+        if u and key in u["sessions"]["list"]:
+            u["sessions"]["list"][key]["name"] = new_name
+            _save(state)
+            return True
     return False
 
 
 def drop_session(uid):
-    state = _load()
-    sid = _sid(uid)
-    u = state["users"].get(sid)
-    if u and u["sessions"]["current"]:
-        key = u["sessions"]["current"]
-        sess = u["sessions"]["list"].get(key)
-        if sess:
-            sess["status"] = SESSION_DEAD
-        keys = [k for k, v in u["sessions"]["list"].items()
-                if v.get("status", SESSION_ACTIVE) in (SESSION_ACTIVE, SESSION_ERROR)]
-        u["sessions"]["current"] = keys[-1] if keys else None
-        state["session_stats"]["total_deleted"] += 1
-        _recalc_stats(state)
-        _save(state)
-        return True
+    with _transaction():
+        state = _load()
+        sid = _sid(uid)
+        u = state["users"].get(sid)
+        if u and u["sessions"]["current"]:
+            key = u["sessions"]["current"]
+            sess = u["sessions"]["list"].get(key)
+            if sess:
+                sess["status"] = SESSION_DEAD
+            keys = [k for k, v in u["sessions"]["list"].items()
+                    if v.get("status", SESSION_ACTIVE) in (SESSION_ACTIVE, SESSION_ERROR)]
+            u["sessions"]["current"] = keys[-1] if keys else None
+            state["session_stats"]["total_deleted"] += 1
+            _recalc_stats(state)
+            _save(state)
+            return True
     return False
 
 
 def dropsession_by_key(uid, key):
-    state = _load()
-    sid = _sid(uid)
-    u = state["users"].get(sid)
-    if not u or key not in u["sessions"]["list"]:
-        return False
-    u["sessions"]["list"][key]["status"] = SESSION_DEAD
-    if u["sessions"]["current"] == key:
-        keys = [k for k, v in u["sessions"]["list"].items()
-                if v.get("status", SESSION_ACTIVE) in (SESSION_ACTIVE, SESSION_ERROR)]
-        u["sessions"]["current"] = keys[-1] if keys else None
-    state["session_stats"]["total_deleted"] += 1
-    _recalc_stats(state)
-    _save(state)
+    with _transaction():
+        state = _load()
+        sid = _sid(uid)
+        u = state["users"].get(sid)
+        if not u or key not in u["sessions"]["list"]:
+            return False
+        u["sessions"]["list"][key]["status"] = SESSION_DEAD
+        if u["sessions"]["current"] == key:
+            keys = [k for k, v in u["sessions"]["list"].items()
+                    if v.get("status", SESSION_ACTIVE) in (SESSION_ACTIVE, SESSION_ERROR)]
+            u["sessions"]["current"] = keys[-1] if keys else None
+        state["session_stats"]["total_deleted"] += 1
+        _recalc_stats(state)
+        _save(state)
     return True
 
 
@@ -630,23 +662,25 @@ def _context_limit(model: str) -> int:
 
 
 def save_last_task(uid, text, session_key):
-    state = _load()
-    sid = _sid(uid)
-    if sid in state["users"]:
-        state["users"][sid]["_last_task"] = {
-            "text": text,
-            "session": session_key,
-            "ts": int(time.time()),
-        }
-        _save(state)
+    with _transaction():
+        state = _load()
+        sid = _sid(uid)
+        if sid in state["users"]:
+            state["users"][sid]["_last_task"] = {
+                "text": text,
+                "session": session_key,
+                "ts": int(time.time()),
+            }
+            _save(state)
 
 
 def clear_last_task(uid):
-    state = _load()
-    sid = _sid(uid)
-    if sid in state["users"]:
-        state["users"][sid].pop("_last_task", None)
-        _save(state)
+    with _transaction():
+        state = _load()
+        sid = _sid(uid)
+        if sid in state["users"]:
+            state["users"][sid].pop("_last_task", None)
+            _save(state)
 
 
 def get_all_pending_tasks():
@@ -660,15 +694,16 @@ def get_all_pending_tasks():
 
 
 def reset_session_counters(uid, key):
-    state = _load()
-    sid = _sid(uid)
-    u = state["users"].get(sid)
-    if u and key in u["sessions"]["list"]:
-        u["sessions"]["list"][key]["messages"] = 0
-        u["sessions"]["list"][key]["tokens"] = 0
-        u["sessions"]["list"][key].pop("usage", None)
-        u["sessions"]["list"][key].pop("cost", None)
-        _save(state)
+    with _transaction():
+        state = _load()
+        sid = _sid(uid)
+        u = state["users"].get(sid)
+        if u and key in u["sessions"]["list"]:
+            u["sessions"]["list"][key]["messages"] = 0
+            u["sessions"]["list"][key]["tokens"] = 0
+            u["sessions"]["list"][key].pop("usage", None)
+            u["sessions"]["list"][key].pop("cost", None)
+            _save(state)
 
 
 def update_session_tokens(uid, key):
@@ -724,75 +759,81 @@ def update_session_tokens(uid, key):
         else:
             log.warning(f"update_session_tokens: empty export for {opencode_id}")
             return
-        state = _load()
-        sid = _sid(uid)
-        u = state["users"].get(sid)
-        if u and key in u["sessions"]["list"]:
-            sess = u["sessions"]["list"][key]
-            old = sess.get("tokens", 0)
-            sess["tokens"] = total
-            sess["usage"] = {"input": inp_total, "output": out_total}
-            sess["cost"] = round(cost, 6)
-            _save(state)
-            log.info(f"update_session_tokens: uid={uid} key={key} tokens {old}->{total} "
-                     f"in={inp_total} out={out_total} cost=${cost}")
-        else:
-            log.warning(f"update_session_tokens: session not found uid={uid} key={key}")
+        with _transaction():
+            state = _load()
+            sid = _sid(uid)
+            u = state["users"].get(sid)
+            if u and key in u["sessions"]["list"]:
+                sess = u["sessions"]["list"][key]
+                old = sess.get("tokens", 0)
+                sess["tokens"] = total
+                sess["usage"] = {"input": inp_total, "output": out_total}
+                sess["cost"] = round(cost, 6)
+                _save(state)
+                log.info(f"update_session_tokens: uid={uid} key={key} tokens {old}->{total} "
+                         f"in={inp_total} out={out_total} cost=${cost}")
+            else:
+                log.warning(f"update_session_tokens: session not found uid={uid} key={key}")
     except Exception as e:
         log.error(f"update_session_tokens: {type(e).__name__}: {e}")
 
 
 def increment_msg(uid):
-    state = _load()
-    sid = _sid(uid)
-    u = state["users"].get(sid)
-    if u and u["sessions"]["current"]:
-        key = u["sessions"]["current"]
-        s = u["sessions"]["list"].get(key)
-        if s:
-            s["messages"] = s.get("messages", 0) + 1
-            _save(state)
+    with _transaction():
+        state = _load()
+        sid = _sid(uid)
+        u = state["users"].get(sid)
+        if u and u["sessions"]["current"]:
+            key = u["sessions"]["current"]
+            s = u["sessions"]["list"].get(key)
+            if s:
+                s["messages"] = s.get("messages", 0) + 1
+                _save(state)
 
 
 def set_user_model(uid, model):
-    state = _load()
-    sid = _sid(uid)
-    if sid in state["users"]:
-        state["users"][sid]["model"] = model
-        _save(state)
-        return True
+    with _transaction():
+        state = _load()
+        sid = _sid(uid)
+        if sid in state["users"]:
+            state["users"][sid]["model"] = model
+            _save(state)
+            return True
     return False
 
 
 def set_default_model(model):
-    state = _load()
-    state["default_model"] = model
-    _save(state)
+    with _transaction():
+        state = _load()
+        state["default_model"] = model
+        _save(state)
 
 
 def append_model_history(target_uid: int, model: str, setter_uid: int):
     import time
-    state = _load()
-    sid = _sid(target_uid)
-    if sid not in state["users"]:
-        return
-    history = state["users"][sid].setdefault("_model_history", [])
-    history.append({"ts": time.time(), "model": model, "by": setter_uid})
-    state["users"][sid]["_model_history"] = history[-50:]
-    _save(state)
+    with _transaction():
+        state = _load()
+        sid = _sid(target_uid)
+        if sid not in state["users"]:
+            return
+        history = state["users"][sid].setdefault("_model_history", [])
+        history.append({"ts": time.time(), "model": model, "by": setter_uid})
+        state["users"][sid]["_model_history"] = history[-50:]
+        _save(state)
 
 
 def set_limit(uid, limit_type, value):
-    state = _load()
-    sid = _sid(uid)
-    u = state["users"].get(sid)
-    if u and u.get("limits"):
-        key_map = {"msg": "msg", "token": "token", "storage": "storage_mb", "file": "file_count"}
-        k = key_map.get(limit_type)
-        if k and k in u["limits"]:
-            u["limits"][k] = int(value)
-            _save(state)
-            return True
+    with _transaction():
+        state = _load()
+        sid = _sid(uid)
+        u = state["users"].get(sid)
+        if u and u.get("limits"):
+            key_map = {"msg": "msg", "token": "token", "storage": "storage_mb", "file": "file_count"}
+            k = key_map.get(limit_type)
+            if k and k in u["limits"]:
+                u["limits"][k] = int(value)
+                _save(state)
+                return True
     return False
 
 
@@ -829,16 +870,17 @@ def list_unauthorized():
 
 
 def set_build_mode(uid, active=True):
-    state = _load()
-    sid = _sid(uid)
-    u = state["users"].get(sid)
-    if u and u["sessions"]["current"]:
-        key = u["sessions"]["current"]
-        s = u["sessions"]["list"].get(key)
-        if s:
-            s["_build_mode"] = active
-            _save(state)
-            return True
+    with _transaction():
+        state = _load()
+        sid = _sid(uid)
+        u = state["users"].get(sid)
+        if u and u["sessions"]["current"]:
+            key = u["sessions"]["current"]
+            s = u["sessions"]["list"].get(key)
+            if s:
+                s["_build_mode"] = active
+                _save(state)
+                return True
     return False
 
 

@@ -23,6 +23,7 @@ from session import (
     resolve_uid, is_super,
     link_platforms, add_platform_link, user_dir,
 )
+from sync import sync_exchange
 from security import pre_filter
 import monitor as _Monitor
 import task_state
@@ -283,12 +284,18 @@ async def _handle_screenshot_cmd(uid: int, cmd: str, text: str):
         return
 
     if cmd == "/sc_positions":
+        sync_ok, sync_count, sync_err, cached = await sync_exchange(force=True)
+        if not sync_ok:
+            await send_message(uid, f"⚠️ Sync: {sync_err}")
         await _handle_run_script_and_send(
             uid, "screenshot_positions.py", "positions_table.png", "📸 Позиции",
             output_dir_flag="--output-dir"
         )
         return
     if cmd == "/sc_analytics":
+        sync_ok, sync_count, sync_err, cached = await sync_exchange()
+        if not sync_ok:
+            await send_message(uid, f"⚠️ Sync: {sync_err}")
         parts = text.split()
         user_path = user_dir(uid, "max")
         user_path.mkdir(parents=True, exist_ok=True)
@@ -437,6 +444,10 @@ async def _handle_widget_collage(uid: int, text: str):
 
 async def _handle_emj_positions(uid: int):
     try:
+        sync_ok, sync_count, sync_err, cached = await sync_exchange()
+        if not sync_ok:
+            await send_message(uid, f"⚠️ Sync: {sync_err}")
+
         output_dir = str(user_dir(uid, "max"))
         proc = await asyncio.create_subprocess_exec(
             VENV_PYTHON, str(WORKSPACE_DIR / "tools" / "scripts" / "get_emj_rows.py"),
@@ -459,6 +470,13 @@ async def _handle_emj_positions(uid: int):
 
 async def _handle_positions(uid: int):
     try:
+        sync_ok, sync_count, sync_err, cached = await sync_exchange()
+        if sync_ok:
+            if not cached:
+                await send_message(uid, f"✅ Sync: {sync_count} карт")
+        else:
+            await send_message(uid, f"⚠️ Sync: {sync_err}")
+
         proc = await asyncio.create_subprocess_exec(
             VENV_PYTHON, str(WORKSPACE_DIR / "tools" / "scripts" / "positions_summary.py"),
             stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE,
@@ -534,6 +552,12 @@ async def _handle_run_script_and_send(
 async def _handle_positions_image(uid: int):
     import httpx
     t0 = time.time()
+    sync_ok, sync_count, sync_err, cached = await sync_exchange()
+    if sync_ok:
+        if not cached:
+            await send_message(uid, f"✅ Sync: {sync_count} карт")
+    else:
+        await send_message(uid, f"⚠️ Sync: {sync_err}")
     await send_message(uid, "🔄 📊 Сводка позиций...")
     try:
         async with httpx.AsyncClient(base_url="http://localhost:5000", timeout=httpx.Timeout(15.0)) as _hclient:

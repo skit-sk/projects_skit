@@ -48,3 +48,5 @@ node_modules
 .cache/whisper/
 tasks/help_ai.md
 history.csv
+.env
+graphify-out/cache/

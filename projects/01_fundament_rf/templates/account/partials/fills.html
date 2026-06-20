@@ -1,5 +1,4 @@
 {% if error %}
-<div style="font-size:10px; color:#888; margin-bottom:0.25rem;"><span class="section-timer"></span></div>
 <div class="error-state">❌ {{ error }}</div>
 {% else %}
 
@@ -49,7 +48,6 @@
     <button type="submit" style="font-size:11px; padding:6px 14px; background:#3498db; color:#fff; border:none; border-radius:4px; cursor:pointer;">🔍 Применить</button>
 </form>
 
-<div style="font-size:10px; color:#888; margin-bottom:0.25rem;"><span class="section-timer"></span></div>
 <div class="fills-counters" style="font-size:12px; margin:0 0 0.5rem; padding:0.5rem; background:var(--bg-card); border-radius:4px; border:1px solid var(--border-color); max-width:fit-content;">
     📊 Спот: {{ spot_total }} · Futures: {{ futures_total }} · Всего на бирже: {{ grand_total }} · Показано: {{ fills|length }} из {{ total_filtered }}
 </div>

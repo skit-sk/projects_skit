@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, current_app
-from threading import Thread
+from threading import Thread, Semaphore
 from storage import get_storage
 
 bp = Blueprint('processor', __name__, url_prefix='/api')
@@ -67,6 +67,7 @@ def _sync_card(obj_id: str) -> dict:
     try:
         client = BitgetAccountClient()
         if client.has_credentials:
+            found = False
             for p in client.get_positions():
                 if p.ticker.upper() == symbol.upper():
                     margin = p.margin_size or 1
@@ -111,10 +112,17 @@ def _sync_card(obj_id: str) -> dict:
                         "risk_flags": flags,
                         "updated_at": datetime.now().strftime("%Y-%m-%d %H:%M"),
                     }
+                    # Update emoji_entry from live position (averaged price may change)
+                    data.setdefault("emoji_entry", {})
+                    data["emoji_entry"]["entry_price"] = p.open_price_avg
+                    data["emoji_entry"]["entry_date"] = p.open_date or data["emoji_entry"].get("entry_date", "")
+                    data["emoji_entry"]["volume"] = p.margin_size
                     result["steps"]["live_position"] = "ok"
+                    found = True
                     break
-            else:
-                result["steps"]["live_position"] = "skipped (no match)"
+            if not found:
+                data.pop("live_position", None)
+                result["steps"]["live_position"] = "ok (cleared)"
         else:
             result["steps"]["live_position"] = "skipped (no credentials)"
     except Exception as e:
@@ -214,9 +222,16 @@ def _sync_all_cards():
         import logging
         logging.getLogger("processor").error(f"auto-create cards failed: {e}")
 
+    _sync_sem = Semaphore(3)
+    _results = []
+
+    def _sync_wrapper(oid):
+        with _sync_sem:
+            _results.append(_sync_card(oid))
+
     threads = []
     for obj in cards:
-        t = Thread(target=_sync_card, args=(obj.id,))
+        t = Thread(target=_sync_wrapper, args=(obj.id,))
         t.start()
         threads.append(t)
     for t in threads:
@@ -256,6 +271,21 @@ def _sync_all_cards():
         logging.getLogger("processor").error(f"renumber cards failed: {e}")
 
     clear_positions_cache()
+
+    errors = [r for r in _results if "error" in r]
+    step_errors = [
+        r for r in _results
+        if "error" not in r and any(
+            k == "live_position" and not v.startswith("ok")
+            for k, v in r.get("steps", {}).items()
+        )
+    ]
+    if errors or step_errors:
+        return {
+            "ok": False,
+            "count": len(storage.list()),
+            "errors": (errors + step_errors)[:5],
+        }
     return {"ok": True, "count": len(storage.list())}
 
 

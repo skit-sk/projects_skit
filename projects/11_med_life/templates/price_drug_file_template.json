@@ -1,0 +1,22 @@
+{
+  "drug_id": "d_XXXXXXXX",
+  "drug_name": "Торговое название",
+  "last_updated": "YYYY-MM-DD",
+  "prices": {
+    "src_001": {
+      "source_name": "Название источника",
+      "dose_form": "форма выпуска",
+      "price_group": {
+        "min": 0.0,
+        "median": 0.0,
+        "max": 0.0
+      },
+      "url": "https://...",
+      "availability": "in_stock",
+      "last_checked": "YYYY-MM-DD"
+    }
+  },
+  "history": [
+    { "date": "YYYY-MM-DD", "entries": ["src_001"] }
+  ]
+}

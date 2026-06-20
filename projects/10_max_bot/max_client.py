@@ -1,6 +1,7 @@
 import httpx
 import logging
 import asyncio
+import mimetypes
 from pathlib import Path
 from config import MAX_BOT_TOKEN, MAX_WEBHOOK_SECRET
 
@@ -15,6 +16,7 @@ class MAXClient:
             base_url=BASE_URL,
             headers={"Authorization": token},
             timeout=httpx.Timeout(30.0, connect=10.0),
+            limits=httpx.Limits(max_keepalive_connections=0),
         )
 
     async def close(self):
@@ -107,7 +109,7 @@ class MAXClient:
             with open(file_path, "rb") as f:
                 r2 = await self.client.post(
                     upload_url,
-                    files={"data": ("image.png", f, "image/png")},
+                    files={"data": (Path(file_path).name, f, mimetypes.guess_type(str(file_path))[0] or "application/octet-stream")},
                 )
             r2.raise_for_status()
             result = r2.json()

@@ -80,7 +80,8 @@ def run(url: str, model: str, uid: str = "", chain: str = "",
             output_file=out_path, steps=steps, chain=chain, uid=uid)
 
     return {"output": out_path, "tokens": total_tokens, "cost": cost,
-            "duration": total_sec, "error": None}
+            "duration": total_sec, "error": None, "steps": steps,
+            "topic": extract_topic(get_title(url)), "url": url}
 
 
 def get_title(url: str) -> str:

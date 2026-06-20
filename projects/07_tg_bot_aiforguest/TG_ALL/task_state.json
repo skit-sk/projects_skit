@@ -1,11 +1,23 @@
 {
-  "counter_global": 236,
+  "counter_global": 323,
   "counter_type": {},
   "users": {
     "248207602": {
       "name": "",
       "counter_type": {
-        "XOCX": 236
+        "XOCX": 290
+      }
+    },
+    "8334836991": {
+      "name": "",
+      "counter_type": {
+        "XOCX": 28
+      }
+    },
+    "3309222": {
+      "name": "",
+      "counter_type": {
+        "XOCX": 5
       }
     }
   },
@@ -2513,6 +2525,887 @@
       "created_ms": 1779583306268,
       "start_ms": 1779583306273,
       "elapsed_ms": 1106
+    },
+    "248207602-XOCX-M01-237": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "🔄 Bot restart | ✅ 116 · ❌ 120 | sys.path fix · margin_size · futures balance",
+      "status": "completed",
+      "created_ms": 1779583662004,
+      "start_ms": 1779583662011,
+      "elapsed_ms": 1109
+    },
+    "248207602-XOCX-M01-238": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "🔄 Bot restart | ✅ 117 · ❌ 120 | sys.path fix · margin_size · futures balance",
+      "status": "completed",
+      "created_ms": 1779584275734,
+      "start_ms": 1779584275740,
+      "elapsed_ms": 1106
+    },
+    "248207602-XOCX-M01-239": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "🔄 Bot restart | ✅ 118 · ❌ 120 | sys.path fix · margin_size · futures balance",
+      "status": "completed",
+      "created_ms": 1779584696575,
+      "start_ms": 1779584696580,
+      "elapsed_ms": 1133
+    },
+    "248207602-XOCX-M01-240": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "🔄 Bot restart | ✅ 119 · ❌ 120 | sys.path fix · margin_size · futures balance",
+      "status": "completed",
+      "created_ms": 1779584990272,
+      "start_ms": 1779584990277,
+      "elapsed_ms": 1105
+    },
+    "248207602-XOCX-M01-241": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "🔄 Bot restart | ✅ 120 · ❌ 120 | sys.path fix · margin_size · futures balance",
+      "status": "completed",
+      "created_ms": 1779665354734,
+      "start_ms": 1779665354788,
+      "elapsed_ms": 1111
+    },
+    "248207602-XOCX-M01-242": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "🔄 Bot restart | ✅ 121 · ❌ 120 | sys.path fix · margin_size · futures balance",
+      "status": "completed",
+      "created_ms": 1779666579824,
+      "start_ms": 1779666579831,
+      "elapsed_ms": 1107
+    },
+    "248207602-XOCX-M01-243": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "🔄 Bot restart | ✅ 122 · ❌ 120 | sys.path fix · margin_size · futures balance",
+      "status": "completed",
+      "created_ms": 1779667971803,
+      "start_ms": 1779667971811,
+      "elapsed_ms": 1106
+    },
+    "8334836991-XOCX-M01-001": {
+      "uid": 8334836991,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "какая модель",
+      "status": "completed",
+      "created_ms": 1779668519901,
+      "start_ms": 1779668519910,
+      "elapsed_ms": 3998
+    },
+    "8334836991-XOCX-M01-002": {
+      "uid": 8334836991,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "какая модель",
+      "status": "completed",
+      "created_ms": 1779668639192,
+      "start_ms": 1779668639200,
+      "elapsed_ms": 4008
+    },
+    "8334836991-XOCX-M01-003": {
+      "uid": 8334836991,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "SKIT_OC:\n[91m [1mError:  [0mSession not found\n\n━━━\n\n🤖 [deepseek-v4-flash] | [opencode-go]\n🔤 ↙ 0💲0.000000 · ↗ 0💲0.000000 · 0 / 1.0M · 💰$0.0000 · ░░░░░░░░ 0%\n↙ 0💲0.0000 · ↗ 0💲0.0000 · [0]💰$0.0000 G#1 L#",
+      "status": "completed",
+      "created_ms": 1779668663795,
+      "start_ms": 1779668663802,
+      "elapsed_ms": 4153
+    },
+    "8334836991-XOCX-M01-004": {
+      "uid": 8334836991,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "провед анализ 🔗 Try CodeGraph → https://github.com/colbymchenry/...​\n🔗 Try Graphify → https://github.com/safishamsi/gr...​\n🔗 Get Hostinger VPS → https://www.hostg.xyz/SHJEf​",
+      "status": "completed",
+      "created_ms": 1779668854848,
+      "start_ms": 1779668854857,
+      "elapsed_ms": 4265
+    },
+    "248207602-XOCX-M01-244": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "🔄 Bot restart | ✅ 127 · ❌ 120 | sys.path fix · margin_size · futures balance",
+      "status": "completed",
+      "created_ms": 1779669202106,
+      "start_ms": 1779669202113,
+      "elapsed_ms": 1108
+    },
+    "8334836991-XOCX-M01-005": {
+      "uid": 8334836991,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "провед анализ 🔗 Try CodeGraph → https://github.com/colbymchenry/...​\n🔗 Try Graphify → https://github.com/safishamsi/gr...​\n🔗 Get Hostinger VPS → https://www.hostg.xyz/SHJEf​",
+      "status": "completed",
+      "created_ms": 1779669235743,
+      "start_ms": 1779669235749,
+      "elapsed_ms": 4337
+    },
+    "248207602-XOCX-M01-245": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "🔄 Bot restart | ✅ 129 · ❌ 120 | sys.path fix · margin_size · futures balance",
+      "status": "completed",
+      "created_ms": 1779669450074,
+      "start_ms": 1779669450083,
+      "elapsed_ms": 1108
+    },
+    "8334836991-XOCX-M01-006": {
+      "uid": 8334836991,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "провед анализ 🔗 Try CodeGraph → https://github.com/colbymchenry/...​\n🔗 Try Graphify → https://github.com/safishamsi/gr...​\n🔗 Get Hostinger VPS → https://www.hostg.xyz/SHJEf​",
+      "status": "failed",
+      "created_ms": 1779669585264,
+      "start_ms": 1779669585270,
+      "elapsed_ms": null,
+      "error": " stale>1h"
+    },
+    "8334836991-XOCX-M01-007": {
+      "uid": 8334836991,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "как выполнить глубокий поиск",
+      "status": "failed",
+      "created_ms": 1779669605541,
+      "start_ms": 1779669605547,
+      "elapsed_ms": null,
+      "error": " stale>1h"
+    },
+    "248207602-XOCX-M01-246": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "🔄 Bot restart | ✅ 130 · ❌ 122 | sys.path fix · margin_size · futures balance",
+      "status": "completed",
+      "created_ms": 1779669812377,
+      "start_ms": 1779669812383,
+      "elapsed_ms": 1106
+    },
+    "8334836991-XOCX-M01-008": {
+      "uid": 8334836991,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "провед анализ 🔗 Try CodeGraph → https://github.com/colbymchenry/...​\n🔗 Try Graphify → https://github.com/safishamsi/gr...​\n🔗 Get Hostinger VPS → https://www.hostg.xyz/SHJEf​",
+      "status": "failed",
+      "created_ms": 1779669877440,
+      "start_ms": 1779669877446,
+      "elapsed_ms": null,
+      "error": " stale>1h"
+    },
+    "248207602-XOCX-M01-247": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "🔄 Bot restart | ✅ 131 · ❌ 123 | sys.path fix · margin_size · futures balance",
+      "status": "completed",
+      "created_ms": 1779670567910,
+      "start_ms": 1779670567916,
+      "elapsed_ms": 1107
+    },
+    "8334836991-XOCX-M01-009": {
+      "uid": 8334836991,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "провед анализ 🔗 Try CodeGraph → https://github.com/colbymchenry/...​\n🔗 Try Graphify → https://github.com/safishamsi/gr...​\n🔗 Get Hostinger VPS → https://www.hostg.xyz/SHJEf​",
+      "status": "completed",
+      "created_ms": 1779670647805,
+      "start_ms": 1779670647812,
+      "elapsed_ms": 1479
+    },
+    "8334836991-XOCX-M01-010": {
+      "uid": 8334836991,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "провед анализ 🔗 Try CodeGraph → https://github.com/colbymchenry/...​\n🔗 Try Graphify → https://github.com/safishamsi/gr...​\n🔗 Get Hostinger VPS → https://www.hostg.xyz/SHJEf​",
+      "status": "completed",
+      "created_ms": 1779670659648,
+      "start_ms": 1779670659654,
+      "elapsed_ms": 1474
+    },
+    "8334836991-XOCX-M01-011": {
+      "uid": 8334836991,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "найди эмрт услуги в Майкоп",
+      "status": "completed",
+      "created_ms": 1779670687694,
+      "start_ms": 1779670687703,
+      "elapsed_ms": 1413
+    },
+    "248207602-XOCX-M01-248": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "🔄 Bot restart | ✅ 135 · ❌ 123 | sys.path fix · margin_size · futures balance",
+      "status": "completed",
+      "created_ms": 1779670876403,
+      "start_ms": 1779670876411,
+      "elapsed_ms": 1107
+    },
+    "8334836991-XOCX-M01-012": {
+      "uid": 8334836991,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "провед анализ 🔗 Try CodeGraph → https://github.com/colbymchenry/...​\n🔗 Try Graphify → https://github.com/safishamsi/gr...​\n🔗 Get Hostinger VPS → https://www.hostg.xyz/SHJEf​",
+      "status": "completed",
+      "created_ms": 1779670928778,
+      "start_ms": 1779670928785,
+      "elapsed_ms": 1420
+    },
+    "248207602-XOCX-M01-249": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "🔄 Bot restart | ✅ 137 · ❌ 123 | sys.path fix · margin_size · futures balance",
+      "status": "completed",
+      "created_ms": 1779671095914,
+      "start_ms": 1779671095922,
+      "elapsed_ms": 1108
+    },
+    "8334836991-XOCX-M01-013": {
+      "uid": 8334836991,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "провед анализ 🔗 Try CodeGraph → https://github.com/colbymchenry/...​\n🔗 Try Graphify → https://github.com/safishamsi/gr...​\n🔗 Get Hostinger VPS → https://www.hostg.xyz/SHJEf​",
+      "status": "completed",
+      "created_ms": 1779671120123,
+      "start_ms": 1779671120129,
+      "elapsed_ms": 23373
+    },
+    "8334836991-XOCX-M01-014": {
+      "uid": 8334836991,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "изучи https://github.com/davis7dotsh/my-pi-setup/blob/main/extensions/firecrawl-search.ts",
+      "status": "completed",
+      "created_ms": 1779671336617,
+      "start_ms": 1779671336624,
+      "elapsed_ms": 12700
+    },
+    "8334836991-XOCX-M01-015": {
+      "uid": 8334836991,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "для чего там апи и безопасность кода?",
+      "status": "completed",
+      "created_ms": 1779671433801,
+      "start_ms": 1779671433807,
+      "elapsed_ms": 11070
+    },
+    "8334836991-XOCX-M01-016": {
+      "uid": 8334836991,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "надо одоптировать под опенкод и работу с выбраной моделью апи уже не нужен тогда",
+      "status": "completed",
+      "created_ms": 1779671522412,
+      "start_ms": 1779671522422,
+      "elapsed_ms": 123570
+    },
+    "8334836991-XOCX-M01-017": {
+      "uid": 8334836991,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "без этого модель сложнее отрабатывает поиск ?",
+      "status": "completed",
+      "created_ms": 1779671776914,
+      "start_ms": 1779671776922,
+      "elapsed_ms": 9653
+    },
+    "248207602-XOCX-M01-250": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "🔄 Bot restart | ✅ 143 · ❌ 123 | sys.path fix · margin_size · futures balance",
+      "status": "completed",
+      "created_ms": 1779672430168,
+      "start_ms": 1779672430176,
+      "elapsed_ms": 1109
+    },
+    "248207602-XOCX-M01-251": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "🔄 Bot restart | ✅ 144 · ❌ 123 | sys.path fix · margin_size · futures balance",
+      "status": "completed",
+      "created_ms": 1779672698000,
+      "start_ms": 1779672698007,
+      "elapsed_ms": 1107
+    },
+    "8334836991-XOCX-M01-018": {
+      "uid": 8334836991,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "перевод поломаный исправь",
+      "status": "completed",
+      "created_ms": 1779673063409,
+      "start_ms": 1779673063416,
+      "elapsed_ms": 48649
+    },
+    "8334836991-XOCX-M01-019": {
+      "uid": 8334836991,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "переведенный на русский файл пришли",
+      "status": "completed",
+      "created_ms": 1779673270319,
+      "start_ms": 1779673270326,
+      "elapsed_ms": 39493
+    },
+    "8334836991-XOCX-M01-020": {
+      "uid": 8334836991,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "переведи на русский и сделай четкие переносы разделов",
+      "status": "completed",
+      "created_ms": 1779673373584,
+      "start_ms": 1779673373591,
+      "elapsed_ms": 58828
+    },
+    "8334836991-XOCX-M01-021": {
+      "uid": 8334836991,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "New files appearing.  Permissions popping up.  Approve them as they come.  This one takes a little longer, so give it a second.  And there.  The server's live.  It's connecting to our data source.  An",
+      "status": "completed",
+      "created_ms": 1779673507625,
+      "start_ms": 1779673507630,
+      "elapsed_ms": 9953
+    },
+    "8334836991-XOCX-M01-022": {
+      "uid": 8334836991,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "Every time frame side by side in one glance.  So here's how I read it.  Say I'm looking for a buy on the five minute watch.  According to this setup, the five minute already gave me the buy signal ear",
+      "status": "completed",
+      "created_ms": 1779673527055,
+      "start_ms": 1779673527061,
+      "elapsed_ms": 49007
+    },
+    "8334836991-XOCX-M01-023": {
+      "uid": 8334836991,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "пришли файл",
+      "status": "completed",
+      "created_ms": 1779673664088,
+      "start_ms": 1779673664094,
+      "elapsed_ms": 10706
+    },
+    "8334836991-XOCX-M01-024": {
+      "uid": 8334836991,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "тут нету этого файла, пришли раз просят",
+      "status": "completed",
+      "created_ms": 1779673721183,
+      "start_ms": 1779673721189,
+      "elapsed_ms": 19525
+    },
+    "8334836991-XOCX-M01-025": {
+      "uid": 8334836991,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "пришли отдельно файлом пожалуйста",
+      "status": "completed",
+      "created_ms": 1779673774726,
+      "start_ms": 1779673774739,
+      "elapsed_ms": 20196
+    },
+    "8334836991-XOCX-M01-026": {
+      "uid": 8334836991,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "Trading-IQ — Trading Ideas and Scripts — TradingView\nhttps://www.tradingview.com/u/Trading-IQ/#published-scripts",
+      "status": "completed",
+      "created_ms": 1779831624365,
+      "start_ms": 1779831624414,
+      "elapsed_ms": 17595
+    },
+    "8334836991-XOCX-M01-027": {
+      "uid": 8334836991,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "спарсить списик скриптов пример изображений название и описание",
+      "status": "completed",
+      "created_ms": 1779831705324,
+      "start_ms": 1779831705331,
+      "elapsed_ms": 108950
+    },
+    "8334836991-XOCX-M01-028": {
+      "uid": 8334836991,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "да две задачи спарси изображеия примеры текущих скриптов (используй браузер инструменты) сделай здесь колаб имя описание и порядковый номер (для каждого скрипта свое сообщение), а потом по дополнитель",
+      "status": "completed",
+      "created_ms": 1779832103679,
+      "start_ms": 1779832103686,
+      "elapsed_ms": 80111639
+    },
+    "248207602-XOCX-M01-252": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "🔄 Bot restart | ✅ 156 · ❌ 123 | sys.path fix · margin_size · futures balance",
+      "status": "completed",
+      "created_ms": 1779912405249,
+      "start_ms": 1779912405256,
+      "elapsed_ms": 1105
+    },
+    "248207602-XOCX-M01-253": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "❌ Ошибка скриншота: Traceback (most recent call last):\n  File \"/home/user_aioc/workspace/tools/scripts/screenshot_positions.py\", line 85, in <module>\n    main()\n  File \"/home/user_aioc/workspace/tools",
+      "status": "completed",
+      "created_ms": 1779912645349,
+      "start_ms": 1779912645356,
+      "elapsed_ms": 28139
+    },
+    "248207602-XOCX-M01-254": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "❌ Ошибка скриншота: Traceback (most recent call last):\n  File \"/home/user_aioc/workspace/tools/scripts/screenshot_positions.py\", line 85, in <module>\n    main()\n  File \"/home/user_aioc/workspace/tools",
+      "status": "completed",
+      "created_ms": 1779912776490,
+      "start_ms": 1779912776497,
+      "elapsed_ms": 15091
+    },
+    "248207602-XOCX-M01-255": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "🔄 Bot restart | ✅ 159 · ❌ 123 | sys.path fix · margin_size · futures balance",
+      "status": "completed",
+      "created_ms": 1779913698750,
+      "start_ms": 1779913698756,
+      "elapsed_ms": 1106
+    },
+    "248207602-XOCX-M01-256": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "🔄 Bot restart | ✅ 160 · ❌ 123 | sys.path fix · margin_size · futures balance",
+      "status": "completed",
+      "created_ms": 1779916755834,
+      "start_ms": 1779916755840,
+      "elapsed_ms": 1109
+    },
+    "248207602-XOCX-M01-257": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "🔄 Bot restart | ✅ 161 · ❌ 123 | sys.path fix · margin_size · futures balance",
+      "status": "completed",
+      "created_ms": 1779917432349,
+      "start_ms": 1779917432354,
+      "elapsed_ms": 1110
+    },
+    "248207602-XOCX-M01-258": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "Не обновились last trade, ord",
+      "status": "completed",
+      "created_ms": 1780059094971,
+      "start_ms": 1780059094978,
+      "elapsed_ms": 81291
+    },
+    "248207602-XOCX-M01-259": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "‍ Impeccable: 23 дизайн-команды для AI-агента https://share.google/9QcaZDtIKimSRgiZL",
+      "status": "completed",
+      "created_ms": 1780059199254,
+      "start_ms": 1780059199261,
+      "elapsed_ms": 21644
+    },
+    "248207602-XOCX-M01-260": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "По кодастровому номеру не движимостью узнать поступления налогов.",
+      "status": "failed",
+      "created_ms": 1780059355021,
+      "start_ms": 1780059355031,
+      "elapsed_ms": null,
+      "error": " stale>1h"
+    },
+    "248207602-XOCX-M01-261": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "/chart all",
+      "status": "failed",
+      "created_ms": 1780276519635,
+      "start_ms": 1780276519644,
+      "elapsed_ms": null,
+      "error": " stale>1h"
+    },
+    "248207602-XOCX-M01-262": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "🔄 Bot restart | ✅ 164 · ❌ 125 | sys.path fix · margin_size · futures balance",
+      "status": "completed",
+      "created_ms": 1780276668912,
+      "start_ms": 1780276668920,
+      "elapsed_ms": 1108
+    },
+    "248207602-XOCX-M01-263": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "Команда /sc_positions не обновляется данные,  колонка  ord не корректные данные относительно данных аккаунта на бирже",
+      "status": "failed",
+      "created_ms": 1780339258845,
+      "start_ms": 1780339258903,
+      "elapsed_ms": null,
+      "error": " stale>1h"
+    },
+    "248207602-XOCX-M01-264": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "🔄 Bot restart | ✅ 165 · ❌ 126 | sys.path fix · margin_size · futures balance",
+      "status": "completed",
+      "created_ms": 1780344987664,
+      "start_ms": 1780344987674,
+      "elapsed_ms": 1155
+    },
+    "248207602-XOCX-M01-265": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "🔄 Bot restart | ✅ 166 · ❌ 126 | sys.path fix · margin_size · futures balance",
+      "status": "completed",
+      "created_ms": 1780346061670,
+      "start_ms": 1780346061678,
+      "elapsed_ms": 1171
+    },
+    "248207602-XOCX-M01-266": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "🔄 Bot restart | ✅ 167 · ❌ 126 | sys.path fix · margin_size · futures balance",
+      "status": "completed",
+      "created_ms": 1780348430049,
+      "start_ms": 1780348430059,
+      "elapsed_ms": 1110
+    },
+    "248207602-XOCX-M01-267": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "Предложи альтернативу graphics all оформление карточки графика",
+      "status": "failed",
+      "created_ms": 1780348940359,
+      "start_ms": 1780348940367,
+      "elapsed_ms": null,
+      "error": " stale>1h"
+    },
+    "248207602-XOCX-M01-268": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "🔄 Bot restart | ✅ 168 · ❌ 127 | sys.path fix · margin_size · futures balance",
+      "status": "completed",
+      "created_ms": 1780350143189,
+      "start_ms": 1780350143197,
+      "elapsed_ms": 1108
+    },
+    "248207602-XOCX-M01-269": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "🔄 Bot restart | ✅ 169 · ❌ 127 | sys.path fix · margin_size · futures balance",
+      "status": "completed",
+      "created_ms": 1780350307064,
+      "start_ms": 1780350307071,
+      "elapsed_ms": 1109
+    },
+    "248207602-XOCX-M01-270": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "🔄 Bot restart | ✅ 170 · ❌ 127 | sys.path fix · margin_size · futures balance",
+      "status": "completed",
+      "created_ms": 1780351479612,
+      "start_ms": 1780351479620,
+      "elapsed_ms": 1109
+    },
+    "248207602-XOCX-M01-271": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "🔄 Bot restart | ✅ 171 · ❌ 127 | sys.path fix · margin_size · futures balance",
+      "status": "completed",
+      "created_ms": 1780352184950,
+      "start_ms": 1780352184959,
+      "elapsed_ms": 1110
+    },
+    "248207602-XOCX-M01-272": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "🔄 Bot restart | ✅ 172 · ❌ 127 | sys.path fix · margin_size · futures balance",
+      "status": "completed",
+      "created_ms": 1780409097842,
+      "start_ms": 1780409097852,
+      "elapsed_ms": 1164
+    },
+    "248207602-XOCX-M01-273": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "🔄 Bot restart | ✅ 173 · ❌ 127 | sys.path fix · margin_size · futures balance",
+      "status": "completed",
+      "created_ms": 1780409756976,
+      "start_ms": 1780409756990,
+      "elapsed_ms": 1111
+    },
+    "248207602-XOCX-M01-274": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "🔄 Bot restart | ✅ 174 · ❌ 127 | sys.path fix · margin_size · futures balance",
+      "status": "completed",
+      "created_ms": 1780410479317,
+      "start_ms": 1780410479327,
+      "elapsed_ms": 1111
+    },
+    "248207602-XOCX-M01-275": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "🔄 Bot restart | ✅ 175 · ❌ 127 | sys.path fix · margin_size · futures balance",
+      "status": "completed",
+      "created_ms": 1780411043703,
+      "start_ms": 1780411043713,
+      "elapsed_ms": 1111
+    },
+    "248207602-XOCX-M01-276": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "🔄 Bot restart | ✅ 176 · ❌ 127 | sys.path fix · margin_size · futures balance",
+      "status": "completed",
+      "created_ms": 1780412049319,
+      "start_ms": 1780412049329,
+      "elapsed_ms": 1111
+    },
+    "248207602-XOCX-M01-277": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "🔄 Bot restart | ✅ 177 · ❌ 127 | sys.path fix · margin_size · futures balance",
+      "status": "completed",
+      "created_ms": 1780414188562,
+      "start_ms": 1780414188579,
+      "elapsed_ms": 1112
+    },
+    "248207602-XOCX-M01-278": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "🔄 Bot restart | ✅ 178 · ❌ 127 | sys.path fix · margin_size · futures balance",
+      "status": "completed",
+      "created_ms": 1780414533057,
+      "start_ms": 1780414533066,
+      "elapsed_ms": 1113
+    },
+    "248207602-XOCX-M01-279": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "🔄 Bot restart | ✅ 179 · ❌ 127 | sys.path fix · margin_size · futures balance",
+      "status": "completed",
+      "created_ms": 1780415547949,
+      "start_ms": 1780415547960,
+      "elapsed_ms": 1168
+    },
+    "248207602-XOCX-M01-280": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "🔄 Bot restart | ✅ 180 · ❌ 127 | sys.path fix · margin_size · futures balance",
+      "status": "completed",
+      "created_ms": 1780416317607,
+      "start_ms": 1780416317619,
+      "elapsed_ms": 1111
+    },
+    "248207602-XOCX-M01-281": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "🔄 Bot restart | ✅ 181 · ❌ 127 | sys.path fix · margin_size · futures balance",
+      "status": "completed",
+      "created_ms": 1780416490165,
+      "start_ms": 1780416490175,
+      "elapsed_ms": 1110
+    },
+    "248207602-XOCX-M01-282": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "🔄 Bot restart | ✅ 182 · ❌ 127 | sys.path fix · margin_size · futures balance",
+      "status": "completed",
+      "created_ms": 1780416732243,
+      "start_ms": 1780416732265,
+      "elapsed_ms": 1110
+    },
+    "248207602-XOCX-M01-283": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "🔄 Bot restart | ✅ 183 · ❌ 127 | sys.path fix · margin_size · futures balance",
+      "status": "completed",
+      "created_ms": 1780562670573,
+      "start_ms": 1780562670582,
+      "elapsed_ms": 1109
+    },
+    "248207602-XOCX-M01-284": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "Обнови код, для смены зоны скриншета, таблица не попала в зону видимости",
+      "status": "failed",
+      "created_ms": 1780563356390,
+      "start_ms": 1780563356399,
+      "elapsed_ms": null,
+      "error": " stale>1h"
+    },
+    "248207602-XOCX-M01-285": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "🔄 Bot restart | ✅ 184 · ❌ 128 | sys.path fix · margin_size · futures balance",
+      "status": "completed",
+      "created_ms": 1780916874313,
+      "start_ms": 1780916874322,
+      "elapsed_ms": 1157
+    },
+    "248207602-XOCX-M01-286": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "🔄 Bot restart | ✅ 185 · ❌ 128 | sys.path fix · margin_size · futures balance",
+      "status": "completed",
+      "created_ms": 1781531358635,
+      "start_ms": 1781531358642,
+      "elapsed_ms": 1108
+    },
+    "248207602-XOCX-M01-287": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "🔄 Bot restart | ✅ 186 · ❌ 128 | sys.path fix · margin_size · futures balance",
+      "status": "completed",
+      "created_ms": 1781532416035,
+      "start_ms": 1781532416041,
+      "elapsed_ms": 1107
+    },
+    "248207602-XOCX-M01-288": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "🔄 Bot restart | ✅ 187 · ❌ 128 | sys.path fix · margin_size · futures balance",
+      "status": "completed",
+      "created_ms": 1781532806104,
+      "start_ms": 1781532806110,
+      "elapsed_ms": 1109
+    },
+    "3309222-XOCX-M01-001": {
+      "uid": 3309222,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "M01",
+      "status": "failed",
+      "created_ms": 1781563484153,
+      "start_ms": 1781563484161,
+      "elapsed_ms": null,
+      "error": " stale>1h"
+    },
+    "3309222-XOCX-M01-002": {
+      "uid": 3309222,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "M01",
+      "status": "completed",
+      "created_ms": 1781823906835,
+      "start_ms": 1781823906843,
+      "elapsed_ms": 81460
+    },
+    "3309222-XOCX-M01-003": {
+      "uid": 3309222,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "M01",
+      "status": "failed",
+      "created_ms": 1781857855185,
+      "start_ms": 1781857855194,
+      "elapsed_ms": null,
+      "error": " stale>1h"
+    },
+    "3309222-XOCX-M01-004": {
+      "uid": 3309222,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "M01",
+      "status": "failed",
+      "created_ms": 1781958176407,
+      "start_ms": 1781958176419,
+      "elapsed_ms": null,
+      "error": " stale>1h"
+    },
+    "3309222-XOCX-M01-005": {
+      "uid": 3309222,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "M01",
+      "status": "completed",
+      "created_ms": 1781975601887,
+      "start_ms": 1781975601895,
+      "elapsed_ms": 1679846
+    },
+    "248207602-XOCX-M01-289": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "🔄 Bot restart | ✅ 190 · ❌ 131 | sys.path fix · margin_size · futures balance",
+      "status": "completed",
+      "created_ms": 1781984480528,
+      "start_ms": 1781984480536,
+      "elapsed_ms": 1135
+    },
+    "248207602-XOCX-M01-290": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "🔄 Bot restart | ✅ 191 · ❌ 131 | sys.path fix · margin_size · futures balance",
+      "status": "completed",
+      "created_ms": 1781984650965,
+      "start_ms": 1781984650976,
+      "elapsed_ms": 1109
     }
   },
   "stats": {

@@ -625,19 +625,63 @@ def partial_positions_live():
             fmt_num=_fmt_num, debug=[], total_bal_pct=0, sym_width=0)
 
 
+@bp.route('/positions_live_data')
+def positions_live_data():
+    """Live positions as JSON (for polling update, no full re-render)."""
+    import time as _t
+    try:
+        client = _get_client()
+        positions = client.get_positions()
+        live_accounts = client.get_mix_accounts()
+        live_balance = 0.0
+        for a in live_accounts:
+            if a.margin_coin == 'USDT':
+                live_balance = float(a.available)
+                break
+        total_margin = sum(float(p.margin_size) for p in positions)
+        items = []
+        for p in positions:
+            margin = float(p.margin_size)
+            pl = float(p.unrealized_pl)
+            bal_pct = (margin / live_balance * 100) if live_balance else 0
+            items.append({
+                "ticker": p.ticker,
+                "hold_side": p.hold_side,
+                "margin_size": _fmt_num(margin, 4),
+                "unrealized_pl": _fmt_num(pl, 2),
+                "pl_percent": _fmt_num(p.pl_percent, 2) + '%',
+                "mark_price": _fmt_num(p.mark_price, 5),
+                "leverage": p.leverage,
+                "bal_pct": _fmt_num(bal_pct, 1) + '%',
+                "days_open": p.days_open,
+            })
+        return {"ok": True, "positions": items, "balance": _fmt_num(live_balance, 2)}
+    except Exception as e:
+        return {"ok": False, "error": str(e)}
+
+
 @bp.route('/partial/orders')
 def partial_orders():
     from storage import get_storage
     from collections import namedtuple
 
     SpotOrder = namedtuple('SpotOrder', ['order_id', 'symbol', 'ticker', 'price', 'quantity', 'order_type', 'side', 'status', 'c_time', 'filled_qty'])
-    MixOrder = namedtuple('MixOrder', ['order_id', 'symbol', 'price', 'quantity', 'order_type', 'side', 'status', 'c_time', 'filled_qty'])
+    MixOrder = namedtuple('MixOrder', ['order_id', 'symbol', 'ticker', 'price', 'quantity', 'order_type', 'side', 'status', 'c_time', 'filled_qty'])
+
+    def _ensure_ticker(d, fields):
+        if not isinstance(d, dict):
+            return d
+        if 'ticker' not in d and 'symbol' in d:
+            d['ticker'] = d['symbol'].replace('USDT', '')
+        return d
 
     data = get_storage().load_orders()
     if not data:
         return render_template('account/partials/orders.html', error='Нажми "Sync Exchange" для загрузки ордеров', spot=None, futures=None, debug=[])
-    spot = [SpotOrder(**{k: o[k] for k in SpotOrder._fields if k in o}) if isinstance(o, dict) else o for o in data.get('spot', [])]
-    futures = [MixOrder(**{k: o[k] for k in MixOrder._fields if k in o}) if isinstance(o, dict) else o for o in data.get('futures', [])]
+    spot = [SpotOrder(**{k: o[k] for k in SpotOrder._fields if k in o}) if isinstance(o, dict) else o
+            for o in (_ensure_ticker(o, SpotOrder._fields) for o in data.get('spot', []))]
+    futures = [MixOrder(**{k: o[k] for k in MixOrder._fields if k in o}) if isinstance(o, dict) else o
+               for o in (_ensure_ticker(o, MixOrder._fields) for o in data.get('futures', []))]
     return render_template('account/partials/orders.html', error='', spot=spot, futures=futures, fmt_num=_fmt_num, fmt_time=_fmt_time, debug=[])
 
 

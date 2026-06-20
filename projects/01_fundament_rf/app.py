@@ -1,8 +1,9 @@
 import sys
 import os
+import time
 sys.path.insert(0, os.path.expanduser('~/.local/lib/python3.12/site-packages'))
 
-from flask import Flask
+from flask import Flask, g
 from routes import api, web, graphics, processor_1d, dashboard, trade_analytics, ma_analytics, ccxt_api, account_api, processor, viz_lab, ai_models
 
 # Register OFD API blueprint from 08_ofd project
@@ -21,6 +22,17 @@ ofd_api_bp = _ofd_mod.bp
 app = Flask(__name__)
 
 app.jinja_env.cache = None
+
+@app.before_request
+def _start_timer():
+    g.start_time = time.time()
+
+@app.after_request
+def _add_timing_header(response):
+    if hasattr(g, 'start_time'):
+        elapsed = int((time.time() - g.start_time) * 1000)
+        response.headers['X-Server-Ms'] = str(elapsed)
+    return response
 
 app.register_blueprint(api.bp)
 app.register_blueprint(web.bp)

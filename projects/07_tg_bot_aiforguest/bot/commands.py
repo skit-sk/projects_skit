@@ -387,29 +387,30 @@ def cmd_message(uid, text):
         set_session_tokens(uid, key, live)
 
     try:
-        from session import _load, _save
-        _sd = _load()
-        _sid = str(uid)
-        if _sid in _sd["users"] and key in _sd["users"][_sid]["sessions"]["list"]:
-            _s = _sd["users"][_sid]["sessions"]["list"][key]
-            estimated_input = max(len(text) // 4, 1)
-            if delta <= estimated_input:
-                estimated_input = max(delta // 2, 1) if delta > 1 else delta
-                output = delta - estimated_input
-            else:
-                output = max(0, delta - estimated_input)
-            COST_IN = 0.27 / 1_000_000
-            COST_OUT = 1.10 / 1_000_000
-            cost_in = round(estimated_input * COST_IN, 4)
-            cost_out = round(output * COST_OUT, 4)
-            _s["last_msg"] = {"input": estimated_input, "output": output, "cost_in": cost_in, "cost_out": cost_out}
-            _usage = _s.setdefault("usage", {"input": 0, "output": 0, "cost_in": 0, "cost_out": 0})
-            _usage["input"] += estimated_input
-            _usage["output"] += output
-            _usage["cost_in"] = round(_usage.get("cost_in", 0) + cost_in, 4)
-            _usage["cost_out"] = round(_usage.get("cost_out", 0) + cost_out, 4)
-            _s["cost"] = round(_usage.get("cost_in", 0) + _usage.get("cost_out", 0), 4)
-            _save(_sd)
+        from session import _load, _save, _transaction
+        with _transaction():
+            _sd = _load()
+            _sid = str(uid)
+            if _sid in _sd["users"] and key in _sd["users"][_sid]["sessions"]["list"]:
+                _s = _sd["users"][_sid]["sessions"]["list"][key]
+                estimated_input = max(len(text) // 4, 1)
+                if delta <= estimated_input:
+                    estimated_input = max(delta // 2, 1) if delta > 1 else delta
+                    output = delta - estimated_input
+                else:
+                    output = max(0, delta - estimated_input)
+                COST_IN = 0.27 / 1_000_000
+                COST_OUT = 1.10 / 1_000_000
+                cost_in = round(estimated_input * COST_IN, 4)
+                cost_out = round(output * COST_OUT, 4)
+                _s["last_msg"] = {"input": estimated_input, "output": output, "cost_in": cost_in, "cost_out": cost_out}
+                _usage = _s.setdefault("usage", {"input": 0, "output": 0, "cost_in": 0, "cost_out": 0})
+                _usage["input"] += estimated_input
+                _usage["output"] += output
+                _usage["cost_in"] = round(_usage.get("cost_in", 0) + cost_in, 4)
+                _usage["cost_out"] = round(_usage.get("cost_out", 0) + cost_out, 4)
+                _s["cost"] = round(_usage.get("cost_in", 0) + _usage.get("cost_out", 0), 4)
+                _save(_sd)
     except Exception:
         pass
 
@@ -437,12 +438,13 @@ def cmd_cd(uid, target=None):
         if not os.path.isdir(p):
             return f"❌ Директория не существует: {p}"
         new_dir = p
-    from session import _load, _save
-    state_data = _load()
-    sid = str(uid)
-    if sid in state_data["users"]:
-        state_data["users"][sid]["_cwd"] = new_dir
-        _save(state_data)
+    from session import _load, _save, _transaction
+    with _transaction():
+        state_data = _load()
+        sid = str(uid)
+        if sid in state_data["users"]:
+            state_data["users"][sid]["_cwd"] = new_dir
+            _save(state_data)
     return f"✅ Директория: {new_dir}"
 
 
@@ -1020,20 +1022,21 @@ def cmd_purge(uid):
     err = _check_user(uid)
     if err:
         return err
-    from session import _load, _save
-    state = _load()
-    sid = str(uid)
-    u = state["users"].get(sid)
-    if not u:
-        return "❌ Пользователь не найден."
-    current = u["sessions"]["current"]
-    all_sessions = u["sessions"]["list"]
-    kept = {k: v for k, v in all_sessions.items() if k == current}
-    removed = len(all_sessions) - len(kept)
-    if removed == 0:
-        return "✅ Нет сессий для удаления."
-    u["sessions"]["list"] = kept
-    _save(state)
+    from session import _load, _save, _transaction
+    with _transaction():
+        state = _load()
+        sid = str(uid)
+        u = state["users"].get(sid)
+        if not u:
+            return "❌ Пользователь не найден."
+        current = u["sessions"]["current"]
+        all_sessions = u["sessions"]["list"]
+        kept = {k: v for k, v in all_sessions.items() if k == current}
+        removed = len(all_sessions) - len(kept)
+        if removed == 0:
+            return "✅ Нет сессий для удаления."
+        u["sessions"]["list"] = kept
+        _save(state)
     name = kept[current]["name"] if kept and current else "-"
     return f"✅ Удалено {removed} сессий. Активная: \"{name}\""
 
@@ -1042,17 +1045,18 @@ def cmd_dropsession(uid, key):
     err = _check_user(uid)
     if err:
         return err
-    from session import _load, _save
-    state = _load()
-    sid = str(uid)
-    u = state["users"].get(sid)
-    if not u or key not in u["sessions"]["list"]:
-        return "❌ Сессия не найдена."
-    if key == u["sessions"]["current"]:
-        return "❌ Нельзя удалить активную сессию. Используй /drop."
-    name = u["sessions"]["list"][key]["name"]
-    del u["sessions"]["list"][key]
-    _save(state)
+    from session import _load, _save, _transaction
+    with _transaction():
+        state = _load()
+        sid = str(uid)
+        u = state["users"].get(sid)
+        if not u or key not in u["sessions"]["list"]:
+            return "❌ Сессия не найдена."
+        if key == u["sessions"]["current"]:
+            return "❌ Нельзя удалить активную сессию. Используй /drop."
+        name = u["sessions"]["list"][key]["name"]
+        del u["sessions"]["list"][key]
+        _save(state)
     return f"✅ Сессия \"{name}\" [{key}] удалена."
 
 

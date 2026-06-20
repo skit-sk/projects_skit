@@ -1,0 +1,401 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "med_life_entry",
+  "title": "Medical Life Activity Entry",
+  "description": "Стандартная запись жизнедеятельности медицинского объекта. Дискриминатор — поле domain.",
+  "type": "object",
+  "properties": {
+    "entry_id": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+      "description": "UUID v4 уникальный идентификатор записи"
+    },
+    "object_id": {
+      "type": "string",
+      "pattern": "^usr_[0-9a-f]{7}$",
+      "description": "Идентификатор объекта: usr_ + 7 hex символов"
+    },
+    "date": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "description": "Дата записи (YYYY-MM-DD)"
+    },
+    "time": {
+      "type": "string",
+      "pattern": "^\\d{2}:\\d{2}$",
+      "description": "Время записи (HH:MM)"
+    },
+    "timezone": {
+      "type": "string",
+      "pattern": "^[+-]\\d{2}:\\d{2}$",
+      "description": "Часовой пояс, e.g. +03:00"
+    },
+    "specialist": {
+      "$ref": "#/$defs/specialist",
+      "description": "Кто внёс запись"
+    },
+    "domain": {
+      "type": "string",
+      "enum": ["subjective", "medication", "examination", "lab", "event", "lifestyle"],
+      "description": "Домен данных — дискриминатор для поля data"
+    },
+    "data": {
+      "type": "object",
+      "description": "Данные домена. Структура зависит от domain."
+    },
+    "attachments": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Список файлов (пути к прикреплённым файлам)"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Произвольный комментарий к записи"
+    },
+    "source": {
+      "type": "string",
+      "enum": ["manual", "import", "parse"],
+      "description": "Источник данных: ручной ввод, импорт, парсинг"
+    }
+  },
+  "required": ["entry_id", "object_id", "date", "specialist", "domain", "data"],
+
+  "oneOf": [
+    {
+      "properties": {
+        "domain": { "const": "subjective" },
+        "data": { "$ref": "#/$defs/data_subjective" }
+      },
+      "required": ["data"]
+    },
+    {
+      "properties": {
+        "domain": { "const": "medication" },
+        "data": { "$ref": "#/$defs/data_medication" }
+      },
+      "required": ["data"]
+    },
+    {
+      "properties": {
+        "domain": { "const": "examination" },
+        "data": { "$ref": "#/$defs/data_examination" }
+      },
+      "required": ["data"]
+    },
+    {
+      "properties": {
+        "domain": { "const": "lab" },
+        "data": { "$ref": "#/$defs/data_lab" }
+      },
+      "required": ["data"]
+    },
+    {
+      "properties": {
+        "domain": { "const": "event" },
+        "data": { "$ref": "#/$defs/data_event" }
+      },
+      "required": ["data"]
+    },
+    {
+      "properties": {
+        "domain": { "const": "lifestyle" },
+        "data": { "$ref": "#/$defs/data_lifestyle" }
+      },
+      "required": ["data"]
+    }
+  ],
+
+  "$defs": {
+
+    "scale": {
+      "type": "object",
+      "description": "Оценочная шкала: числовой score (0–10) + вербальная метка (very_low через very_high). Достаточно одного из полей.",
+      "properties": {
+        "score": { "type": "integer", "minimum": 0, "maximum": 10 },
+        "label": {
+          "type": "string",
+          "enum": ["very_low", "low", "medium", "high", "very_high"]
+        }
+      },
+      "anyOf": [
+        { "required": ["score"] },
+        { "required": ["label"] },
+        { "required": ["score", "label"] }
+      ]
+    },
+
+    "specialist": {
+      "type": "object",
+      "description": "Специалист, внёсший запись. Роль из открытого списка: self, patient, psychiatrist, neurologist, endocrinologist, therapist, psychologist, narcologist, sexologist, nurse, other.",
+      "properties": {
+        "role": { "type": "string" },
+        "name": { "type": "string" }
+      },
+      "required": ["role", "name"]
+    },
+
+    "data_subjective": {
+      "type": "object",
+      "description": "Субъективное состояние объекта: настроение, тревога, либидо, сон, аппетит, энергия.",
+      "properties": {
+        "mood": { "$ref": "#/$defs/scale" },
+        "anxiety": { "$ref": "#/$defs/scale" },
+        "libido": { "$ref": "#/$defs/scale" },
+        "sleep_hrs": { "type": "number", "minimum": 0, "maximum": 24 },
+        "sleep_quality": { "$ref": "#/$defs/scale" },
+        "appetite": { "$ref": "#/$defs/scale" },
+        "energy": { "$ref": "#/$defs/scale" },
+        "notes": { "type": "string" }
+      },
+      "required": ["mood", "anxiety"]
+    },
+
+    "data_medication": {
+      "type": "object",
+      "description": "Приём препарата: название, доза, путь, эффект, побочки, приверженность.",
+      "properties": {
+        "drug": { "type": "string" },
+        "dose_mg": { "type": "number", "minimum": 0 },
+        "dose_text": { "type": "string", "description": "Текстовое описание дозы (e.g. '1 таблетка 10 мг')" },
+        "frequency": { "type": "string", "description": "Частота приёма (e.g. '1×/сут', '2×/сут')" },
+        "route": {
+          "type": "string",
+          "enum": ["per_os", "sublingual", "im", "iv", "topical", "rectal", "inhalation", "other"]
+        },
+        "effect_score": { "$ref": "#/$defs/scale" },
+        "side_effects": { "type": "array", "items": { "type": "string" } },
+        "adherence": { "type": "integer", "minimum": 0, "maximum": 100 }
+      },
+      "required": ["drug"]
+    },
+
+    "data_examination": {
+      "type": "object",
+      "description": "Осмотр специалиста: диагноз, жалобы, объективные данные, назначения.",
+      "properties": {
+        "specialty": { "type": "string" },
+        "diagnosis": {
+          "type": "object",
+          "properties": {
+            "code": { "type": "string" },
+            "text": { "type": "string" },
+            "inferred": { "type": "boolean", "description": "true — диагноз сформирован AI на основе данных, false/null — выставлен врачом" }
+          },
+          "required": ["text"]
+        },
+        "complaints": { "type": "string" },
+        "objective_findings": { "type": "string" },
+        "prescriptions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+              "properties": {
+                "drug": { "type": "string" },
+                "drug_id": { "type": "string", "pattern": "^d_[0-9a-f]{8}$", "description": "Ссылка на drug_reference" },
+                "dose": {
+                  "type": "object",
+                  "properties": {
+                    "value": { "type": "number", "description": "Числовое значение дозировки (null для составных форм)" },
+                    "unit": { "type": "string", "description": "Единица измерения: мг, мл, МЕ, и т.д." },
+                    "text": { "type": "string", "description": "Полное человекочитаемое описание дозы" }
+                  },
+                  "required": ["text"]
+                },
+                "route": {
+                  "type": "string",
+                  "enum": ["per_os", "sublingual", "im", "iv", "topical", "rectal", "inhalation", "other"],
+                  "description": "Способ приёма препарата"
+                },
+                "regimen": {
+                  "type": "object",
+                  "properties": {
+                    "time": { "type": "string", "description": "Время приёма: HH:MM, время суток, привязка к еде" },
+                    "frequency": { "type": "string", "description": "Повторения: 1×/сут, 2×/день, ..." },
+                    "duration": { "type": "string", "description": "Длительность: 3 месяца, 5 дней, №10, ..." }
+                  }
+                }
+              },
+            "required": ["drug"]
+          }
+        }
+      },
+      "required": ["specialty"]
+    },
+
+    "data_lab": {
+      "type": "object",
+      "description": "Лабораторный анализ: показатель, значение, единица, референс.",
+      "properties": {
+        "test": { "type": "string" },
+        "value": { "type": "number" },
+        "unit": { "type": "string" },
+        "ref_range": {
+          "type": "object",
+          "properties": {
+            "low": { "type": "number" },
+            "high": { "type": "number" }
+          }
+        },
+        "lab_name": { "type": "string" },
+        "date_collected": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        }
+      },
+      "required": ["test", "value", "unit"]
+    },
+
+    "data_event": {
+      "type": "object",
+      "description": "Событие: госпитализация, смена схемы, кризис, консультация, процедура.",
+      "properties": {
+        "event_type": {
+          "type": "string",
+          "enum": ["hospitalization", "regimen_change", "crisis", "consultation", "procedure", "other"]
+        },
+        "description": { "type": "string" },
+        "severity": { "$ref": "#/$defs/scale" }
+      },
+      "required": ["event_type", "description"]
+    },
+
+    "data_lifestyle": {
+      "type": "object",
+      "description": "Образ жизни: сон, питание, физическая активность, уровень стресса.",
+      "properties": {
+        "sleep_schedule": {
+          "type": "object",
+          "properties": {
+            "bedtime": { "type": "string", "pattern": "^\\d{2}:\\d{2}$" },
+            "wake_time": { "type": "string", "pattern": "^\\d{2}:\\d{2}$" },
+            "notes": { "type": "string" }
+          }
+        },
+        "meals": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "time": { "type": "string", "pattern": "^\\d{2}:\\d{2}$" },
+              "description": { "type": "string" }
+            }
+          }
+        },
+        "physical_activity": {
+          "type": "object",
+          "properties": {
+            "type": { "type": "string" },
+            "duration_min": { "type": "integer", "minimum": 0 },
+            "intensity": { "$ref": "#/$defs/scale" }
+          }
+        },
+        "stress_level": { "$ref": "#/$defs/scale" }
+      }
+    },
+
+    "drug_reference_meta": {
+      "type": "object",
+      "description": "Справочная карточка препарата (drug_reference).",
+      "properties": {
+        "drug_id": { "type": "string", "pattern": "^d_[0-9a-f]{8}$" },
+        "name": { "type": "string" },
+        "generic": { "type": "string" },
+        "generic_alt": { "type": "string", "description": "Полное альтернативное название (для Актовегина и т.п.)" },
+        "atc_code": { "type": "string" },
+        "drug_class": { "type": "string" },
+        "type": { "type": "string", "enum": ["medication", "supplement", "device", "other"] },
+        "description": { "type": "string" },
+        "pharmacodynamics": {
+          "type": "object",
+          "properties": {
+            "targets": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "receptor": { "type": "string" },
+                  "action": { "type": "string" },
+                  "affinity": { "type": "string" }
+                }
+              }
+            },
+            "mechanism_summary": { "type": "string" },
+            "clinical_effect": { "type": "string" }
+          }
+        },
+        "pharmacokinetics": {
+          "type": "object",
+          "properties": {
+            "half_life": { "type": "string" },
+            "metabolism": { "type": "string" },
+            "bioavailability": { "type": "string" }
+          }
+        },
+        "indications": { "type": "array", "items": { "type": "string" } },
+        "contraindications": { "type": "array", "items": { "type": "string" } },
+        "side_effects": { "type": "array", "items": { "type": "string" } },
+        "linked_prescriptions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "object_id": { "type": "string" },
+              "entry_id": { "type": "string" },
+              "date": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" }
+            }
+          }
+        },
+        "needs_clarification": { "type": "boolean", "description": "true — требуется уточнение данных" },
+        "created": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+        "updated": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" }
+      },
+      "required": ["drug_id", "name", "type"]
+    },
+
+    "price_entry_data": {
+      "type": "object",
+      "description": "Файл цен одного препарата (price_tracker/d_{id}.json).",
+      "properties": {
+        "drug_id": { "type": "string", "pattern": "^d_[0-9a-f]{8}$" },
+        "drug_name": { "type": "string" },
+        "last_updated": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+        "prices": {
+          "type": "object",
+          "patternProperties": {
+            "^src_": {
+              "type": "object",
+              "properties": {
+                "source_name": { "type": "string" },
+                "dose_form": { "type": "string" },
+                "price_group": {
+                  "type": "object",
+                  "properties": {
+                    "min": { "type": "number" },
+                    "median": { "type": "number" },
+                    "max": { "type": "number" }
+                  }
+                },
+                "url": { "type": "string" },
+                "availability": { "type": "string", "enum": ["in_stock", "limited", "out_of_stock", "by_order", "unknown"] },
+                "last_checked": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" }
+              },
+              "required": ["source_name", "price_group", "availability"]
+            }
+          }
+        },
+        "history": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "date": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+              "entries": { "type": "array", "items": { "type": "string" } }
+            }
+          }
+        }
+      },
+      "required": ["drug_id", "drug_name", "prices"]
+    }
+
+  }
+}

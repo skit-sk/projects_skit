@@ -115,7 +115,7 @@ class BitgetAccountClient:
         if result.get('code') != '00000':
             return []
         items = []
-        for item in result.get('data', []):
+        for item in (result.get('data') or []):
             try:
                 available = float(item.get('available', 0))
                 frozen = float(item.get('frozen', 0))
@@ -136,7 +136,7 @@ class BitgetAccountClient:
         if result.get('code') != '00000':
             return []
         items = []
-        for item in result.get('data', []):
+        for item in (result.get('data') or []):
             try:
                 items.append(MixAccount(
                     margin_coin=item.get('marginCoin', ''),
@@ -160,7 +160,7 @@ class BitgetAccountClient:
         if result.get('code') != '00000':
             return []
         items = []
-        for item in result.get('data', []):
+        for item in (result.get('data') or []):
             try:
                 items.append(Position(
                     symbol=item.get('symbol', ''),
@@ -191,7 +191,7 @@ class BitgetAccountClient:
         if result.get('code') != '00000':
             return []
         items = []
-        for item in result.get('data', []):
+        for item in (result.get('data') or []):
             try:
                 items.append(Order(
                     order_id=item.get('orderId', ''),

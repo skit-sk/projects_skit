@@ -1,12 +1,17 @@
 {% extends "base.html" %}
 {% block title %}🔐 Account — Fundament RF{% endblock %}
 
+{% block extra_head %}
+<script src="https://unpkg.com/idiomorph@0.3.0/dist/idiomorph-ext.min.js"></script>
+{% endblock %}
+
 {% block content %}
 <div class="account-page">
 <div class="account-tabs" style="display:flex; gap:4px; margin:1rem 0; flex-wrap:wrap;">
     <button class="account-tab active"
             hx-get="/account-api/partial/overview"
             hx-target="#account-content"
+            hx-swap="innerHTML"
             hx-trigger="click"
             hx-indicator="#account-loading"
             onclick="document.querySelectorAll('.account-tab').forEach(t=>t.classList.remove('active')); this.classList.add('active');">
@@ -15,6 +20,7 @@
     <button class="account-tab"
             hx-get="/account-api/partial/balance"
             hx-target="#account-content"
+            hx-swap="innerHTML"
             hx-trigger="click"
             hx-indicator="#account-loading"
             onclick="document.querySelectorAll('.account-tab').forEach(t=>t.classList.remove('active')); this.classList.add('active');">
@@ -23,6 +29,7 @@
     <button class="account-tab"
             hx-get="/account-api/partial/positions"
             hx-target="#account-content"
+            hx-swap="innerHTML"
             hx-trigger="click"
             hx-indicator="#account-loading"
             onclick="document.querySelectorAll('.account-tab').forEach(t=>t.classList.remove('active')); this.classList.add('active');">
@@ -31,6 +38,7 @@
     <button class="account-tab"
             hx-get="/account-api/partial/orders"
             hx-target="#account-content"
+            hx-swap="innerHTML"
             hx-trigger="click"
             hx-indicator="#account-loading"
             onclick="document.querySelectorAll('.account-tab').forEach(t=>t.classList.remove('active')); this.classList.add('active');">
@@ -39,6 +47,7 @@
     <button class="account-tab"
             hx-get="/account-api/partial/fills"
             hx-target="#account-content"
+            hx-swap="innerHTML"
             hx-trigger="click"
             hx-indicator="#account-loading"
             onclick="document.querySelectorAll('.account-tab').forEach(t=>t.classList.remove('active')); this.classList.add('active');">
@@ -48,11 +57,11 @@
 
 <h2>
   🔐 Account
-  <span id="load-timer" style="font-size:10px; color:#888; font-weight:normal;"></span>
   <button onclick="syncAll()" style="background:#e67e22; border:none; font-size:12px; cursor:pointer; padding:2px 8px; border-radius:4px; color:#fff; margin-left:8px;">🔄 Sync Exchange</button>
   <button onclick="reloadFromJSON()" style="background:#3498db; border:none; font-size:12px; cursor:pointer; padding:2px 8px; border-radius:4px; color:#fff;">📂 Read JSON</button>
 </h2>
 
+<div id="positions-controls" style="display:none;">
 <div id="live-flash-bar" style="display:flex; align-items:center; gap:10px; margin:0 0 0.5rem; font-size:11px; flex-wrap:wrap;">
   <label style="display:flex; align-items:center; gap:3px; cursor:pointer;">
     <input type="checkbox" id="live-toggle" onchange="toggleLive()"> 🔴 Live
@@ -98,17 +107,35 @@
     </div>
   </div>
 </div>
+</div>
 
 <div id="account-loading" class="htmx-indicator" style="text-align:center; padding:2rem; display:none;">
     <span>⏳ Загрузка...</span>
 </div>
 
-<div id="account-content"
-     hx-get="/account-api/partial/overview"
-     hx-trigger="load once"
-     hx-indicator="#account-loading">
+<div id="account-content">
     <div style="text-align:center; padding:2rem;">⏳ Загрузка...</div>
 </div>
+
+<div id="account-footer" class="account-footer">
+  <span class="footer-timing" id="footer-timing"></span>
+</div>
+<style>
+.account-footer {
+  margin-top: 1rem;
+  padding: 0.4rem 0.6rem;
+  border-top: 1px solid var(--border-color);
+  font-size: 10px;
+  color: #888;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.footer-timing {
+  font-family: monospace;
+  letter-spacing: 0.3px;
+}
+</style>
 
 <style>
 .account-page {
@@ -270,7 +297,6 @@
 </style>
 <script>
 (function() {
-    var h2timer = document.getElementById('load-timer');
     var t0 = 0;
 
     function saveActiveTab() {
@@ -280,69 +306,28 @@
 
     function restoreActiveTab() {
         var saved = sessionStorage.getItem('accountTab');
-        if (saved) {
-            var tabs = document.querySelectorAll('.account-tab');
-            for (var i = 0; i < tabs.length; i++) {
-                if (tabs[i].textContent.trim() === saved) {
-                    tabs[i].click();
-                    sessionStorage.removeItem('accountTab');
-                    return;
-                }
+        if (!saved) return;
+        var tabs = document.querySelectorAll('.account-tab');
+        for (var i = 0; i < tabs.length; i++) {
+            if (tabs[i].textContent.trim() === saved) {
+                tabs.forEach(function(t) { t.classList.remove('active'); });
+                tabs[i].classList.add('active');
+                sessionStorage.removeItem('accountTab');
+                _loadTab(tabs[i]);
+                var ctrl = document.getElementById('positions-controls');
+                if (ctrl) ctrl.style.display = (saved === '📍 Positions') ? 'block' : 'none';
+                return;
             }
         }
     }
-
-    function setTimers(text) {
-        h2timer.textContent = text;
-        var els = document.querySelectorAll('#account-content .section-timer');
-        for (var i = 0; i < els.length; i++) els[i].textContent = text;
-    }
-
-    document.body.addEventListener('htmx:beforeRequest', function(evt) {
-        if (evt.detail.target && evt.detail.target.id === 'account-content') {
-            t0 = performance.now();
-            // Save row order before HTMX swap
-            var tbl = document.querySelector('.account-table');
-            if (tbl) {
-                var curRows = tbl.querySelectorAll('tbody tr');
-                window._savedRowOrder = Array.from(curRows).map(function(r) {
-                    return (r.cells[0] || {}).textContent || '';
-                });
-            }
-        }
-    });
-
-    document.body.addEventListener('htmx:afterOnLoad', function(evt) {
-        if (evt.detail.target && evt.detail.target.id === 'account-content') {
-            setTimers('✓ ' + Math.round(performance.now() - t0) + 'ms');
-        }
-    });
 
     document.body.addEventListener('htmx:afterSwap', function(evt) {
         if (evt.detail.target && evt.detail.target.id === 'account-content') {
-            // Remove hx-get after first load to prevent Overview re-trigger
             var acEl = document.getElementById('account-content');
             if (acEl && acEl.getAttribute('hx-get')) {
                 acEl.removeAttribute('hx-get');
             }
-            // ── LIVE INDICATORS — synchronous, no delay ──
-            if (_liveToggle && _liveToggle.checked && _liveStatus) {
-                _updateCount = (_updateCount || 0) + 1;
-                var dt = t0 ? Math.round(performance.now() - t0) : '—';
-                // Read server-side timings if available
-                var tEl = document.getElementById('live-timings');
-                var apiMs = tEl ? tEl.getAttribute('data-api') : '';
-                var srv = apiMs ? ' · API ' + apiMs + 'ms' : '';
-                if (_liveInfo) _liveInfo.textContent = '✓ ' + dt + 'ms' + srv + ' · #' + _updateCount;
-                _liveStatus.textContent = '⚡ ' + _updateCount;
-                _liveStatus.classList.add('live-pulse');
-                clearTimeout(_pulseReset);
-                _pulseReset = setTimeout(function() {
-                    _liveStatus.classList.remove('live-pulse');
-                    _liveStatus.textContent = '⚡ LIVE';
-                }, 1500);
-            }
-            // ── Restore row order immediately (before paint) ──
+            // Restore row order immediately (before paint)
             var savedOrder = window._savedRowOrder;
             if (savedOrder && savedOrder.length > 0) {
                 var tbl = document.querySelector('.account-table');
@@ -463,53 +448,168 @@
         }
     });
 
+    function _loadTab(btn) {
+        if (!btn) { console.error('_loadTab: no btn, fallback to first tab'); btn = document.querySelector('.account-tab'); }
+        if (!btn) { console.error('_loadTab: no tabs at all'); return; }
+        var t0 = performance.now();
+        var url = btn.getAttribute('hx-get');
+        if (!url) return;
+        htmx.ajax('GET', url, {
+            target: '#account-content',
+            swap: 'innerHTML',
+            indicator: '#account-loading'
+        });
+        var ft = document.getElementById('footer-timing');
+        if (ft) ft.dataset.t0 = t0;
+    }
+
+    document.body.addEventListener('htmx:afterOnLoad', function(evt) {
+        if (evt.detail.target && evt.detail.target.id === 'account-content') {
+            var ft = document.getElementById('footer-timing');
+            if (!ft) return;
+            var t0 = parseFloat(ft.dataset.t0) || performance.now();
+            var total = Math.round(performance.now() - t0);
+            var serverMs = evt.detail.xhr.getResponseHeader('X-Server-Ms') || '?';
+            ft.textContent = '∑ ' + total + 'ms · ⚙️ ' + serverMs + 'ms';
+            delete ft.dataset.t0;
+        }
+    });
+
     function reloadCurrentTab() {
-        var active = document.querySelector('.account-tab.active');
-        if (!active) return location.reload();
-        var url = active.getAttribute('hx-get');
-        if (url) htmx.ajax('GET', url, {target:'#account-content', indicator:'#account-loading'});
+        _loadTab(document.querySelector('.account-tab.active'));
     }
 
     window.syncAll = async function() {
-        try { await fetch('/api/sync-all', {method:'POST'}); } catch(e) {}
-        reloadCurrentTab();
+        var ft = document.getElementById('footer-timing');
+        if (ft) ft.textContent = '🔄 Sync...';
+        var t0 = performance.now();
+        try {
+            var resp = await fetch('/api/sync-all', {method:'POST'});
+            var syncMs = Math.round(performance.now() - t0);
+            var serverMs = resp.headers.get('X-Server-Ms') || '?';
+            var active = document.querySelector('.account-tab.active');
+            if (active) {
+                var url = active.getAttribute('hx-get');
+                if (url) {
+                    await new Promise(function(resolve) {
+                        htmx.ajax('GET', url, {
+                            target: '#account-content',
+                            swap: 'innerHTML',
+                            indicator: '#account-loading'
+                        });
+                        setTimeout(resolve, 100);
+                    });
+                }
+            }
+            var total = Math.round(performance.now() - t0);
+            if (ft) ft.textContent = '∑ ' + total + 'ms · 🔄 ' + syncMs + 'ms · ⚙️ ' + serverMs + 'ms';
+        } catch(e) {
+            if (ft) ft.textContent = '⚠️ sync error';
+        }
     };
 
     window.reloadFromJSON = function() {
         reloadCurrentTab();
     };
 
-    // ── Live mode ──
+    // ── Live mode (JSON polling) ──
     var _liveTimer = null;
     var _liveStatus = document.getElementById('live-status');
-    var _liveInfo = document.getElementById('live-info');
-    var _liveControls = document.getElementById('live-controls');
     var _liveToggle = document.getElementById('live-toggle');
     var _liveInterval = document.getElementById('live-interval');
     var _liveCustom = document.getElementById('live-custom');
     var _updateCount = 0;
-    var _pulseReset = null;
 
     function getLiveInterval() {
         if (_liveInterval.value === 'custom') return parseInt(_liveCustom.value) || 15;
         return parseInt(_liveInterval.value);
     }
 
+    async function _liveFetch() {
+        if (!_liveToggle || !_liveToggle.checked) return;
+        var ft = document.getElementById('footer-timing');
+        var t0 = performance.now();
+        try {
+            var resp = await fetch('/account-api/positions_live_data');
+            if (!resp.ok) throw new Error('HTTP ' + resp.status);
+            var data = await resp.json();
+            if (!data.ok) throw new Error(data.error || 'empty response');
+            var elapsed = Math.round((performance.now() - t0) * 10) / 10;
+            var table = document.querySelector('.account-table');
+            if (table) {
+                var rows = table.querySelectorAll('tbody tr');
+                for (var i = 0; i < rows.length; i++) {
+                    var tickerEl = rows[i].querySelector('[data-col="0"]');
+                    if (!tickerEl) continue;
+                    var ticker = tickerEl.textContent.trim();
+                    for (var j = 0; j < data.positions.length; j++) {
+                        var p = data.positions[j];
+                        if (p.ticker === ticker) {
+                            var cells = {
+                                '5': p.mark_price,    // Current
+                                '2': p.days_open,      // Days
+                                '4': p.pl_percent,     // Diff%
+                                '12': p.margin_size,   // Margin
+                                '13': p.bal_pct,       // Bal%
+                                '16': p.unrealized_pl, // PnL $
+                            };
+                            for (var col in cells) {
+                                var cell = rows[i].querySelector('[data-col="' + col + '"]');
+                                if (cell) cell.textContent = cells[col];
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+            _updateCount++;
+            if (ft) ft.textContent = '⚡ LIVE #' + _updateCount + ' · ' + elapsed + 'ms';
+
+            // Flash effect on live-updated cells
+            var mode = sessionStorage.getItem('flashMode') || 'cells';
+            if (mode !== 'off' && table) {
+                var dur = getFlashDuration();
+                var rows2 = table.querySelectorAll('tbody tr');
+                for (var i2 = 0; i2 < rows2.length; i2++) {
+                    var tickerEl2 = rows2[i2].querySelector('[data-col="0"]');
+                    if (!tickerEl2) continue;
+                    var ticker2 = tickerEl2.textContent.trim();
+                    for (var j2 = 0; j2 < data.positions.length; j2++) {
+                        var p2 = data.positions[j2];
+                        if (p2.ticker === ticker2) {
+                            if (mode === 'always') {
+                                var allCells = rows2[i2].querySelectorAll('td');
+                                for (var k = 0; k < allCells.length; k++) {
+                                    flashEl(allCells[k], 'flash-up', dur);
+                                }
+                            } else {
+                                var colMap = {'4': p2.pl_percent, '12': p2.margin_size, '13': p2.bal_pct, '16': p2.unrealized_pl};
+                                for (var c in colMap) {
+                                    var cell2 = rows2[i2].querySelector('[data-col="' + c + '"]');
+                                    if (cell2) {
+                                        var isUp = p2.unrealized_pl >= 0;
+                                        flashEl(cell2, isUp ? 'flash-up' : 'flash-down', dur);
+                                    }
+                                }
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+        } catch(e) {
+            console.warn('_liveFetch error:', e);
+            if (ft) ft.textContent = '⚠️ Live: ' + e.message;
+        }
+    }
+
     function startLiveTimer() {
         stopLiveTimer();
         var ms = getLiveInterval() * 1000;
-        _liveTimer = setInterval(function() {
-            if (_liveToggle.checked) {
-                var active = document.querySelector('.account-tab.active');
-                if (active && active.textContent.trim() === '📍 Positions') {
-                    var liveUrl = '/account-api/partial/positions_live';
-                    htmx.ajax('GET', liveUrl, {target:'#account-content', indicator:'#account-loading'});
-                }
-            }
-        }, ms);
+        _liveFetch();
+        _liveTimer = setInterval(_liveFetch, ms);
         _liveStatus.style.display = 'inline';
         _liveStatus.textContent = '⚡ LIVE';
-        if (_liveInfo) { _liveInfo.style.display = 'inline'; _liveInfo.textContent = 'LIVE · #0 · —ms'; }
         sessionStorage.setItem('liveActive', 'true');
         sessionStorage.setItem('liveInterval', getLiveInterval());
     }
@@ -518,27 +618,15 @@
         if (_liveTimer) { clearInterval(_liveTimer); _liveTimer = null; }
         _liveStatus.style.display = 'none';
         _liveStatus.textContent = '⚡';
-        if (_liveInfo) { _liveInfo.style.display = 'none'; _liveInfo.textContent = 'LIVE · #0 · —ms'; }
         sessionStorage.setItem('liveActive', 'false');
     }
 
     window.toggleLive = function() {
         if (_liveToggle.checked) {
             startLiveTimer();
-            // Immediately fetch live data, don't wait for first timer tick
-            var active = document.querySelector('.account-tab.active');
-            if (active && active.textContent.trim() === '📍 Positions') {
-                htmx.ajax('GET', '/account-api/partial/positions_live', {target:'#account-content', indicator:'#account-loading'});
-            }
+            _liveFetch();
         } else {
             stopLiveTimer();
-            // Restore storage URL for Positions tab
-            var tabs = document.querySelectorAll('.account-tab');
-            for (var i = 0; i < tabs.length; i++) {
-                if (tabs[i].textContent.trim() === '📍 Positions') {
-                    tabs[i].setAttribute('hx-get', '/account-api/partial/positions');
-                }
-            }
             reloadCurrentTab();
         }
     };
@@ -614,39 +702,71 @@
         }
     }
 
-    // Override tab click to detect Positions tab
+    // ── Init page (safe: DOM ready guard + try/catch + fallback) ──
+    function _initPage() {
+        try {
+            restoreFlashMode();
+            restoreFlashDuration();
+            if (!localStorage.getItem('flashOpacity')) {
+                document.documentElement.style.setProperty('--flash-opacity', 0.4);
+            }
+
+            var ctrl = document.getElementById('positions-controls');
+            var saved = sessionStorage.getItem('accountTab');
+            var wasLive = sessionStorage.getItem('liveActive') === 'true';
+
+            if (wasLive && _liveToggle) {
+                _liveToggle.checked = true;
+                startLiveTimer();
+            }
+
+            if (saved) {
+                restoreActiveTab();
+            } else {
+                var firstTab = document.querySelector('.account-tab.active') || document.querySelector('.account-tab');
+                if (firstTab) _loadTab(firstTab);
+            }
+
+            if (ctrl) {
+                var active = document.querySelector('.account-tab.active');
+                ctrl.style.display = (active && active.textContent.trim() === '📍 Positions') ? 'block' : 'none';
+            }
+        } catch(e) {
+            console.error('initPage error:', e);
+        }
+    }
+
+    // Run init when DOM is ready (handle both ready and not-ready states)
+    if (document.readyState !== 'loading') {
+        _initPage();
+    } else {
+        document.addEventListener('DOMContentLoaded', _initPage);
+    }
+
+    // Fallback: if content still placeholder after 2s, retry
+    setTimeout(function() {
+        var ac = document.getElementById('account-content');
+        if (ac && ac.textContent.trim().includes('⏳')) {
+            console.warn('fallback: content still loading, retrying...');
+            var tab = document.querySelector('.account-tab.active') || document.querySelector('.account-tab');
+            if (tab) _loadTab(tab);
+        }
+    }, 2000);
+
+    // Override tab click — saveActiveTab + toggle controls + live
     document.querySelectorAll('.account-tab').forEach(function(tab) {
         tab.addEventListener('click', function() {
             var isPositions = this.textContent.trim() === '📍 Positions';
-            if (isPositions && _liveToggle.checked) {
-                this.setAttribute('hx-get', '/account-api/partial/positions_live');
+            if (isPositions && _liveToggle && _liveToggle.checked) {
                 startLiveTimer();
             } else if (!isPositions) {
                 stopLiveTimer();
             }
+            var ctrl = document.getElementById('positions-controls');
+            if (ctrl) ctrl.style.display = isPositions ? 'block' : 'none';
+            saveActiveTab();
         });
     });
-
-    // Restore live state on page load
-    document.addEventListener('DOMContentLoaded', function() {
-        restoreFlashMode();
-        restoreFlashDuration();
-        if (!localStorage.getItem('flashOpacity')) {
-            document.documentElement.style.setProperty('--flash-opacity', 0.4);
-        }
-        if (sessionStorage.getItem('liveActive') === 'true') {
-            _liveToggle.checked = true;
-            startLiveTimer();
-            var tabs = document.querySelectorAll('.account-tab');
-            for (var i = 0; i < tabs.length; i++) {
-                if (tabs[i].textContent.trim() === '📍 Positions') {
-                    tabs[i].setAttribute('hx-get', '/account-api/partial/positions_live');
-                }
-            }
-        }
-    });
-
-    document.addEventListener('DOMContentLoaded', restoreActiveTab);
 
     window.sortTable = function(col, restore) {
         var table = document.querySelector('.account-table');
@@ -849,6 +969,8 @@
 
     document.addEventListener('DOMContentLoaded', function() {
         applyColState();
+        restoreFlashMode();
+        restoreFlashDuration();
     });
     document.body.addEventListener('htmx:beforeSwap', function(evt) {
         if (evt.detail.target && evt.detail.target.id === 'account-content' && evt.detail.serverResponse) {
@@ -879,6 +1001,41 @@
             evt.detail.serverResponse = _d.innerHTML;
         }
     });
+})();
+</script>
+<script>
+(function() {
+    window.syncAll = async function() {
+        var ft = document.getElementById('footer-timing');
+        if (ft) ft.textContent = '🔄 Sync...';
+        var t0 = performance.now();
+        try {
+            var resp = await fetch('/api/sync-all', {method:'POST'});
+            var syncMs = Math.round(performance.now() - t0);
+            var serverMs = resp.headers.get('X-Server-Ms') || '?';
+            var active = document.querySelector('.account-tab.active');
+            if (active) {
+                var url = active.getAttribute('hx-get');
+                if (url) {
+                    await new Promise(function(resolve) {
+                        htmx.ajax('GET', url, {target:'#account-content', swap:'innerHTML', indicator:'#account-loading'});
+                        setTimeout(resolve, 100);
+                    });
+                }
+            }
+            var total = Math.round(performance.now() - t0);
+            if (ft) ft.textContent = '∑ ' + total + 'ms · 🔄 ' + syncMs + 'ms · ⚙️ ' + serverMs + 'ms';
+        } catch(e) {
+            if (ft) ft.textContent = '⚠️ sync error';
+        }
+    };
+    window.reloadFromJSON = function() {
+        var active = document.querySelector('.account-tab.active');
+        if (active) {
+            var url = active.getAttribute('hx-get');
+            if (url) htmx.ajax('GET', url, {target:'#account-content', swap:'innerHTML', indicator:'#account-loading'});
+        }
+    };
 })();
 </script>
 </div>

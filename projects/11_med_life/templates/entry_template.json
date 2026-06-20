@@ -1,0 +1,43 @@
+{
+  "entry_id": "__GENERATE_UUID__",
+  "object_id": "usr_a1b2c3d",
+  "date": "YYYY-MM-DD",
+  "time": "HH:MM",
+  "timezone": "+03:00",
+  "specialist": {
+    "role": "self",
+    "name": "test_subject"
+  },
+  "domain": "subjective",
+  "data": {
+    "mood": {
+      "score": null,
+      "label": null
+    },
+    "anxiety": {
+      "score": null,
+      "label": null
+    },
+    "libido": {
+      "score": null,
+      "label": null
+    },
+    "sleep_hrs": null,
+    "sleep_quality": {
+      "score": null,
+      "label": null
+    },
+    "appetite": {
+      "score": null,
+      "label": null
+    },
+    "energy": {
+      "score": null,
+      "label": null
+    },
+    "notes": ""
+  },
+  "attachments": [],
+  "notes": "",
+  "source": "manual"
+}

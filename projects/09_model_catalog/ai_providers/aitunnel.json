@@ -1,0 +1,1552 @@
+{
+  "provider": "aitunnel",
+  "label": "AITunnel",
+  "homepage": "https://aitunnel.ru",
+  "balance": "prepaid",
+  "updated": "2026-06-19",
+  "opencode_prefix": "aitunnel/",
+  "models_count": 154,
+  "pricing_unit": "RUB per 1M tokens",
+  "models": [
+    {
+      "id": "Claude 3.5 Haiku",
+      "name": "Claude 3.5 Haiku",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Claude Haiku 4.5",
+      "name": "Claude Haiku 4.5",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Claude Opus 4",
+      "name": "Claude Opus 4",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Claude Opus 4.1",
+      "name": "Claude Opus 4.1",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Claude Opus 4.5",
+      "name": "Claude Opus 4.5",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Claude Opus 4.6",
+      "name": "Claude Opus 4.6",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Claude Opus 4.7",
+      "name": "Claude Opus 4.7",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Claude Sonnet 4",
+      "name": "Claude Sonnet 4",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Claude Sonnet 4.5",
+      "name": "Claude Sonnet 4.5",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Claude Sonnet 4.6",
+      "name": "Claude Sonnet 4.6",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "claude-sonnet-4-20250514",
+      "name": "claude-sonnet-4-20250514",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Codestral 2508",
+      "name": "Codestral 2508",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "DeepSeek Chat",
+      "name": "DeepSeek Chat",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "DeepSeek Chat V3 0324",
+      "name": "DeepSeek Chat V3 0324",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "DeepSeek Chat V3.1",
+      "name": "DeepSeek Chat V3.1",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "DeepSeek R1",
+      "name": "DeepSeek R1",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "DeepSeek R1 0528",
+      "name": "DeepSeek R1 0528",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "DeepSeek V3.1 Terminus",
+      "name": "DeepSeek V3.1 Terminus",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "DeepSeek V3.2",
+      "name": "DeepSeek V3.2",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "DeepSeek V3.2 Exp",
+      "name": "DeepSeek V3.2 Exp",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "DeepSeek V3.2 Speciale",
+      "name": "DeepSeek V3.2 Speciale",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "DeepSeek V4 Flash",
+      "name": "DeepSeek V4 Flash",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "DeepSeek V4 Pro",
+      "name": "DeepSeek V4 Pro",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Devstral Small",
+      "name": "Devstral Small",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Gemini 2.0 Flash 001",
+      "name": "Gemini 2.0 Flash 001",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Gemini 2.0 Flash Lite 001",
+      "name": "Gemini 2.0 Flash Lite 001",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Gemini 2.5 Flash",
+      "name": "Gemini 2.5 Flash",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Gemini 2.5 Flash Lite",
+      "name": "Gemini 2.5 Flash Lite",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Gemini 2.5 Flash Lite Preview 09 2025",
+      "name": "Gemini 2.5 Flash Lite Preview 09 2025",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Gemini 2.5 Pro",
+      "name": "Gemini 2.5 Pro",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Gemini 2.5 Pro Preview",
+      "name": "Gemini 2.5 Pro Preview",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Gemini 3 Flash Preview",
+      "name": "Gemini 3 Flash Preview",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Gemini 3.1 Flash Lite",
+      "name": "Gemini 3.1 Flash Lite",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Gemini 3.1 Flash Lite Preview",
+      "name": "Gemini 3.1 Flash Lite Preview",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Gemini 3.1 Pro Preview",
+      "name": "Gemini 3.1 Pro Preview",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Gemini 3.1 Pro Preview Customtools",
+      "name": "Gemini 3.1 Pro Preview Customtools",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Gemini 3.5 Flash",
+      "name": "Gemini 3.5 Flash",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Gemma 4 26b A4b It",
+      "name": "Gemma 4 26b A4b It",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Gemma 4 31b It",
+      "name": "Gemma 4 31b It",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GigaChat 2",
+      "name": "GigaChat 2",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GigaChat 2 Max",
+      "name": "GigaChat 2 Max",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GigaChat 2 Pro",
+      "name": "GigaChat 2 Pro",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GLM 4 32b",
+      "name": "GLM 4 32b",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GLM 4.5",
+      "name": "GLM 4.5",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GLM 4.5 Air",
+      "name": "GLM 4.5 Air",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GLM 4.5v",
+      "name": "GLM 4.5v",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GLM 4.6",
+      "name": "GLM 4.6",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GLM 4.6v",
+      "name": "GLM 4.6v",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GLM 4.7",
+      "name": "GLM 4.7",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GLM 4.7 Flash",
+      "name": "GLM 4.7 Flash",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GLM 5",
+      "name": "GLM 5",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GLM 5 Turbo",
+      "name": "GLM 5 Turbo",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GLM 5.1",
+      "name": "GLM 5.1",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GLM 5v Turbo",
+      "name": "GLM 5v Turbo",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GPT 3.5 Turbo",
+      "name": "GPT 3.5 Turbo",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GPT 4",
+      "name": "GPT 4",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GPT 4 Turbo",
+      "name": "GPT 4 Turbo",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GPT 4.1",
+      "name": "GPT 4.1",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GPT 4.1 Mini",
+      "name": "GPT 4.1 Mini",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GPT 4.1 Nano",
+      "name": "GPT 4.1 Nano",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GPT 4o",
+      "name": "GPT 4o",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GPT 4o Mini",
+      "name": "GPT 4o Mini",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GPT 4o Mini Search Preview",
+      "name": "GPT 4o Mini Search Preview",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GPT 4o Search Preview",
+      "name": "GPT 4o Search Preview",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GPT 5",
+      "name": "GPT 5",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GPT 5 Chat",
+      "name": "GPT 5 Chat",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GPT 5 Codex",
+      "name": "GPT 5 Codex",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GPT 5 Mini",
+      "name": "GPT 5 Mini",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GPT 5 Nano",
+      "name": "GPT 5 Nano",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GPT 5 Pro",
+      "name": "GPT 5 Pro",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GPT 5.1",
+      "name": "GPT 5.1",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GPT 5.1 Chat",
+      "name": "GPT 5.1 Chat",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GPT 5.1 Codex",
+      "name": "GPT 5.1 Codex",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GPT 5.1 Codex Max",
+      "name": "GPT 5.1 Codex Max",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GPT 5.1 Codex Mini",
+      "name": "GPT 5.1 Codex Mini",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GPT 5.2",
+      "name": "GPT 5.2",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GPT 5.2 Chat",
+      "name": "GPT 5.2 Chat",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GPT 5.2 Codex",
+      "name": "GPT 5.2 Codex",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GPT 5.2 Pro",
+      "name": "GPT 5.2 Pro",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GPT 5.3 Chat",
+      "name": "GPT 5.3 Chat",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GPT 5.3 Codex",
+      "name": "GPT 5.3 Codex",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GPT 5.4",
+      "name": "GPT 5.4",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GPT 5.4 Mini",
+      "name": "GPT 5.4 Mini",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GPT 5.4 Nano",
+      "name": "GPT 5.4 Nano",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GPT 5.4 Pro",
+      "name": "GPT 5.4 Pro",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GPT 5.5",
+      "name": "GPT 5.5",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GPT 5.5 Pro",
+      "name": "GPT 5.5 Pro",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GPT Audio",
+      "name": "GPT Audio",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GPT Audio Mini",
+      "name": "GPT Audio Mini",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GPT OSS 120b",
+      "name": "GPT OSS 120b",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GPT OSS 20b",
+      "name": "GPT OSS 20b",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GPT OSS Safeguard 20b",
+      "name": "GPT OSS Safeguard 20b",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GPT-4o 2024-08-06",
+      "name": "GPT-4o 2024-08-06",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GPT-4o 2024-11-20",
+      "name": "GPT-4o 2024-11-20",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GPT-4o-Mini 2024-07-18",
+      "name": "GPT-4o-Mini 2024-07-18",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "GPT-5-Mini 2025-08-07",
+      "name": "GPT-5-Mini 2025-08-07",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Grok 4.20",
+      "name": "Grok 4.20",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Grok 4.20 Multi Agent",
+      "name": "Grok 4.20 Multi Agent",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Grok 4.3",
+      "name": "Grok 4.3",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Grok Build 0.1",
+      "name": "Grok Build 0.1",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Kimi K2 0905",
+      "name": "Kimi K2 0905",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Kimi K2 Thinking",
+      "name": "Kimi K2 Thinking",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Kimi K2.5",
+      "name": "Kimi K2.5",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Kimi K2.6",
+      "name": "Kimi K2.6",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Llama 3.2 11b Vision Instruct",
+      "name": "Llama 3.2 11b Vision Instruct",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Llama 3.2 1b Instruct",
+      "name": "Llama 3.2 1b Instruct",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Llama 3.2 3b Instruct",
+      "name": "Llama 3.2 3b Instruct",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Llama 3.3 70b Instruct",
+      "name": "Llama 3.3 70b Instruct",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Llama 4 Maverick",
+      "name": "Llama 4 Maverick",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Llama 4 Scout",
+      "name": "Llama 4 Scout",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "MiniMax 01",
+      "name": "MiniMax 01",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "MiniMax M1",
+      "name": "MiniMax M1",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "MiniMax M2",
+      "name": "MiniMax M2",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "MiniMax M2 Her",
+      "name": "MiniMax M2 Her",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "MiniMax M2.1",
+      "name": "MiniMax M2.1",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "MiniMax M2.5",
+      "name": "MiniMax M2.5",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "MiniMax M2.7",
+      "name": "MiniMax M2.7",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Mistral Large 2512",
+      "name": "Mistral Large 2512",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Mistral Medium 3.1",
+      "name": "Mistral Medium 3.1",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Mistral Nemo",
+      "name": "Mistral Nemo",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Mistral Small 2603",
+      "name": "Mistral Small 2603",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Mistral Small 3.2 24b Instruct",
+      "name": "Mistral Small 3.2 24b Instruct",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "mistral-nemo",
+      "name": "mistral-nemo",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "O1",
+      "name": "O1",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "O1 Pro",
+      "name": "O1 Pro",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "O3",
+      "name": "O3",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "O3 Mini",
+      "name": "O3 Mini",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "O3 Pro",
+      "name": "O3 Pro",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "O4 Mini",
+      "name": "O4 Mini",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Qwen3 235b A22b 2507",
+      "name": "Qwen3 235b A22b 2507",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Qwen3 30b A3b",
+      "name": "Qwen3 30b A3b",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Qwen3 Coder",
+      "name": "Qwen3 Coder",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Qwen3 Coder 30b A3b Instruct",
+      "name": "Qwen3 Coder 30b A3b Instruct",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Qwen3 Coder Next",
+      "name": "Qwen3 Coder Next",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Qwen3 Max",
+      "name": "Qwen3 Max",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Qwen3 Max Thinking",
+      "name": "Qwen3 Max Thinking",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Qwen3.5 122b A10b",
+      "name": "Qwen3.5 122b A10b",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Qwen3.5 27b",
+      "name": "Qwen3.5 27b",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Qwen3.5 35b A3b",
+      "name": "Qwen3.5 35b A3b",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Qwen3.5 397b A17b",
+      "name": "Qwen3.5 397b A17b",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Qwen3.5 9b",
+      "name": "Qwen3.5 9b",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Qwen3.5 Flash 02 23",
+      "name": "Qwen3.5 Flash 02 23",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Qwen3.5 Plus 02 15",
+      "name": "Qwen3.5 Plus 02 15",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Qwen3.5 Plus 2026-04-20",
+      "name": "Qwen3.5 Plus 2026-04-20",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Qwen3.6 27b",
+      "name": "Qwen3.6 27b",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Qwen3.6 35b A3b",
+      "name": "Qwen3.6 35b A3b",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Qwen3.6 Flash",
+      "name": "Qwen3.6 Flash",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Qwen3.6 Max Preview",
+      "name": "Qwen3.6 Max Preview",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Qwen3.7 Max",
+      "name": "Qwen3.7 Max",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Sonar",
+      "name": "Sonar",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Sonar Deep Research",
+      "name": "Sonar Deep Research",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Sonar Pro",
+      "name": "Sonar Pro",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Sonar Pro Search",
+      "name": "Sonar Pro Search",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "Sonar Reasoning Pro",
+      "name": "Sonar Reasoning Pro",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    }
+  ]
+}

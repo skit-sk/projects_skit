@@ -1,0 +1,30 @@
+{
+  "drug_id": "d_XXXXXXXX",
+  "name": "Торговое название",
+  "generic": "МНН (международное непатентованное название)",
+  "generic_alt": "Полное альтернативное название (для Актовегина и т.п.)",
+  "atc_code": "Код ATC",
+  "drug_class": "Фармакологическая группа",
+  "type": "medication",
+  "description": "Краткое описание препарата",
+  "pharmacodynamics": {
+    "targets": [
+      { "receptor": "Рецептор", "action": "тип действия", "affinity": "уровень" },
+      { "receptor": "Рецептор", "action": "тип действия", "affinity": "уровень" }
+    ],
+    "mechanism_summary": "Описание механизма действия",
+    "clinical_effect": "Клинический эффект"
+  },
+  "pharmacokinetics": {
+    "half_life": "период полувыведения",
+    "metabolism": "метаболизм",
+    "bioavailability": "биодоступность"
+  },
+  "indications": ["Показание 1", "Показание 2"],
+  "contraindications": ["Противопоказание 1"],
+  "side_effects": ["Побочный эффект 1"],
+  "linked_prescriptions": [],
+  "needs_clarification": false,
+  "created": "YYYY-MM-DD",
+  "updated": "YYYY-MM-DD"
+}

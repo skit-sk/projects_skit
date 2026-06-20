@@ -1,0 +1,23 @@
+{
+  "provider": "openai_whisper",
+  "label": "OpenAI Whisper",
+  "homepage": "https://openai.com",
+  "api_endpoint": "https://api.openai.com/v1/audio/transcriptions",
+  "balance": "no_key",
+  "key_var": "OPENAI_API_KEY",
+  "free_tier": "Pay-as-you-go",
+  "updated": "2026-05-23",
+  "models_count": 1,
+  "pricing_unit": "USD per minute",
+  "models": [
+    {
+      "id": "whisper-1",
+      "name": "Whisper-1",
+      "type": "stt",
+      "pricing": {"per_min": 0.006},
+      "quality": 8,
+      "languages": "60+",
+      "description": "OpenAI Whisper ASR, 60+ languages"
+    }
+  ]
+}
