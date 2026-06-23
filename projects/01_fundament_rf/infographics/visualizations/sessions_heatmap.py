@@ -4,6 +4,9 @@ from collections import defaultdict
 from storage import get_storage
 
 
+VALID_VIEWS = ("calendar", "bars", "direction", "weekday", "heatmap")
+
+
 def _load_candles(symbol: str, obj_id: str, days: int = 90) -> List[dict]:
     s = get_storage()
     if not s.exists_timeframe(symbol, obj_id, "1D"):
@@ -27,42 +30,139 @@ def _metric_value(candle: dict, metric: str) -> float:
     return 0.0
 
 
-def compute(obj_id: str, days: int = 30, metric: str = "body_pct", timezone_offset: int = 3) -> Dict[str, Any]:
+def _resolve_obj(obj_id: str):
     s = get_storage()
-    obj = s.get(obj_id) if hasattr(s, "get") else None
-    if obj is None:
-        for o in s.list():
-            if o.id == obj_id:
-                obj = o
-                break
-    if obj is None:
-        return {"error": f"Object {obj_id} not found"}
+    try:
+        obj = s.get(obj_id) if hasattr(s, "get") else None
+    except Exception:
+        obj = None
+    if obj is not None:
+        return obj
+    for o in s.list():
+        if o.id == obj_id:
+            return o
+    return None
 
-    symbol = obj.data.get("emoji_entry", {}).get("symbol", "?")
-    candles = _load_candles(symbol, obj_id, days=days)
-    if not candles:
-        return {
-            "error": "No 1D data", "symbol": symbol, "matrix": [], "counts": [],
-            "summary": {"max": None, "min": None, "avg": 0, "total_cells": 0, "top5": []},
-            "sessions_overlay": {},
-        }
 
-    grid = defaultdict(lambda: defaultdict(list))
+def _view_calendar(candles: List[dict], metric: str, tz_offset: int) -> Dict[str, Any]:
+    months: Dict[str, List[float]] = {}
     for c in candles:
-        dt_str = c.get("datetime") or c.get("date", "")
-        if not dt_str:
+        date_str = c.get("date", "")
+        if not date_str:
             continue
         try:
-            ts = datetime.fromisoformat(dt_str.replace("Z", "+00:00"))
+            ts = datetime.fromisoformat(date_str + "T00:00:00")
         except (ValueError, TypeError):
             continue
         if ts.tzinfo is None:
             ts = ts.replace(tzinfo=timezone.utc)
-        ts_local = ts + timedelta(hours=timezone_offset)
-        weekday = ts_local.weekday()
-        hour = ts_local.hour
-        val = _metric_value(c, metric)
-        grid[weekday][hour].append(val)
+        ts_local = ts + timedelta(hours=tz_offset)
+        ym = ts_local.strftime("%Y-%m")
+        day_idx = ts_local.day - 1
+        months.setdefault(ym, [0.0] * 31)
+        months[ym][day_idx] = round(_metric_value(c, metric), 6)
+
+    calendar = []
+    for ym in sorted(months.keys()):
+        calendar.append({"month": ym, "days": months[ym]})
+    max_val = 0.0
+    for m in calendar:
+        for v in m["days"]:
+            if v > max_val:
+                max_val = v
+    return {"calendar": calendar, "max_value": max_val}
+
+
+def _view_daily_bars(candles: List[dict], metric: str) -> Dict[str, Any]:
+    bars = []
+    for c in candles:
+        is_green = c.get("close", 0) >= c.get("open", 0)
+        bars.append({
+            "date": c.get("date", ""),
+            "value": _metric_value(c, metric),
+            "direction": "up" if is_green else "down",
+            "high": c.get("high", 0),
+            "low": c.get("low", 0),
+            "open": c.get("open", 0),
+            "close": c.get("close", 0),
+        })
+    max_val = max((b["value"] for b in bars), default=0)
+    return {"bars": bars, "max_value": max_val}
+
+
+def _view_direction(candles: List[dict]) -> Dict[str, Any]:
+    total = len(candles)
+    green = sum(1 for c in candles if c.get("close", 0) >= c.get("open", 0))
+    red = total - green
+
+    longest_green = longest_red = current_g = current_r = 0
+    for c in candles:
+        is_green = c.get("close", 0) >= c.get("open", 0)
+        if is_green:
+            current_g += 1
+            current_r = 0
+            if current_g > longest_green:
+                longest_green = current_g
+        else:
+            current_r += 1
+            current_g = 0
+            if current_r > longest_red:
+                longest_red = current_r
+
+    return {
+        "total": total,
+        "green_count": green,
+        "red_count": red,
+        "green_pct": round(green / total * 100, 2) if total else 0,
+        "red_pct": round(red / total * 100, 2) if total else 0,
+        "longest_green_streak": longest_green,
+        "longest_red_streak": longest_red,
+    }
+
+
+def _view_weekday(candles: List[dict], metric: str) -> Dict[str, Any]:
+    by_wd: Dict[int, List[float]] = defaultdict(list)
+    for c in candles:
+        date_str = c.get("date", "")
+        if not date_str:
+            continue
+        try:
+            ts = datetime.fromisoformat(date_str + "T00:00:00")
+        except (ValueError, TypeError):
+            continue
+        by_wd[ts.weekday()].append(_metric_value(c, metric))
+
+    summary = []
+    for wd in range(7):
+        vals = by_wd.get(wd, [])
+        if vals:
+            summary.append({
+                "weekday": wd,
+                "avg": round(sum(vals) / len(vals), 6),
+                "min": round(min(vals), 6),
+                "max": round(max(vals), 6),
+                "count": len(vals),
+            })
+        else:
+            summary.append({"weekday": wd, "avg": 0, "min": 0, "max": 0, "count": 0})
+    max_val = max((s["max"] for s in summary if s["max"] > 0), default=0)
+    return {"weekday_summary": summary, "max_value": max_val}
+
+
+def _view_hour_heatmap(candles: List[dict], metric: str, tz_offset: int) -> Dict[str, Any]:
+    grid: Dict[int, Dict[int, List[float]]] = defaultdict(lambda: defaultdict(list))
+    for c in candles:
+        date_str = c.get("date", "")
+        if not date_str:
+            continue
+        try:
+            ts = datetime.fromisoformat(date_str + "T00:00:00")
+        except (ValueError, TypeError):
+            continue
+        if ts.tzinfo is None:
+            ts = ts.replace(tzinfo=timezone.utc)
+        ts_local = ts + timedelta(hours=tz_offset)
+        grid[ts_local.weekday()][ts_local.hour].append(_metric_value(c, metric))
 
     matrix = []
     counts = []
@@ -76,15 +176,6 @@ def compute(obj_id: str, days: int = 30, metric: str = "body_pct", timezone_offs
         matrix.append(row)
         counts.append(cnt_row)
 
-    sessions_overlay = {
-        "sydney":   {"start": 0,  "end": 8,  "color": "#3b82f6"},
-        "tokyo":    {"start": 0,  "end": 9,  "color": "#ef4444"},
-        "frankfurt":{"start": 7,  "end": 16, "color": "#f59e0b"},
-        "london":   {"start": 8,  "end": 17, "color": "#10b981"},
-        "new_york": {"start": 13, "end": 22, "color": "#8b5cf6"},
-    }
-
-    weekday_labels = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
     flat = []
     for wd in range(7):
         for h in range(24):
@@ -100,27 +191,62 @@ def compute(obj_id: str, days: int = 30, metric: str = "body_pct", timezone_offs
         "total_cells": sum(1 for r in counts for c in r if c > 0),
         "top5": flat[:5],
     }
-
-    metric_labels = {
-        "body_pct":   "волатильность (body_pct, %)",
-        "total_range":"диапазон (total_range, %)",
-        "volatility": "волатильность (position_metrics, %)",
-        "volume":     "объём (volume)",
-    }
-
+    max_val = max((max(r) for r in matrix), default=0)
     return {
-        "symbol": symbol,
-        "obj_id": obj_id,
-        "metric": metric,
-        "metric_label": metric_labels.get(metric, metric),
-        "days": days,
-        "timezone_offset": timezone_offset,
-        "candles_count": len(candles),
         "matrix": matrix,
         "counts": counts,
         "summary": summary,
-        "weekday_labels": weekday_labels,
-        "hour_labels": list(range(24)),
-        "sessions_overlay": sessions_overlay,
-        "max_value": max((max(row) for row in matrix), default=0),
+        "max_value": max_val,
+        "data_note": "1D timeframe: каждый день = 1 точка. Heatmap показывает распределение по (weekday × hour_from_date), не реальные hourly движения. Для настоящего 24×7 нужны синхронизированные 1h данные.",
     }
+
+
+def compute(obj_id: str, days: int = 90, metric: str = "body_pct",
+            view: str = "calendar", timezone_offset: int = 3) -> Dict[str, Any]:
+    if view not in VALID_VIEWS:
+        return {"error": f"Unknown view: {view}", "valid_views": list(VALID_VIEWS)}
+
+    obj = _resolve_obj(obj_id)
+    if obj is None:
+        return {"error": f"Object {obj_id} not found"}
+
+    symbol = obj.data.get("emoji_entry", {}).get("symbol", "?")
+    s = get_storage()
+    if not s.exists_timeframe(symbol, obj_id, "1D"):
+        return {
+            "error": f"No 1D data for {symbol}",
+            "symbol": symbol,
+            "needs_sync": True,
+            "view": view,
+        }
+
+    candles = _load_candles(symbol, obj_id, days=days)
+    if not candles:
+        return {
+            "error": "Empty 1D data",
+            "symbol": symbol,
+            "view": view,
+        }
+
+    base = {
+        "symbol": symbol,
+        "obj_id": obj_id,
+        "metric": metric,
+        "view": view,
+        "days": days,
+        "candles_count": len(candles),
+        "tz_offset": timezone_offset,
+    }
+
+    if view == "calendar":
+        base.update(_view_calendar(candles, metric, timezone_offset))
+    elif view == "bars":
+        base.update(_view_daily_bars(candles, metric))
+    elif view == "direction":
+        base.update(_view_direction(candles))
+    elif view == "weekday":
+        base.update(_view_weekday(candles, metric))
+    elif view == "heatmap":
+        base.update(_view_hour_heatmap(candles, metric, timezone_offset))
+
+    return base

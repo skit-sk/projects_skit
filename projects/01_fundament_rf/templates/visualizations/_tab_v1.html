@@ -1,40 +1,15 @@
 <div class="viz-tab-pane" data-tab-content="v1">
-  <h2>V1 · Sessions Heatmap (24×7)</h2>
-  <p class="viz-desc">Тепловая карта: цвет = <span id="viz-v1-metric-name">волатильность (body_pct)</span> в % за выбранный период. Прямоугольники = торговые сессии. Наведите на ячейку для деталей.</p>
+  <h2>V1 · Daily Visualizations <span class="viz-h2-sub">(1D timeframe, 5 views)</span></h2>
+  <p class="viz-desc">5 визуализаций на основе <b>1D данных</b> (реальные дневные свечи). Переключайте режимы и метрики — данные обновляются автоматически.</p>
 
   <div class="viz-v1-controls">
     <div class="viz-v1-modes">
-      <button class="viz-mode-btn active" data-mode="heatmap">🟦 Heatmap</button>
-      <button class="viz-mode-btn" data-mode="by_day">📅 By Day</button>
-      <button class="viz-mode-btn" data-mode="by_hour">🕐 By Hour</button>
+      <button class="viz-mode-btn active" data-mode="calendar">📅 Calendar</button>
+      <button class="viz-mode-btn" data-mode="bars">📊 Volatility</button>
+      <button class="viz-mode-btn" data-mode="direction">🍩 Direction</button>
+      <button class="viz-mode-btn" data-mode="weekday">📅 Weekday</button>
+      <button class="viz-mode-btn" data-mode="heatmap">🌡️ Heatmap</button>
     </div>
-    <div class="viz-v1-tz-selector">
-      <label>Timezone:
-        <select id="viz-v1-tz" class="viz-select">
-          <option value="0">UTC</option>
-          <option value="3" selected>МСК (UTC+3)</option>
-          <option value="9">Tokyo (UTC+9)</option>
-        </select>
-      </label>
-    </div>
-  </div>
-
-  <div class="viz-v1-sessions-legend">
-    <span class="viz-session-pill" data-session="sydney">
-      <span class="viz-session-color" style="background:#3b82f6"></span> Sydney 00-08
-    </span>
-    <span class="viz-session-pill" data-session="tokyo">
-      <span class="viz-session-color" style="background:#ef4444"></span> Tokyo 00-09
-    </span>
-    <span class="viz-session-pill" data-session="frankfurt">
-      <span class="viz-session-color" style="background:#f59e0b"></span> Frankfurt 07-16
-    </span>
-    <span class="viz-session-pill" data-session="london">
-      <span class="viz-session-color" style="background:#10b981"></span> London 08-17
-    </span>
-    <span class="viz-session-pill" data-session="new_york">
-      <span class="viz-session-color" style="background:#8b5cf6"></span> New York 13-22
-    </span>
   </div>
 
   <div id="viz-v1-heatmap"></div>
