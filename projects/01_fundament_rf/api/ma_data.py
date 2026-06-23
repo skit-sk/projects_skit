@@ -8,9 +8,10 @@ from storage import get_storage
 
 
 class MADataLoader:
-    def __init__(self, exchange_id: str = 'bitget'):
+    def __init__(self, exchange_id: str = 'bitget', entry_date: str = None):
         self.storage = get_storage()
         self.exchange_id = exchange_id
+        self.entry_date = entry_date
         self._ccxt = None
 
     @property
@@ -64,6 +65,8 @@ class MADataLoader:
 
     def fetch_and_save(self, symbol: str, obj_id: str, limit: int = 500) -> Dict:
         candles = self.fetch_historical(symbol, limit)
+        for c in candles:
+            c['pre_entry'] = (self.entry_date is not None and c.get('date', '') < self.entry_date)
         raw_data = {
             'id': f'{obj_id}_MA_RAW',
             'parent_id': obj_id,
@@ -78,21 +81,3 @@ class MADataLoader:
         }
         self.storage.save_raw(symbol, obj_id, raw_data)
         return raw_data
-
-
-def load_candles_from_storage(symbol: str, obj_id: str) -> List[Dict]:
-    storage = get_storage()
-    try:
-        raw = storage.load_raw(symbol, obj_id)
-        return raw.get('candles', [])
-    except FileNotFoundError:
-        return []
-
-
-def load_or_fetch_candles(symbol: str, obj_id: str, limit: int = 500) -> List[Dict]:
-    candles = load_candles_from_storage(symbol, obj_id)
-    if len(candles) >= limit:
-        return candles
-    loader = MADataLoader()
-    loader.fetch_and_save(symbol, obj_id, limit)
-    return load_candles_from_storage(symbol, obj_id)

@@ -1,0 +1,352 @@
+{% extends 'base.html' %}
+
+{% block title %}TradingView Playground{% endblock %}
+
+{% block content %}
+<div class="tv-playground-page">
+    <div class="tv-playground-header">
+        <a href="{{ url_for('sandbox.project', project_id='04') }}" class="btn btn-secondary">← #04 TradingView Demos</a>
+        <h1>🎛️ TradingView Playground</h1>
+        <span class="tv-widget-path">{{ widget }}</span>
+    </div>
+
+    <div class="tv-playground-layout">
+        <aside class="tv-controls">
+            <h3>⚙️ Параметры</h3>
+
+            <label>Символ</label>
+            <input list="popular-symbols" id="symbol-input" placeholder="Поиск символа..." value="{{ defaults.symbol }}">
+            <datalist id="popular-symbols">
+                <option value="BTCUSDT" label="Bitcoin">
+                <option value="ETHUSDT" label="Ethereum">
+                <option value="SOLUSDT" label="Solana">
+                <option value="XRPUSDT" label="Ripple">
+                <option value="AAPL" label="Apple">
+                <option value="TSLA" label="Tesla">
+                <option value="MSFT" label="Microsoft">
+                <option value="GOOGL" label="Alphabet">
+                <option value="SPY" label="S&P 500 ETF">
+                <option value="QQQ" label="Nasdaq-100 ETF">
+                <option value="EURUSD" label="EUR/USD">
+                <option value="GBPUSD" label="GBP/USD">
+                <option value="USDJPY" label="USD/JPY">
+                <option value="GC=F" label="Gold">
+                <option value="CL=F" label="Crude Oil">
+            </datalist>
+
+            <label>Таймфрейм</label>
+            <select id="interval-input">
+                <option value="1">1m</option>
+                <option value="5">5m</option>
+                <option value="15">15m</option>
+                <option value="60">1H</option>
+                <option value="240">4H</option>
+                <option value="D" selected>1D</option>
+                <option value="W">1W</option>
+                <option value="M">1M</option>
+            </select>
+
+            <label>Тема</label>
+            <select id="theme-input">
+                <option value="dark" selected>Dark</option>
+                <option value="light">Light</option>
+            </select>
+
+            <label>Тип серии (Lightweight)</label>
+            <select id="series-type-input">
+                <option value="candlestick" selected>Candlestick</option>
+                <option value="line">Line</option>
+                <option value="area">Area</option>
+                <option value="bar">Bar</option>
+                <option value="histogram">Histogram</option>
+                <option value="baseline">Baseline</option>
+            </select>
+
+            <label>Источники данных</label>
+            <div class="source-toggles">
+                <label><input type="checkbox" class="source-toggle" value="binance" checked> Binance Public</label>
+                <label><input type="checkbox" class="source-toggle" value="bitget" checked> Bitget Public</label>
+                <label><input type="checkbox" class="source-toggle" value="yahoo" checked> Yahoo Finance</label>
+                <label><input type="checkbox" class="source-toggle" value="synthetic" checked> Synthetic</label>
+            </div>
+
+            <label>Количество баров</label>
+            <input type="number" id="limit-input" value="200" min="10" max="1000">
+
+            <button id="apply-btn" class="btn btn-primary">▶ Применить</button>
+            <button id="reset-btn" class="btn btn-secondary">↺ Сбросить</button>
+        </aside>
+
+        <main class="tv-preview-area">
+            <div class="tv-preview-header">
+                <span>Превью</span>
+                <button id="open-full-btn" class="btn btn-small">Открыть в полный экран ↗</button>
+            </div>
+            <div class="tv-preview-frame-wrapper">
+                <iframe id="preview-frame"></iframe>
+            </div>
+        </main>
+    </div>
+
+    <section class="tv-code-section">
+        <div class="tv-code-header">
+            <h3>📄 Code Preview</h3>
+            <button id="run-code-btn" class="btn btn-primary">▶ Run Code</button>
+        </div>
+        <textarea id="code-editor"></textarea>
+        <div class="tv-code-frame-wrapper">
+            <iframe id="code-frame" sandbox="allow-scripts allow-same-origin"></iframe>
+        </div>
+    </section>
+</div>
+
+<style>
+.tv-playground-page { padding: 1rem; }
+.tv-playground-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+.tv-playground-header h1 { margin: 0; }
+.tv-widget-path {
+    font-family: monospace;
+    color: var(--text-muted, #888);
+    font-size: 0.85rem;
+}
+.tv-playground-layout {
+    display: grid;
+    grid-template-columns: 280px minmax(0, 1fr);
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+.tv-playground-layout > * { min-width: 0; }
+@media (max-width: 900px) {
+    .tv-playground-layout { grid-template-columns: 1fr; }
+}
+.tv-controls {
+    border: 1px solid var(--border-color, #444);
+    border-radius: 8px;
+    padding: 1rem;
+    background: var(--bg-card, #1e1e1e);
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+.tv-controls h3 { margin: 0 0 0.5rem; }
+.tv-controls label {
+    font-size: 0.8rem;
+    color: var(--text-muted, #aaa);
+    margin-top: 0.3rem;
+}
+.tv-controls input,
+.tv-controls select {
+    padding: 6px 8px;
+    border-radius: 5px;
+    border: 1px solid var(--border-color, #444);
+    background: var(--bg-secondary, #2a2a2a);
+    color: var(--text-main, #ddd);
+    font-size: 0.9rem;
+}
+.source-toggles {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+.source-toggles label {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    color: var(--text-main, #ddd);
+}
+.tv-preview-area {
+    border: 1px solid var(--border-color, #444);
+    border-radius: 8px;
+    background: var(--bg-card, #1e1e1e);
+    display: flex;
+    flex-direction: column;
+    height: 65vh;
+    min-height: 500px;
+    width: 100%;
+    min-width: 0;
+}
+.tv-preview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border-color, #444);
+}
+.tv-preview-frame-wrapper {
+    flex: 1;
+    min-height: 450px;
+    width: 100%;
+    min-width: 0;
+}
+.tv-preview-frame-wrapper iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    min-height: 450px;
+    display: block;
+}
+.tv-code-section {
+    border: 1px solid var(--border-color, #444);
+    border-radius: 8px;
+    background: var(--bg-card, #1e1e1e);
+    padding: 1rem;
+    margin-bottom: 2rem;
+}
+.tv-code-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+.tv-code-header h3 { margin: 0; }
+#code-editor {
+    width: 100%;
+    min-height: 200px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    background: #0d1117;
+    color: #c9d1d9;
+    border: 1px solid var(--border-color, #444);
+    border-radius: 6px;
+    padding: 0.75rem;
+    resize: vertical;
+}
+.tv-code-frame-wrapper {
+    margin-top: 0.75rem;
+    border: 1px solid var(--border-color, #444);
+    border-radius: 6px;
+    min-height: 300px;
+}
+.tv-code-frame-wrapper iframe {
+    width: 100%;
+    height: 300px;
+    border: none;
+}
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 6px 12px;
+    border-radius: 5px;
+    background: var(--accent, #58a6ff);
+    color: #fff;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+.btn-secondary { background: var(--bg-secondary, #444); color: var(--text-main, #ddd); }
+.btn-danger { background: #f85149; }
+.btn-primary { background: var(--success, #238636); }
+.btn-small { font-size: 0.75rem; padding: 4px 8px; }
+</style>
+
+<script>
+const WIDGET = {{ widget | tojson }};
+const DEFAULTS = {{ defaults | tojson }};
+
+function getParams() {
+    const activeSources = Array.from(document.querySelectorAll('.source-toggle:checked')).map(cb => cb.value);
+    return {
+        symbol: document.getElementById('symbol-input').value.trim() || 'BTCUSDT',
+        interval: document.getElementById('interval-input').value,
+        theme: document.getElementById('theme-input').value,
+        seriesType: document.getElementById('series-type-input').value,
+        active_sources: activeSources,
+        limit: parseInt(document.getElementById('limit-input').value, 10) || 200
+    };
+}
+
+function setFormState(params) {
+    if (params.symbol) document.getElementById('symbol-input').value = params.symbol;
+    if (params.interval) document.getElementById('interval-input').value = params.interval;
+    if (params.theme) document.getElementById('theme-input').value = params.theme;
+    if (params.seriesType) document.getElementById('series-type-input').value = params.seriesType;
+    if (params.limit) document.getElementById('limit-input').value = params.limit;
+    document.querySelectorAll('.source-toggle').forEach(cb => {
+        cb.checked = !params.active_sources || params.active_sources.includes(cb.value);
+    });
+}
+
+async function applyConfig() {
+    const params = getParams();
+    sessionStorage.setItem('tv_playground:' + WIDGET, JSON.stringify(params));
+    try {
+        const resp = await fetch('{{ url_for("sandbox.tv_playground_config") }}', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ widget: WIDGET, params: params })
+        });
+        const data = await resp.json();
+        if (data.error) {
+            alert(data.error);
+            return;
+        }
+
+        // Build preview URL so the iframe loads a real same-origin route
+        const qs = new URLSearchParams();
+        qs.append('widget', WIDGET);
+        qs.append('symbol', params.symbol);
+        qs.append('interval', params.interval);
+        qs.append('theme', params.theme);
+        qs.append('seriesType', params.seriesType);
+        qs.append('limit', params.limit);
+        (params.active_sources || []).forEach(s => qs.append('active_sources', s));
+        document.getElementById('preview-frame').src = '{{ url_for("sandbox.tv_playground_preview") }}?' + qs.toString();
+        document.getElementById('code-editor').value = data.code;
+    } catch (e) {
+        alert('Ошибка: ' + e.message);
+    }
+}
+
+async function runCode() {
+    const code = document.getElementById('code-editor').value;
+    try {
+        const resp = await fetch('{{ url_for("sandbox.tv_playground_execute") }}', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ code: code, libraries: ['lightweight-charts', 'tradingview'] })
+        });
+        const data = await resp.json();
+        if (!data.ok) {
+            alert(data.error);
+            return;
+        }
+        document.getElementById('code-frame').srcdoc = data.html;
+    } catch (e) {
+        alert('Ошибка выполнения: ' + e.message);
+    }
+}
+
+function openFull() {
+    const code = document.getElementById('code-editor').value;
+    const blob = new Blob([code], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    window.open(url, '_blank');
+}
+
+document.getElementById('apply-btn').addEventListener('click', applyConfig);
+document.getElementById('reset-btn').addEventListener('click', () => {
+    setFormState(DEFAULTS);
+    applyConfig();
+});
+document.getElementById('run-code-btn').addEventListener('click', runCode);
+document.getElementById('open-full-btn').addEventListener('click', openFull);
+
+// Restore from sessionStorage
+const saved = sessionStorage.getItem('tv_playground:' + WIDGET);
+if (saved) {
+    try { setFormState(JSON.parse(saved)); } catch (e) {}
+} else {
+    setFormState(DEFAULTS);
+}
+applyConfig();
+</script>
+{% endblock %}

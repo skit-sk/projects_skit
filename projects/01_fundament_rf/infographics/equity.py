@@ -12,26 +12,33 @@ class EquityAnalyzer:
         else:
             self.data_dir = Path(data_dir)
 
-    def _load_1d(self, obj_id: str) -> Optional[dict]:
-        card_dir = self.data_dir / 'card'
-        if card_dir.exists():
-            for subdir in card_dir.iterdir():
-                if subdir.is_dir():
-                    p = subdir / f'{obj_id}_1D.json'
-                    if p.exists():
-                        try:
-                            with open(p, 'r', encoding='utf-8') as f:
-                                return json.load(f)
-                        except:
-                            pass
-        p = self.data_dir / f'1D_{obj_id}.json'
-        if not p.exists():
-            return None
+    def _load_1d(self, symbol: str, obj_id: str) -> Optional[dict]:
+        from storage import get_storage
+        s = get_storage()
         try:
-            with open(p, 'r', encoding='utf-8') as f:
-                return json.load(f)
-        except:
+            tf_data = s.read_timeframe(symbol, obj_id, "1D")
+        except FileNotFoundError:
             return None
+        return {
+            "days": [
+                {
+                    "date": c.get("date", ""),
+                    "pre_entry": c.get("position_metrics", {}).get("pre_entry", False),
+                    "ohlc": {
+                        "open": c.get("open", 0),
+                        "high": c.get("high", 0),
+                        "low": c.get("low", 0),
+                        "close": c.get("close", 0),
+                    },
+                    "deviation": c.get("position_metrics", {}).get("deviation", {}),
+                    "roe_pct": c.get("position_metrics", {}).get("roe_pct", 0),
+                    "pnl_usdt": c.get("position_metrics", {}).get("pnl_usdt", 0),
+                    "volatility": c.get("position_metrics", {}).get("volatility", 0),
+                    "profitable": c.get("position_metrics", {}).get("profitable", False),
+                }
+                for c in tf_data.get("candles", [])
+            ]
+        }
 
     def _load_object(self, obj_id: str) -> Optional[dict]:
         p = self.data_dir / f'{obj_id}.json'
@@ -84,7 +91,7 @@ class EquityAnalyzer:
                 entry_date = emoji_entry.get('entry_date', '')
                 name = obj_data.get('name', symbol)
 
-                days_data = self._load_1d(obj_id)
+                days_data = self._load_1d(symbol, obj_id)
                 if not days_data or 'days' not in days_data:
                     continue
 
@@ -162,7 +169,7 @@ class EquityAnalyzer:
                 emoji_entry = obj_data.get('data', {}).get('emoji_entry', {})
                 symbol = emoji_entry.get('symbol', 'UNKNOWN')
 
-                days_data = self._load_1d(obj_id)
+                days_data = self._load_1d(symbol, obj_id)
                 if not days_data or 'days' not in days_data:
                     continue
 

@@ -238,14 +238,14 @@ class TradeAnalyzer:
 
     def load_data(self, symbol: str, obj_id: str) -> Tuple[Dict, Dict, Dict]:
         card = self.storage.load(obj_id).to_dict()
-        days_data = self.storage.load_1d(symbol, obj_id)
-        raw_data = self.storage.load_raw(symbol, obj_id)
+        tf_data = self.storage.read_timeframe(symbol, obj_id, "1D")
+        enriched_candles = tf_data.get("candles", [])
+        raw_data = {"candles": enriched_candles}
+        days_data = self.storage._candles_to_legacy(symbol, obj_id, tf_data)
         return card, days_data, raw_data
 
     @staticmethod
     def compute_rsi(prices: List[float], period: int = 14) -> List[Optional[float]]:
-        if len(prices) < period + 1:
-            return [None] * len(prices)
         arr = np.array(prices, dtype=float)
         deltas = np.diff(arr)
         gains = np.where(deltas > 0, deltas, 0.0)
@@ -985,7 +985,7 @@ class TradeAnalyzer:
                 'symbol': symbol,
                 'obj_id': obj_id,
                 'current_price': closes[-1] if closes else 0,
-                'total_days': len(days),
+                'total_days': len(candles),
             },
             'prices': {
                 'close': closes,
@@ -1036,6 +1036,7 @@ class TradeAnalyzer:
         opens = [c['open'] for c in candles]
 
         roe_pcts = [d['roe_pct'] for d in days]
+        pnl_usdts = [d['pnl_usdt'] for d in days]
 
         entry_price = float(days_data.get('entry_price', card['data'].get('emoji_entry', {}).get('entry_price', 0.0)))
         leverage = int(days_data.get('leverage', card['data'].get('leverage', 10)))
@@ -1047,10 +1048,10 @@ class TradeAnalyzer:
                     'symbol': symbol, 'obj_id': obj_id,
                     'entry_price': entry_price,
                     'leverage': leverage, 'volume': trade_volume,
-                    'total_days': len(days),
+                    'total_days': len(candles),
                     'current_price': closes[-1] if closes else entry_price,
                     'current_roe_pct': roe_pcts[-1] if roe_pcts else 0,
-                    'current_pnl_usdt': pnl_usdts[-1] if 'pnl_usdts' in dir() and pnl_usdts else 0,
+                    'current_pnl_usdt': pnl_usdts[-1] if pnl_usdts else 0,
                     'avg_volatility_pct': 0,
                 },
                 'dates': dates,
@@ -1082,11 +1083,12 @@ class TradeAnalyzer:
 
         volatilities = [round((d['volatility'] / closes[i]) * 100, 2) if closes[i] else 0 for i, d in enumerate(days)]
         volBxLev = [round(v * leverage, 2) for v in volatilities]
-        pnl_usdts = [d['pnl_usdt'] for d in days]
         upper_wicks = [d['ohlc']['upper_wick'] for d in days]
         lower_wicks = [d['ohlc']['lower_wick'] for d in days]
 
-        liq_price = entry_price * (1 - 1.0 / leverage) if leverage > 1 else 0
+        side = card.get('data', {}).get('emoji_entry', {}).get('side', 'long')
+        sign = -1 if side == 'long' else 1
+        liq_price = entry_price * (1 + sign / leverage) if leverage > 1 else 0
 
         rsi = self.compute_rsi(closes, 14)
         ema9 = self.compute_ema(closes, 9)
@@ -1134,7 +1136,7 @@ class TradeAnalyzer:
             'leverage': leverage,
             'volume': trade_volume,
             'liq_price': round(liq_price, 4),
-            'total_days': len(days),
+            'total_days': len(candles),
             'current_price': closes[-1] if closes else entry_price,
             'current_roe_pct': roe_pcts[-1] if roe_pcts else 0,
             'current_pnl_usdt': pnl_usdts[-1] if pnl_usdts else 0,

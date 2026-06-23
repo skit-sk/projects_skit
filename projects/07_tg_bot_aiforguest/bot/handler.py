@@ -1174,6 +1174,84 @@ async def _handle_ws_ob(update, uid, args):
         await status_msg.edit_text(full)
 
 
+def _save_message_record(uid: int, text: str, forward_data: dict):
+    """Сохранить структурированную запись сообщения в messages.ndjson."""
+    try:
+        import json
+        from datetime import datetime
+        from pathlib import Path
+
+        resolved = str(uid)
+        state = None
+        try:
+            from session import _load
+            state = _load()
+        except Exception:
+            pass
+        if state:
+            for k, v in state.get("users", {}).items():
+                links = v.get("platform_links", {})
+                for platform, ids in links.items():
+                    if uid in ids:
+                        resolved = k
+                        break
+
+        analytics = Path(WORKSPACE_DIR) / "ALL_USERS" / resolved / "analytics"
+        analytics.mkdir(parents=True, exist_ok=True)
+
+        record = {
+            "id": f"msg_{uid}_{int(datetime.now().timestamp()*1000)}",
+            "ts": datetime.now().isoformat(),
+            "uid": uid,
+            "text": text[:500] if text else "",
+            "type": _classify_text(text),
+            "symbols": _extract_symbols(text),
+            "urls": _extract_urls(text),
+            "is_forward": bool(forward_data),
+        }
+        if forward_data:
+            record["forward"] = forward_data
+
+        out = analytics / "messages.ndjson"
+        with open(out, "a", encoding="utf-8") as f:
+            f.write(json.dumps(record, ensure_ascii=False) + "\n")
+    except Exception:
+        pass
+
+
+def _classify_text(text: str) -> str:
+    if not text:
+        return "empty"
+    if text.startswith("/"):
+        return "command"
+    if re.search(r'youtube\.com/watch|youtu\.be/', text):
+        return "youtube"
+    if re.search(r'github\.com/\w+/\w+', text):
+        return "github"
+    low = text.lower()
+    if any(kw in low for kw in ('bitget', 'long', 'short', 'сигнал', 'midasflow', 'авто-сигнал', 'entry')):
+        return "trading_signal"
+    if re.search(r'https?://', text):
+        return "url"
+    return "ai_query" if len(text) > 10 else "text"
+
+
+def _extract_symbols(text: str) -> list:
+    raw = re.findall(r'\b([A-Z]{2,10}(?:USDT|USD|BTC|ETH)|#?[A-Z]{2,10})\b', text)
+    seen = set()
+    result = []
+    for s in raw:
+        s = s.lstrip("#").upper()
+        if s not in seen and len(s) >= 2:
+            seen.add(s)
+            result.append(s)
+    return result[:10]
+
+
+def _extract_urls(text: str) -> list:
+    return re.findall(r'https?://\S+', text)[:5]
+
+
 async def _reply(update, text, uid, agent=None, parse_mode=None, fmt_style="link", live_tok=0, show_footer=False):
     if show_footer:
         try:
@@ -1233,9 +1311,44 @@ async def _reply(update, text, uid, agent=None, parse_mode=None, fmt_style="link
 async def dispatch(update, context):
     user = update.effective_user
     uid = user.id
-    log.info(f"Dispatch: uid={uid} text={update.message.text[:50] if update.message and update.message.text else '(no text)'}")
-    text = update.message.text.strip() if update.message and update.message.text else ""
-    doc = update.message.document if update.message else None
+    msg = update.message
+    text = msg.text.strip() if msg and msg.text else ""
+    doc = msg.document if msg else None
+
+    # Capture forward metadata (safe getattr for older python-telegram-bot)
+    fwd_info = ""
+    forward_data = {}
+    if msg:
+        fwd = getattr(msg, 'forward_origin', None) or getattr(msg, 'forward_from', None)
+        fwd_chat = getattr(msg, 'forward_from_chat', None)
+        fwd_sender = getattr(msg, 'forward_sender_name', None)
+        fwd_date = getattr(msg, 'forward_date', None)
+        auto_fwd = getattr(msg, 'is_automatic_forward', None)
+
+        if fwd and hasattr(fwd, 'id'):
+            fwd_info = f" fwd_user={fwd.id}"
+            name = getattr(fwd, 'full_name', '') or getattr(fwd, 'first_name', '') or ''
+            forward_data = {"type": "user", "from_id": fwd.id, "from_name": str(name)}
+        elif fwd_chat:
+            title = getattr(fwd_chat, 'title', '') or ''
+            cid = getattr(fwd_chat, 'id', '')
+            fwd_info = f" fwd_chat={title}({cid})"
+            forward_data = {"type": "chat", "from_chat_id": cid, "from_chat_title": str(title)}
+        elif fwd_sender:
+            fwd_info = f" fwd_sender={fwd_sender}"
+            forward_data = {"type": "sender", "sender_name": str(fwd_sender)}
+        if fwd_date:
+            try:
+                forward_data["forward_date"] = fwd_date.isoformat()
+            except Exception:
+                pass
+        if auto_fwd:
+            forward_data["auto"] = True
+
+    log.info(f"Dispatch: uid={uid}{fwd_info} text={text[:50] if text else '(no text)'}")
+
+    # Save structured message
+    _save_message_record(uid, text, forward_data)
 
     if not user_exists(uid):
         u = update.effective_user

@@ -1,0 +1,157 @@
+{% extends 'base.html' %}
+
+{% block title %}#{{ project_id }} {{ project.name }} | Sandbox{% endblock %}
+
+{% block content %}
+<div class="sandbox-project-page">
+    <div class="sandbox-project-header">
+        <a href="{{ url_for('sandbox.index') }}" class="btn btn-secondary">← Назад в Sandbox</a>
+        <span class="sandbox-project-number">#{{ project_id }}</span>
+        <h1>{{ project.name }}</h1>
+        <span class="sandbox-type">{{ project.type }}</span>
+    </div>
+
+    <div class="sandbox-project-meta">
+        {% if project.port %}<span>🌐 Порт: <code>{{ project.port }}</code></span>{% endif %}
+        {% if project.proxy_url %}<span>🔗 Прокси: <a href="{{ project.proxy_url }}" target="_blank">{{ project.proxy_url }}</a></span>{% endif %}
+        {% if project.entry_url %}<span>📍 URL: <a href="{{ project.entry_url }}" target="_blank">{{ project.entry_url }}</a></span>{% endif %}
+    </div>
+
+    <p class="sandbox-description">{{ project.description or '' }}</p>
+
+    <div class="sandbox-project-controls">
+        {% if project_id != '01' and project.type in ('flask', 'bot') %}
+        <button class="btn" onclick="controlProject('{{ project_id }}', 'start')">▶ Старт</button>
+        <button class="btn btn-danger" onclick="controlProject('{{ project_id }}', 'stop')">⏹ Стоп</button>
+        <button class="btn btn-secondary" onclick="controlProject('{{ project_id }}', 'restart')">🔄 Рестарт</button>
+        {% endif %}
+        {% if project.log_path %}
+        <a href="{{ url_for('sandbox.logs', project_id=project_id) }}" class="btn btn-secondary" target="_blank">Лог</a>
+        {% endif %}
+    </div>
+
+    {% if project.sections %}
+    <div class="sandbox-section-bar">
+        {% for section in project.sections %}
+        <a href="{{ section.url }}" class="sandbox-section-link" {% if project.embeddable %}target="project-frame"{% else %}target="_blank"{% endif %}>{{ section.label }}</a>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if project.embeddable and project.entry_url %}
+    <div class="sandbox-iframe-wrapper">
+        <iframe name="project-frame" src="{{ project.entry_url }}" frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups allow-forms"></iframe>
+    </div>
+    {% else %}
+    <div class="sandbox-no-embed">
+        <p>Этот проект не встраивается напрямую.</p>
+        {% if project.log_path %}
+        <a href="{{ url_for('sandbox.logs', project_id=project_id) }}" class="btn" target="_blank">Посмотреть лог</a>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+
+<style>
+.sandbox-project-page { padding: 1rem; }
+.sandbox-project-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+}
+.sandbox-project-header h1 { margin: 0; }
+.sandbox-project-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 26px;
+    border-radius: 6px;
+    background: var(--accent, #58a6ff);
+    color: #fff;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+.sandbox-project-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-size: 0.85rem;
+    color: var(--text-muted, #aaa);
+    margin-bottom: 0.75rem;
+}
+.sandbox-project-meta a { color: var(--accent, #58a6ff); }
+.sandbox-project-controls {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+.sandbox-section-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    background: var(--bg-card, #1e1e1e);
+    border-radius: 8px;
+}
+.sandbox-section-link {
+    padding: 4px 10px;
+    border-radius: 4px;
+    background: var(--bg-secondary, #333);
+    color: var(--text-main, #ddd);
+    text-decoration: none;
+    font-size: 0.85rem;
+}
+.sandbox-section-link:hover {
+    background: var(--accent, #58a6ff);
+    color: #fff;
+}
+.sandbox-iframe-wrapper {
+    border: 1px solid var(--border-color, #444);
+    border-radius: 8px;
+    overflow: hidden;
+    height: calc(100vh - 260px);
+}
+.sandbox-iframe-wrapper iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+.sandbox-no-embed {
+    padding: 2rem;
+    text-align: center;
+    background: var(--bg-card, #1e1e1e);
+    border-radius: 8px;
+}
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 6px 12px;
+    border-radius: 5px;
+    background: var(--accent, #58a6ff);
+    color: #fff;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+.btn-secondary { background: var(--bg-secondary, #444); color: var(--text-main, #ddd); }
+.btn-danger { background: #f85149; }
+</style>
+
+<script>
+async function controlProject(id, action) {
+    if (!confirm(`${action === 'start' ? 'Запустить' : action === 'stop' ? 'Остановить' : 'Перезапустить'} проект #${id}?`)) return;
+    try {
+        const resp = await fetch(`/sandbox/api/${id}/${action}`, { method: 'POST' });
+        const data = await resp.json();
+        if (data.error) alert('Ошибка: ' + data.error + '\n' + (data.stderr || ''));
+        else alert(`Команда ${action} выполнена.\nКод: ${data.returncode}\n${data.stdout || ''}`);
+    } catch (e) { alert('Ошибка сети: ' + e.message); }
+}
+</script>
+{% endblock %}

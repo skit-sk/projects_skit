@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TradingView Charts Demo Gallery</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', sans-serif; background: #131722; color: #d1d4dc; padding: 20px; }
+        h1 { font-size: 32px; margin-bottom: 10px; color: #fff; text-align: center; }
+        .subtitle { text-align: center; color: #787b86; margin-bottom: 40px; }
+        .section { margin-bottom: 50px; }
+        .section-title { font-size: 20px; color: #fff; margin-bottom: 20px; border-bottom: 1px solid #2a2e39; padding-bottom: 10px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+        .card { background: #2a2e39; border-radius: 8px; overflow: hidden; transition: transform 0.2s; }
+        .card:hover { transform: translateY(-4px); }
+        .card-preview { height: 160px; background: #131722; display: flex; align-items: center; justify-content: center; }
+        .card-preview iframe { width: 100%; height: 100%; border: none; }
+        .card-info { padding: 12px; }
+        .card-title { font-size: 14px; color: #fff; margin-bottom: 6px; }
+        .card-desc { font-size: 11px; color: #787b86; margin-bottom: 8px; line-height: 1.3; }
+        .card-links { display: flex; gap: 8px; flex-wrap: wrap; }
+        .card-link { font-size: 11px; color: #2962ff; text-decoration: none; }
+        .card-link:hover { text-decoration: underline; }
+        .card-link-official { font-size: 11px; color: #26a69a; text-decoration: none; }
+        .card-link-official:hover { text-decoration: underline; }
+        .card-link-doc { font-size: 11px; color: #787b86; text-decoration: none; }
+        .card-link-doc:hover { text-decoration: underline; }
+        footer { text-align: center; color: #787b86; margin-top: 60px; padding-top: 20px; border-top: 1px solid #2a2e39; }
+        footer a { color: #2962ff; text-decoration: none; }
+        .section-group { margin-bottom: 40px; }
+        .group-title { font-size: 14px; color: #9aa1a9; margin-bottom: 12px; padding-left: 4px; }
+    
+    @media (max-width: 600px) {
+        .grid { grid-template-columns: 1fr !important; }
+        .card-preview { height: 140px !important; }
+    }
+    @media (min-width: 1200px) {
+        .grid { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)) !important; }
+    }
+    .card { display: none; }
+    .card.visible { display: block; }
+
+    
+.widget-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #787b86;
+    font-size: 11px;
+    background: #131722;
+    text-align: center;
+}
+.widget-placeholder a {
+    color: #2962ff;
+    text-decoration: none;
+}
+.widget-placeholder a:hover {
+    text-decoration: underline;
+}
+
+    </style>
+</head>
+<body>
+    
+<div id="sandbox-header" style="text-align:center; margin-bottom:20px; padding:0 20px;">
+    <div style="font-size:14px; color:#787b86; margin-bottom:6px;">#04 TradingView Demos</div>
+    <h1 style="margin:0 0 10px;">TradingView Charts Demo Gallery</h1>
+    
+    <input type="text" id="widget-search" placeholder="🔍 Поиск виджета..." 
+           style="width:100%; max-width:400px; padding:10px 14px; border-radius:8px; border:1px solid #2a2e39; background:#1e222d; color:#d1d4dc; font-size:14px;">
+</div>
+
+    <p class="subtitle">Lightweight Charts™ v5.2 + Widgets — Все варианты создания графиков</p>
+
+    <div class="section">
+        <h2 class="section-title">📊 Chart Types — Типы графиков (Lightweight)</h2>
+        <div class="grid">
+            <div class="card">
+                <div class="card-preview" data-widget-src="chart-types/1-standard-time-chart/index.html"><div class="widget-placeholder">Loading...</div></div>
+                <div class="card-info">
+                    <div class="card-title">1. Standard Time Chart</div>
+                    <div class="card-desc">createChart() — стандартный time-based график</div>
+                    <div class="card-links">
+                        <a class="card-link" href="/sandbox/tv-playground/?widget=chart-types/1-standard-time-chart/full.html">Open Full ↗</a>
+                        <a class="card-link-doc" href="share/knowledge-base/tradingview/lightweight/chart-types/1-standard-time-chart.md">📄 Doc</a>
+                        <a class="card-link-official" href="https://tradingview.github.io/lightweight-charts/docs/api#createchart" target="_blank">⚡ Official</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-preview" data-widget-src="chart-types/2-yield-curve-chart/index.html"><div class="widget-placeholder">Loading...</div></div>
+                <div class="card-info">
+                    <div class="card-title">2. Yield Curve Chart</div>
+                    <div class="card-desc">createYieldCurveChart() — для облигаций/ставок</div>
+                    <div class="card-links">
+                        <a class="card-link" href="/sandbox/tv-playground/?widget=chart-types/2-yield-curve-chart/full.html">Open Full ↗</a>
+                        <a class="card-link-doc" href="share/knowledge-base/tradingview/lightweight/chart-types/2-yield-curve-chart.md">📄 Doc</a>
+                        <a class="card-link-official" href="https://tradingview.github.io/lightweight-charts/docs/api#createyieldcurvechart" target="_blank">⚡ Official</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-preview" data-widget-src="chart-types/3-options-price-chart/index.html"><div class="widget-placeholder">Loading...</div></div>
+                <div class="card-info">
+                    <div class="card-title">3. Options Price Chart</div>
+                    <div class="card-desc">createOptionsChart() — цена как X-ось</div>
+                    <div class="card-links">
+                        <a class="card-link" href="/sandbox/tv-playground/?widget=chart-types/3-options-price-chart/full.html">Open Full ↗</a>
+                        <a class="card-link-doc" href="share/knowledge-base/tradingview/lightweight/chart-types/3-options-price-chart.md">📄 Doc</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-preview" data-widget-src="chart-types/4-custom-horizontal-scale/index.html"><div class="widget-placeholder">Loading...</div></div>
+                <div class="card-info">
+                    <div class="card-title">4. Custom Horizontal Scale</div>
+                    <div class="card-desc">createChartEx() + IHorzScaleBehavior</div>
+                    <div class="card-links">
+                        <a class="card-link" href="/sandbox/tv-playground/?widget=chart-types/4-custom-horizontal-scale/full.html">Open Full ↗</a>
+                        <a class="card-link-doc" href="share/knowledge-base/tradingview/lightweight/chart-types/4-custom-horizontal-scale.md">📄 Doc</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-preview" data-widget-src="chart-types/5-multi-pane-chart/index.html"><div class="widget-placeholder">Loading...</div></div>
+                <div class="card-info">
+                    <div class="card-title">5. Multi-Pane Chart</div>
+                    <div class="card-desc">addPane() — несколько панелей</div>
+                    <div class="card-links">
+                        <a class="card-link" href="/sandbox/tv-playground/?widget=chart-types/5-multi-pane-chart/full.html">Open Full ↗</a>
+                        <a class="card-link-doc" href="share/knowledge-base/tradingview/lightweight/chart-types/5-multi-pane-chart.md">📄 Doc</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">📈 Series Types — Типы серий (Lightweight)</h2>
+        <div class="grid">
+            <div class="card">
+                <div class="card-preview" data-widget-src="series-types/candlestick/index.html"><div class="widget-placeholder">Loading...</div></div>
+                <div class="card-info">
+                    <div class="card-title">Candlestick</div>
+                    <div class="card-desc">CandlestickSeries — японские свечи</div>
+                    <div class="card-links">
+                        <a class="card-link" href="/sandbox/tv-playground/?widget=series-types/candlestick/full.html">Open Full ↗</a>
+                        <a class="card-link-doc" href="share/knowledge-base/tradingview/lightweight/series-types/candlestick.md">📄 Doc</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-preview" data-widget-src="series-types/line/index.html"><div class="widget-placeholder">Loading...</div></div>
+                <div class="card-info">
+                    <div class="card-title">Line</div>
+                    <div class="card-desc">LineSeries — линейный график</div>
+                    <div class="card-links">
+                        <a class="card-link" href="/sandbox/tv-playground/?widget=series-types/line/full.html">Open Full ↗</a>
+                        <a class="card-link-doc" href="share/knowledge-base/tradingview/lightweight/series-types/line.md">📄 Doc</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-preview" data-widget-src="series-types/area/index.html"><div class="widget-placeholder">Loading...</div></div>
+                <div class="card-info">
+                    <div class="card-title">Area</div>
+                    <div class="card-desc">AreaSeries — заливка под линией</div>
+                    <div class="card-links">
+                        <a class="card-link" href="/sandbox/tv-playground/?widget=series-types/area/full.html">Open Full ↗</a>
+                        <a class="card-link-doc" href="share/knowledge-base/tradingview/lightweight/series-types/area.md">📄 Doc</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-preview" data-widget-src="series-types/bar/index.html"><div class="widget-placeholder">Loading...</div></div>
+                <div class="card-info">
+                    <div class="card-title">Bar</div>
+                    <div class="card-desc">BarSeries — бары (OHLC)</div>
+                    <div class="card-links">
+                        <a class="card-link" href="/sandbox/tv-playground/?widget=series-types/bar/full.html">Open Full ↗</a>
+                        <a class="card-link-doc" href="share/knowledge-base/tradingview/lightweight/series-types/bar.md">📄 Doc</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-preview" data-widget-src="series-types/histogram/index.html"><div class="widget-placeholder">Loading...</div></div>
+                <div class="card-info">
+                    <div class="card-title">Histogram</div>
+                    <div class="card-desc">HistogramSeries — гистограмма</div>
+                    <div class="card-links">
+                        <a class="card-link" href="/sandbox/tv-playground/?widget=series-types/histogram/full.html">Open Full ↗</a>
+                        <a class="card-link-doc" href="share/knowledge-base/tradingview/lightweight/series-types/histogram.md">📄 Doc</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-preview" data-widget-src="series-types/baseline/index.html"><div class="widget-placeholder">Loading...</div></div>
+                <div class="card-info">
+                    <div class="card-title">Baseline</div>
+                    <div class="card-desc">BaselineSeries — с базовой линией</div>
+                    <div class="card-links">
+                        <a class="card-link" href="/sandbox/tv-playground/?widget=series-types/baseline/full.html">Open Full ↗</a>
+                        <a class="card-link-doc" href="share/knowledge-base/tradingview/lightweight/series-types/baseline.md">📄 Doc</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">🎨 Conditions — Условия/Темы (Lightweight)</h2>
+        <div class="grid">
+            <div class="card">
+                <div class="card-preview" data-widget-src="conditions/dark-theme/index.html"><div class="widget-placeholder">Loading...</div></div>
+                <div class="card-info">
+                    <div class="card-title">Dark Theme</div>
+                    <div class="card-desc">Тёмная тема оформления</div>
+                    <div class="card-links">
+                        <a class="card-link" href="/sandbox/tv-playground/?widget=conditions/dark-theme/full.html">Open Full ↗</a>
+                        <a class="card-link-doc" href="share/knowledge-base/tradingview/lightweight/conditions/dark-theme.md">📄 Doc</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-preview" data-widget-src="conditions/light-theme/index.html"><div class="widget-placeholder">Loading...</div></div>
+                <div class="card-info">
+                    <div class="card-title">Light Theme</div>
+                    <div class="card-desc">Светлая тема оформления</div>
+                    <div class="card-links">
+                        <a class="card-link" href="/sandbox/tv-playground/?widget=conditions/light-theme/full.html">Open Full ↗</a>
+                        <a class="card-link-doc" href="share/knowledge-base/tradingview/lightweight/conditions/light-theme.md">📄 Doc</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-preview" data-widget-src="conditions/autosize-responsive/index.html"><div class="widget-placeholder">Loading...</div></div>
+                <div class="card-info">
+                    <div class="card-title">AutoSize Responsive</div>
+                    <div class="card-desc">Автосайз при изменении окна</div>
+                    <div class="card-links">
+                        <a class="card-link" href="/sandbox/tv-playground/?widget=conditions/autosize-responsive/full.html">Open Full ↗</a>
+                        <a class="card-link-doc" href="share/knowledge-base/tradingview/lightweight/conditions/autosize-responsive.md">📄 Doc</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-preview" data-widget-src="conditions/fixed-size/index.html"><div class="widget-placeholder">Loading...</div></div>
+                <div class="card-info">
+                    <div class="card-title">Fixed Size</div>
+                    <div class="card-desc">Фиксированные размеры</div>
+                    <div class="card-links">
+                        <a class="card-link" href="/sandbox/tv-playground/?widget=conditions/fixed-size/full.html">Open Full ↗</a>
+                        <a class="card-link-doc" href="share/knowledge-base/tradingview/lightweight/conditions/fixed-size.md">📄 Doc</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-preview" data-widget-src="conditions/multiple-series/index.html"><div class="widget-placeholder">Loading...</div></div>
+                <div class="card-info">
+                    <div class="card-title">Multiple Series</div>
+                    <div class="card-desc">Несколько серий на одном графике</div>
+                    <div class="card-links">
+                        <a class="card-link" href="/sandbox/tv-playground/?widget=conditions/multiple-series/full.html">Open Full ↗</a>
+                        <a class="card-link-doc" href="share/knowledge-base/tradingview/lightweight/conditions/multiple-series.md">📄 Doc</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-preview" data-widget-src="conditions/overlay-price-scale/index.html"><div class="widget-placeholder">Loading...</div></div>
+                <div class="card-info">
+                    <div class="card-title">Overlay Price Scale</div>
+                    <div class="card-desc">Volume overlay scale</div>
+                    <div class="card-links">
+                        <a class="card-link" href="/sandbox/tv-playground/?widget=conditions/overlay-price-scale/full.html">Open Full ↗</a>
+                        <a class="card-link-doc" href="share/knowledge-base/tradingview/lightweight/conditions/overlay-price-scale.md">📄 Doc</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-preview" data-widget-src="conditions/locale-i18n/index.html"><div class="widget-placeholder">Loading...</div></div>
+                <div class="card-info">
+                    <div class="card-title">Locale i18n</div>
+                    <div class="card-desc">Локализация (ru-RU)</div>
+                    <div class="card-links">
+                        <a class="card-link" href="/sandbox/tv-playground/?widget=conditions/locale-i18n/full.html">Open Full ↗</a>
+                        <a class="card-link-doc" href="share/knowledge-base/tradingview/lightweight/conditions/locale-i18n.md">📄 Doc</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">🧩 Widgets — TradingView Widgets (iframe)</h2>
+
+        <div class="section-group">
+            <div class="group-title">📊 Charts Widgets</div>
+            <div class="grid">
+                <div class="card">
+                    <div class="card-preview" data-widget-src="widgets/charts/advanced-chart/index.html"><div class="widget-placeholder">Loading...</div></div>
+                    <div class="card-info">
+                        <div class="card-title">Advanced Chart</div>
+                        <div class="card-desc">Полнофункциональный интерактивный график с тех. анализом</div>
+                        <div class="card-links">
+                            <a class="card-link" href="/sandbox/tv-playground/?widget=widgets-full/advanced-chart.html" target="_blank">Open Full ↗</a>
+                            <a class="card-link-doc" href="share/knowledge-base/tradingview/widgets/charts/index.md">📄 Doc</a>
+                            <a class="card-link-official" href="https://www.tradingview.com/widget-docs/widgets/charts/advanced-chart/" target="_blank">⚡ Official</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-preview" data-widget-src="widgets/charts/mini-chart/index.html"><div class="widget-placeholder">Loading...</div></div>
+                    <div class="card-info">
+                        <div class="card-title">Mini Chart</div>
+                        <div class="card-desc">Компактный график для отображения цены</div>
+                        <div class="card-links">
+                            <a class="card-link" href="/sandbox/tv-playground/?widget=widgets-full/mini-chart.html" target="_blank">Open Full ↗</a>
+                            <a class="card-link-doc" href="share/knowledge-base/tradingview/widgets/charts/index.md">📄 Doc</a>
+                            <a class="card-link-official" href="https://www.tradingview.com/widget-docs/widgets/charts/mini-chart/" target="_blank">⚡ Official</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-preview" data-widget-src="widgets/charts/symbol-overview/index.html"><div class="widget-placeholder">Loading...</div></div>
+                    <div class="card-info">
+                        <div class="card-title">Symbol Overview</div>
+                        <div class="card-desc">Компактный обзор символа: цена + мини-график</div>
+                        <div class="card-links">
+                            <a class="card-link" href="/sandbox/tv-playground/?widget=widgets-full/symbol-overview.html" target="_blank">Open Full ↗</a>
+                            <a class="card-link-doc" href="share/knowledge-base/tradingview/widgets/charts/index.md">📄 Doc</a>
+                            <a class="card-link-official" href="https://www.tradingview.com/widget-docs/widgets/charts/symbol-overview/" target="_blank">⚡ Official</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-group">
+            <div class="group-title">📋 Watchlists</div>
+            <div class="grid">
+                <div class="card">
+                    <div class="card-preview" data-widget-src="widgets/watchlists/market-summary/index.html"><div class="widget-placeholder">Loading...</div></div>
+                    <div class="card-info">
+                        <div class="card-title">Market Summary</div>
+                        <div class="card-desc">Сводка по рынку с графиком и статистикой</div>
+                        <div class="card-links">
+                            <a class="card-link" href="/sandbox/tv-playground/?widget=widgets-full/market-summary.html" target="_blank">Open Full ↗</a>
+                            <a class="card-link-doc" href="share/knowledge-base/tradingview/widgets/watchlists/index.md">📄 Doc</a>
+                            <a class="card-link-official" href="https://www.tradingview.com/widget-docs/widgets/watchlists/market-summary/" target="_blank">⚡ Official</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-preview" data-widget-src="widgets/watchlists/market-overview/index.html"><div class="widget-placeholder">Loading...</div></div>
+                    <div class="card-info">
+                        <div class="card-title">Market Overview</div>
+                        <div class="card-desc">Обзор рынка по категориям</div>
+                        <div class="card-links">
+                            <a class="card-link" href="/sandbox/tv-playground/?widget=widgets-full/market-overview.html" target="_blank">Open Full ↗</a>
+                            <a class="card-link-doc" href="share/knowledge-base/tradingview/widgets/watchlists/index.md">📄 Doc</a>
+                            <a class="card-link-official" href="https://www.tradingview.com/widget-docs/widgets/watchlists/market-overview/" target="_blank">⚡ Official</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-preview" data-widget-src="widgets/watchlists/stock-market/index.html"><div class="widget-placeholder">Loading...</div></div>
+                    <div class="card-info">
+                        <div class="card-title">Stock Market</div>
+                        <div class="card-desc">Обзор фондового рынка</div>
+                        <div class="card-links">
+                            <a class="card-link" href="/sandbox/tv-playground/?widget=widgets-full/stock-market.html" target="_blank">Open Full ↗</a>
+                            <a class="card-link-doc" href="share/knowledge-base/tradingview/widgets/watchlists/index.md">📄 Doc</a>
+                            <a class="card-link-official" href="https://www.tradingview.com/widget-docs/widgets/watchlists/stock-market/" target="_blank">⚡ Official</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-preview" data-widget-src="widgets/watchlists/market-data/index.html"><div class="widget-placeholder">Loading...</div></div>
+                    <div class="card-info">
+                        <div class="card-title">Market Data</div>
+                        <div class="card-desc">Данные по акциям, индексам, фьючерсам</div>
+                        <div class="card-links">
+                            <a class="card-link" href="/sandbox/tv-playground/?widget=widgets-full/market-data.html" target="_blank">Open Full ↗</a>
+                            <a class="card-link-doc" href="share/knowledge-base/tradingview/widgets/watchlists/index.md">📄 Doc</a>
+                            <a class="card-link-official" href="https://www.tradingview.com/widget-docs/widgets/watchlists/market-data/" target="_blank">⚡ Official</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-group">
+            <div class="group-title">💰 Tickers</div>
+            <div class="grid">
+                <div class="card">
+                    <div class="card-preview" data-widget-src="widgets/tickers/ticker-tape/index.html"><div class="widget-placeholder">Loading...</div></div>
+                    <div class="card-info">
+                        <div class="card-title">Ticker Tape</div>
+                        <div class="card-desc">Бегущая строка тикеров</div>
+                        <div class="card-links">
+                            <a class="card-link" href="/sandbox/tv-playground/?widget=widgets-full/ticker-tape.html" target="_blank">Open Full ↗</a>
+                            <a class="card-link-doc" href="share/knowledge-base/tradingview/widgets/tickers/index.md">📄 Doc</a>
+                            <a class="card-link-official" href="https://www.tradingview.com/widget-docs/widgets/tickers/ticker-tape/" target="_blank">⚡ Official</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-preview" data-widget-src="widgets/tickers/single-ticker/index.html"><div class="widget-placeholder">Loading...</div></div>
+                    <div class="card-info">
+                        <div class="card-title">Single Ticker</div>
+                        <div class="card-desc">Один тикер с ценой и изменением</div>
+                        <div class="card-links">
+                            <a class="card-link" href="/sandbox/tv-playground/?widget=widgets-full/single-ticker.html" target="_blank">Open Full ↗</a>
+                            <a class="card-link-doc" href="share/knowledge-base/tradingview/widgets/tickers/index.md">📄 Doc</a>
+                            <a class="card-link-official" href="https://www.tradingview.com/widget-docs/widgets/tickers/single-ticker/" target="_blank">⚡ Official</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-preview" data-widget-src="widgets/tickers/ticker/index.html"><div class="widget-placeholder">Loading...</div></div>
+                    <div class="card-info">
+                        <div class="card-title">Ticker</div>
+                        <div class="card-desc">Компактный тикер (до 15 символов)</div>
+                        <div class="card-links">
+                            <a class="card-link" href="/sandbox/tv-playground/?widget=widgets-full/single-ticker.html" target="_blank">Open Full ↗</a>
+                            <a class="card-link-doc" href="share/knowledge-base/tradingview/widgets/tickers/index.md">📄 Doc</a>
+                            <a class="card-link-official" href="https://www.tradingview.com/widget-docs/widgets/tickers/ticker/" target="_blank">⚡ Official</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-preview" data-widget-src="widgets/tickers/ticker-tag/index.html"><div class="widget-placeholder">Loading...</div></div>
+                    <div class="card-info">
+                        <div class="card-title">Ticker Tag</div>
+                        <div class="card-desc">Тег тикера</div>
+                        <div class="card-links">
+                            <a class="card-link" href="/sandbox/tv-playground/?widget=widgets-full/single-ticker.html" target="_blank">Open Full ↗</a>
+                            <a class="card-link-doc" href="share/knowledge-base/tradingview/widgets/tickers/index.md">📄 Doc</a>
+                            <a class="card-link-official" href="https://www.tradingview.com/widget-docs/widgets/tickers/ticker-tag/" target="_blank">⚡ Official</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-group">
+            <div class="group-title">🗺️ Heatmaps</div>
+            <div class="grid">
+                <div class="card">
+                    <div class="card-preview" data-widget-src="widgets/heatmaps/stock-heatmap/index.html"><div class="widget-placeholder">Loading...</div></div>
+                    <div class="card-info">
+                        <div class="card-title">Stock Heatmap</div>
+                        <div class="card-desc">Тепловая карта акций</div>
+                        <div class="card-links">
+                             <a class="card-link" href="/sandbox/tv-playground/?widget=widgets-full/stock-heatmap.html" target="_blank">Open Full ↗</a>
+                            <a class="card-link-doc" href="share/knowledge-base/tradingview/widgets/heatmaps/index.md">📄 Doc</a>
+                            <a class="card-link-official" href="https://www.tradingview.com/widget-docs/widgets/heatmaps/stock-heatmap/" target="_blank">⚡ Official</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-preview" data-widget-src="widgets/heatmaps/crypto-heatmap/index.html"><div class="widget-placeholder">Loading...</div></div>
+                    <div class="card-info">
+                        <div class="card-title">Crypto Heatmap</div>
+                        <div class="card-desc">Тепловая карта криптовалют</div>
+                        <div class="card-links">
+                             <a class="card-link" href="/sandbox/tv-playground/?widget=widgets-full/crypto-heatmap.html" target="_blank">Open Full ↗</a>
+                            <a class="card-link-doc" href="share/knowledge-base/tradingview/widgets/heatmaps/index.md">📄 Doc</a>
+                            <a class="card-link-official" href="https://www.tradingview.com/widget-docs/widgets/heatmaps/crypto-heatmap/" target="_blank">⚡ Official</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-preview" data-widget-src="widgets/heatmaps/forex-cross-rates/index.html"><div class="widget-placeholder">Loading...</div></div>
+                    <div class="card-info">
+                        <div class="card-title">Forex Cross Rates</div>
+                        <div class="card-desc">Кросс-курсы валют</div>
+                        <div class="card-links">
+                            <a class="card-link" href="/sandbox/tv-playground/?widget=widgets-full/forex-cross-rates.html" target="_blank">Open Full ↗</a>
+                            <a class="card-link-doc" href="share/knowledge-base/tradingview/widgets/heatmaps/index.md">📄 Doc</a>
+                            <a class="card-link-official" href="https://www.tradingview.com/widget-docs/widgets/heatmaps/forex-cross-rates/" target="_blank">⚡ Official</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-preview" data-widget-src="widgets/heatmaps/etf-heatmap/index.html"><div class="widget-placeholder">Loading...</div></div>
+                    <div class="card-info">
+                        <div class="card-title">ETF Heatmap</div>
+                        <div class="card-desc">Тепловая карта ETF</div>
+                        <div class="card-links">
+                            <a class="card-link" href="/sandbox/tv-playground/?widget=widgets-full/etf-heatmap.html" target="_blank">Open Full ↗</a>
+                            <a class="card-link-doc" href="share/knowledge-base/tradingview/widgets/heatmaps/index.md">📄 Doc</a>
+                            <a class="card-link-official" href="https://www.tradingview.com/widget-docs/widgets/heatmaps/etf-heatmap/" target="_blank">⚡ Official</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-preview" data-widget-src="widgets/heatmaps/forex-heatmap/index.html"><div class="widget-placeholder">Loading...</div></div>
+                    <div class="card-info">
+                        <div class="card-title">Forex Heatmap</div>
+                        <div class="card-desc">Тепловая карта форекс</div>
+                        <div class="card-links">
+                            <a class="card-link" href="/sandbox/tv-playground/?widget=widgets-full/forex-heatmap.html" target="_blank">Open Full ↗</a>
+                            <a class="card-link-doc" href="share/knowledge-base/tradingview/widgets/heatmaps/index.md">📄 Doc</a>
+                            <a class="card-link-official" href="https://www.tradingview.com/widget-docs/widgets/heatmaps/forex-heatmap/" target="_blank">⚡ Official</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-group">
+            <div class="group-title">🔍 Screeners</div>
+            <div class="grid">
+                <div class="card">
+                    <div class="card-preview" data-widget-src="widgets/screeners/screener/index.html"><div class="widget-placeholder">Loading...</div></div>
+                    <div class="card-info">
+                        <div class="card-title">Screener</div>
+                        <div class="card-desc">Скринер для фильтрации инструментов</div>
+                        <div class="card-links">
+                            <a class="card-link" href="/sandbox/tv-playground/?widget=widgets-full/screener.html" target="_blank">Open Full ↗</a>
+                            <a class="card-link-doc" href="share/knowledge-base/tradingview/widgets/screeners/index.md">📄 Doc</a>
+                            <a class="card-link-official" href="https://www.tradingview.com/widget-docs/widgets/screeners/screener/" target="_blank">⚡ Official</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-preview" data-widget-src="widgets/screeners/crypto-market/index.html"><div class="widget-placeholder">Loading...</div></div>
+                    <div class="card-info">
+                        <div class="card-title">Crypto Market</div>
+                        <div class="card-desc">Криптовалютный скринер</div>
+                        <div class="card-links">
+                            <a class="card-link" href="/sandbox/tv-playground/?widget=widgets-full/crypto-market.html" target="_blank">Open Full ↗</a>
+                            <a class="card-link-doc" href="share/knowledge-base/tradingview/widgets/screeners/index.md">📄 Doc</a>
+                            <a class="card-link-official" href="https://www.tradingview.com/widget-docs/widgets/screeners/crypto-market/" target="_blank">⚡ Official</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-group">
+            <div class="group-title">📊 Symbol Details</div>
+            <div class="grid">
+                <div class="card">
+                    <div class="card-preview" data-widget-src="widgets/symbol-details/symbol-info/index.html"><div class="widget-placeholder">Loading...</div></div>
+                    <div class="card-info">
+                        <div class="card-title">Symbol Info</div>
+                        <div class="card-desc">Информация о символе</div>
+                        <div class="card-links">
+                            <a class="card-link" href="/sandbox/tv-playground/?widget=widgets-full/symbol-info.html" target="_blank">Open Full ↗</a>
+                            <a class="card-link-doc" href="share/knowledge-base/tradingview/widgets/symbol-details/index.md">📄 Doc</a>
+                            <a class="card-link-official" href="https://www.tradingview.com/widget-docs/widgets/symbol-details/symbol-info/" target="_blank">⚡ Official</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-preview" data-widget-src="widgets/symbol-details/technical-analysis/index.html"><div class="widget-placeholder">Loading...</div></div>
+                    <div class="card-info">
+                        <div class="card-title">Technical Analysis</div>
+                        <div class="card-desc">Технический анализ: осцилляторы и MA</div>
+                        <div class="card-links">
+                            <a class="card-link" href="/sandbox/tv-playground/?widget=widgets-full/technical-analysis.html" target="_blank">Open Full ↗</a>
+                            <a class="card-link-doc" href="share/knowledge-base/tradingview/widgets/symbol-details/index.md">📄 Doc</a>
+                            <a class="card-link-official" href="https://www.tradingview.com/widget-docs/widgets/symbol-details/technical-analysis/" target="_blank">⚡ Official</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-preview" data-widget-src="widgets/symbol-details/fundamental-data/index.html"><div class="widget-placeholder">Loading...</div></div>
+                    <div class="card-info">
+                        <div class="card-title">Fundamental Data</div>
+                        <div class="card-desc">Фундаментальные данные</div>
+                        <div class="card-links">
+                            <a class="card-link" href="/sandbox/tv-playground/?widget=widgets-full/fundamental-data.html" target="_blank">Open Full ↗</a>
+                            <a class="card-link-doc" href="share/knowledge-base/tradingview/widgets/symbol-details/index.md">📄 Doc</a>
+                            <a class="card-link-official" href="https://www.tradingview.com/widget-docs/widgets/symbol-details/fundamental-data/" target="_blank">⚡ Official</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-preview" data-widget-src="widgets/symbol-details/company-profile/index.html"><div class="widget-placeholder">Loading...</div></div>
+                    <div class="card-info">
+                        <div class="card-title">Company Profile</div>
+                        <div class="card-desc">Профиль компании</div>
+                        <div class="card-links">
+                            <a class="card-link" href="/sandbox/tv-playground/?widget=widgets-full/company-profile.html" target="_blank">Open Full ↗</a>
+                            <a class="card-link-doc" href="share/knowledge-base/tradingview/widgets/symbol-details/index.md">📄 Doc</a>
+                            <a class="card-link-official" href="https://www.tradingview.com/widget-docs/widgets/symbol-details/company-profile/" target="_blank">⚡ Official</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-group">
+            <div class="group-title">📰 News</div>
+            <div class="grid">
+                <div class="card">
+                    <div class="card-preview" data-widget-src="widgets/news/top-stories/index.html"><div class="widget-placeholder">Loading...</div></div>
+                    <div class="card-info">
+                        <div class="card-title">Top Stories</div>
+                        <div class="card-desc">Главные новости</div>
+                        <div class="card-links">
+                            <a class="card-link" href="/sandbox/tv-playground/?widget=widgets-full/top-stories.html" target="_blank">Open Full ↗</a>
+                            <a class="card-link-doc" href="share/knowledge-base/tradingview/widgets/news/index.md">📄 Doc</a>
+                            <a class="card-link-official" href="https://www.tradingview.com/widget-docs/widgets/news/top-stories/" target="_blank">⚡ Official</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-group">
+            <div class="group-title">📅 Calendars</div>
+            <div class="grid">
+                <div class="card">
+                    <div class="card-preview" data-widget-src="widgets/calendars/economic-calendar/index.html"><div class="widget-placeholder">Loading...</div></div>
+                    <div class="card-info">
+                        <div class="card-title">Economic Calendar</div>
+                        <div class="card-desc">Экономический календарь</div>
+                        <div class="card-links">
+                            <a class="card-link" href="/sandbox/tv-playground/?widget=widgets-full/economic-calendar.html" target="_blank">Open Full ↗</a>
+                            <a class="card-link-doc" href="share/knowledge-base/tradingview/widgets/calendars/index.md">📄 Doc</a>
+                            <a class="card-link-official" href="https://www.tradingview.com/widget-docs/widgets/calendars/economic-calendar/" target="_blank">⚡ Official</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-group">
+            <div class="group-title">🌍 Economics</div>
+            <div class="grid">
+                <div class="card">
+                    <div class="card-preview" data-widget-src="widgets/economics/economic-map/index.html"><div class="widget-placeholder">Loading...</div></div>
+                    <div class="card-info">
+                        <div class="card-title">Economic Map</div>
+                        <div class="card-desc">Экономическая карта мира</div>
+                        <div class="card-links">
+                             <a class="card-link" href="/sandbox/tv-playground/?widget=widgets-full/economic-map.html" target="_blank">Open Full ↗</a>
+                            <a class="card-link-doc" href="share/knowledge-base/tradingview/widgets/calendars/index.md">📄 Doc</a>
+                            <a class="card-link-official" href="https://www.tradingview.com/widget-docs/widgets/economics/economic-map/" target="_blank">⚡ Official</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>TradingView Lightweight Charts™ v5.2 + Widgets | <a href="https://tradingview.github.io/lightweight-charts/">Documentation</a></p>
+        <p style="font-size:11px; color:#555; margin-top:8px;">v3.1.2 | 2026-05-04 16:00 MSK — Added standalone widget samples for local testing</p>
+    </footer>
+
+
+<script>
+(function() {
+    const MAX_CONCURRENT = 3;
+    const DELAY_MS = 800;
+    const TIMEOUT_MS = 10000;
+
+    const containers = Array.from(document.querySelectorAll('.card-preview[data-widget-src]'));
+    let index = 0;
+    let active = 0;
+
+    function loadNext() {
+        while (active < MAX_CONCURRENT && index < containers.length) {
+            const container = containers[index++];
+            active++;
+            loadWidget(container);
+        }
+    }
+
+    function loadWidget(container) {
+        const src = container.getAttribute('data-widget-src');
+        const placeholder = container.querySelector('.widget-placeholder');
+        const iframe = document.createElement('iframe');
+        iframe.src = src;
+        let loaded = false;
+
+        const timer = setTimeout(() => {
+            if (!loaded) {
+                iframe.remove();
+                if (placeholder) {
+                    placeholder.innerHTML = '<a href="' + src + '" target="_blank">Open ↗</a>';
+                }
+                active--;
+                setTimeout(loadNext, DELAY_MS);
+            }
+        }, TIMEOUT_MS);
+
+        iframe.onload = function() {
+            if (loaded) return;
+            loaded = true;
+            clearTimeout(timer);
+            if (placeholder) placeholder.remove();
+            active--;
+            setTimeout(loadNext, DELAY_MS);
+        };
+
+        iframe.onerror = function() {
+            if (loaded) return;
+            loaded = true;
+            clearTimeout(timer);
+            iframe.remove();
+            if (placeholder) {
+                placeholder.innerHTML = '<a href="' + src + '" target="_blank">Open ↗</a>';
+            }
+            active--;
+            setTimeout(loadNext, DELAY_MS);
+        };
+
+        container.appendChild(iframe);
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', loadNext);
+    } else {
+        loadNext();
+    }
+})();
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const search = document.getElementById('widget-search');
+        if (!search) return;
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(c => c.classList.add('visible'));
+        search.addEventListener('input', function(e) {
+            const term = e.target.value.toLowerCase();
+            cards.forEach(card => {
+                const title = (card.querySelector('.card-title') || {}).textContent || '';
+                const desc = (card.querySelector('.card-desc') || {}).textContent || '';
+                const group = (card.closest('.section-group') || {}).querySelector('.group-title');
+                const section = (card.closest('.section') || {}).querySelector('.section-title');
+                const context = (group ? group.textContent : '') + ' ' + (section ? section.textContent : '');
+                const match = (title + ' ' + desc + ' ' + context).toLowerCase().includes(term);
+                card.classList.toggle('visible', match);
+            });
+            // hide empty groups
+            document.querySelectorAll('.section-group, .section').forEach(sec => {
+                const visible = sec.querySelectorAll('.card.visible');
+                sec.style.display = visible.length ? '' : 'none';
+            });
+        });
+    });
+</script>
+
+</body>
+</html>

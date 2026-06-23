@@ -2,7 +2,7 @@
 {% block title %}База MA — {{ symbol }}{% endblock %}
 {% block extra_head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/trade_analytics.css') }}">
-<script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+<script src="/static/vendor/plotly@2.27.0/plotly-2.27.0.min.js"></script>
 <style>
 .ma-dashboard { max-width: 1600px; margin: 0 auto; padding: 1rem; }
 .ma-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem; }

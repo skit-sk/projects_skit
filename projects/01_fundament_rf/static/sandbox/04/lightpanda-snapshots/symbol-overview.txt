@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html><head>
+    <meta charset="UTF-8">
+    <title>Symbol Overview</title>
+    
+</head>
+<body>
+<div class="tradingview-widget-container">
+  <div class="tradingview-widget-container__widget"></div>
+</div>
+<div style="width: 100%; height: 100%;"><iframe scrolling="no" allowtransparency="true" frameborder="0" style="user-select: none; box-sizing: border-box; display: block; height: 100%; width: 100%;" src="https://www.tradingview-widget.com/embed-widget/symbol-overview/?locale=en#%7B%22width%22%3A%22100%25%22%2C%22height%22%3A%22100%25%22%2C%22colorTheme%22%3A%22dark%22%2C%22isTransparent%22%3Afalse%2C%22showVolume%22%3Atrue%2C%22showMA%22%3Atrue%2C%22utm_source%22%3A%22tradingview-demos-sk.vercel.app%22%2C%22utm_medium%22%3A%22widget%22%2C%22utm_campaign%22%3A%22symbol-overview%22%2C%22page-uri%22%3A%22tradingview-demos-sk.vercel.app%2Fwidgets-full%2Fsymbol-overview.html%22%7D" title="symbol overview TradingView widget" lang="en">
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="theme-dark feature-no-touch feature-no-mobiletouch" data-theme="dark" style="--symbol-overview-background-color: #131722;"><head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+	<title>TradingView Medium Chart Widget</title>
+
+	<link rel="preconnect" href="https://s3-symbol-logo.tradingview.com/" crossorigin="">
+
+	<link crossorigin="anonymous" href="https://www.tradingview-widget.com/static/bundles/embed/66299.8457808decfdb6b99100.css" rel="preload" as="style">
+<link crossorigin="anonymous" href="https://www.tradingview-widget.com/static/bundles/embed/8157.f298843ff396b4b7b4c7.css" rel="preload" as="style">
+<link crossorigin="anonymous" href="https://www.tradingview-widget.com/static/bundles/embed/97858.fd990e181d115221d18a.css" rel="preload" as="style">
+<link crossorigin="anonymous" href="https://www.tradingview-widget.com/static/bundles/embed/66661.256fa5a5213b9cb70f5c.css" rel="preload" as="style">
+<link crossorigin="anonymous" href="https://www.tradingview-widget.com/static/bundles/embed/79675.aa3653b9cf640f4a5f66.css" rel="preload" as="style">
+<link crossorigin="anonymous" href="https://www.tradingview-widget.com/static/bundles/embed/70514.4dbecda7b235ad65b274.css" rel="preload" as="style">
+<link crossorigin="anonymous" href="https://www.tradingview-widget.com/static/bundles/embed/59671.e8996c9d544e5965ee8e.css" rel="preload" as="style">
+<link crossorigin="anonymous" href="https://www.tradingview-widget.com/static/bundles/embed/5155.975fb41d42ae2d51c08b.css" rel="preload" as="style">
+<link crossorigin="anonymous" href="https://www.tradingview-widget.com/static/bundles/embed/64375.15c5c25d27a56a0df772.css" rel="preload" as="style">
+<link crossorigin="anonymous" href="https://www.tradingview-widget.com/static/bundles/embed/81241.31d6cfe0d16ae931b73c.css" rel="preload" as="style">
+<link crossorigin="anonymous" href="https://www.tradingview-widget.com/static/bundles/embed/49244.0d27a73b231b4360a8d2.css" rel="preload" as="style">
+
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+
+	
+
+	
+
+	
+</head>
+<body style="--widget-font-color: #DBDBDB; --widget-font-family: -apple-system, BlinkMacSystemFont, Trebuchet MS, Roboto, Ubuntu, sans-serif;">
+	
+
+	<div id="mediumwidgetembed" style="width:100%; height: 100%"><div class="tv-spinner tv-spinner--size_large tv-spinner--shown" role="progressbar"></div><div class="tv-widget-chart tv-widget-chart--with-border">
+				<div class="tv-widget-chart__nav js-widget-chart-tab-container ">
+					<div class="js-widget-chart-tabs"></div>
+				</div>
+				<div class="tv-widget-chart__pages js-widget-chart-pages"></div>
+				<div class="tv-widget-chart__copyrightingContainer"></div>
+			</div></div>
+
+
+</body></html>
+</iframe></div>
+
+</body></html>

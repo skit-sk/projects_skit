@@ -5,16 +5,17 @@
 | Файл | Содержание |
 |------|-----------|
 | `data/{id}.json` | CARD — сделка: entry_price, leverage, volume, stats |
-| `data/card/{symbol}_{id}/{id}_1D.json` | 134 дня: roe_pct, pnl_usdt, volatility, deviation, ohlc |
-| `data/card/{symbol}_{id}/{id}_RAW.json` | OHLCV свечи: open/high/low/close/volume |
+| `data/card/{symbol}_{id}/{id}_1D.json` | **Новый формат** `candles[]` (обогащённые свечи: position_metrics, candle_metrics, sessions, tf_boundary, liq_proximity, strength, fibonacci) |
+| `data/card/{symbol}_{id}/{id}_RAW.json` | OHLCV свечи: open/high/low/close/volume (для MADataLoader) |
 
 ## Движок аналитики (`infographics/trade_analyzer.py`)
 
 ```
 TradeAnalyzer
 ├── load_data(symbol, obj_id)
-│   ├── storage.load_1d(symbol, obj_id) → days[134]
-│   └── storage.load_raw(symbol, obj_id) → candles[134]
+│   ├── storage.read_timeframe(symbol, obj_id, "1D") → candles[] (enriched)
+│   ├── _build_legacy_days_from_candles(candles) → days[] (для backward compat)
+│   └── raw_data = {"candles": enriched_candles} (для closes/highs/lows)
 ├── compute_rsi(prices, 14)
 ├── compute_macd(prices, 12, 26, 9)
 ├── compute_ema(prices, period)

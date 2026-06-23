@@ -1,7 +1,7 @@
 #!/bin/bash
 #==============================================================================
 # update_knowledge_map.sh
-# Обновление карты знаний workspace (модульная версия)
+# Обновление карты знаний workspace
 #==============================================================================
 # Использование:
 #   ./update_knowledge_map.sh
@@ -16,6 +16,7 @@ set -e
 
 WORKSPACE="/home/user_aioc/workspace"
 MAP_DIR="$WORKSPACE/share/opencode"
+KB_DIR="$WORKSPACE/share/knowledge-base"
 SCRIPT_DIR="$WORKSPACE/scripts"
 
 # Файлы карты
@@ -105,31 +106,60 @@ check_workspace() {
 check_structure() {
     log_step "Проверка структуры workspace..."
 
-    local projects=("projects/01_fundament_rf" "projects/02_graphs_candle" "projects/04_tradingview-demos" "projects/05_transcript")
-    local kb_dirs=("tradingview" "tv")
-
     echo ""
-
     echo "  Projects:"
-    for project in "${projects[@]}"; do
-        if [ -d "$WORKSPACE/$project" ]; then
-            echo -e "    ✓ $project"
-        else
-            echo -e "    ✗ $project NOT FOUND"
+    local count=0
+    for project in "$WORKSPACE"/projects/[0-9][0-9]_*/; do
+        if [ -d "$project" ]; then
+            echo -e "    ✓ $(basename "$project")"
+            count=$((count + 1))
         fi
     done
 
     echo ""
-    echo "  Knowledge Bases:"
-    for kb in "${kb_dirs[@]}"; do
-        kb_path="$WORKSPACE/share/knowledge-base/$kb"
-        if [ -d "$kb_path" ]; then
-            local md_count=$(find "$kb_path" -name "*.md" 2>/dev/null | wc -l)
-            echo -e "    ✓ $kb ($md_count md files)"
+    echo "  Knowledge Base:"
+    local kb_count=0
+    if [ -d "$KB_DIR/3-projects" ]; then
+        kb_count=$(find "$KB_DIR/3-projects" -name "*.md" 2>/dev/null | wc -l)
+        echo -e "    ✓ 3-projects/ ($kb_count md files)"
+    else
+        echo -e "    ✗ 3-projects/ NOT FOUND"
+    fi
+
+    if [ -d "$KB_DIR/4-guides" ]; then
+        local guides_count=$(find "$KB_DIR/4-guides" -name "*.md" 2>/dev/null | wc -l)
+        echo -e "    ✓ 4-guides/ ($guides_count md files)"
+    fi
+
+    echo ""
+    log_info "Найдено проектов: $count"
+    log_info "Статей в KB: $kb_count"
+}
+
+#------------------------------------------------------------------------------
+# Проверка KB
+#------------------------------------------------------------------------------
+check_kb_completeness() {
+    log_step "Проверка полноты Knowledge Base..."
+
+    local missing=0
+    for project in "$WORKSPACE"/projects/[0-9][0-9]_*/; do
+        local name=$(basename "$project")
+        local slug=$(echo "$name" | tr '_' '-')
+        local article="$KB_DIR/3-projects/$slug.md"
+        if [ -f "$article" ]; then
+            echo -e "  ✓ $name"
         else
-            echo -e "    ✗ $kb NOT FOUND"
+            echo -e "  ✗ $name — отсутствует KB-статья ($article)"
+            missing=$((missing + 1))
         fi
     done
+
+    if [ $missing -eq 0 ]; then
+        log_info "Все проекты имеют KB-статьи"
+    else
+        log_warn "$missing проектов без KB-статей"
+    fi
 }
 
 #------------------------------------------------------------------------------
@@ -139,20 +169,16 @@ update_versions() {
     log_step "Обновление версий..."
 
     local today=$(date +%Y-%m-%d)
-    local current_version="1.0"
+    local current_version="2.0"
 
-    # Обновляем дату во всех файлах
     for file in "$MAP_ALL" "$MAP_SMALL" "$MAP_UPDATE"; do
         if [ -f "$file" ]; then
-            # Заменяем дату
+            sed -i "s/\*\*Версия:\*\*.*/\*\*Версия:\*\* $current_version/" "$file" 2>/dev/null || true
             sed -i "s/\*\*Дата:\*\*.*/\*\*Дата:\*\* $today/" "$file" 2>/dev/null || true
-            # Заменяем updated в JSON
             sed -i "s/\"updated\": \"[^\"]*\"/\"updated\": \"$today\"/" "$file" 2>/dev/null || true
-            echo -e "  ✓ $(basename "$file") → $today"
+            echo -e "  ✓ $(basename "$file") → v$current_version ($today)"
         fi
     done
-
-    log_info "Версия обновлена: $current_version ($today)"
 }
 
 #------------------------------------------------------------------------------
@@ -161,36 +187,58 @@ update_versions() {
 collect_stats() {
     log_step "Сбор статистики..."
 
-    # Проекты
     local project_count=0
-    for dir in "$WORKSPACE"/*/; do
-        basename_dir=$(basename "$dir")
-        case "$basename_dir" in
-            01_fundament_rf|02_graphs_candle|04_tradingview-demos|05_transcript)
-                ((project_count++))
-                ;;
-        esac
-    done
-
-    # KB файлы
-    local kb_file_count=0
-    for kb in "$WORKSPACE/share/knowledge-base"/*/; do
-        if [ -d "$kb" ]; then
-            ((kb_file_count+=$(find "$kb" -name "*.md" 2>/dev/null | wc -l)))
+    for project in "$WORKSPACE"/projects/[0-9][0-9]_*/; do
+        if [ -d "$project" ]; then
+            project_count=$((project_count + 1))
         fi
     done
 
-    # JSON файлы данных
-    local json_count=0
-    if [ -d "$WORKSPACE/projects/01_fundament_rf/data" ]; then
-        json_count=$(find "$WORKSPACE/projects/01_fundament_rf/data" -name "*.json" 2>/dev/null | wc -l)
-    fi
+    local kb_file_count=0
+    for dir in "$KB_DIR"/*/; do
+        if [ -d "$dir" ]; then
+            local dir_count=$(find "$dir" -name "*.md" 2>/dev/null | wc -l)
+            kb_file_count=$((kb_file_count + dir_count))
+        fi
+    done
 
     echo ""
     log_info "Статистика:"
     echo "  - Projects: $project_count"
     echo "  - KB files: $kb_file_count"
-    echo "  - JSON data files: $json_count"
+}
+
+#------------------------------------------------------------------------------
+# Проверка ссылок
+#------------------------------------------------------------------------------
+verify_links() {
+    log_step "Проверка ссылок..."
+
+    local broken=0
+
+    # Проверяем, что все KB-статьи упоминают архитектуру
+    if grep -q "architecture-overview" "$KB_DIR/README.md" 2>/dev/null; then
+        echo -e "  ✓ KB README ссылается на architecture-overview"
+    else
+        echo -e "  ✗ KB README не ссылается на architecture-overview"
+        broken=$((broken + 1))
+    fi
+
+    # Проверяем, что map_all_small ссылается на все map-файлы
+    for file in map_all.md map_mermaid.md map_tree.md map_json.md map_links.md map_update.md; do
+        if grep -q "\[$file\]" "$MAP_SMALL" 2>/dev/null; then
+            echo -e "  ✓ map_all_small ссылается на $file"
+        else
+            echo -e "  ✗ map_all_small не ссылается на $file"
+            broken=$((broken + 1))
+        fi
+    done
+
+    if [ $broken -eq 0 ]; then
+        log_info "Все ссылки в порядке"
+    else
+        log_warn "$broken ссылок отсутствует"
+    fi
 }
 
 #------------------------------------------------------------------------------
@@ -224,47 +272,16 @@ generate_report() {
 }
 
 #------------------------------------------------------------------------------
-# Проверка ссылок
-#------------------------------------------------------------------------------
-verify_links() {
-    log_step "Проверка ссылок..."
-
-    local broken=0
-
-    # Проверяем project → KB ссылки
-    if grep -q "fundament_rf.*tradingview" "$MAP_LINKS" 2>/dev/null; then
-        echo -e "  ✓ fundament_rf → tradingview link exists"
-    else
-        echo -e "  ✗ fundament_rf → tradingview link MISSING"
-        ((broken++))
-    fi
-
-    if grep -q "graphs_candle.*tradingview" "$MAP_LINKS" 2>/dev/null; then
-        echo -e "  ✓ graphs_candle → tradingview link exists"
-    else
-        echo -e "  ✗ graphs_candle → tradingview link MISSING"
-        ((broken++))
-    fi
-
-    if [ $broken -eq 0 ]; then
-        log_info "Все ссылки в порядке"
-    else
-        log_warn "$broken ссылок отсутствует"
-    fi
-}
-
-#------------------------------------------------------------------------------
 # Главная функция
 #------------------------------------------------------------------------------
 main() {
     echo ""
     echo "========================================"
     echo "  Workspace Knowledge Map Updater"
-    echo "  (modular version)"
+    echo "  v2.0"
     echo "========================================"
     echo ""
 
-    # Проверки
     check_workspace
     echo ""
 
@@ -275,16 +292,20 @@ main() {
         echo ""
         check_structure
         echo ""
+        check_kb_completeness
+        echo ""
         verify_links
         echo ""
         exit 0
     fi
 
-    # Полное обновление
     check_map_files
     echo ""
 
     check_structure
+    echo ""
+
+    check_kb_completeness
     echo ""
 
     update_versions

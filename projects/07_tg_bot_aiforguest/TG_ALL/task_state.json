@@ -1,11 +1,11 @@
 {
-  "counter_global": 323,
+  "counter_global": 330,
   "counter_type": {},
   "users": {
     "248207602": {
       "name": "",
       "counter_type": {
-        "XOCX": 290
+        "XOCX": 296
       }
     },
     "8334836991": {
@@ -17,7 +17,7 @@
     "3309222": {
       "name": "",
       "counter_type": {
-        "XOCX": 5
+        "XOCX": 6
       }
     }
   },
@@ -3406,6 +3406,78 @@
       "created_ms": 1781984650965,
       "start_ms": 1781984650976,
       "elapsed_ms": 1109
+    },
+    "248207602-XOCX-M01-291": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "📡 АВТО-СИГНАЛ\n🎯 MIDASFLOW\n🟢 EIGENUSDT  | #EIGENUSDT  |  LONG ▲  |  TRENDING\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n⚠️ ОСТОРОЖНО  [ВЫСОКАЯ]  |  Score: 61.4%\n💪 Консенсус: STRONG_CONSENSUS  💪3 ✅5 😐4 ❌1\n🟡 ML: 45% (PA",
+      "status": "failed",
+      "created_ms": 1782161257930,
+      "start_ms": 1782161257936,
+      "elapsed_ms": null,
+      "error": " stale>1h"
+    },
+    "248207602-XOCX-M01-292": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "🔄 Bot restart | ✅ 192 · ❌ 132 | sys.path fix · margin_size · futures balance",
+      "status": "completed",
+      "created_ms": 1782161944379,
+      "start_ms": 1782161944386,
+      "elapsed_ms": 1109
+    },
+    "248207602-XOCX-M01-293": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "SK:\n📡 АВТО-СИГНАЛ\n🎯 MIDASFLOW\n🟢 EIGENUSDT  | #EIGENUSDT  |  LONG ▲  |  TRENDING\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n⚠️ ОСТОРОЖНО  [ВЫСОКАЯ]  |  Score: 61.4%\n💪 Консенсус: STRONG_CONSENSUS  💪3 ✅5 😐4 ❌1\n🟡 ML: 45%",
+      "status": "failed",
+      "created_ms": 1782161970622,
+      "start_ms": 1782161970630,
+      "elapsed_ms": null,
+      "error": " stale>1h"
+    },
+    "248207602-XOCX-M01-294": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "🔄 Bot restart | ✅ 193 · ❌ 133 | sys.path fix · margin_size · futures balance",
+      "status": "completed",
+      "created_ms": 1782162545537,
+      "start_ms": 1782162545543,
+      "elapsed_ms": 1106
+    },
+    "248207602-XOCX-M01-295": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "🔄 Bot restart | ✅ 194 · ❌ 133 | sys.path fix · margin_size · futures balance",
+      "status": "completed",
+      "created_ms": 1782163337719,
+      "start_ms": 1782163337725,
+      "elapsed_ms": 1107
+    },
+    "248207602-XOCX-M01-296": {
+      "uid": 248207602,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "SK:\n📡 АВТО-СИГНАЛ\n🎯 MIDASFLOW\n🟢 EIGENUSDT  | #EIGENUSDT  |  LONG ▲  |  TRENDING\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n⚠️ ОСТОРОЖНО  [ВЫСОКАЯ]  |  Score: 61.4%\n💪 Консенсус: STRONG_CONSENSUS  💪3 ✅5 😐4 ❌1\n🟡 ML: 45%",
+      "status": "running",
+      "created_ms": 1782163360015,
+      "start_ms": 1782163360021,
+      "elapsed_ms": null
+    },
+    "3309222-XOCX-M01-006": {
+      "uid": 3309222,
+      "type": "XOCX",
+      "cmd_code": "M01",
+      "cmd": "M01",
+      "status": "completed",
+      "created_ms": 1782167230245,
+      "start_ms": 1782167230254,
+      "elapsed_ms": 47241196
     }
   },
   "stats": {

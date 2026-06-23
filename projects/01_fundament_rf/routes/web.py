@@ -91,11 +91,10 @@ def range_variants_demo():
         symbol = obj.data.get('emoji_entry', {}).get('symbol', 'ETC')
         obj_id = obj.id
 
-        if storage.exists_1d(symbol, obj_id):
+        if storage.exists_timeframe(symbol, obj_id, "1D"):
             trade_data = obj.data
-            days_data = storage.load_1d(symbol, obj_id).get('days', [])
-            trade_data = obj.data
-            days_data = storage.load_1d(symbol, obj_id).get('days', [])
+            tf_data = storage.read_timeframe(symbol, obj_id, "1D")
+            days_data = storage._candles_to_legacy(symbol, obj_id, tf_data).get('days', [])
     except (FileNotFoundError, KeyError):
         pass
 

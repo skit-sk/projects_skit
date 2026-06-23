@@ -1,0 +1,157 @@
+projects:
+  "01":
+    name: "Fundament RF"
+    type: flask
+    port: 5000
+    entry_url: "http://localhost:5000/"
+    health_url: "http://localhost:5000/"
+    log_path: "/tmp/flask_01_fundament_rf.log"
+    pidfile: "/tmp/flask_01_fundament_rf.pid"
+    embeddable: true
+    description: "Главный хаб и песочница"
+    sections:
+      - { id: dashboard, label: "Dashboard", url: "/dashboard/" }
+      - { id: graphics, label: "Graphics", url: "/graphics/all" }
+      - { id: graphics_v2, label: "Graphics v2", url: "/graphics/v2" }
+      - { id: analytics, label: "Trade Analytics", url: "/trade-analytics/" }
+      - { id: ma_analytics, label: "MA Analytics", url: "/ma-analytics/" }
+      - { id: account, label: "Account", url: "/account-api/" }
+      - { id: lab, label: "Viz Lab", url: "/viz-lab/" }
+      - { id: ai_models, label: "AI Models", url: "/ai-models/" }
+      - { id: ofd, label: "OFD API", url: "/ofd-api/" }
+      - { id: ofd_abonent, label: "OFD Abonent", url: "/ofd_abonent/" }
+      - { id: ccxt, label: "CCXT API", url: "/ccxt-api/" }
+      - { id: kb, label: "Knowledge Base", url: "/kb/" }
+
+  "02":
+    name: "Graphs Candle"
+    type: flask
+    port: 5005
+    entry_url: "http://localhost:5005/"
+    health_url: "http://localhost:5005/"
+    proxy_url: "/proxy/02/"
+    log_path: "/tmp/flask_02_graphs_candle.log"
+    pidfile: "/tmp/flask_02_graphs_candle.pid"
+    embeddable: true
+    description: "Plotly и SVG свечные графики"
+    sections:
+      - { id: plotly, label: "Plotly", url: "/proxy/02/" }
+      - { id: svg, label: "SVG", url: "/proxy/02/alt" }
+
+  "03":
+    name: "Demo Charts ASCII"
+    type: flask
+    port: 5003
+    entry_url: "http://localhost:5003/"
+    health_url: "http://localhost:5003/"
+    proxy_url: "/proxy/03/"
+    log_path: "/tmp/flask_03_demo_charts_ascii.log"
+    pidfile: "/tmp/flask_03_demo_charts_ascii.pid"
+    embeddable: true
+    description: "ASCII, Plotly, Chart.js, Deck.gl демо"
+    sections:
+      - { id: index, label: "Index", url: "/proxy/03/" }
+      - { id: plotly, label: "Plotly", url: "/proxy/03/plotly" }
+      - { id: chartjs, label: "Chart.js", url: "/proxy/03/chartjs" }
+      - { id: ascii, label: "ASCII", url: "/proxy/03/ascii-new/BTCUSDT" }
+      - { id: deckgl, label: "Deck.gl", url: "/proxy/03/deckgl/BTCUSDT" }
+
+  "04":
+    name: "TradingView Demos"
+    type: static_mount
+    port: null
+    entry_url: "/static/sandbox/04/index.html"
+    health_url: "/static/sandbox/04/index.html"
+    source_path: "/home/user_aioc/workspace/projects/04_tradingview-demos"
+    log_path: null
+    pidfile: null
+    embeddable: true
+    description: "Виджеты TradingView и Lightweight Charts"
+    sections:
+      - { id: mini_chart, label: "Mini Chart", url: "/static/sandbox/04/widgets-full/mini-chart.html" }
+      - { id: advanced_chart, label: "Advanced Chart", url: "/static/sandbox/04/widgets-full/advanced-chart.html" }
+
+  "05":
+    name: "Transcript"
+    type: cli
+    port: null
+    entry_url: null
+    health_url: null
+    log_path: "/tmp/transcript_pipeline.log"
+    pidfile: null
+    embeddable: false
+    description: "Транскрипция видео/аудио"
+
+  "06":
+    name: "Screenshots Catalog"
+    type: static_mount
+    port: null
+    entry_url: "/static/sandbox/06/catalog.html"
+    health_url: "/static/sandbox/06/catalog.html"
+    source_path: "/home/user_aioc/workspace/projects/06_screenshots_project"
+    log_path: null
+    pidfile: null
+    embeddable: true
+    description: "Каталог скриншотов"
+
+  "07":
+    name: "TG Bot AIForGuest"
+    type: bot
+    port: null
+    entry_url: null
+    health_url: null
+    log_path: "/home/user_aioc/workspace/projects/07_tg_bot_aiforguest/bot.log"
+    pidfile: "/tmp/tg_bot_aiforguest.pid"
+    embeddable: false
+    description: "Telegram бот"
+
+  "08":
+    name: "OFD API"
+    type: blueprint
+    port: 5000
+    entry_url: "http://localhost:5000/ofd-api/"
+    health_url: "http://localhost:5000/ofd-api/"
+    log_path: "/tmp/flask_01_fundament_rf.log"
+    pidfile: "/tmp/flask_01_fundament_rf.pid"
+    embeddable: true
+    description: "OFD API Explorer (уже в 01)"
+    sections:
+      - { id: ofd, label: "OFD API", url: "/ofd-api/" }
+      - { id: abonent, label: "OFD Abonent", url: "/ofd_abonent/" }
+
+  "09":
+    name: "Model Catalog"
+    type: blueprint
+    port: 5000
+    entry_url: "http://localhost:5000/ai-models/"
+    health_url: "http://localhost:5000/ai-models/"
+    log_path: null
+    pidfile: null
+    embeddable: true
+    description: "Каталог AI моделей (уже в 01)"
+
+  "10":
+    name: "MAX Bot"
+    type: bot
+    port: null
+    entry_url: null
+    health_url: null
+    log_path: "/home/user_aioc/workspace/projects/10_max_bot/bot.log"
+    pidfile: "/tmp/max_bot.pid"
+    embeddable: false
+    description: "MAX IM bot"
+
+  "11":
+    name: "Med Life"
+    type: atlas
+    port: 5000
+    entry_url: "http://localhost:5000/med-life/"
+    health_url: "http://localhost:5000/med-life/"
+    log_path: "/tmp/flask_01_fundament_rf.log"
+    pidfile: "/tmp/flask_01_fundament_rf.pid"
+    embeddable: true
+    description: "Атлас человека и паспорт состояния пациента"
+    sections:
+      - { id: atlas, label: "Атлас систем", url: "/med-life/atlas/usr_8e498be" }
+      - { id: passport, label: "Паспорт состояния", url: "/med-life/passport/usr_8e498be" }
+      - { id: timeline, label: "Таймлайн", url: "/med-life/timeline/usr_8e498be" }

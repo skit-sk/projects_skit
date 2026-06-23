@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+
+{% block title %}Health | Sandbox{% endblock %}
+
+{% block content %}
+<div class="sandbox-health-page">
+    <h1>📊 Health Dashboard</h1>
+    <p>Статус всех проектов workspace</p>
+
+    <div class="sandbox-health-actions">
+        <button onclick="refreshHealth()" class="btn btn-primary">🔄 Обновить</button>
+        <a href="{{ url_for('sandbox.index') }}" class="btn btn-secondary">← Sandbox</a>
+        <span id="last-update"></span>
+    </div>
+
+    <table class="sandbox-health-table" id="health-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Статус</th>
+                <th>Проект</th>
+                <th>Тип</th>
+                <th>Порт</th>
+                <th>Отклик</th>
+                <th>Детали</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td colspan="8">Загрузка...</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<style>
+.sandbox-health-page { padding: 1rem; }
+.sandbox-health-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 1rem 0;
+}
+.sandbox-health-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--bg-card, #1e1e1e);
+    border-radius: 8px;
+    overflow: hidden;
+}
+.sandbox-health-table th,
+.sandbox-health-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border-color, #444);
+    text-align: left;
+    font-size: 0.85rem;
+}
+.sandbox-health-table th {
+    background: var(--bg-secondary, #2a2a2a);
+    color: var(--text-muted, #aaa);
+}
+.sandbox-health-table tr.status-up { background: rgba(34, 197, 94, 0.08); }
+.sandbox-health-table tr.status-down { background: rgba(248, 81, 73, 0.08); }
+.sandbox-health-table tr.status-degraded { background: rgba(210, 153, 34, 0.08); }
+.status-up { color: #3fb950; }
+.status-down { color: #f85149; }
+.status-degraded { color: #d29922; }
+.status-unknown { color: #8b949e; }
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background: var(--accent, #58a6ff);
+    color: #fff;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.8rem;
+}
+.btn-secondary { background: var(--bg-secondary, #444); color: var(--text-main, #ddd); }
+.btn-danger { background: #f85149; }
+.btn-primary { background: var(--success, #238636); }
+</style>
+
+<script>
+async function controlProject(id, action) {
+    if (!confirm(`${action === 'start' ? 'Запустить' : action === 'stop' ? 'Остановить' : 'Перезапустить'} проект #${id}?`)) return;
+    try {
+        const resp = await fetch(`/sandbox/api/${id}/${action}`, { method: 'POST' });
+        const data = await resp.json();
+        if (data.error) alert('Ошибка: ' + data.error + '\n' + (data.stderr || ''));
+        else alert(`Команда ${action} выполнена.\nКод: ${data.returncode}\n${data.stdout || ''}`);
+    } catch (e) { alert('Ошибка сети: ' + e.message); }
+    refreshHealth();
+}
+
+async function refreshHealth() {
+    const tbody = document.querySelector('#health-table tbody');
+    tbody.innerHTML = '<tr><td colspan="8">Загрузка...</td></tr>';
+    try {
+        const resp = await fetch('{{ url_for("sandbox.api_health") }}');
+        const data = await resp.json();
+        document.getElementById('last-update').textContent = 'Обновлено: ' + data.timestamp;
+        tbody.innerHTML = '';
+        for (const [pid, info] of Object.entries(data.projects)) {
+            const tr = document.createElement('tr');
+            tr.className = 'status-' + info.status;
+            const statusIcon = info.status === 'up' ? '🟢' : info.status === 'down' ? '🔴' : info.status === 'degraded' ? '🟡' : '⚪';
+            const details = [];
+            if (info.response_ms) details.push(info.response_ms + 'ms');
+            if (info.pid) details.push('PID ' + info.pid);
+            if (info.error) details.push('ошибка: ' + info.error);
+            if (info.last_modified) details.push(info.last_modified);
+            const controls = [];
+            if (pid !== '01' && info.type in ['flask', 'bot']) {
+                controls.push(`<button class="btn btn-small" onclick="controlProject('${pid}', 'start')">▶</button>`);
+                controls.push(`<button class="btn btn-small btn-danger" onclick="controlProject('${pid}', 'stop')">⏹</button>`);
+                controls.push(`<button class="btn btn-small btn-secondary" onclick="controlProject('${pid}', 'restart')">🔄</button>`);
+            }
+            controls.push(`<a href="{{ url_for('sandbox.project', project_id='') }}${pid}" class="btn btn-small">Открыть</a>`);
+            controls.push(`<a href="{{ url_for('sandbox.logs', project_id='') }}${pid}" class="btn btn-small btn-secondary" target="_blank">Лог</a>`);
+            tr.innerHTML = `
+                <td><strong>#${pid}</strong></td>
+                <td class="status-${info.status}">${statusIcon} ${info.status}</td>
+                <td>${info.name}</td>
+                <td>${info.type}</td>
+                <td>${info.port || '-'}</td>
+                <td>${info.response_ms ? info.response_ms + 'ms' : '-'}</td>
+                <td>${details.join('<br>')}</td>
+                <td>${controls.join(' ')}</td>
+            `;
+            tbody.appendChild(tr);
+        }
+    } catch (e) {
+        tbody.innerHTML = '<tr><td colspan="8">Ошибка загрузки: ' + e.message + '</td></tr>';
+    }
+}
+refreshHealth();
+setInterval(refreshHealth, 30000);
+</script>
+{% endblock %}

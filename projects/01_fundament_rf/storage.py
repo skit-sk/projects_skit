@@ -49,6 +49,8 @@ def get_metrics_storage():
 
 
 class JSONStorage:
+    TF_EXTENSIONS = {"1D": "_1D.json", "4h": "_4h.json", "1h": "_1h.json"}
+
     def __init__(self, data_dir=None):
         if data_dir is None:
             self.data_dir = Path(__file__).parent / 'data'
@@ -70,6 +72,164 @@ class JSONStorage:
 
     def _raw_path(self, symbol, obj_id):
         return self._card_folder(symbol, obj_id) / f'{obj_id}_RAW.json'
+
+    def _tf_path(self, symbol, obj_id, timeframe: str):
+        ext = self.TF_EXTENSIONS.get(timeframe)
+        if not ext:
+            raise ValueError(f"Unsupported timeframe: {timeframe}")
+        return self._card_folder(symbol, obj_id) / f'{obj_id}{ext}'
+
+    def write_timeframe(self, symbol, obj_id, timeframe: str, data: dict):
+        data["updated_at"] = datetime.now().isoformat()
+        self._ensure_card_folder(symbol, obj_id)
+        with open(self._tf_path(symbol, obj_id, timeframe), "w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False, default=str)
+
+    def read_timeframe(self, symbol, obj_id, timeframe: str) -> dict:
+        p = self._tf_path(symbol, obj_id, timeframe)
+        if not p.exists():
+            raise FileNotFoundError(f"{timeframe} data for {obj_id} not found")
+        with open(p, "r", encoding="utf-8") as f:
+            return json.load(f)
+
+    def exists_timeframe(self, symbol, obj_id, timeframe: str) -> bool:
+        return self._tf_path(symbol, obj_id, timeframe).exists()
+
+    def _candles_to_legacy(self, symbol, obj_id, new_data):
+        """Convert new-format 1D data dict to legacy shape (days[]/chart_data[]/summary)."""
+        candles = new_data.get("candles", [])
+        sym = new_data.get("symbol", symbol)
+        entry_price = new_data.get("entry_price", 0)
+        entry_date = new_data.get("entry_date", "")
+        leverage = new_data.get("leverage", 10)
+        volume = new_data.get("volume", 1)
+
+        days = []
+        chart_data = []
+        profitable_count = 0
+        loss_count = 0
+        neutral_count = 0
+        sum_roe = 0.0
+        sum_volatility = 0.0
+        current_roe = 0.0
+        current_pnl = 0.0
+        max_profit_day = None
+        max_loss_day = None
+        max_drawdown_pct = 0.0
+        max_drawdown_usdt = 0.0
+        streak_profit = 0
+        streak_loss = 0
+        current_streak = 0
+        streak_type = None
+
+        for i, c in enumerate(candles):
+            pm = c.get("position_metrics", {})
+            cm = c.get("candle_metrics", {})
+            is_pre = pm.get("pre_entry", False)
+            roe = pm.get("roe_pct", 0) if not is_pre else 0
+            pnl = pm.get("pnl_usdt", 0) if not is_pre else 0
+            profitable = pm.get("profitable", False) if not is_pre else False
+            volatility = pm.get("volatility", 0)
+            deviation = pm.get("deviation", {})
+            day = {
+                "date": c.get("date", ""),
+                "day_index": i,
+                "pre_entry": is_pre,
+                "ohlc": {
+                    "open": c.get("open", 0),
+                    "high": c.get("high", 0),
+                    "low": c.get("low", 0),
+                    "close": c.get("close", 0),
+                    "body": cm.get("body", 0),
+                    "body_pct": pm.get("body_pct", 0),
+                    "upper_wick": cm.get("upper_wick", 0),
+                    "lower_wick": cm.get("lower_wick", 0),
+                },
+                "deviation": deviation,
+                "roe_pct": roe,
+                "pnl_usdt": pnl,
+                "volatility": volatility,
+                "profitable": profitable,
+            }
+            days.append(day)
+            chart_data.append({
+                "date": c.get("date", ""),
+                "deviation_pct": deviation.get("from_entry_pct", 0),
+                "profitable": profitable,
+                "pre_entry": is_pre,
+            })
+            if not is_pre:
+                if profitable:
+                    profitable_count += 1
+                if roe < 0:
+                    loss_count += 1
+                if roe == 0:
+                    neutral_count += 1
+                sum_roe += roe
+                sum_volatility += volatility
+                current_roe = roe
+                current_pnl = pnl
+                if max_profit_day is None or roe > max_profit_day["roe_pct"]:
+                    max_profit_day = day
+                if max_loss_day is None or roe < max_loss_day["roe_pct"]:
+                    max_loss_day = day
+                max_drawdown_pct = min(max_drawdown_pct, deviation.get("from_entry_pct", 0))
+                max_drawdown_usdt = min(max_drawdown_usdt, deviation.get("from_entry_usdt", 0))
+                if profitable:
+                    if streak_type == "profit":
+                        current_streak += 1
+                    else:
+                        current_streak = 1
+                        streak_type = "profit"
+                    streak_profit = max(streak_profit, current_streak)
+                else:
+                    if streak_type == "loss":
+                        current_streak += 1
+                    else:
+                        current_streak = 1
+                        streak_type = "loss"
+                    streak_loss = max(streak_loss, current_streak)
+
+        total_days = sum(1 for d in days if not d["pre_entry"])
+        summary = {
+            "total_days": total_days,
+            "profitable_days": profitable_count,
+            "loss_days": loss_count,
+            "neutral_days": neutral_count,
+            "current_roe_pct": round(current_roe, 2),
+            "current_pnl_usdt": round(current_pnl, 4),
+            "avg_roe_pct": round(sum_roe / total_days, 2) if total_days else 0,
+            "avg_volatility": round(sum_volatility / total_days, 6) if total_days else 0,
+            "max_profit_day": {
+                "date": max_profit_day["date"], "roe_pct": max_profit_day["roe_pct"],
+                "pnl_usdt": max_profit_day["pnl_usdt"],
+            } if max_profit_day else {},
+            "max_loss_day": {
+                "date": max_loss_day["date"], "roe_pct": max_loss_day["roe_pct"],
+                "pnl_usdt": max_loss_day["pnl_usdt"],
+            } if max_loss_day else {},
+            "max_drawdown_pct": round(max_drawdown_pct, 2),
+            "max_drawdown_usdt": round(max_drawdown_usdt, 6),
+            "streak_profit": streak_profit,
+            "streak_loss": streak_loss,
+        } if total_days else {}
+
+        return {
+            "id": f"{obj_id}_1D",
+            "parent_id": obj_id,
+            "symbol": sym.upper(),
+            "entry_price": entry_price,
+            "entry_date": entry_date,
+            "leverage": leverage,
+            "volume": volume,
+            "status": "completed",
+            "fetched_at": new_data.get("created_at"),
+            "created_at": new_data.get("created_at"),
+            "updated_at": new_data.get("updated_at"),
+            "days": days,
+            "chart_data": chart_data,
+            "summary": summary,
+        }
 
     def _ensure_card_folder(self, symbol, obj_id):
         folder = self._card_folder(symbol, obj_id)
@@ -94,7 +254,7 @@ class JSONStorage:
         objects = []
         for f in self.card_dir.rglob('*.json'):
             name = f.name
-            if name.endswith('_1D.json') or name.endswith('_RAW.json') or name == 'metrics.json':
+            if name.endswith('_1D.json') or name.endswith('_RAW.json') or name.endswith('_4h.json') or name.endswith('_1h.json') or name == 'metrics.json':
                 continue
             try:
                 with open(f, 'r', encoding='utf-8') as fp:
@@ -113,19 +273,6 @@ class JSONStorage:
             return
         raise FileNotFoundError(f'Object {obj_id} not found')
 
-    def save_1d(self, symbol, obj_id: str, data: dict):
-        data['updated_at'] = datetime.now().isoformat()
-        self._ensure_card_folder(symbol, obj_id)
-        with open(self._1d_path(symbol, obj_id), 'w', encoding='utf-8') as f:
-            json.dump(data, f, ensure_ascii=False, default=str)
-
-    def load_1d(self, symbol, obj_id: str) -> dict:
-        p = self._1d_path(symbol, obj_id)
-        if not p.exists():
-            raise FileNotFoundError(f'1D data for {obj_id} not found')
-        with open(p, 'r', encoding='utf-8') as f:
-            return json.load(f)
-
     def save_raw(self, symbol, obj_id: str, data: dict):
         data['updated_at'] = datetime.now().isoformat()
         self._ensure_card_folder(symbol, obj_id)
@@ -143,9 +290,6 @@ class JSONStorage:
         for p in [self._1d_path(symbol, obj_id), self._raw_path(symbol, obj_id)]:
             if p.exists():
                 p.unlink()
-
-    def exists_1d(self, symbol, obj_id: str) -> bool:
-        return self._1d_path(symbol, obj_id).exists()
 
     def exists_raw(self, symbol, obj_id: str) -> bool:
         return self._raw_path(symbol, obj_id).exists()

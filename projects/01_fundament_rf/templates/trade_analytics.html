@@ -2,7 +2,7 @@
 {% block title %}Trade Analytics — {{ symbol }}{% endblock %}
 {% block extra_head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/trade_analytics.css') }}">
-<script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+<script src="/static/vendor/plotly@2.27.0/plotly-2.27.0.min.js"></script>
 {% endblock %}
 
 {% block content %}
@@ -18,6 +18,7 @@
       <span class="ta-badge" id="ta-status">🟢 {{ obj.data.emoji_upd.get('status', '—') }}</span>
       <span class="ta-badge entry-badge">Entry: {{ obj.data.emoji_entry.entry_price }}</span>
       <span class="ta-badge lev-badge">{{ obj.data.leverage }}x</span>
+      <button type="button" class="ta-nav-btn" id="ta-prev" onclick="navigate(-1)" title="Previous">◀</button>
       <select id="ta-symbol-select" class="ta-symbol-select" onchange="onSymbolChange(this.value)">
         {% for o in objects %}
         <option value="{{ o.id }}" {% if o.id == obj.id %}selected{% endif %} data-hasdata="{{ o.has_1d and o.has_raw }}">
@@ -25,6 +26,7 @@
         </option>
         {% endfor %}
       </select>
+      <button type="button" class="ta-nav-btn" id="ta-next" onclick="navigate(1)" title="Next">▶</button>
       <a href="/ma-analytics/{{ obj.id }}" class="ta-badge" style="background:#3b82f6;color:white;text-decoration:none;">📊 База MA →</a>
       <label style="font-size:11px; vertical-align:middle; margin-left:4px;">
         📜 История: <input type="number" id="historyDepth" value="{{ obj.data.get('pre_history_days', 60) }}"
@@ -135,6 +137,7 @@
 <script>
 const OBJ_ID = '{{ obj.id }}';
 const SYMBOL = '{{ symbol }}';
+const TA_OBJECTS = {{ objects | tojson | safe }};
 
 async function loadData() {
   const loader = document.getElementById('ta-loader');
@@ -154,8 +157,6 @@ async function loadData() {
     setTimeout(() => {
       loader.style.display = 'none';
       content.style.display = 'block';
-      Plotly.Plots.resize(document.getElementById('mainChart'));
-      Plotly.Plots.resize(document.getElementById('indicatorChart'));
     }, 300);
 
     renderKPI(data);
@@ -163,6 +164,11 @@ async function loadData() {
     renderIndicatorChart(data);
     renderLiquidationHeatmap(data);
     renderPivotTable(data);
+
+    setTimeout(() => {
+      Plotly.Plots.resize(document.getElementById('mainChart'));
+      Plotly.Plots.resize(document.getElementById('indicatorChart'));
+    }, 400);
   } catch(e) {
     loaderText.textContent = 'Failed: ' + e.message;
     setTimeout(() => {
@@ -234,6 +240,7 @@ function renderMainChart(data) {
 
   const entryDate = data.entry_dates?.entry_date || '';
   const postIdx = entryDate ? dates.findIndex(d => d >= entryDate) : 0;
+  const preDates = dates.slice(0, postIdx);
   const postDates = dates.slice(postIdx);
 
   const colors = {
@@ -249,22 +256,9 @@ function renderMainChart(data) {
   const maxPrice = extremes.price.max;
   const minPrice = extremes.price.min;
 
-  const roeMin = Math.min(...metrics.roe_pct.slice(postIdx));
-  const roeMax = Math.max(...metrics.roe_pct.slice(postIdx));
-
   const liqBars = liq.days.slice(postIdx).map(d => d.at_risk ? d.simulated_liq_volume : 0);
 
   const traces = [];
-
-  traces.push({
-    type: 'bar', x: postDates, y: liqBars,
-    name: 'Liq Volume (sim)',
-    marker: { color: colors.liqBar },
-    yaxis: 'y4',
-    width: 1,
-    hoverinfo: 'skip',
-    opacity: 0.5,
-  });
 
   if (postIdx > 0) {
     traces.push({
@@ -296,11 +290,15 @@ function renderMainChart(data) {
   const lev = meta.leverage || 10;
   const entry = meta.entry_price;
   const postRoe = metrics.roe_pct.slice(postIdx);
+  const preRoe = metrics.roe_pct.slice(0, postIdx);
   const postVolume = ohlc.volume.slice(postIdx);
   const postHigh = ohlc.high.slice(postIdx);
   const postLow = ohlc.low.slice(postIdx);
 
-  // ── ROE % line (post only) ──
+  // ── ROE % line (pre + post) ──
+  if (postIdx > 0) {
+    traces.push({ type: 'scatter', x: preDates, y: preRoe, name: 'ROE % (history)', line: { color: colors.roe, width: 1 }, opacity: 0.5, yaxis: 'y2', showlegend: false, hoverinfo: 'skip' });
+  }
   traces.push({ type: 'scatter', x: postDates, y: postRoe, name: 'ROE %', line: { color: colors.roe, width: 2 }, opacity: 0.5, yaxis: 'y2' });
 
   // ── ROE fill (rects per day, entry → high/low) ──
@@ -319,19 +317,40 @@ function renderMainChart(data) {
     });
   });
 
-  // ── Volatility (post only) ──
-  traces.push({ type: 'scatter', x: postDates, y: metrics.volatility_pct.slice(postIdx), name: 'Vol %', line: { color: colors.volatility, width: 1.5, dash: 'dot' }, opacity: 1, yaxis: 'y3' });
+  // ── Volatility (pre + post) ──
+  const preVol = metrics.volatility_pct.slice(0, postIdx);
+  const postVol = metrics.volatility_pct.slice(postIdx);
+  if (postIdx > 0) {
+    traces.push({ type: 'scatter', x: preDates, y: preVol, name: 'Vol % (history)', line: { color: colors.volatility, width: 1, dash: 'dot' }, opacity: 0.5, yaxis: 'y3', showlegend: false, hoverinfo: 'skip' });
+  }
+  traces.push({ type: 'scatter', x: postDates, y: postVol, name: 'Vol %', line: { color: colors.volatility, width: 1.5, dash: 'dot' }, opacity: 1, yaxis: 'y3' });
 
   if (metrics.volatility_lev) {
-    traces.push({ type: 'scatter', x: postDates, y: metrics.volatility_lev.slice(postIdx), name: 'Vol×Lev %', line: { color: '#f97316', width: 1.5, dash: 'dash' }, opacity: 1, yaxis: 'y3' });
+    const preVolLev = metrics.volatility_lev.slice(0, postIdx);
+    const postVolLev = metrics.volatility_lev.slice(postIdx);
+    if (postIdx > 0) {
+      traces.push({ type: 'scatter', x: preDates, y: preVolLev, name: 'Vol×Lev % (history)', line: { color: '#f97316', width: 1, dash: 'dash' }, opacity: 0.5, yaxis: 'y3', showlegend: false, hoverinfo: 'skip' });
+    }
+    traces.push({ type: 'scatter', x: postDates, y: postVolLev, name: 'Vol×Lev %', line: { color: '#f97316', width: 1.5, dash: 'dash' }, opacity: 1, yaxis: 'y3' });
   }
 
   // ── Volume bars (post only) ──
   traces.push({ type: 'bar', x: postDates, y: postVolume, name: 'Volume', marker: { color: colors.volume }, opacity: 1, yaxis: 'y4' });
 
-  // ── Liq bars (post only) ──
-  const postLiqBars = liq.days.slice(postIdx).map(d => d.at_risk ? d.simulated_liq_volume : 0);
-  traces.push({ type: 'bar', x: postDates, y: postLiqBars, name: 'Liq Volume (sim)', marker: { color: colors.liqBar }, yaxis: 'y4', width: 1, hoverinfo: 'skip', opacity: 0.5 });
+  // ── Liq markers (post only) ──
+  const postLiqDates = liq.days.slice(postIdx).filter(d => d.at_risk).map(d => d.date);
+  const postLiqVals = liq.days.slice(postIdx).filter(d => d.at_risk).map(d => d.simulated_liq_volume);
+  traces.push({
+    type: 'scatter', mode: 'markers',
+    x: postLiqDates, y: postLiqVals,
+    name: 'Liq Volume (sim)',
+    marker: {
+      color: colors.liqBar, symbol: 'diamond', size: 7,
+      line: { width: 1, color: 'white' },
+      opacity: 0.8,
+    },
+    yaxis: 'y4', hoverinfo: 'skip',
+  });
 
   // ── SMA (volume, post only) ──
   function sma(arr, p) { const r = []; for (let i = 0; i < arr.length; i++) { if (i < p - 1) { r.push(null); continue; } let s = 0; for (let j = i - p + 1; j <= i; j++) s += arr[j]; r.push(s / p); } return r; }
@@ -396,6 +415,32 @@ function renderMainChart(data) {
     if (ft.x.length) traces.push(ft);
   }
 
+  // ── Gradient zones: entry → liq10x → liq5x → liq2x ──
+  const side = meta.side || 'long';
+  const sign = side === 'long' ? -1 : 1;
+  const liq10x = entryPrice * (1 + sign / lev);
+  const liq5x = entryPrice * (1 + sign / 5);
+  const liq2x = entryPrice * (1 + sign / 2);
+
+  function addGrad(shapes, top, bot, steps, r, g, b, aMin, aMax) {
+    const step = (top - bot) / steps;
+    for (let i = 0; i < steps; i++) {
+      const y0 = top - step * i;
+      const y1 = top - step * (i + 1);
+      const a = aMin + (aMax - aMin) * (i / steps);
+      shapes.push({
+        type: 'rect', xref: 'paper', yref: 'y', layer: 'below',
+        x0: 0, x1: 1, y0, y1,
+        fillcolor: `rgba(${r},${g},${b},${a.toFixed(3)})`,
+        line: { width: 0 },
+      });
+    }
+  }
+
+  addGrad(fillShapes, entryPrice, liq10x, 30, 220, 38, 38, 0.02, 0.35);
+  addGrad(fillShapes, liq10x, liq5x, 20, 251, 146, 60, 0.01, 0.20);
+  addGrad(fillShapes, liq5x, liq2x, 15, 250, 204, 21, 0.01, 0.10);
+
   const layout = {
     template: 'plotly_dark',
     paper_bgcolor: '#2d2d2d',
@@ -454,8 +499,6 @@ function renderMainChart(data) {
     shapes: [
       ...fillShapes,
       { type: 'rect', xref: 'paper', yref: 'paper', x0: 0, y0: 0.28, x1: 1, y1: 0.30, fillcolor: '#333', line: { width: 0 }, layer: 'below' },
-      { type: 'rect', xref: 'paper', yref: 'y', x0: 0, y0: liqPrice, x1: 1, y1: liqPrice * 0.97, fillcolor: 'rgba(220,38,38,0.08)', line: { width: 0 }, layer: 'below' },
-      { type: 'rect', xref: 'paper', yref: 'y', x0: 0, y0: liqPrice * 0.97, x1: 1, y1: liqPrice * 0.94, fillcolor: 'rgba(220,38,38,0.04)', line: { width: 0 }, layer: 'below' },
     ],
     annotations: hlines.map(h => ({
       x: 1, y: h.y, xref: 'paper', yref: 'y',
@@ -502,18 +545,26 @@ function renderIndicatorChart(data) {
   // ── RSI ──
   addSplit('RSI(14)', ind.rsi, colors.rsi, 1.5, 'y');
 
-  // Overbought/Oversold fills (post only, mirrored style)
+  // Overbought/Oversold fills (post only)
   const post70 = Array(postDates.length).fill(70);
   const post30 = Array(postDates.length).fill(30);
+  const post100 = Array(postDates.length).fill(100);
+  const post0 = Array(postDates.length).fill(0);
+  
   if (postIdx > 0) {
     const pre70 = Array(preDates.length).fill(70);
     const pre30 = Array(preDates.length).fill(30);
     traces.push({ type: 'scatter', x: preDates, y: pre70, name: 'Overbought 70 (history)', line: { color: 'rgba(239,68,68,0.2)', width: 1, dash: 'dash' }, opacity: 0.5, yaxis: 'y', showlegend: false, hoverinfo: 'skip' });
     traces.push({ type: 'scatter', x: preDates, y: pre30, line: { color: 'rgba(34,197,94,0.2)', width: 1, dash: 'dash' }, opacity: 0.5, yaxis: 'y', showlegend: false, hoverinfo: 'skip' });
   }
+  
+  // Overbought zone (70-100) - red fill
   traces.push({ type: 'scatter', x: postDates, y: post70, name: 'Overbought 70', line: { color: 'rgba(239,68,68,0.4)', width: 1, dash: 'dash' }, yaxis: 'y' });
-  traces.push({ type: 'scatter', x: postDates, y: post30, name: 'Oversold 30', line: { color: 'rgba(34,197,94,0.4)', width: 1, dash: 'dash' }, yaxis: 'y', fill: 'tonexty', fillcolor: colors.rsiLower });
-  traces.push({ type: 'scatter', x: postDates, y: post70, fill: 'tonexty', fillcolor: colors.rsiUpper, hoverinfo: 'skip', line: { width: 0 }, yaxis: 'y', showlegend: false });
+  traces.push({ type: 'scatter', x: postDates, y: post100, name: 'Overbought Zone', line: { width: 0 }, fill: 'tonexty', fillcolor: colors.rsiUpper, hoverinfo: 'skip', yaxis: 'y', showlegend: false });
+  
+  // Oversold zone (0-30) - green fill
+  traces.push({ type: 'scatter', x: postDates, y: post30, name: 'Oversold 30', line: { color: 'rgba(34,197,94,0.4)', width: 1, dash: 'dash' }, yaxis: 'y' });
+  traces.push({ type: 'scatter', x: postDates, y: post0, name: 'Oversold Zone', line: { width: 0 }, fill: 'tonexty', fillcolor: colors.rsiLower, hoverinfo: 'skip', yaxis: 'y', showlegend: false });
 
   // ── MACD Histogram ──
   const macdPre = ind.macd.histogram.slice(0, postIdx);
@@ -655,7 +706,8 @@ function renderLiquidationHeatmap(data) {
   html += '<div class="ta-liq-legend-title">🔥 Heatmap Zones (Price Levels)</div>';
   html += '<div class="ta-liq-bars">';
   prices.forEach((p, i) => {
-    const pct = ((p - minPrice) / (maxPrice - minPrice) * 100).toFixed(1);
+    const range = maxPrice - minPrice;
+    const pct = range ? ((p - minPrice) / range * 100).toFixed(1) : '0';
     html += `<div class="ta-liq-bar" style="width:${pct}%;background:${colors[i]};">
       <span class="ta-liq-bar-label">${labels[i]}</span>
     </div>`;
@@ -704,6 +756,21 @@ function renderPivotTable(data) {
   }).join('');
 }
 
+function navigate(step) {
+  if (!TA_OBJECTS || TA_OBJECTS.length < 2) return;
+  const currentIdx = TA_OBJECTS.findIndex(o => o.id === OBJ_ID);
+  const startIdx = currentIdx === -1 ? 0 : currentIdx;
+  let idx = startIdx;
+  do {
+    idx = (idx + step + TA_OBJECTS.length) % TA_OBJECTS.length;
+    if (idx === startIdx) {
+      alert('No next/previous object with data available');
+      return;
+    }
+  } while (!TA_OBJECTS[idx].has_1d || !TA_OBJECTS[idx].has_raw);
+  window.location.href = '/trade-analytics/dashboard/' + TA_OBJECTS[idx].id;
+}
+
 function onSymbolChange(objId) {
   const selected = document.querySelector(`#ta-symbol-select option[value="${objId}"]`);
   if (!selected) return;
@@ -714,6 +781,14 @@ function onSymbolChange(objId) {
     alert('No 1D/RAW data available for this asset');
   }
 }
+
+document.addEventListener('keydown', (e) => {
+  if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+  const tag = document.activeElement?.tagName;
+  if (tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA') return;
+  if (e.key === 'ArrowLeft') navigate(-1);
+  if (e.key === 'ArrowRight') navigate(1);
+});
 
 document.addEventListener('DOMContentLoaded', loadData);
 </script>

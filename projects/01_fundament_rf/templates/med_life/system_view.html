@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ system_label }} | {{ object_id }}{% endblock %}
+
+{% block extra_head %}
+<script src="/static/vendor/plotly@2.27.0/plotly-2.27.0.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="medlife-container">
+    <div class="medlife-header">
+        <a href="{{ url_for('med_life.atlas', object_id=object_id) }}" class="btn btn-secondary">← К атласу</a>
+        <h1>{{ system_label }}</h1>
+    </div>
+
+    <div class="system-layout">
+        <div class="system-main">
+            <h3>📝 Записи</h3>
+            {% if entries %}
+            <div class="entry-list">
+                {% for entry in entries|sort(attribute='date') %}
+                <div class="entry-card">
+                    <div class="entry-header">
+                        <span class="entry-date">{{ entry.date }}</span>
+                        <span class="entry-domain">{{ entry.domain }}</span>
+                        {% if entry.specialist %}
+                        <span class="entry-specialist">{{ entry.specialist.role }}</span>
+                        {% endif %}
+                    </div>
+                    <div class="entry-body">
+                        {% if entry.data.diagnosis %}
+                        <p><strong>Диагноз:</strong> {{ entry.data.diagnosis.text or entry.data.diagnosis.code or '—' }}</p>
+                        {% endif %}
+                        {% if entry.data.complaints %}
+                        <p><strong>Жалобы:</strong> {{ entry.data.complaints }}</p>
+                        {% endif %}
+                        {% if entry.data.objective_findings %}
+                        <p><strong>Объективно:</strong> {{ entry.data.objective_findings }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p>Нет записей по этой системе</p>
+            {% endif %}
+        </div>
+
+        <div class="system-side">
+            <div class="system-card">
+                <h3>💊 Препараты</h3>
+                {% if drugs %}
+                <div class="drug-mini-list">
+                    {% for d in drugs %}
+                    <div class="drug-mini">
+                        <strong>{{ d.drug }}</strong>
+                        <small>{{ d.dose.text or d.dose.value ~ ' ' ~ d.dose.unit }}</small>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p>Нет назначений</p>
+                {% endif %}
+            </div>
+
+            <div class="system-card">
+                <h3>🧪 Лаборатория</h3>
+                {% if labs %}
+                <div id="lab-chart"></div>
+                <table class="medlife-table small">
+                    <thead><tr><th>Дата</th><th>Показатель</th><th>Значение</th></tr></thead>
+                    <tbody>
+                        {% for lab in labs %}
+                        <tr>
+                            <td>{{ lab.date }}</td>
+                            <td>{{ lab.name }}</td>
+                            <td>{{ lab.value }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <p>Нет лабораторных данных</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.medlife-container { padding: 1rem; }
+.medlife-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+.medlife-header h1 { margin: 0; }
+.system-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.5rem;
+}
+@media (max-width: 900px) {
+    .system-layout { grid-template-columns: 1fr; }
+}
+.entry-list { display: flex; flex-direction: column; gap: 1rem; }
+.entry-card {
+    border: 1px solid var(--border-color, #444);
+    border-radius: 8px;
+    padding: 1rem;
+    background: var(--bg-card, #1e1e1e);
+}
+.entry-header {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+}
+.entry-date { font-weight: bold; }
+.entry-domain {
+    color: var(--accent, #58a6ff);
+    text-transform: capitalize;
+}
+.entry-specialist { color: var(--text-muted, #888); }
+.system-card {
+    border: 1px solid var(--border-color, #444);
+    border-radius: 8px;
+    padding: 1rem;
+    background: var(--bg-card, #1e1e1e);
+    margin-bottom: 1rem;
+}
+.system-card h3 { margin-top: 0; }
+.drug-mini-list { display: flex; flex-direction: column; gap: 0.5rem; }
+.drug-mini {
+    padding: 0.5rem;
+    border-radius: 4px;
+    background: var(--bg-secondary, #2a2a2a);
+}
+.medlife-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+.medlife-table th, .medlife-table td {
+    padding: 6px;
+    border-bottom: 1px solid var(--border-color, #444);
+    text-align: left;
+    font-size: 0.85rem;
+}
+.btn-secondary { background: var(--bg-secondary, #444); color: var(--text-main, #ddd); padding: 6px 12px; border-radius: 4px; text-decoration: none; }
+</style>
+
+<script>
+{% if labs %}
+const labs = {{ labs|tojson }};
+const grouped = {};
+labs.forEach(l => {
+    if (!grouped[l.name]) grouped[l.name] = [];
+    grouped[l.name].push(l);
+});
+const traces = Object.entries(grouped).map(([name, items]) => ({
+    x: items.map(i => i.date),
+    y: items.map(i => i.value),
+    mode: 'lines+markers',
+    name: name,
+    connectgaps: true
+}));
+Plotly.newPlot('lab-chart', traces, {
+    title: 'Динамика показателей',
+    paper_bgcolor: 'rgba(0,0,0,0)',
+    plot_bgcolor: 'rgba(0,0,0,0)',
+    font: { color: '#c9d1d9' },
+    xaxis: { gridcolor: '#30363d' },
+    yaxis: { gridcolor: '#30363d' },
+    margin: { t: 40, b: 40, l: 50, r: 20 }
+}, {responsive: true});
+{% endif %}
+</script>
+{% endblock %}

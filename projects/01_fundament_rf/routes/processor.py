@@ -370,18 +370,16 @@ def _run_calculator_pipeline():
             'kpi': kpi_data,
         }
 
-        # 3. indicators from RAW/1D data (if available)
+        # 3. indicators from new format 1D data (if available)
         symbol = obj.data.get('emoji_entry', {}).get('symbol', '')
-        if symbol and storage.exists_raw(symbol, obj.id) and storage.exists_1d(symbol, obj.id):
+        if symbol and storage.exists_timeframe(symbol, obj.id, "1D"):
             try:
-                raw = storage.load_raw(symbol, obj.id)
-                days_data = storage.load_1d(symbol, obj.id)
-                candles = raw.get('candles', [])
-                days = days_data.get('days', [])
-                if candles and days and len(candles) == len(days):
+                tf_data = storage.read_timeframe(symbol, obj.id, "1D")
+                candles = tf_data.get('candles', [])
+                if candles:
+                    leverages = int(tf_data.get('leverage', lev))
                     closes = [c['close'] for c in candles]
                     volumes = [c['volume'] for c in candles]
-                    leverages = int(days_data.get('leverage', lev))
 
                     computed['indicators'] = {
                         'rsi': compute_rsi(closes, 14),

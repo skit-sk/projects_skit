@@ -17,11 +17,18 @@ import indicators as ind
 
 BASE_DIR = Path(__file__).parent
 # Vercel: data is inside project dir; local dev: fallback to fundament_rf
-FUNDAMENT_DATA_DIR = BASE_DIR / "data"
-if not FUNDAMENT_DATA_DIR.exists():
-    FUNDAMENT_DATA_DIR = BASE_DIR.parent / "01_fundament_rf" / "data"
-if not FUNDAMENT_DATA_DIR.exists():
-    FUNDAMENT_DATA_DIR = Path("/home/user_aioc/workspace/projects/01_fundament_rf/data")
+DATA_DIRS = []
+_local_data = BASE_DIR / "data"
+if _local_data.exists():
+    DATA_DIRS.append(_local_data)
+_fundament_data = BASE_DIR.parent / "01_fundament_rf" / "data" / "card"
+if _fundament_data.exists():
+    DATA_DIRS.append(_fundament_data)
+_fundament_data_alt = Path("/home/user_aioc/workspace/projects/01_fundament_rf/data/card")
+if _fundament_data_alt.exists() and _fundament_data_alt not in DATA_DIRS:
+    DATA_DIRS.append(_fundament_data_alt)
+
+FUNDAMENT_DATA_DIR = DATA_DIRS[0] if DATA_DIRS else BASE_DIR / "data"
 
 # Vercel read-only filesystem: write runtime outputs to /tmp when env var is set
 if os.environ.get("DEMO_OUTPUT_DIR"):
@@ -32,13 +39,14 @@ OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 
 def _find_json_recursive(obj_id: str, suffix: str = "") -> Optional[Path]:
-    """Recursively search for {obj_id}{suffix}.json under FUNDAMENT_DATA_DIR."""
+    """Recursively search for {obj_id}{suffix}.json under all known data dirs."""
     target = f"{obj_id}{suffix}.json"
-    if not FUNDAMENT_DATA_DIR.exists():
-        return None
-    for root, _dirs, files in os.walk(FUNDAMENT_DATA_DIR):
-        if target in files:
-            return Path(root) / target
+    for data_dir in DATA_DIRS:
+        if not data_dir.exists():
+            continue
+        for root, _dirs, files in os.walk(data_dir):
+            if target in files:
+                return Path(root) / target
     return None
 
 
@@ -52,7 +60,12 @@ def load_fundament_data(obj_id: str) -> Optional[Dict[str, Any]]:
 
 
 def load_1d_data(obj_id: str) -> Optional[Dict[str, Any]]:
-    """Загрузить 1D данные (OHLCV)."""
+    """Загрузить 1D данные (OHLCV). HTTP-first via new unified API, FS-fallback."""
+    try:
+        from data_loader import load_1d as _dl_load_1d
+        return _dl_load_1d(obj_id)
+    except Exception:
+        pass
     f = _find_json_recursive(obj_id, "_1D")
     if f and f.exists():
         with open(f, 'r', encoding='utf-8') as fp:

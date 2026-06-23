@@ -14,6 +14,7 @@
 | 08 | `projects/08_ofd_api/` | OFD API (Blueprint в 01) | `routes.py` |
 | 09 | `projects/09_model_catalog/` | Каталог моделей AI | `models_catalog.json` |
 | 10 | `projects/10_max_bot/` | MAX bot (сателлит Telegram бота) | `main.py` |
+| 11 | `projects/11_ut11_loader/` | Загрузчик УТ 10.3 → УТ 11.5 (оптовик) | `_work/README.md` |
 | VizLab | `projects/01_fundament_rf/viz_lab/` | 🧪 Visualization Lab (Blueprint в 01) | `/viz-lab/` |
 
 ## Структура

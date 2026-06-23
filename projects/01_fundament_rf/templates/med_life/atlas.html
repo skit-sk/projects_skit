@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+
+{% block title %}Атлас | {{ meta.name }}{% endblock %}
+
+{% block extra_head %}
+<script src="/static/vendor/plotly@2.27.0/plotly-2.27.0.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="medlife-container">
+    <div class="medlife-header">
+        <a href="{{ url_for('med_life.index') }}" class="btn btn-secondary">← К пациентам</a>
+        <h1>🫀 Атлас систем — {{ meta.name }}</h1>
+    </div>
+
+    <div class="atlas-layout">
+        <div class="atlas-systems">
+            {% for sys in scores.systems %}
+            <a href="{{ url_for('med_life.system_view', object_id=object_id, system_key=sys.key) }}" class="atlas-system-item score-{{ sys.label }}">
+                <img src="{{ url_for('static', filename='med_life/icons/system_' + sys.key + '.svg') }}" alt="{{ sys.name }}" class="atlas-icon">
+                <div class="atlas-system-info">
+                    <strong>{{ sys.name }}</strong>
+                    <span class="atlas-score">{{ sys.score }}/10</span>
+                    <span class="atlas-count">{{ sys.count }} записей</span>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+        <div class="atlas-radar">
+            <div id="radar-chart"></div>
+        </div>
+    </div>
+</div>
+
+<style>
+.medlife-container { padding: 1rem; }
+.medlife-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+.medlife-header h1 { margin: 0; }
+.atlas-layout {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 1.5rem;
+}
+@media (max-width: 900px) {
+    .atlas-layout { grid-template-columns: 1fr; }
+}
+.atlas-systems {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.atlas-system-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color, #444);
+    background: var(--bg-card, #1e1e1e);
+    text-decoration: none;
+    color: var(--text-main, #ddd);
+    transition: transform 0.1s, box-shadow 0.1s;
+}
+.atlas-system-item:hover {
+    transform: translateX(4px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+.atlas-icon { width: 32px; height: 32px; }
+.atlas-system-info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+.atlas-score { font-weight: bold; }
+.atlas-count { font-size: 0.8rem; color: var(--text-muted, #888); }
+.score-excellent { border-left: 4px solid #3fb950; }
+.score-good { border-left: 4px solid #7ee787; }
+.score-medium { border-left: 4px solid #d29922; }
+.score-low { border-left: 4px solid #f0883e; }
+.score-very_low { border-left: 4px solid #f85149; }
+.atlas-radar {
+    border: 1px solid var(--border-color, #444);
+    border-radius: 8px;
+    padding: 1rem;
+    background: var(--bg-card, #1e1e1e);
+    min-height: 500px;
+}
+.btn-secondary { background: var(--bg-secondary, #444); color: var(--text-main, #ddd); padding: 6px 12px; border-radius: 4px; text-decoration: none; }
+</style>
+
+<script>
+fetch('{{ url_for("med_life.api_radar", object_id=object_id) }}')
+    .then(r => r.json())
+    .then(data => {
+        const systems = data.systems;
+        const theta = systems.map(s => s.name);
+        const r = systems.map(s => s.score);
+        const colors = systems.map(s => {
+            if (s.label === 'excellent') return '#3fb950';
+            if (s.label === 'good') return '#7ee787';
+            if (s.label === 'medium') return '#d29922';
+            if (s.label === 'low') return '#f0883e';
+            return '#f85149';
+        });
+        Plotly.newPlot('radar-chart', [{
+            type: 'scatterpolar',
+            r: r.concat(r[0]),
+            theta: theta.concat(theta[0]),
+            fill: 'toself',
+            fillcolor: 'rgba(88, 166, 255, 0.2)',
+            line: { color: '#58a6ff', width: 2 },
+            marker: { color: colors.concat(colors[0]), size: 8 }
+        }], {
+            polar: {
+                radialaxis: { visible: true, range: [0, 10] }
+            },
+            paper_bgcolor: 'rgba(0,0,0,0)',
+            plot_bgcolor: 'rgba(0,0,0,0)',
+            font: { color: '#c9d1d9' },
+            margin: { t: 40, b: 40, l: 60, r: 60 }
+        }, {responsive: true});
+    });
+</script>
+{% endblock %}

@@ -168,8 +168,12 @@ class FundObj:
 
 ### `JSONStorage` → `data/card/SYMBOL_HASH8/`
 - `{uuid}.json` — FundObj
-- `{uuid}_1D.json` — дневной OHLC + summary
-- `{uuid}_RAW.json` — сырые свечи с Bitget
+- `{uuid}_1D.json` — **новый формат** с `candles[]` (обогащённые свечи: position_metrics, candle_metrics, sessions, tf_boundary, liq_proximity, strength, fibonacci)
+- `{uuid}_4h.json` — новый формат для 4h timeframe
+- `{uuid}_1h.json` — новый формат для 1h timeframe
+- `{uuid}_RAW.json` — сырые свечи с Bitget (для backward-compat с `api/ma_data.py`)
+
+**Legacy shapes НЕ хранятся на диске.** Конвертация в `days[]/chart_data[]/summary` (для templates и legacy endpoints) выполняется on-the-fly через `storage._candles_to_legacy()`.
 
 ## Запуск
 

@@ -54,26 +54,33 @@ class DashboardKPI:
                             continue
         return objects
 
-    def _load_1d(self, obj_id: str) -> Optional[dict]:
-        card_dir = self.data_dir / 'card'
-        if card_dir.exists():
-            for subdir in card_dir.iterdir():
-                if subdir.is_dir():
-                    p = subdir / f'{obj_id}_1D.json'
-                    if p.exists():
-                        try:
-                            with open(p, 'r', encoding='utf-8') as f:
-                                return json.load(f)
-                        except:
-                            pass
-        p = self.data_dir / f'1D_{obj_id}.json'
-        if not p.exists():
-            return None
+    def _load_1d(self, symbol: str, obj_id: str) -> Optional[dict]:
+        from storage import get_storage
+        s = get_storage()
         try:
-            with open(p, 'r', encoding='utf-8') as f:
-                return json.load(f)
-        except:
+            tf_data = s.read_timeframe(symbol, obj_id, "1D")
+        except FileNotFoundError:
             return None
+        return {
+            "days": [
+                {
+                    "date": c.get("date", ""),
+                    "pre_entry": c.get("position_metrics", {}).get("pre_entry", False),
+                    "ohlc": {
+                        "open": c.get("open", 0),
+                        "high": c.get("high", 0),
+                        "low": c.get("low", 0),
+                        "close": c.get("close", 0),
+                    },
+                    "deviation": c.get("position_metrics", {}).get("deviation", {}),
+                    "roe_pct": c.get("position_metrics", {}).get("roe_pct", 0),
+                    "pnl_usdt": c.get("position_metrics", {}).get("pnl_usdt", 0),
+                    "volatility": c.get("position_metrics", {}).get("volatility", 0),
+                    "profitable": c.get("position_metrics", {}).get("profitable", False),
+                }
+                for c in tf_data.get("candles", [])
+            ]
+        }
 
     def get_all_trades_kpi(self) -> List[TradeKPI]:
         objects = self._load_all_objects()
@@ -84,7 +91,7 @@ class DashboardKPI:
             emoji_upd = data.get('emoji_upd', {})
             if not emoji_entry.get('symbol'):
                 continue
-            days_data = self._load_1d(obj['id'])
+            days_data = self._load_1d(emoji_entry['symbol'], obj['id'])
             days_active = len(days_data['days']) if days_data and 'days' in days_data else emoji_entry.get('entry_time', 0)
             side = emoji_entry.get('hold_side', 'long')
             trades.append(TradeKPI(

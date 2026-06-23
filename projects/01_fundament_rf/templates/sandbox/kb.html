@@ -1,0 +1,227 @@
+{% extends 'base.html' %}
+
+{% block title %}Knowledge Base | Fundament RF{% endblock %}
+
+{% block content %}
+<div class="kb-page">
+    <h1>🧠 Knowledge Base</h1>
+    <p class="kb-subtitle">Документация по проектам, модулям, связям и архитектуре workspace</p>
+
+    <div class="kb-layout">
+        <aside class="kb-tree">
+            <h3>📁 Разделы</h3>
+            <ul>
+                <li>
+                    <a href="{{ url_for('kb.view', path='README.md') }}" target="kb-frame" data-kb-file="README.md">Главная KB</a>
+                </li>
+                {% for category, articles in categories.items() %}
+                <li class="kb-category">
+                    <span class="kb-category-name">{{ category }}</span>
+                    <ul>
+                        {% for article in articles %}
+                        <li>
+                            <a href="{{ url_for('kb.view', path=article.path) }}" target="kb-frame" data-kb-file="{{ article.name }}.md">{{ article.name }}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                {% endfor %}
+            </ul>
+        </aside>
+
+        <section class="kb-preview">
+            <div class="kb-preview-tabs">
+                <button class="kb-tab active" data-target="kb-article" id="tab-article">📄 Article</button>
+                <button class="kb-tab" data-target="kb-architecture" id="tab-architecture">🕸️ Architecture</button>
+            </div>
+
+            <div class="kb-tab-content active" id="kb-article">
+                <div class="kb-preview-header">
+                    <span id="kb-current-file">README.md</span>
+                </div>
+                <iframe name="kb-frame" src="{{ url_for('kb.view', path='README.md') }}"></iframe>
+            </div>
+
+            <div class="kb-tab-content" id="kb-architecture">
+                <div class="mermaid kb-architecture-diagram">
+flowchart TB
+    subgraph HUB["01 Fundament RF (хаб)"]
+        SANDBOX["/sandbox/"]
+        KB["/kb/"]
+        VIZ["/viz-lab/"]
+        MED["/med-life/"]
+        OFD["/ofd-api/"]
+        AI["/ai-models/"]
+        PROXY["/proxy/"]
+        STATIC["/static/sandbox/"]
+    end
+
+    subgraph SATELLITES["Satellite проекты"]
+        P02["02 Graphs Candle"]
+        P03["03 Demo Charts ASCII"]
+        P04["04 TradingView Demos"]
+        P06["06 Screenshots Catalog"]
+    end
+
+    subgraph BOTS["Боты"]
+        P07["07 TG Bot"]
+        P10["10 MAX Bot"]
+    end
+
+    subgraph DATA["Данные / Catalog"]
+        P05["05 Transcript"]
+        P09["09 Model Catalog"]
+    end
+
+    PROXY --> P02
+    PROXY --> P03
+    STATIC --> P04
+    STATIC --> P06
+    P07 --> HUB
+    P10 --> HUB
+    P05 --> P09
+    P07 --> P09
+    P10 --> P09
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="kb-footer">
+        <a href="{{ url_for('sandbox.index') }}" class="btn btn-secondary">← В Sandbox</a>
+        <span class="kb-hint">Markdown-файлы открываются как plain text. Для полной версии см. <code>share/knowledge-base/</code>.</span>
+    </div>
+</div>
+
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+
+    // Tab switching
+    document.querySelectorAll('.kb-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.kb-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.kb-tab-content').forEach(c => c.classList.remove('active'));
+            tab.classList.add('active');
+            document.getElementById(tab.dataset.target).classList.add('active');
+        });
+    });
+
+    // Current file indicator
+    document.querySelectorAll('.kb-tree a[data-kb-file]').forEach(link => {
+        link.addEventListener('click', function() {
+            document.getElementById('kb-current-file').textContent = this.dataset.kbFile;
+            document.getElementById('tab-article').click();
+        });
+    });
+</script>
+
+<style>
+.kb-page { padding: 1rem; }
+.kb-subtitle { color: var(--text-muted, #888); margin-bottom: 1.5rem; }
+.kb-layout {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 1rem;
+    min-height: 70vh;
+}
+.kb-tree {
+    border: 1px solid var(--border-color, #444);
+    border-radius: 10px;
+    padding: 1rem;
+    background: var(--bg-card, #1e1e1e);
+    overflow-y: auto;
+    max-height: 80vh;
+}
+.kb-tree h3 { margin-top: 0; font-size: 1rem; }
+.kb-tree ul { list-style: none; padding-left: 0; margin: 0; }
+.kb-tree li { margin: 0.25rem 0; }
+.kb-tree a { color: var(--accent, #58a6ff); text-decoration: none; font-size: 0.9rem; }
+.kb-tree a:hover { text-decoration: underline; }
+.kb-category { margin-top: 0.75rem; }
+.kb-category-name { font-weight: bold; color: var(--text-main, #ddd); font-size: 0.85rem; text-transform: uppercase; }
+.kb-category ul { padding-left: 0.75rem; }
+
+.kb-preview {
+    border: 1px solid var(--border-color, #444);
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--bg-card, #1e1e1e);
+    display: flex;
+    flex-direction: column;
+    min-height: 70vh;
+}
+.kb-preview-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border-color, #444);
+    background: var(--bg-secondary, #1a1a1a);
+}
+.kb-tab {
+    padding: 10px 16px;
+    background: transparent;
+    border: none;
+    color: var(--text-muted, #888);
+    cursor: pointer;
+    font-size: 0.9rem;
+    border-bottom: 2px solid transparent;
+}
+.kb-tab:hover { color: var(--text-main, #ddd); }
+.kb-tab.active {
+    color: var(--accent, #58a6ff);
+    border-bottom-color: var(--accent, #58a6ff);
+    background: var(--bg-card, #1e1e1e);
+}
+.kb-tab-content {
+    display: none;
+    flex: 1;
+    flex-direction: column;
+    min-height: 0;
+}
+.kb-tab-content.active { display: flex; }
+
+.kb-preview-header {
+    padding: 8px 12px;
+    background: var(--bg-secondary, #1a1a1a);
+    border-bottom: 1px solid var(--border-color, #444);
+    font-size: 0.85rem;
+    color: var(--text-muted, #aaa);
+    font-family: 'JetBrains Mono', monospace;
+}
+#kb-current-file { color: var(--text-main, #ddd); font-weight: 500; }
+
+.kb-preview iframe {
+    flex: 1;
+    width: 100%;
+    border: none;
+    background: #fff;
+    color: #000;
+    min-height: 0;
+}
+
+.kb-architecture-diagram {
+    flex: 1;
+    padding: 1rem;
+    overflow: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.kb-architecture-diagram svg {
+    max-width: 100%;
+    max-height: 100%;
+    height: auto;
+}
+
+.kb-footer {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.kb-hint { color: var(--text-muted, #888); font-size: 0.8rem; }
+@media (max-width: 900px) {
+    .kb-layout { grid-template-columns: 1fr; }
+    .kb-tree { max-height: none; }
+}
+</style>
+{% endblock %}

@@ -62,18 +62,20 @@ def _load_card_json(symbol: str):
 
 
 def _load_1d_json(symbol: str):
-    """Load the _1D.json for a symbol."""
+    """Load the _1D.json for a symbol. Uses new data_loader (HTTP-first, FS-fallback)."""
     d = _find_card_dir(symbol)
-    if not d:
-        return None
-    f = d / f"{d.name.split('_')[1]}_1D.json" if '_' in d.name else None
-    if f and f.exists():
-        with open(f, 'r', encoding='utf-8') as fp:
-            return json.load(fp)
-    # fallback: any _1D.json
-    for f in d.glob("*_1D.json"):
-        with open(f, 'r', encoding='utf-8') as fp:
-            return json.load(fp)
+    if d:
+        for f in d.glob("*.json"):
+            if not f.name.endswith(("_1D.json", "_RAW.json")):
+                obj_id = f.stem
+                try:
+                    from data_loader import load_1d
+                    result = load_1d(obj_id)
+                    if result:
+                        return result
+                except Exception:
+                    pass
+                break
     return None
 
 
@@ -81,13 +83,24 @@ def _load_1d_json(symbol: str):
 
 def build_file_tree():
     tree = []
-    for d in sorted(os.listdir(DATA_DIR)):
-        dp = os.path.join(DATA_DIR, d)
-        if not os.path.isdir(dp):
-            continue
-        files = sorted(f for f in os.listdir(dp) if f.endswith('.json'))
-        if files:
+    seen_symbols = set()
+    sources = [DATA_DIR]
+    fundament_dir = os.path.join(BASE_DIR, '..', '01_fundament_rf', 'data', 'card')
+    if os.path.isdir(fundament_dir):
+        sources.append(fundament_dir)
+
+    for data_dir in sources:
+        for d in sorted(os.listdir(data_dir)):
+            dp = os.path.join(data_dir, d)
+            if not os.path.isdir(dp):
+                continue
+            files = sorted(f for f in os.listdir(dp) if f.endswith('.json'))
+            if not files:
+                continue
             sym = d.split('_')[0]
+            if sym in seen_symbols:
+                continue
+            seen_symbols.add(sym)
             children = [{'name': f, 'path': os.path.join(dp, f)} for f in files]
             tree.append({'name': d, 'symbol': sym, 'path': dp, 'children': children})
     return tree
@@ -267,11 +280,11 @@ def interactive_deckgl(symbol):
 
 @app.route('/ascii-new/<symbol>')
 def ascii_new(symbol):
-    """Render new ASCII types on-the-fly (radar, waterfall, pareto, sankey, treemap, indicators)."""
+    """Render all ASCII infographics on-the-fly for a symbol."""
     os.environ["DEMO_OUTPUT_DIR"] = OUTPUT_DIR
     import charts as ch
     obj_id = None
-    # find obj_id from card dir
+    # find obj_id from card dir (local data or fundament_rf fallback)
     d = _find_card_dir(symbol)
     if d:
         for f in d.glob("*.json"):
@@ -281,16 +294,18 @@ def ascii_new(symbol):
 
     files = {}
     if obj_id:
-        for name in ['radar', 'waterfall', 'pareto', 'sankey', 'treemap', 'indicators']:
-            try:
-                path = ch.generate_single(obj_id, name)
-                with open(path, 'r', encoding='utf-8') as f:
-                    files[name] = strip_ansi(f.read())
-            except Exception as e:
-                files[name] = f"[{name} error: {e}]"
+        try:
+            paths = ch.generate_all(obj_id)
+            for name, path in paths.items():
+                try:
+                    with open(path, 'r', encoding='utf-8') as f:
+                        files[name] = strip_ansi(f.read())
+                except Exception as e:
+                    files[name] = f"[{name} read error: {e}]"
+        except Exception as e:
+            files['error'] = f"[generate_all error: {e}]"
     else:
-        for name in ['radar', 'waterfall', 'pareto', 'sankey', 'treemap', 'indicators']:
-            files[name] = f"[{name} not generated — no card data]"
+        files['error'] = f"[no card data for {symbol}]"
 
     return render_template('infographics.html', symbol=symbol, files=files)
 

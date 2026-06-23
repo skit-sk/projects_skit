@@ -1,0 +1,243 @@
+{% extends 'base.html' %}
+
+{% block title %}Sandbox | Fundament RF{% endblock %}
+
+{% block content %}
+<div class="sandbox-page">
+    <h1>🧪 Sandbox — панель управления проектами</h1>
+    <p class="sandbox-subtitle">Единая точка доступа ко всем разработкам workspace через порт 5000</p>
+
+    <div class="sandbox-grid">
+        {% for project_id, project in projects.items() %}
+        <div class="sandbox-card" data-project="{{ project_id }}">
+            <div class="sandbox-card-header">
+                <span class="sandbox-project-number">#{{ project_id }}</span>
+                <span class="sandbox-status" data-project="{{ project_id }}">⏳</span>
+                <h3>{{ project.name }}</h3>
+                <span class="sandbox-type">{{ project.type }}</span>
+            </div>
+            <p class="sandbox-description">{{ project.description or '' }}</p>
+
+            <div class="sandbox-meta">
+                {% if project.port %}
+                <span>🌐 Порт: <code>{{ project.port }}</code></span>
+                {% endif %}
+                {% if project.proxy_url %}
+                <span>🔗 Прокси: <a href="{{ project.proxy_url }}" target="_blank">{{ project.proxy_url }}</a></span>
+                {% endif %}
+                {% if project.entry_url %}
+                <span>📍 URL: <a href="{{ project.entry_url }}" target="_blank">{{ project.entry_url }}</a></span>
+                {% endif %}
+            </div>
+
+            <div class="sandbox-controls">
+                {% if project_id != '01' and project.type in ('flask', 'bot') %}
+                <button class="btn btn-small" onclick="controlProject('{{ project_id }}', 'start')">▶ Старт</button>
+                <button class="btn btn-small btn-danger" onclick="controlProject('{{ project_id }}', 'stop')">⏹ Стоп</button>
+                <button class="btn btn-small btn-secondary" onclick="controlProject('{{ project_id }}', 'restart')">🔄 Рестарт</button>
+                {% endif %}
+                {% if project.embeddable and project.entry_url %}
+                <a href="{{ url_for('sandbox.project', project_id=project_id) }}" class="btn btn-small">Открыть</a>
+                {% endif %}
+                {% if project.log_path %}
+                <a href="{{ url_for('sandbox.logs', project_id=project_id) }}" class="btn btn-small btn-secondary" target="_blank">Лог</a>
+                {% endif %}
+            </div>
+
+            {% if project.sections %}
+            <div class="sandbox-sections">
+                {% for section in project.sections %}
+                <a href="{{ section.url }}" class="sandbox-section-link">{{ section.label }}</a>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+
+        <div class="sandbox-card sandbox-card-kb">
+            <div class="sandbox-card-header">
+                <span class="sandbox-project-number">KB</span>
+                <span class="sandbox-status">🧠</span>
+                <h3>Knowledge Base</h3>
+                <span class="sandbox-type">docs</span>
+            </div>
+            <p class="sandbox-description">Документация по проектам, модулям, связям и архитектуре workspace.</p>
+
+            <div class="sandbox-controls">
+                <a href="{{ url_for('kb.index') }}" class="btn btn-primary">Открыть KB</a>
+            </div>
+
+            <div class="sandbox-sections">
+                <a href="{{ url_for('kb.view', path='4-guides/architecture-overview.md') }}" class="sandbox-section-link" target="kb-frame">Архитектура</a>
+                <a href="{{ url_for('kb.view', path='4-guides/project-links-matrix.md') }}" class="sandbox-section-link" target="kb-frame">Связи</a>
+                <a href="{{ url_for('kb.view', path='4-guides/url-port-map.md') }}" class="sandbox-section-link" target="kb-frame">URL/Port</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="sandbox-footer">
+        <a href="{{ url_for('sandbox.health_page') }}" class="btn btn-primary">📊 Health Dashboard</a>
+        <span id="sandbox-last-update"></span>
+    </div>
+</div>
+
+<style>
+.sandbox-page { padding: 1rem; }
+.sandbox-subtitle { color: var(--text-muted, #888); margin-bottom: 1.5rem; }
+.sandbox-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1rem;
+}
+.sandbox-card {
+    border: 1px solid var(--border-color, #444);
+    border-radius: 10px;
+    padding: 1rem;
+    background: var(--bg-card, #1e1e1e);
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+.sandbox-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+}
+.sandbox-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+.sandbox-card-header h3 { margin: 0; font-size: 1.1rem; flex: 1; }
+.sandbox-project-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 30px;
+    height: 22px;
+    border-radius: 5px;
+    background: var(--accent, #58a6ff);
+    color: #fff;
+    font-weight: bold;
+    font-size: 0.8rem;
+}
+.sandbox-status { font-size: 1.1rem; }
+.sandbox-type {
+    font-size: 0.7rem;
+    padding: 2px 7px;
+    border-radius: 10px;
+    background: var(--bg-secondary, #333);
+    color: var(--text-muted, #aaa);
+    text-transform: uppercase;
+}
+.sandbox-description {
+    font-size: 0.9rem;
+    color: var(--text-muted, #aaa);
+    margin-bottom: 0.75rem;
+    min-height: 2.2em;
+}
+.sandbox-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    font-size: 0.8rem;
+    color: var(--text-muted, #aaa);
+    margin-bottom: 0.75rem;
+}
+.sandbox-meta a { color: var(--accent, #58a6ff); }
+.sandbox-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 0.75rem;
+}
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background: var(--accent, #58a6ff);
+    color: #fff;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.8rem;
+}
+.btn-secondary { background: var(--bg-secondary, #444); color: var(--text-main, #ddd); }
+.btn-danger { background: #f85149; }
+.btn-primary { background: var(--success, #238636); }
+.btn-small { font-size: 0.75rem; padding: 4px 8px; }
+.sandbox-sections {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--border-color, #333);
+}
+.sandbox-section-link {
+    font-size: 0.75rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: var(--bg-secondary, #2a2a2a);
+    color: var(--text-main, #ddd);
+    text-decoration: none;
+}
+.sandbox-section-link:hover {
+    background: var(--accent, #58a6ff);
+    color: #fff;
+}
+.sandbox-footer {
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.sandbox-card-kb {
+    border-color: var(--accent, #58a6ff);
+    background: linear-gradient(135deg, var(--bg-card, #1e1e1e) 0%, rgba(88,166,255,0.08) 100%);
+}
+.sandbox-card-kb .sandbox-project-number {
+    background: #7c3aed;
+}
+</style>
+
+<script>
+async function controlProject(id, action) {
+    if (!confirm(`${action === 'start' ? 'Запустить' : action === 'stop' ? 'Остановить' : 'Перезапустить'} проект #${id}?`)) return;
+    try {
+        const resp = await fetch(`/sandbox/api/${id}/${action}`, { method: 'POST' });
+        const data = await resp.json();
+        if (data.error) {
+            alert('Ошибка: ' + data.error + '\n' + (data.stderr || ''));
+        } else {
+            alert(`Команда ${action} выполнена.\nКод возврата: ${data.returncode}\n${data.stdout || ''}`);
+        }
+    } catch (e) {
+        alert('Ошибка сети: ' + e.message);
+    }
+    updateStatuses();
+}
+
+async function updateStatuses() {
+    try {
+        const resp = await fetch('{{ url_for("sandbox.api_health") }}');
+        const data = await resp.json();
+        const el = document.getElementById('sandbox-last-update');
+        if (el) el.textContent = 'Обновлено: ' + data.timestamp;
+        for (const [pid, info] of Object.entries(data.projects)) {
+            const badge = document.querySelector('.sandbox-status[data-project="' + pid + '"]');
+            if (!badge) continue;
+            const status = info.status;
+            if (status === 'up') badge.textContent = '🟢';
+            else if (status === 'down') badge.textContent = '🔴';
+            else if (status === 'degraded') badge.textContent = '🟡';
+            else badge.textContent = '⚪';
+            badge.title = status + (info.response_ms ? ' (' + info.response_ms + 'ms)' : '') + (info.pid ? ' PID:' + info.pid : '');
+        }
+    } catch (e) {
+        console.warn('Health update failed', e);
+    }
+}
+updateStatuses();
+setInterval(updateStatuses, 15000);
+</script>
+{% endblock %}

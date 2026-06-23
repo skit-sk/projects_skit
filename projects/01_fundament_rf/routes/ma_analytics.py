@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, render_template, abort, request
 from storage import get_storage
 from infographics.trade_analyzer import TradeAnalyzer
-from api.ma_data import load_or_fetch_candles, MADataLoader
+from api.ma_data import MADataLoader
 
 bp = Blueprint('ma_analytics', __name__, template_folder='../templates', url_prefix='/ma-analytics')
 
@@ -43,7 +43,8 @@ def api_data(obj_id):
     refresh = request.args.get('refresh', '0') == '1'
     if refresh or not storage.exists_raw(symbol, obj_id):
         try:
-            loader = MADataLoader()
+            entry_date = obj.data.get('emoji_entry', {}).get('entry_date')
+            loader = MADataLoader(entry_date=entry_date)
             loader.fetch_and_save(symbol, obj_id, 500)
         except Exception as e:
             return jsonify({'error': f'Data fetch failed: {e}'}), 500
@@ -65,7 +66,7 @@ def screener():
         symbol = obj.data.get('emoji_entry', {}).get('symbol', '')
         if not symbol:
             continue
-        if not storage.exists_1d(symbol, obj.id) or not storage.exists_raw(symbol, obj.id):
+        if not storage.exists_timeframe(symbol, obj.id, "1D") or not storage.exists_raw(symbol, obj.id):
             continue
         try:
             report = analyzer.compute_ma_analysis(symbol, obj.id)
@@ -99,7 +100,8 @@ def fetch_history(obj_id):
 
     limit = request.json.get('limit', 500) if request.is_json else 500
     try:
-        loader = MADataLoader()
+        entry_date = obj.data.get('emoji_entry', {}).get('entry_date')
+        loader = MADataLoader(entry_date=entry_date)
         data = loader.fetch_and_save(symbol, obj_id, limit)
         return jsonify({'status': 'ok', 'candles_fetched': len(data.get('candles', []))})
     except Exception as e:

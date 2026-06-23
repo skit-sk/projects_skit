@@ -4,7 +4,7 @@ import time
 sys.path.insert(0, os.path.expanduser('~/.local/lib/python3.12/site-packages'))
 
 from flask import Flask, g
-from routes import api, web, graphics, processor_1d, dashboard, trade_analytics, ma_analytics, ccxt_api, account_api, processor, viz_lab, ai_models
+from routes import api, web, graphics, processor_1d, dashboard, trade_analytics, ma_analytics, ccxt_api, account_api, processor, viz_lab, ai_models, sandbox, proxy, med_life, kb, timeframe_api
 
 # Register OFD API blueprint from 08_ofd project
 _ofd_dir = os.path.join(os.path.dirname(__file__), '..', '08_ofd_api')
@@ -55,6 +55,11 @@ sys.path = _sys_path_save2
 app.register_blueprint(_ofd2_mod.bp)
 app.register_blueprint(viz_lab.bp)
 app.register_blueprint(ai_models.bp)
+app.register_blueprint(sandbox.bp)
+app.register_blueprint(proxy.bp)
+app.register_blueprint(med_life.bp)
+app.register_blueprint(kb.bp)
+app.register_blueprint(timeframe_api.bp)
 
 # ── Experimental: graphics_v2 (Bento + Compact) ─────────────────────
 # Полностью изолирован: при ошибке основной проект продолжает работать.

@@ -5,105 +5,75 @@
 
 ---
 
-## 1. Flowchart (диаграмма связей)
+## 1. Общая архитектура
 
 ```mermaid
 flowchart TB
-    subgraph WORKSPACE["WORKSPACE"]
-        subgraph PROJECTS["PROJECTS"]
-            subgraph TRADING["trading"]
-                FR["projects/01_fundament_rf"]
-                GC["projects/02_graphs_candle"]
-            end
-            subgraph VISUALIZATION["visualization"]
-                TVD["projects/04_tradingview-demos"]
-            end
-            subgraph MEDIA["media"]
-                TR["projects/05_transcript"]
-            end
-        end
-
-        subgraph KNOWLEDGE["KNOWLEDGE"]
-            TVKB["tradingview/"]
-            TVALT["tv/"]
-        end
-
-        subgraph INFRASTRUCTURE["INFRASTRUCTURE"]
-            SCRIPTS["scripts/"]
-            CONFIGS["configs/"]
-        end
-
-        subgraph DATA["DATA"]
-            FRD["projects/01_fundament_rf/data/"]
-            GCD["projects/02_graphs_candle/data/"]
-        end
+    subgraph HUB["01 Fundament RF (хаб)"]
+        SANDBOX["/sandbox/"]
+        KB["/kb/"]
+        VIZ["/viz-lab/"]
+        MED["/med-life/"]
+        OFD["/ofd-api/"]
+        AI["/ai-models/"]
+        PROXY["/proxy/"]
+        STATIC["/static/sandbox/"]
     end
 
-    FR -->|uses| CCXT["ccxt / Bitget"]
-    GC -->|uses| CCXT
-    GC -->|uses| PLOTLY["Plotly"]
-    TVD -->|uses| LW["Lightweight Charts v5"]
-    TVKB -->|documents| TVD
-    TVD -->|documented_by| TVKB
-    FR -->|related_to| TVKB
-    GC -->|related_to| TVKB
-    FR <-->|trading domain| GC
+    subgraph SATELLITES["Satellite проекты"]
+        P02["02 Graphs Candle"]
+        P03["03 Demo Charts ASCII"]
+        P04["04 TradingView Demos"]
+        P06["06 Screenshots Catalog"]
+    end
+
+    subgraph BOTS["Боты"]
+        P07["07 TG Bot"]
+        P10["10 MAX Bot"]
+    end
+
+    subgraph DATA["Данные / Catalog"]
+        P05["05 Transcript"]
+        P09["09 Model Catalog"]
+    end
+
+    PROXY --> P02
+    PROXY --> P03
+    STATIC --> P04
+    STATIC --> P06
+    P07 --> HUB
+    P10 --> HUB
+    P05 --> P09
+    P07 --> P09
+    P10 --> P09
 ```
 
----
-
-## 2. Hierarchical (иерархическая диаграмма)
+## 2. Mindmap
 
 ```mermaid
-hierarchical
-    WORKSPACE
-        PROJECTS
-            trading
-                fundament_rf
-                graphs_candle
-            visualization
-                tradingview-demos
-            media
-                transcript
-        KNOWLEDGE
-            tradingview
-            tv
-        INFRASTRUCTURE
-            scripts
-            configs
-        DATA
-```
-
----
-
-## 3. Sequence диаграмма (зависимости проектов)
-
-```mermaid
-sequenceDiagram
-    participant FR as fundament_rf
-    participant GC as graphs_candle
-    participant TVD as tradingview-demos
-    participant KB as knowledge-base
-
-    FR->>KB: related_to
-    GC->>KB: related_to
-    TVD->>KB: documents
-    KB->>TVD: documented_by
-
-    Note over FR,GC: trading domain
-    FR->>GC: related_to
-    GC->>FR: related_to
-```
-
----
-
-## 4. Pie Chart (технологии по проектам)
-
-```mermaid
-pie title Workspace Distribution
-    "projects/01_fundament_rf" : 25
-    "projects/02_graphs_candle" : 25
-    "projects/04_tradingview-demos" : 25
-    "projects/05_transcript" : 15
-    "infrastructure" : 10
+mindmap
+  root((WORKSPACE))
+    HUB
+      01_fundament_rf
+        Sandbox
+        Knowledge Base
+        Viz Lab
+        Med Life
+        OFD API
+        Model Catalog
+    SATELLITES
+      02_graphs_candle
+      03_demo_charts_ascii
+      04_tradingview-demos
+      06_screenshots_project
+    BOTS
+      07_tg_bot_aiforguest
+      10_max_bot
+    DATA
+      05_transcript
+      09_model_catalog
+    KNOWLEDGE_BASE
+      3-projects
+      4-guides
+      tradingview
 ```

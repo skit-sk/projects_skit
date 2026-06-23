@@ -99,14 +99,14 @@ CCXT.fetch_ohlcv(symbol, '1d', since=...)  →  list of [ts, open, high, low, cl
         ▼
 ma_data.py: fetch_and_save(symbol, obj_id, limit=500)
         │
-        ├──→ storage.save_raw(symbol, obj_id, raw_data)
-        └──→ storage.save_1d(symbol, obj_id, processed_days)
+        └──→ storage.save_raw(symbol, obj_id, raw_data)
+            [Note: save_1d удалён, новый формат пишется через TimeframePipeline.build() → write_timeframe()]
 ```
 
 ### 2.2 Генерация MA-аналитики
 
 ```
-storage.load_1d(symbol, obj_id)
+storage.read_timeframe(symbol, obj_id, "1D")
         │
         ▼
 TradeAnalyzer.compute_ma('sma', 200)  →  list[float]

@@ -12,7 +12,7 @@ def _find_obj():
     cutoff = datetime.now() - timedelta(days=7)
     for obj in objs:
         symbol = obj.data.get('emoji_entry', {}).get('symbol', '')
-        if not symbol or not storage.exists_1d(symbol, obj.id) or not storage.exists_raw(symbol, obj.id):
+        if not symbol or not storage.exists_timeframe(symbol, obj.id, "1D") or not storage.exists_raw(symbol, obj.id):
             continue
         chart_updated = obj.data.get('chart_updated', '')
         if chart_updated:
@@ -25,7 +25,7 @@ def _find_obj():
         return obj
     for obj in objs:
         symbol = obj.data.get('emoji_entry', {}).get('symbol', '')
-        if symbol and storage.exists_1d(symbol, obj.id):
+        if symbol and storage.exists_timeframe(symbol, obj.id, "1D"):
             return obj
     return objs[0] if objs else None
 
@@ -62,7 +62,7 @@ def _get_objects_list():
             'id': obj.id,
             'name': obj.name,
             'symbol': d.get('symbol', '?'),
-            'has_1d': storage.exists_1d(d.get('symbol', ''), obj.id) if d.get('symbol') else False,
+            'has_1d': storage.exists_timeframe(d.get('symbol', ''), obj.id, "1D") if d.get('symbol') else False,
             'has_raw': storage.exists_raw(d.get('symbol', ''), obj.id) if d.get('symbol') else False,
         })
     return result
@@ -85,7 +85,7 @@ def api_data(obj_id):
     if not symbol:
         return jsonify({'error': 'Symbol not found'}), 400
 
-    if not storage.exists_1d(symbol, obj_id) or not storage.exists_raw(symbol, obj_id):
+    if not storage.exists_timeframe(symbol, obj_id, "1D") or not storage.exists_raw(symbol, obj_id):
         return jsonify({'error': '1D or RAW data not found for this object'}), 404
 
     analyzer = TradeAnalyzer(storage)

@@ -36,6 +36,22 @@
   color: var(--text-main);
 }
 
+.ta-nav-btn {
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  background: var(--bg-card);
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+  line-height: 1;
+  transition: background 0.15s ease;
+}
+.ta-nav-btn:hover {
+  background: var(--border-color);
+}
+
 .ta-badge {
   padding: 0.25rem 0.75rem;
   border-radius: 6px;

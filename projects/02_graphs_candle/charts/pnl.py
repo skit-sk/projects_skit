@@ -107,4 +107,4 @@ def create_pnl_chart(
         hovermode='x unified',
     )
     
-    return fig.to_html(full_html=False, include_plotlyjs='https://cdn.plot.ly/plotly-2.35.2.min.js')
+    return fig.to_html(full_html=False, include_plotlyjs=False)

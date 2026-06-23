@@ -8,135 +8,33 @@
 ## Типы связей
 
 | Тип | Описание | Направление |
-|-----|----------|-------------|
-| `related_to` | Общая предметная область | bidirectional |
-| `uses` | Использует технологию/библиотеку | unidirectional |
-| `documents` | Документирует проект | unidirectional |
-| `documented_by` | Документируется проектом | unidirectional |
-| `belongs_to` | Принадлежит домену | unidirectional |
-| `depends_on` | Зависит от другого проекта | unidirectional |
+|---|---|---|
+| `proxy` | Flask reverse-proxy | unidirectional |
+| `static_mount` | Статические файлы | unidirectional |
+| `blueprint` | Flask blueprint внутри хаба | unidirectional |
+| `http` | HTTP-вызов | unidirectional |
+| `data` | Общие данные | unidirectional |
+| `data_fallback` | Fallback на данные другого проекта | unidirectional |
 
 ---
 
-## 1. Project → Knowledge Base
+## Индекс связей
 
-| Проект | База знаний | Тип связи | Описание |
-|--------|-------------|-----------|---------|
-| `fundament_rf` | `share/knowledge-base/tradingview/` | `related_to` | Trading domain |
-| `graphs_candle` | `share/knowledge-base/tradingview/` | `related_to` | Charts/visualization |
-| `tradingview-demos` | `share/knowledge-base/tradingview/` | `documents` | Демо документируют KB |
-| `tradingview-demos` | `share/knowledge-base/tv/` | `documents` | Альтернативная документация |
-
----
-
-## 2. Knowledge Base → Project
-
-| База знаний | Проект | Тип связи | Описание |
-|-------------|--------|-----------|---------|
-| `share/knowledge-base/tradingview/` | `tradingview-demos` | `documented_by` | Демо как примеры |
-| `share/knowledge-base/tv/` | `tradingview-demos` | `documented_by` | Альтернативные туториалы |
-
----
-
-## 3. Cross-Project Links
-
-| Проект A | Проект B | Тип связи | Описание |
-|----------|----------|-----------|---------|
-| `fundament_rf` | `graphs_candle` | `related_to` | trading domain |
-| `tradingview-demos` | `graphs_candle` | `related_to` | visualization domain |
-
----
-
-## 4. Technology Links
-
-### Uses (проект → технология)
-
-| Проект | Технология | Тип связи | Описание |
-|--------|------------|-----------|---------|
-| `fundament_rf` | `ccxt / Bitget` | `uses` | Биржевой API |
-| `fundament_rf` | `Flask` | `uses` | Web framework |
-| `fundament_rf` | `JSON` | `uses` | Хранение данных |
-| `graphs_candle` | `ccxt / Bitget` | `uses` | Биржевой API |
-| `graphs_candle` | `Plotly` | `uses` | Графики |
-| `graphs_candle` | `Flask` | `uses` | Web framework |
-| `tradingview-demos` | `Lightweight Charts v5` | `uses` | TradingView библиотека |
-| `tradingview-demos` | `Binance API` | `uses` | Источник данных |
-| `transcript` | `yt-dlp` | `uses` | YouTube downloader |
-| `transcript` | `Python` | `uses` | Язык программирования |
-
-### Used By (технология → проект)
-
-| Технология | Проекты | Тип связи |
-|------------|---------|-----------|
-| `ccxt / Bitget` | `fundament_rf`, `graphs_candle` | `used_by` |
-| `Flask` | `fundament_rf`, `graphs_candle` | `used_by` |
-| `Plotly` | `graphs_candle` | `used_by` |
-| `Lightweight Charts v5` | `tradingview-demos` | `used_by` |
-
----
-
-## 5. Domain Membership
-
-| Проект | Домен | Тип связи |
-|--------|--------|-----------|
-| `fundament_rf` | `trading` | `belongs_to` |
-| `graphs_candle` | `trading` | `belongs_to` |
-| `tradingview-demos` | `visualization` | `belongs_to` |
-| `transcript` | `media` | `belongs_to` |
-
----
-
-## 6. Bidirectional Links Summary
-
-```mermaid
-flowchart LR
-    subgraph TRADING["trading domain"]
-        FR["projects/01_fundament_rf"] <--> GC["projects/02_graphs_candle"]
-    end
-
-    subgraph VISUALIZATION["visualization domain"]
-        TVD["projects/04_tradingview-demos"]
-    end
-
-    subgraph KB["knowledge bases"]
-        TVKB["tradingview/"]
-    end
-
-    TVD -->|documents| TVKB
-    TVKB -->|documented_by| TVD
-    FR -->|related_to| TVKB
-    GC -->|related_to| TVKB
-```
-
----
-
-## 7. Full Links Table
-
-| От | К | Тип | Домен/Причина |
-|----|---|-----|---------------|
-| `fundament_rf` | `graphs_candle` | `related_to` | trading |
-| `tradingview-demos` | `share/knowledge-base/tradingview/` | `documents` | documentation |
-| `share/knowledge-base/tradingview/` | `tradingview-demos` | `documented_by` | examples |
-| `fundament_rf` | `share/knowledge-base/tradingview/` | `related_to` | charts/trading |
-| `graphs_candle` | `share/knowledge-base/tradingview/` | `related_to` | charts |
-| `fundament_rf` | `ccxt/Bitget` | `uses` | API |
-| `graphs_candle` | `ccxt/Bitget` | `uses` | API |
-| `graphs_candle` | `Plotly` | `uses` | visualization |
-| `tradingview-demos` | `Lightweight Charts v5` | `uses` | charts |
-| `tradingview-demos` | `Binance API` | `uses` | data |
-| `transcript` | `yt-dlp` | `uses` | download |
-| `fundament_rf` | `Flask` | `uses` | web |
-| `graphs_candle` | `Flask` | `uses` | web |
-
----
-
-## 8. Link Statistics
-
-| Метрика | Значение |
-|---------|----------|
-| Total links | 13 |
-| Bidirectional | 2 |
-| Unidirectional | 11 |
-| `uses` links | 8 |
-| `related_to` links | 4 |
-| `documents` links | 1 |
+| От | К | Тип | Детали |
+|---|---|---|---|
+| 01 | 02 | proxy | `/proxy/02/` |
+| 01 | 03 | proxy | `/proxy/03/` |
+| 01 | 04 | static_mount | `/static/sandbox/04/` |
+| 01 | 06 | static_mount | `/static/sandbox/06/` |
+| 07 | 01 | http | `localhost:5000` |
+| 10 | 01 | http | `localhost:5000` |
+| 08 | 01 | blueprint | `/ofd-api/` |
+| 09 | 01 | blueprint | `/ai-models/` |
+| 11 | 01 | blueprint | `/med-life/` |
+| 03 | 01 | data_fallback | `../01_fundament_rf/data/card/` |
+| 05 | 09 | data | `models_catalog.json` |
+| 07 | 09 | data | `models_catalog.json` |
+| 10 | 09 | data | `models_catalog.json` |
+| 07 | 08 | shared_path | `sys.path.insert` для `bot_ofd` |
+| 07 | 10 | shared_path | Общие `tools/scripts` |
+| 10 | 07 | shared_path | Общие `tools/scripts` |

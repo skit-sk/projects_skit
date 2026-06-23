@@ -2,22 +2,39 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Advanced Chart</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #1a1a1a; height: 100vh; }
-        .widget-iframe { width: 100%; height: 100%; border: none; }
+        body { background: #131722; height: 100vh; overflow: hidden; }
+        .tradingview-widget-container { width: 100%; height: 100%; }
     </style>
 </head>
 <body>
-<iframe
-    id="widget-frame"
-    class="widget-iframe"
-    src="https://www.tradingview-widget.com/embed-widget/advanced-chart/?locale=en#%7B%22width%22%3A%22600%22%2C%22height%22%3A%22400%22%2C%22symbol%22%3A%22BINANCE%3ABTCUSDT%22%2C%22colorTheme%22%3A%22dark%22%2C%22isTransparent%22%3Afalse%2C%22utm_source%22%3A%22tradingview-demos-sk.vercel.app%22%2C%22utm_medium%22%3A%22widget%22%2C%22utm_campaign%22%3A%22advanced-chart%22%2C%22page-uri%22%3A%22tradingview-demos-sk.vercel.app%2Fwidgets%2Fcharts%2Fadvanced-chart%2Findex.html%22%7D"
-    scrolling="no"
-    allowtransparency="true"
-    frameborder="0"
-    loading="lazy">
-</iframe>
+<div class="tradingview-widget-container">
+    <div id="tv-chart-container"></div>
+    <script type="text/javascript" src="/static/vendor/tradingview/embed-widget-advanced-chart.js">
+    {
+    "symbol": "BINANCE:BTCUSDT",
+    "interval": "D",
+    "timezone": "exchange",
+    "theme": "dark",
+    "style": "1",
+    "locale": "en",
+    "toolbar_bg": "#1e222d",
+    "enable_publishing": false,
+    "allow_symbol_change": true,
+    "hide_top_toolbar": false,
+    "hide_legend": false,
+    "withdateranges": true,
+    "hide_side_toolbar": false,
+    "details": true,
+    "hotlist": true,
+    "width": "100%",
+    "height": "100%",
+    "autosize": true
+}
+    </script>
+</div>
 </body>
 </html>

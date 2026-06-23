@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}Med Life | Atlas{% endblock %}
+
+{% block content %}
+<div class="medlife-container">
+    <h1>🏥 Med Life — Атлас человека</h1>
+    <p class="medlife-subtitle">Паспорт состояния пациента, анализы, назначения и динамика показателей</p>
+
+    <div class="medlife-patients">
+        {% for obj in objects %}
+        <div class="medlife-patient-card">
+            <h3>{{ obj.name or obj.object_id }}</h3>
+            <p>
+                {% if obj.birth_year %}Год рождения: {{ obj.birth_year }}<br>{% endif %}
+                {% if obj.sex %}Пол: {{ obj.sex }}<br>{% endif %}
+                {% if obj.blood_type %}Группа крови: {{ obj.blood_type }}<br>{% endif %}
+            </p>
+            <div class="medlife-actions">
+                <a href="{{ url_for('med_life.atlas', object_id=obj.object_id) }}" class="btn">Атлас систем</a>
+                <a href="{{ url_for('med_life.passport', object_id=obj.object_id) }}" class="btn btn-secondary">Паспорт</a>
+                <a href="{{ url_for('med_life.timeline', object_id=obj.object_id) }}" class="btn btn-secondary">Таймлайн</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+.medlife-container { padding: 1rem; }
+.medlife-subtitle { color: var(--text-muted, #888); margin-bottom: 1.5rem; }
+.medlife-patients {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+}
+.medlife-patient-card {
+    border: 1px solid var(--border-color, #444);
+    border-radius: 8px;
+    padding: 1rem;
+    background: var(--bg-card, #1e1e1e);
+}
+.medlife-patient-card h3 { margin-top: 0; }
+.medlife-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+.btn {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 4px;
+    background: var(--accent, #58a6ff);
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+.btn-secondary { background: var(--bg-secondary, #444); color: var(--text-main, #ddd); }
+</style>
+{% endblock %}

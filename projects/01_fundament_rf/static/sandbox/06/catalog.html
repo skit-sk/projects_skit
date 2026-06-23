@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Каталог проектов workspace</title>
+<style>
+:root{--bg:#0d1117;--bg2:#161b22;--border:#30363d;--text:#c9d1d9;--text2:#8b949e;--accent:#58a6ff;--accent2:#238636;--danger:#f85149;--warn:#d29922;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+
+/* Sidebar */
+.sidebar{position:fixed;left:0;top:0;width:280px;height:100vh;background:var(--bg2);border-right:1px solid var(--border);overflow-y:auto;padding:1rem;z-index:100}
+.sidebar h1{font-size:1.1rem;color:var(--accent);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--border)}
+.sidebar h2{font-size:.85rem;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;margin:1.2rem 0 .4rem}
+.sidebar a{display:block;color:var(--text);text-decoration:none;padding:.35rem .6rem;border-radius:4px;font-size:.85rem;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sidebar a:hover{background:var(--border);color:var(--accent)}
+.sidebar a::before{content:"📄 ";opacity:.6}
+.sidebar a.project-header::before{content:"📁 "}
+.sidebar a.project-header{font-weight:600;color:var(--accent);margin-top:.6rem;background:rgba(88,166,255,.08)}
+.sidebar a.active{background:rgba(88,166,255,.15);color:var(--accent)}
+
+/* Main */
+.main{margin-left:280px;padding:2rem;max-width:1200px}
+
+/* Page section */
+.page-section{margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid var(--border)}
+.page-header{margin-bottom:1.2rem}
+.page-header h2{font-size:1.4rem;color:var(--accent);margin-bottom:.3rem}
+.page-header .url{color:var(--text2);font-size:.85rem;font-family:monospace;background:rgba(48,54,61,.5);padding:.2rem .5rem;border-radius:4px;display:inline-block}
+.page-header .project-tag{background:var(--accent2);color:#fff;font-size:.7rem;padding:.15rem .5rem;border-radius:3px;margin-left:.5rem;vertical-align:middle}
+
+/* Screenshot */
+.screenshot{margin:1rem 0}
+.screenshot img{max-width:100%;max-height:75vh;border:1px solid var(--border);border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.3);cursor:pointer;transition:transform .2s}
+.screenshot img:hover{transform:scale(1.01)}
+.screenshot-label{color:var(--text2);font-size:.8rem;margin-bottom:.5rem;text-transform:uppercase;letter-spacing:.5px}
+
+/* ASCII Diagram */
+.ascii-block{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:1rem;margin:1rem 0;overflow-x:auto}
+.ascii-block pre{font-family:'JetBrains Mono','Fira Code',monospace;font-size:.8rem;line-height:1.5;color:var(--text);white-space:pre}
+.ascii-block .label{color:var(--accent);font-weight:600;margin-bottom:.5rem;font-size:.85rem}
+
+/* DOM Tree */
+.dom-tree{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:1rem;margin:1rem 0;overflow-x:auto}
+.dom-tree pre{font-family:'JetBrains Mono','Fira Code',monospace;font-size:.78rem;line-height:1.6;color:var(--text2);white-space:pre}
+.dom-tree .tag{color:#7ee787}
+.dom-tree .attr{color:#d2a8ff}
+.dom-tree .text{color:var(--text)}
+
+/* Table */
+.data-table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.85rem}
+.data-table th{background:rgba(48,54,61,.8);color:var(--accent);text-align:left;padding:.6rem .8rem;border-bottom:2px solid var(--border);font-weight:600}
+.data-table td{padding:.5rem .8rem;border-bottom:1px solid var(--border);vertical-align:top}
+.data-table tr:hover td{background:rgba(48,54,61,.3)}
+.data-table .type-jinja{color:var(--accent)}
+.data-table .type-js{color:var(--warn)}
+.data-table .type-dom{color:var(--accent2)}
+.data-table .type-api{color:var(--danger)}
+
+/* Collapsible */
+.collapsible-header{cursor:pointer;padding:.6rem .8rem;background:rgba(48,54,61,.4);border-radius:6px;margin:.5rem 0;display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:.9rem}
+.collapsible-header:hover{background:rgba(48,54,61,.7)}
+.collapsible-header::after{content:"▼";font-size:.7rem;transition:.2s}
+.collapsible-header.collapsed::after{content:"▶"}
+.collapsible-content{display:block}
+.collapsible-content.collapsed{display:none}
+
+@media(max-width:900px){.sidebar{width:240px}.main{margin-left:240px;padding:1rem}}
+@media(max-width:700px){.sidebar{position:relative;width:100%;height:auto;border-right:none;border-bottom:1px solid var(--border)}.main{margin-left:0}}
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+<h1>Каталог проектов</h1>
+
+<a href="#proj-fundament_rf" class="project-header">fundament_rf</a>
+<a href="#page-1" class="active">Главная (index)</a>
+<a href="#page-2">Dashboard</a>
+<a href="#page-3">Range Bar Demo</a>
+<a href="#page-4">Все графики</a>
+<a href="#page-5">Карточка сделки</a>
+
+<a href="#proj-demo_charts_ascii" class="project-header">demo_charts_ascii</a>
+<a href="#page-6">Главная (index)</a>
+
+<a href="#proj-graphs_candle" class="project-header">graphs_candle</a>
+<a href="#page-7">SVG Dashboard</a>
+<a href="#page-8">Plotly Dashboard</a>
+</nav>
+
+<main class="main">
+
+<!-- ============ fundament_rf ============ -->
+<div id="proj-fundament_rf" style="margin-bottom:2rem">
+<h2 style="color:var(--accent);font-size:1.6rem;border-bottom:2px solid var(--accent);padding-bottom:.5rem">📁 fundament_rf</h2>
+<p style="color:var(--text2);margin-top:.5rem">Трекер сделок Bitget. Flask-приложение с blueprints: web, api, graphics, processor_1d, dashboard.</p>
+</div>
+
+<!-- Page 1: fundament_rf / -->
+<section class="page-section" id="page-1">
+<div class="page-header">
+<h2>Главная — Список сделок</h2>
+<span class="url">GET http://localhost:5000/</span>
+<span class="project-tag">fundament_rf</span>
+</div>
+
+<div class="screenshot">
+<div class="screenshot-label">Скриншот</div>
+<img src="fundament_rf/index.png" alt="fundament_rf index" loading="lazy">
+</div>
+
+<div class="collapsible-header" onclick="this.classList.toggle('collapsed');this.nextElementSibling.classList.toggle('collapsed')">ASCII-схема блоков</div>
+<div class="collapsible-content ascii-block">
+<div class="label">Блок-схема страницы</div>
+<pre>
+┌─────────────────────────────────────────────────────────────┐
+│  h2: "Объекты [🔄 Обновить все]"                            │
+├─────────────────────────────────────────────────────────────┤
+│  ul.object-list                                             │
+│  ┌───────────────────────────────────────────────────────┐  │
+│  │ li[data-id]                                           │  │
+│  │  ┌─────────────────────────────────────────────────┐  │  │
+│  │  │ div (flex: name + leverage + delete-btn)        │  │  │
+│  │  ├─────────────────────────────────────────────────┤  │  │
+│  │  │ div.emoji-summary (emoji_entry)                 │  │  │
+│  │  ├─────────────────────────────────────────────────┤  │  │
+│  │  │ div.emoji-summary (emoji_upd)                   │  │  │
+│  │  ├─────────────────────────────────────────────────┤  │  │
+│  │  │ div (dates + 🔄 refreshOne + timer)             │  │  │
+│  │  └─────────────────────────────────────────────────┘  │  │
+│  └───────────────────────────────────────────────────────┘  │
+├─────────────────────────────────────────────────────────────┤
+│  div.add-form                                               │
+│  ┌───────────────────────────────────────────────────────┐  │
+│  │ details>summary: "+ Добавить"                         │  │
+│  │  └─ form (textarea emoji_data + submit)               │  │
+│  └───────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────┘
+</pre>
+</div>
+
+<div class="collapsible-header" onclick="this.classList.toggle('collapsed');this.nextElementSibling.classList.toggle('collapsed')">DOM-дерево</div>
+<div class="collapsible-content dom-tree">
+<pre>
+html
+└── body
+    ├── nav (site navigation)
+    │   ├── a "Fundament RF" (logo)
+    │   ├── a "Главная" (active)
+    │   ├── a "Dashboard"
+    │   ├── a "Все графики"
+    │   ├── a "Метрики"
+    │   └── button "🌙" (theme toggle)
+    ├── h2
+    │   └── button#refreshAllBtn (onclick="refreshAll()")
+    ├── ul.object-list
+    │   └── li[data-id="{{obj.id}}"]
+    │       ├── div (flex header)
+    │       │   ├── a (name + leverage)
+    │       │   └── a.delete-btn (×)
+    │       ├── div.emoji-summary
+    │       │   └── {{ emoji_entry(...) }}
+    │       ├── div.emoji-summary
+    │       │   └── {{ emoji_upd(...) }}
+    │       └── div (metadata + refresh btn)
+    ├── div.add-form
+    │   └── details
+    │       ├── summary
+    │       └── form[action="/api/objects/from-emoji"]
+    │           ├── textarea[name="emoji_data"]
+    │           └── button[type="submit"]
+    └── script
+        ├── refreshAll() — async batch update all cards
+        └── refreshOne() — async update single card
+</pre>
+</div>
+
+<div class="collapsible-header" onclick="this.classList.toggle('collapsed');this.nextElementSibling.classList.toggle('collapsed')">Таблица элементов и переменных</div>
+<div class="collapsible-content">
+<table class="data-table">
+<thead><tr><th>Элемент</th><th>Тип</th><th>Описание</th><th>Источник данных</th></tr></thead>
+<tbody>
+<tr><td><code>objects</code></td><td class="type-jinja">Jinja</td><td>Список объектов (сделок)</td><td><code>storage.list()</code></td></tr>
+<tr><td><code>obj.id</code></td><td class="type-jinja">Jinja</td><td>UUID объекта</td><td>Модель FundObj</td></tr>
+<tr><td><code>obj.name</code></td><td class="type-jinja">Jinja</td><td>Название сделки (SYMBOL #N)</td><td>Модель FundObj</td></tr>
+<tr><td><code>obj.data.emoji_entry</code></td><td class="type-jinja">Jinja</td><td>Данные входа (символ, цена, дата)</td><td>Парсинг emoji из API</td></tr>
+<tr><td><code>obj.data.emoji_upd</code></td><td class="type-jinja">Jinja</td><td>Обновлённые данные (текущая цена, PnL)</td><td><code>/graphics/chart/&lt;id&gt;</code></td></tr>
+<tr><td><code>obj.data.leverage</code></td><td class="type-jinja">Jinja</td><td>Плечо (default: 10)</td><td>Модель FundObj</td></tr>
+<tr><td><code>refreshAllRunning</code></td><td class="type-js">JS</td><td>Флаг блокировки повторного вызова</td><td>Внутреннее состояние</td></tr>
+<tr><td><code>refreshAllBtn</code></td><td class="type-dom">DOM</td><td>Кнопка массового обновления</td><td>document.getElementById</td></tr>
+<tr><td><code>fetch('/graphics/chart/' + objId)</code></td><td class="type-api">API</td><td>Получение данных графика</td><td>graphics.bp</td></tr>
+<tr><td><code>fetch('/processor_1d/create/' + objId)</code></td><td class="type-api">API</td><td>Создание 1D-данных</td><td>processor_1d.bp</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<!-- Page 2: fundament_rf /dashboard -->
+<section class="page-section" id="page-2">
+<div class="page-header">
+<h2>Dashboard — KPI и аналитика</h2>
+<span class="url">GET http://localhost:5000/dashboard/</span>
+<span class="project-tag">fundament_rf</span>
+</div>
+
+<div class="screenshot">
+<div class="screenshot-label">Скриншот</div>
+<img src="fundament_rf/dashboard.png" alt="fundament_rf dashboard" loading="lazy">
+</div>
+
+<div class="collapsible-header" onclick="this.classList.toggle('collapsed');this.nextElementSibling.classList.toggle('collapsed')">ASCII-схема блоков</div>
+<div class="collapsible-content ascii-block">
+<div class="label">Блок-схема страницы</div>
+<pre>
+┌─────────────────────────────────────────────────────────────┐
+│  h2: "📊 Dashboard" [🔄 Обновить]                           │
+├─────────────────────────────────────────────────────────────┤
+│  Section: KPI                                               │
+│  ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐    │
+│  │Total │ │Win   │ │Trades│ │Avg   │ │Best  │ │Worst │    │
+│  │PnL   │ │Rate  │ │      │ │Days  │ │Trade │ │Trade │    │
+│  └──────┘ └──────┘ └──────┘ └──────┘ └──────┘ └──────┘    │
+├─────────────────────────────────────────────────────────────┤
+│  Section: Equity + Drawdown (Plotly chart)                  │
+├─────────────────────────────────────────────────────────────┤
+│  Section: Win/Loss (SVG donut chart)                        │
+├─────────────────────────────────────────────────────────────┤
+│  Section: PnL Distribution (Plotly bar chart)               │
+├─────────────────────────────────────────────────────────────┤
+│  Section: PnL by Symbol (Plotly bar chart)                  │
+├─────────────────────────────────────────────────────────────┤
+│  Section: Performance Heatmap v1 (HTML stacked)             │
+├─────────────────────────────────────────────────────────────┤
+│  Section: Performance Heatmap v2 (Plotly heatmap)           │
+├─────────────────────────────────────────────────────────────┤
+│  Section: Calendar Heatmap (HTML calendar grid)             │
+│  ┌────┬────┬────┬────┬────┬────┬────┐                     │
+│  │ПН  │ВТ  │СР  │ЧТ  │ПТ  │СБ  │ВС  │                     │
+│  └────┴────┴────┴────┴────┴────┴────┘                     │
+├─────────────────────────────────────────────────────────────┤
+│  Section: Top/Bottom Trades (2 таблицы)                     │
+│  ┌─────────────┐  ┌─────────────┐                           │
+│  │ 🏆 Лучшие   │  │ 📉 Худшие   │                           │
+│  └─────────────┘  └─────────────┘                           │
+└─────────────────────────────────────────────────────────────┘
+</pre>
+</div>
+
+<div class="collapsible-header" onclick="this.classList.toggle('collapsed');this.nextElementSibling.classList.toggle('collapsed')">DOM-дерево</div>
+<div class="collapsible-content dom-tree">
+<pre>
+html
+└── body
+    ├── nav (site navigation)
+    │   ├── a "Fundament RF" (logo)
+    │   ├── a "Главная"
+    │   ├── a "Dashboard" (active)
+    │   ├── a "Все графики"
+    │   ├── a "Метрики"
+    │   └── button "🌙" (theme toggle)
+    ├── div.dashboard
+    │   ├── div.dashboard-header (h2 + refresh btn)
+    │   ├── div.section (KPI)
+    │   │   ├── div.kpi-row (8 cards)
+    │   │   └── div.legend-box (collapsible info)
+    │   ├── div.section (Equity+Drawdown)
+    │   │   └── div.chart-container (Plotly HTML)
+    │   ├── div.section (Win/Loss)
+    │   │   └── div.chart-container (SVG donut)
+    │   ├── div.section (PnL Distribution)
+    │   │   └── div.chart-container (Plotly bars)
+    │   ├── div.section (PnL by Symbol)
+    │   │   └── div.chart-container (Plotly bars)
+    │   ├── div.section (Heatmap v1)
+    │   │   └── div.heatmap-var1-container (HTML)
+    │   ├── div.section (Heatmap v2)
+    │   │   └── div#heatmap-var2-container (Plotly)
+    │   ├── div.section (Calendar)
+    │   │   ├── div.calendar-nav (prev/next)
+    │   │   ├── div.calendar-grid (weekdays)
+    │   │   └── div#calendar-days (days grid)
+    │   └── div.section (Top/Bottom)
+    │       └── div.top-trades-wrapper (2 tables)
+    └── script (calendar render + tooltips)
+</pre>
+</div>
+
+<div class="collapsible-header" onclick="this.classList.toggle('collapsed');this.nextElementSibling.classList.toggle('collapsed')">Таблица элементов и переменных</div>
+<div class="collapsible-content">
+<table class="data-table">
+<thead><tr><th>Элемент</th><th>Тип</th><th>Описание</th><th>Источник данных</th></tr></thead>
+<tbody>
+<tr><td><code>kpi</code></td><td class="type-jinja">Jinja</td><td>KPI объект (total_pnl, win_rate, trades, avg_days, best/worst)</td><td>DashboardKPI.get_summary()</td></tr>
+<tr><td><code>equity_chart</code></td><td class="type-jinja">Jinja</td><td>HTML графика Equity + Drawdown</td><td>DashboardCharts.equity_drawdown_chart()</td></tr>
+<tr><td><code>donut.svg</code></td><td class="type-jinja">Jinja</td><td>SVG donut Win/Loss</td><td>SVGDashboard.donut_chart()</td></tr>
+<tr><td><code>distribution_chart</code></td><td class="type-jinja">Jinja</td><td>HTML bar chart PnL по сделкам</td><td>DashboardCharts.pnl_distribution_bars()</td></tr>
+<tr><td><code>by_symbol_chart</code></td><td class="type-jinja">Jinja</td><td>HTML bar chart PnL по символам</td><td>DashboardCharts.pnl_by_symbol_chart()</td></tr>
+<tr><td><code>heatmap_var1_html</code></td><td class="type-jinja">Jinja</td><td>HTML stacked heatmap (per-symbol)</td><td>generate_stacked_heatmap_html()</td></tr>
+<tr><td><code>heatmap_chart</code></td><td class="type-jinja">Jinja</td><td>Plotly heatmap</td><td>DashboardCharts.heatmap_chart()</td></tr>
+<tr><td><code>calendar_data</code></td><td class="type-jinja">Jinja</td><td>Данные календаря (year, month, days)</td><td>CalendarHeatmap.get_month_data()</td></tr>
+<tr><td><code>top_trades</code></td><td class="type-jinja">Jinja</td><td>Top-3 и Bottom-3 сделки</td><td>DashboardKPI.get_top_trades()</td></tr>
+<tr><td><code>calendarYear, calendarMonth</code></td><td class="type-js">JS</td><td>Текущий год/месяц календаря</td><td>calendar_data.year/month</td></tr>
+<tr><td><code>fetch('/dashboard/api/calendar')</code></td><td class="type-api">API</td><td>Загрузка данных календаря</td><td>dashboard.bp</td></tr>
+<tr><td><code>getRoeColorJS()</code></td><td class="type-js">JS</td><td>Цвет ячейки по ROE</td><td>Внутренняя функция</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<!-- Page 3: fundament_rf /range_variants_demo -->
+<section class="page-section" id="page-3">
+<div class="page-header">
+<h2>Range Bar — Демонстрация вариантов</h2>
+<span class="url">GET http://localhost:5000/range_variants_demo</span>
+<span class="project-tag">fundament_rf</span>
+</div>
+
+<div class="screenshot">
+<div class="screenshot-label">Скриншот</div>
+<img src="fundament_rf/range_variants.png" alt="fundament_rf range_variants_demo" loading="lazy">
+</div>
+
+<div class="collapsible-header" onclick="this.classList.toggle('collapsed');this.nextElementSibling.classList.toggle('collapsed')">ASCII-схема блоков</div>
+<div class="collapsible-content ascii-block">
+<div class="label">Блок-схема страницы</div>
+<pre>
+┌─────────────────────────────────────────────────────────────┐
+│  h1: "Range Bar — Демонстрация вариантов"                   │
+├─────────────────────────────────────────────────────────────┤
+│  div.demo-data (тестовые данные ETC #10)                    │
+├─────────────────────────────────────────────────────────────┤
+│  Variant 0: Segmented Bar                                   │
+│  ┌───────────────────────────────────────────────────────┐  │
+│  │ info-box (описание)                                    │  │
+│  │ variant-box (bar + markers Entry/Current)              │  │
+│  └───────────────────────────────────────────────────────┘  │
+├─────────────────────────────────────────────────────────────┤
+│  Variant 0_1: Segmented Bar — Пропорция дней                │
+├─────────────────────────────────────────────────────────────┤
+│  Variant 2: Vertical Timeline                               │
+├─────────────────────────────────────────────────────────────┤
+│  Variant 3: Mini-Candles Strip (1 день = 1 сегмент)         │
+├─────────────────────────────────────────────────────────────┤
+│  Variant 4: Gradient Bar                                    │
+├─────────────────────────────────────────────────────────────┤
+│  Variant 5: Stacked Horizontal (seaborn)                    │
+├─────────────────────────────────────────────────────────────┤
+│  Variant 6: Timeline Strip                                  │
+├─────────────────────────────────────────────────────────────┤
+│  Variant 8: Markers Only                                    │
+├─────────────────────────────────────────────────────────────┤
+│  Variant 7: Filled Range                                    │
+├─────────────────────────────────────────────────────────────┤
+│  Variant 9: Candles Range                                   │
+├─────────────────────────────────────────────────────────────┤
+│  Variant 10: Numeric Only                                   │
+├─────────────────────────────────────────────────────────────┤
+│  Current (исходный вариант)                                 │
+└─────────────────────────────────────────────────────────────┘
+</pre>
+</div>
+
+<div class="collapsible-header" onclick="this.classList.toggle('collapsed');this.nextElementSibling.classList.toggle('collapsed')">DOM-дерево</div>
+<div class="collapsible-content dom-tree">
+<pre>
+html
+└── body
+    ├── nav (site navigation)
+    │   ├── a "Fundament RF" (logo)
+    │   ├── a "Главная"
+    │   ├── a "Dashboard"
+    │   ├── a "Все графики"
+    │   ├── a "Метрики"
+    │   └── button "🌙" (theme toggle)
+    ├── div.demo-page
+    │   ├── h1
+    │   ├── div.demo-data (Entry/Current/Low/High/Leverage/Days)
+    │   ├── div.variant-section × 11
+    │   │   ├── h2 (название варианта)
+    │   │   ├── div.info-box (описание +/-)
+    │   │   └── div.variant-box
+    │   │       ├── div.variantN-bar (визуальный bar)
+    │   │       ├── div.price-labels-inline (Low/High)
+    │   │       └── div.meta-info (доп. метрики)
+    │   └── script
+    │       ├── trade_data, daysData (from Jinja)
+    │       ├── getOrDefault() — safe accessor
+    │       └── renderVariantN() × 8
+</pre>
+</div>
+
+<div class="collapsible-header" onclick="this.classList.toggle('collapsed');this.nextElementSibling.classList.toggle('collapsed')">Таблица элементов и переменных</div>
+<div class="collapsible-content">
+<table class="data-table">
+<thead><tr><th>Элемент</th><th>Тип</th><th>Описание</th><th>Источник данных</th></tr></thead>
+<tbody>
+<tr><td><code>trade_data</code></td><td class="type-jinja">Jinja</td><td>Данные сделки (emoji_entry, emoji_upd, ohlc)</td><td>storage.load() — hardcoded UUID</td></tr>
+<tr><td><code>days_data</code></td><td class="type-jinja">Jinja</td><td>Массив дневных данных (1D)</td><td>storage.load_1d()</td></tr>
+<tr><td><code>data.entry</code></td><td class="type-js">JS</td><td>Цена входа (default 8.0995)</td><td>trade_data.data.emoji_entry.entry_price</td></tr>
+<tr><td><code>data.current</code></td><td class="type-js">JS</td><td>Текущая цена (default 8.44)</td><td>trade_data.data.emoji_upd.current_price</td></tr>
+<tr><td><code>data.low/high</code></td><td class="type-js">JS</td><td>Min/max цена из ohlc</td><td>trade_data.data.ohlc.min/max.price</td></tr>
+<tr><td><code>getRoeColor(roe)</code></td><td class="type-js">JS</td><td>Цвет по диапазону ROE</td><td>Внутренняя функция</td></tr>
+<tr><td><code>demoDays</code></td><td class="type-js">JS</td><td>72 дня demo-данных</td><td>daysData или fallback</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<!-- Page 4: fundament_rf /graphics/all -->
+<section class="page-section" id="page-4">
+<div class="page-header">
+<h2>Все графики — Сетка canvas</h2>
+<span class="url">GET http://localhost:5000/graphics/all</span>
+<span class="project-tag">fundament_rf</span>
+</div>
+
+<div class="screenshot">
+<div class="screenshot-label">Скриншот</div>
+<img src="fundament_rf/graphics_all.png" alt="fundament_rf graphics_all" loading="lazy">
+</div>
+
+<div class="collapsible-header" onclick="this.classList.toggle('collapsed');this.nextElementSibling.classList.toggle('collapsed')">ASCII-схема блоков</div>
+<div class="collapsible-content ascii-block">
+<div class="label">Блок-схема страницы</div>
+<pre>
+┌─────────────────────────────────────────────────────────────┐
+│  nav: [🏠 Главная] [📈 Все графики]  [🌙 theme]            │
+├─────────────────────────────────────────────────────────────┤
+│  h1: "Все графики"                                          │
+├─────────────────────────────────────────────────────────────┤
+│  div.charts-grid (auto-fill minmax 450px)                   │
+│  ┌─────────────────────────┐ ┌─────────────────────────┐    │
+│  │ div.chart-card          │ │ div.chart-card          │    │
+│  │  h2 (name + leverage)   │ │  h2 (name + leverage)   │    │
+│  │  .emoji-summary × 2     │ │  .emoji-summary × 2     │    │
+│  │  .loader (spinner)      │ │  .loader (spinner)      │    │
+│  │  .chart-header          │ │  .chart-header          │    │
+│  │  .chart-summary         │ │  .chart-summary         │    │
+│  │  canvas 400×220         │ │  canvas 400×220         │    │
+│  └─────────────────────────┘ └─────────────────────────┘    │
+│  ... (повтор для каждого объекта)                           │
+└─────────────────────────────────────────────────────────────┘
+</pre>
+</div>
+
+<div class="collapsible-header" onclick="this.classList.toggle('collapsed');this.nextElementSibling.classList.toggle('collapsed')">DOM-дерево</div>
+<div class="collapsible-content dom-tree">
+<pre>
+html
+└── body
+    ├── nav (links + theme toggle)
+    ├── h1
+    ├── div#chartsGrid.charts-grid
+    │   └── div.chart-card[data-id][data-symbol] × N
+    │       ├── h2 (link to /card/&lt;id&gt;)
+    │       ├── div.emoji-summary (entry)
+    │       ├── div.emoji-summary (upd)
+    │       ├── div.loader (spinner + timer)
+    │       ├── div.chart-header
+    │       ├── div.chart-summary
+    │       └── canvas
+    └── script
+        ├── toggleTheme()
+        ├── fetchChart() — fetch /graphics/chart/&lt;id&gt;
+        ├── drawChart() — canvas 2D rendering
+        └── init() — sequential card processing
+</pre>
+</div>
+
+<div class="collapsible-header" onclick="this.classList.toggle('collapsed');this.nextElementSibling.classList.toggle('collapsed')">Таблица элементов и переменных</div>
+<div class="collapsible-content">
+<table class="data-table">
+<thead><tr><th>Элемент</th><th>Тип</th><th>Описание</th><th>Источник данных</th></tr></thead>
+<tbody>
+<tr><td><code>objects</code></td><td class="type-jinja">Jinja</td><td>Список объектов с emoji_entry</td><td>storage.list()</td></tr>
+<tr><td><code>entry.symbol</code></td><td class="type-jinja">Jinja</td><td>Символ торговой пары</td><td>obj.data.emoji_entry.symbol</td></tr>
+<tr><td><code>entry.entry_price/date</code></td><td class="type-jinja">Jinja</td><td>Цена и дата входа</td><td>obj.data.emoji_entry</td></tr>
+<tr><td><code>card.dataset.id</code></td><td class="type-dom">DOM</td><td>UUID объекта для fetch</td><td>Jinja {{ obj.id }}</td></tr>
+<tr><td><code>fetch('/graphics/chart/' + id)</code></td><td class="type-api">API</td><td>Данные графика (chart, summary, ohlc, stats)</td><td>graphics.chart()</td></tr>
+<tr><td><code>ctx.canvas</code></td><td class="type-dom">DOM</td><td>2D canvas для отрисовки линии отклонения</td><td>card.querySelector('canvas')</td></tr>
+<tr><td><code>json.chart</code></td><td class="type-js">JS</td><td>Массив точек {date, deviation_percent, profitable}</td><td>API /graphics/chart/&lt;id&gt;</td></tr>
+<tr><td><code>json.summary</code></td><td class="type-js">JS</td><td>Сводка (symbol, entry_price, current_price, max_high, max_low)</td><td>API /graphics/chart/&lt;id&gt;</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<!-- Page 5: fundament_rf /card/<id> -->
+<section class="page-section" id="page-5">
+<div class="page-header">
+<h2>Карточка сделки — Детальный просмотр</h2>
+<span class="url">GET http://localhost:5000/card/&lt;obj_id&gt;</span>
+<span class="project-tag">fundament_rf</span>
+</div>
+
+<div class="screenshot">
+<div class="screenshot-label">Скриншот</div>
+<img src="fundament_rf/card.png" alt="fundament_rf card" loading="lazy">
+</div>
+
+<div class="collapsible-header" onclick="this.classList.toggle('collapsed');this.nextElementSibling.classList.toggle('collapsed')">ASCII-схема блоков</div>
+<div class="collapsible-content ascii-block">
+<div class="label">Блок-схема страницы</div>
+<pre>
+┌─────────────────────────────────────────────────────────────┐
+│  h2: "NAME [🔄]" + таймер                                   │
+├─────────────────────────────────────────────────────────────┤
+│  Block 1: Position (Low/Range/High/Entry/Current/PnL/ROE) │
+├─────────────────────────────────────────────────────────────┤
+│  Block 2: Range Bar (визуальная шкала Low→High)           │
+│  ┌───────────────────────────────────────────────────────┐  │
+│  │ range-fill-bg (Entry→Current заливка)                │  │
+│  │ range-candles (mini-bars по цене закрытия)           │  │
+│  │ range-markers (▲ Entry + ▲ Current с tooltip)        │  │
+│  └───────────────────────────────────────────────────────┘  │
+├─────────────────────────────────────────────────────────────┤
+│  Emoji rows (entry + upd)                                   │
+├─────────────────────────────────────────────────────────────┤
+│  Block 3: Days Distribution (Dn |══════| Dp)               │
+├─────────────────────────────────────────────────────────────┤
+│  Block 5: Critical Levels (таблица 8 уровней)              │
+├─────────────────────────────────────────────────────────────┤
+│  Deviation Chart (Canvas 600×300)                          │
+├─────────────────────────────────────────────────────────────┤
+│  OHLC Chart (Canvas 600×300)                               │
+└─────────────────────────────────────────────────────────────┘
+</pre>
+</div>
+
+<div class="collapsible-header" onclick="this.classList.toggle('collapsed');this.nextElementSibling.classList.toggle('collapsed')">DOM-дерево</div>
+<div class="collapsible-content dom-tree">
+<pre>
+html
+└── body
+    ├── nav (site navigation)
+    │   ├── a "Fundament RF" (logo)
+    │   ├── a "Главная"
+    │   ├── a "Dashboard"
+    │   ├── a "Все графики" (active)
+    │   ├── a "Метрики"
+    │   └── button "🌙" (theme toggle)
+    └── div.card
+        ├── h2 (name + refresh btn + timer)
+        ├── div#cardData[data-obj-id]
+        │   ├── div#block1-position.block-position (flex rows)
+        │   ├── div#block2-range.block-range
+        │   │   ├── div.range-labels-top (Low/High)
+        │   │   ├── div#rangeBarWrapper.range-bar-wrapper
+        │   │   │   ├── div#rangeFillBg.range-fill-bg
+        │   │   │   ├── div#rangeCandles.range-candles (mini-bars)
+        │   │   │   └── div#rangeMarkers.range-markers (Entry + Current)
+        │   │   └── div#rangeMeta.range-meta
+        │   ├── div.emoji-summary × 2
+        │   ├── div#block3-distribution.block-distribution
+        │   │   ├── span.dn-label, span.dp-label
+        │   │   ├── div#distBarWrapper.dist-bar-wrapper
+        │   │   │   ├── div#distDn.dist-dn, div#distDp.dist-dp
+        │   │   │   └── div#distCriticalMarkers (critical markers)
+        │   │   └── span#daLabel.da-label
+        │   ├── div#current_candle_ohlc (hidden)
+        │   ├── div#block5-critical.block-critical (table)
+        │   ├── div#dvcContainer (Deviation Chart)
+        │   │   ├── h3, div#dvcLoader (spinner)
+        │   │   ├── canvas#dvcChart (600×300)
+        │   │   └── div#dvcError
+        │   └── div#ohlcChartContainer (OHLC Chart)
+        │       ├── div#ohlcLoader, canvas#ohlcChart
+        │       └── div#ohlcNoData, div#ohlcError
+        └── script (IIFE)
+            ├── renderBlock1() — position summary
+            ├── renderRangeBar() — fill + candles + markers
+            ├── renderDistributionBar() — Dn/Dp bar + critical markers
+            ├── renderCriticalLevels() — table 8 levels
+            ├── drawDvcChart() — Canvas 2D deviation line
+            ├── drawOhlcChart() — Canvas 2D candles
+            ├── load() — fetch /graphics/chart/<id>
+            └── refreshCard() — manual refresh + /processor_1d/create
+</pre>
+</div>
+
+<div class="collapsible-header" onclick="this.classList.toggle('collapsed');this.nextElementSibling.classList.toggle('collapsed')">Таблица элементов и переменных</div>
+<div class="collapsible-content">
+<table class="data-table">
+<thead><tr><th>Элемент</th><th>Тип</th><th>Описание</th><th>Источник данных</th></tr></thead>
+<tbody>
+<tr><td><code>obj</code></td><td class="type-jinja">Jinja</td><td>Объект сделки</td><td>storage.load(obj_id)</td></tr>
+<tr><td><code>obj.name</code></td><td class="type-jinja">Jinja</td><td>Название (SYMBOL #N)</td><td>Модель FundObj</td></tr>
+<tr><td><code>obj.data.emoji_entry</code></td><td class="type-jinja">Jinja</td><td>Данные входа</td><td>Парсинг emoji</td></tr>
+<tr><td><code>obj.data.emoji_upd</code></td><td class="type-jinja">Jinja</td><td>Обновлённые данные</td><td>/graphics/chart/&lt;id&gt;</td></tr>
+<tr><td><code>obj.data.ohlc</code></td><td class="type-jinja">Jinja</td><td>OHLC данные свечи</td><td>/graphics/chart/&lt;id&gt;</td></tr>
+<tr><td><code>obj.data.stats</code></td><td class="type-jinja">Jinja</td><td>Статистика дней (dn, dp, da)</td><td>/graphics/chart/&lt;id&gt;</td></tr>
+<tr><td><code>OBJ_ID</code></td><td class="type-js">JS</td><td>ID из dataset</td><td>#cardData.dataset.objId</td></tr>
+<tr><td><code>API_URL</code></td><td class="type-js">JS</td><td>'/graphics/chart/' + OBJ_ID</td><td>Конкатенация строк</td></tr>
+<tr><td><code>cardData</code></td><td class="type-js">JS</td><td>Полный JSON ответ API</td><td>fetch(API_URL)</td></tr>
+<tr><td><code>critical_levels</code></td><td class="type-js">JS</td><td>8 критических уровней (Low, Min Close, Current, Entry, Max Close, High, Min Vol, Max Vol)</td><td>API json.critical_levels</td></tr>
+<tr><td><code>json.ohlc.current</code></td><td class="type-js">JS</td><td>Текущая свеча (high, low, body, upper_wick, lower_wick)</td><td>API json.ohlc</td></tr>
+<tr><td><code>fetch('/processor_1d/create/' + objId)</code></td><td class="type-api">API</td><td>Создание 1D данных</td><td>processor_1d.bp</td></tr>
+<tr><td><code>fetch('/processor_1d/chart/' + objId)</code></td><td class="type-api">API</td><td>OHLC данные для canvas</td><td>processor_1d.bp</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<!-- ============ demo_charts_ascii ============ -->
+<div id="proj-demo_charts_ascii" style="margin-bottom:2rem;margin-top:3rem">
+<h2 style="color:var(--accent);font-size:1.6rem;border-bottom:2px solid var(--accent);padding-bottom:.5rem">📁 demo_charts_ascii</h2>
+<p style="color:var(--text2);margin-top:.5rem">CLI-генератор ASCII-графиков. Flask-приложение для рендеринга asciichart, plotext, termgraph.</p>
+</div>
+
+<!-- Page 6: demo_charts_ascii / -->
+<section class="page-section" id="page-6">
+<div class="page-header">
+<h2>Главная — CLI Graph Tools</h2>
+<span class="url">GET http://localhost:5001/</span>
+<span class="project-tag">demo_charts_ascii</span>
+</div>
+
+<div class="screenshot">
+<div class="screenshot-label">Скриншот</div>
+<img src="demo_charts_ascii/index.png" alt="demo_charts_ascii index" loading="lazy">
+</div>
+
+<div class="collapsible-header" onclick="this.classList.toggle('collapsed');this.nextElementSibling.classList.toggle('collapsed')">ASCII-схема блоков</div>
+<div class="collapsible-content ascii-block">
+<div class="label">Блок-схема страницы</div>
+<pre>
+┌─────────────────────────────────────────────────────────────┐
+│  header                                                     │
+│  ┌───────────────────────────────────────────────────────┐  │
+│  │ h1: "📊 demo_charts_ascii"                             │  │
+│  │ toolbar: [☑ asciichart] [☑ plotext] [☑ termgraph]    │  │
+│  │          [☑ Summary]  [▶ RUN]  status                │  │
+│  └───────────────────────────────────────────────────────┘  │
+├─────────────────────────────────────────────────────────────┤
+│  main                                                       │
+│  ┌─────────────────┐  ┌─────────────────────────────────┐   │
+│  │ aside           │  │ section#output                  │   │
+│  │ (file-tree)     │  │ ┌─────────────────────────────┐ │   │
+│  │                 │  │ │ div.panel (Summary grid)    │ │   │
+│  │ 📁 Файлы        │  │ │ ┌────┐┌────┐┌────┐┌────┐   │ │   │
+│  │  📂 SYMBOL      │  │ │ │Price││Chg ││ROE ││Win%│   │ │   │
+│  │   📄 file.json  │  │ │ └────┘└────┘└────┘└────┘   │ │   │
+│  │                 │  │ ├─────────────────────────────┤ │   │
+│  │                 │  │ │ div.panel (plotext)         │ │   │
+│  │                 │  │ │ ├─ tabs ─┤                  │ │   │
+│  │                 │  │ │ └─ pre/iframe ─┘            │ │   │
+│  │                 │  │ ├─────────────────────────────┤ │   │
+│  │                 │  │ │ div.panel (asciichart)      │ │   │
+│  │                 │  │ │ └─ pre ─┘                   │ │   │
+│  │                 │  │ ├─────────────────────────────┤ │   │
+│  │                 │  │ │ div.panel (termgraph)       │ │   │
+│  │                 │  │ │ └─ pre ─┘                   │ │   │
+│  └─────────────────┘  │ └─────────────────────────────┘ │   │
+│                       └─────────────────────────────────┘   │
+└─────────────────────────────────────────────────────────────┘
+</pre>
+</div>
+
+<div class="collapsible-header" onclick="this.classList.toggle('collapsed');this.nextElementSibling.classList.toggle('collapsed')">DOM-дерево</div>
+<div class="collapsible-content dom-tree">
+<pre>
+html
+└── body
+    ├── div#app
+    │   ├── header
+    │   │   ├── h1
+    │   │   └── div.toolbar
+    │   │       ├── div.tools-checkboxes (4 inputs)
+    │   │       ├── button#btn-run
+    │   │       └── span#status
+    │   └── main
+    │       ├── aside#file-tree
+    │       │   ├── h3
+    │       │   └── div.folder × N
+    │       │       ├── div.folder-name (onclick="toggleFolder")
+    │       │       └── div.folder-children
+    │       │           └── div.file-item[data-path] × M
+    │       └── section#output
+    │           └── div.placeholder / panels
+    └── script
+        ├── selectedFile — путь к выбранному JSON
+        ├── toggleFolder(), selectFile()
+        ├── runRender() — POST /render
+        ├── renderOutput() — строит панели
+        └── renderSummary(), renderToolPanel(), buildSummaryCards()
+</pre>
+</div>
+
+<div class="collapsible-header" onclick="this.classList.toggle('collapsed');this.nextElementSibling.classList.toggle('collapsed')">Таблица элементов и переменных</div>
+<div class="collapsible-content">
+<table class="data-table">
+<thead><tr><th>Элемент</th><th>Тип</th><th>Описание</th><th>Источник данных</th></tr></thead>
+<tbody>
+<tr><td><code>tree</code></td><td class="type-jinja">Jinja</td><td>Дерево файлов {name, symbol, path, children[]}</td><td>build_file_tree() — os.listdir(data/)</td></tr>
+<tr><td><code>folder.symbol</code></td><td class="type-jinja">Jinja</td><td>Символ из имени папки (split '_')[0]</td><td>Парсинг имени директории</td></tr>
+<tr><td><code>child.path</code></td><td class="type-jinja">Jinja</td><td>Полный путь к JSON-файлу</td><td>os.path.join(dp, f)</td></tr>
+<tr><td><code>selectedFile</code></td><td class="type-js">JS</td><td>Путь к выбранному файлу</td><td>file-item.dataset.path</td></tr>
+<tr><td><code>tools[]</code></td><td class="type-js">JS</td><td>Выбранные инструменты (asciichart/plotext/termgraph/summary)</td><td>checked inputs</td></tr>
+<tr><td><code>POST /render</code></td><td class="type-api">API</td><td>Генерация графиков (body: {file_path, tools})</td><td>app.route('/render')</td></tr>
+<tr><td><code>data.summary</code></td><td class="type-js">JS</td><td>Сводка (last_close, entry_price, price_change_pct, current_roe_pct, win_rate, avg_volatility, max_drawdown_pct, streak_profit/loss)</td><td>generators.summary_gen</td></tr>
+<tr><td><code>data.plotext.charts[]</code></td><td class="type-js">JS</td><td>Массив графиков plotext (id, title, html)</td><td>generators.plotext_gen</td></tr>
+<tr><td><code>data.asciichart</code></td><td class="type-js">JS</td><td>ASCII-линия</td><td>generators.asciichart_gen</td></tr>
+<tr><td><code>data.termgraph</code></td><td class="type-js">JS</td><td>Бар-график ASCII</td><td>generators.termgraph_gen</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<!-- ============ graphs_candle ============ -->
+<div id="proj-graphs_candle" style="margin-bottom:2rem;margin-top:3rem">
+<h2 style="color:var(--accent);font-size:1.6rem;border-bottom:2px solid var(--accent);padding-bottom:.5rem">📁 graphs_candle</h2>
+<p style="color:var(--text2);margin-top:.5rem">Свечные графики Plotly/SVG. Торговый дашборд с распознаванием паттернов и PnL-аналитикой.</p>
+</div>
+
+<!-- Page 7: graphs_candle / (SVG) -->
+<section class="page-section" id="page-7">
+<div class="page-header">
+<h2>SVG Trading Dashboard</h2>
+<span class="url">GET http://localhost:5002/</span>
+<span class="project-tag">graphs_candle</span>
+</div>
+
+<div class="screenshot">
+<div class="screenshot-label">Скриншот</div>
+<img src="graphs_candle/svg.png" alt="graphs_candle svg" loading="lazy">
+</div>
+
+<div class="collapsible-header" onclick="this.classList.toggle('collapsed');this.nextElementSibling.classList.toggle('collapsed')">ASCII-схема блоков</div>
+<div class="collapsible-content ascii-block">
+<div class="label">Блок-схема страницы</div>
+<pre>
+┌─────────────────────────────────────────────────────────────┐
+│  header                                                     │
+│  ┌───────────────────────────────────────────────────────┐  │
+│  │ h1: "SVG Trading Dashboard"  [Plotly версия]          │  │
+│  │ select (BTC/ETH/SOL/BNB/ADA)  [Refresh]               │  │
+│  └───────────────────────────────────────────────────────┘  │
+├─────────────────────────────────────────────────────────────┤
+│  KPI Cards (5)                                              │
+│  ┌────────┐┌────────┐┌────────┐┌────────┐┌────────┐       │
+│  │Current ││24h Vol ││Total   ││Win     ││Sharpe  │       │
+│  │Price   ││        ││P&amp;L     ││Rate    ││Ratio   │       │
+│  └────────┘└────────┘└────────┘└────────┘└────────┘       │
+├─────────────────────────────────────────────────────────────┤
+│  Layout Switcher: [Split] [Candles] [Combined]             │
+├─────────────────────────────────────────────────────────────┤
+│  layout-split (default)                                     │
+│  ┌────────────────────────────┐┌──────────────────────┐     │
+│  │ candle-chart-split         ││ pnl-chart-split      │     │
+│  │ (SVG candlestick)          ││ (SVG PnL line)       │     │
+│  └────────────────────────────┘└──────────────────────┘     │
+├─────────────────────────────────────────────────────────────┤
+│  Detected Patterns Log (таблица 6 колонок)                 │
+│  ┌──────┬─────────┬──────┬───────────┬─────────┬──────┐    │
+│  │Time  │Pattern  │Type  │Description│Strength │Price │    │
+│  └──────┴─────────┴──────┴───────────┴─────────┴──────┘    │
+├─────────────────────────────────────────────────────────────┤
+│  Легенда паттернов (8 иконок SVG + счётчики)               │
+│  ┌────┐┌────┐┌────┐┌────┐┌────┐┌────┐┌────┐┌────┐        │
+│  │Ham ││SS  ││Doji││BEng││BrE ││MS  ││ES  ││Mar │        │
+│  │ 3x ││ 0x ││ 1x ││ 2x ││ 1x ││ 0x ││ 0x ││ 2x │        │
+│  └────┘└────┘└────┘└────┘└────┘└────┘└────┘└────┘        │
+└─────────────────────────────────────────────────────────────┘
+</pre>
+</div>
+
+<div class="collapsible-header" onclick="this.classList.toggle('collapsed');this.nextElementSibling.classList.toggle('collapsed')">DOM-дерево</div>
+<div class="collapsible-content dom-tree">
+<pre>
+html
+└── body.bg-gray-900
+    └── div.min-h-screen
+        └── div.max-w-1400
+            ├── header (flex)
+            │   ├── h1 + a[href="/plotly"]
+            │   └── div (select + refresh btn)
+            ├── div.grid (5 KPI cards)
+            │   └── div.bg-gray-800 × 5
+            ├── div.flex (layout buttons)
+            ├── div#layout-split.layout-section
+            │   └── div.grid
+            │       ├── div.lg:col-span-2.chart-container (candle)
+            │       └── div.chart-container (pnl)
+            ├── div#layout-candle.layout-section.hidden
+            │   └── div.chart-container (full candle)
+            ├── div#layout-combined.layout-section.hidden
+            │   └── div.chart-container (combined)
+            ├── div.bg-gray-800 (Patterns table)
+            │   ├── div.chart-title + button#toggle-patterns
+            │   └── div#patterns-container
+            │       └── table (thead + tbody#patterns-table)
+            ├── div.bg-gray-800 (Legend)
+            │   ├── div.chart-title + button#toggle-legend
+            │   └── div#legend-container (grid 4 cols)
+            │       └── div.legend-item[data-pattern] × 8
+            └── div.text-center (last-updated)
+</pre>
+</div>
+
+<div class="collapsible-header" onclick="this.classList.toggle('collapsed');this.nextElementSibling.classList.toggle('collapsed')">Таблица элементов и переменных</div>
+<div class="collapsible-content">
+<table class="data-table">
+<thead><tr><th>Элемент</th><th>Тип</th><th>Описание</th><th>Источник данных</th></tr></thead>
+<tbody>
+<tr><td><code>#symbol-select</code></td><td class="type-dom">DOM</td><td>Выбор торговой пары</td><td>Hardcoded options (BTCUSDT, ETHUSDT...)</td></tr>
+<tr><td><code>#refresh-btn</code></td><td class="type-dom">DOM</td><td>Кнопка обновления</td><td>—</td></tr>
+<tr><td><code>currentSymbol</code></td><td class="type-js">JS</td><td>Текущий символ (default 'BTCUSDT')</td><td>symbolSelect.value</td></tr>
+<tr><td><code>currentLayout</code></td><td class="type-js">JS</td><td>Текущий layout ('split'/'candle'/'combined')</td><td>layoutBtn.dataset.layout</td></tr>
+<tr><td><code>fetch('/api/summary?symbol=')</code></td><td class="type-api">API</td><td>Сводка (currentPrice, priceChangePct24h, volume24h, totalPnl, winRate, sharpeRatio)</td><td>main.py /api/summary</td></tr>
+<tr><td><code>fetch('/api/chart/svg/candlestick')</code></td><td class="type-api">API</td><td>SVG свечной график</td><td>main.py /api/chart/svg/candlestick</td></tr>
+<tr><td><code>fetch('/api/chart/svg/pnl')</code></td><td class="type-api">API</td><td>SVG PnL график</td><td>main.py /api/chart/svg/pnl</td></tr>
+<tr><td><code>fetch('/api/chart/svg/combined')</code></td><td class="type-api">API</td><td>SVG combined график</td><td>main.py /api/chart/svg/combined</td></tr>
+<tr><td><code>fetch('/api/patterns')</code></td><td class="type-api">API</td><td>Список обнаруженных паттернов</td><td>main.py /api/patterns</td></tr>
+<tr><td><code>patColors</code></td><td class="type-js">JS</td><td>Цвета паттернов (Hammer=#22c55e, Shooting Star=#ef4444...)</td><td>Hardcoded map</td></tr>
+<tr><td><code>patIcons</code></td><td class="type-js">JS</td><td>Иконки паттернов (SVG/HTML)</td><td>Hardcoded map</td></tr>
+<tr><td><code>buildLegend()</code></td><td class="type-js">JS</td><td>Динамическая легенда с фильтрацией</td><td>Результат /api/patterns</td></tr>
+<tr><td><code>toggle-patterns, toggle-legend</code></td><td class="type-dom">DOM</td><td>Кнопки скрыть/показать секции</td><td>DOM toggle</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<!-- Page 8: graphs_candle /plotly -->
+<section class="page-section" id="page-8">
+<div class="page-header">
+<h2>Plotly Trading Dashboard</h2>
+<span class="url">GET http://localhost:5002/plotly</span>
+<span class="project-tag">graphs_candle</span>
+</div>
+
+<div class="screenshot">
+<div class="screenshot-label">Скриншот</div>
+<img src="graphs_candle/plotly.png" alt="graphs_candle plotly" loading="lazy">
+</div>
+
+<div class="collapsible-header" onclick="this.classList.toggle('collapsed');this.nextElementSibling.classList.toggle('collapsed')">ASCII-схема блоков</div>
+<div class="collapsible-content ascii-block">
+<div class="label">Блок-схема страницы</div>
+<pre>
+┌─────────────────────────────────────────────────────────────┐
+│  header                                                     │
+│  ┌───────────────────────────────────────────────────────┐  │
+│  │ h1: "Trading Dashboard"                               │  │
+│  │ select (BTC/ETH/SOL/BNB/ADA)  [Refresh]               │  │
+│  └───────────────────────────────────────────────────────┘  │
+├─────────────────────────────────────────────────────────────┤
+│  KPI Cards (5) — аналогично SVG версии                     │
+├─────────────────────────────────────────────────────────────┤
+│  Layout Switcher: [Split] [Candles] [Combined]             │
+├─────────────────────────────────────────────────────────────┤
+│  layout-split (default)                                     │
+│  ┌────────────────────────────┐┌──────────────────────┐     │
+│  │ candle-chart-split         ││ pnl-chart-split      │     │
+│  │ (Plotly HTML candlestick)  ││ (Plotly HTML PnL)    │     │
+│  └────────────────────────────┘└──────────────────────┘     │
+├─────────────────────────────────────────────────────────────┤
+│  Detected Patterns Log (таблица 6 колонок)                 │
+├─────────────────────────────────────────────────────────────┤
+│  Легенда паттернов (статический HTML, 8 items)             │
+│  ┌────┐┌────┐┌────┐┌────┐┌────┐┌────┐┌────┐┌────┐        │
+│  │Ham ││SS  ││Doji││BEng││BrE ││MS  ││ES  ││Mar │        │
+│  └────┘└────┘└────┘└────┘└────┘└────┘└────┘└────┘        │
+├─────────────────────────────────────────────────────────────┤
+│  Last updated: --:--:--                                    │
+└─────────────────────────────────────────────────────────────┘
+</pre>
+</div>
+
+<div class="collapsible-header" onclick="this.classList.toggle('collapsed');this.nextElementSibling.classList.toggle('collapsed')">DOM-дерево</div>
+<div class="collapsible-content dom-tree">
+<pre>
+html
+└── body.bg-gray-900
+    └── div.min-h-screen.px-5.py-4
+        └── div.max-w-1400.mx-auto
+            ├── header.flex (h1 + select + refresh)
+            ├── div.grid.grid-cols-5 (KPI cards)
+            ├── div.flex (layout buttons .layout-btn)
+            ├── div#layout-split.layout-section
+            │   └── div.grid.grid-cols-3
+            │       ├── div.lg:col-span-2 (candle-chart-split)
+            │       └── div (pnl-chart-split)
+            ├── div#layout-candle.layout-section.hidden
+            │   └── div (candle-chart-full)
+            ├── div#layout-combined.layout-section.hidden
+            │   └── div (combined-chart)
+            ├── div.bg-gray-800 (Patterns table)
+            │   ├── h3
+            │   └── div.overflow-x-auto > table
+            │       ├── thead (6 columns)
+            │       └── tbody#patterns-table
+            ├── div.bg-gray-800 (Pattern Legend)
+            │   ├── h3
+            │   └── div.grid.grid-cols-4 (8 static items)
+            └── div.text-center (last-updated)
+</pre>
+</div>
+
+<div class="collapsible-header" onclick="this.classList.toggle('collapsed');this.nextElementSibling.classList.toggle('collapsed')">Таблица элементов и переменных</div>
+<div class="collapsible-content">
+<table class="data-table">
+<thead><tr><th>Элемент</th><th>Тип</th><th>Описание</th><th>Источник данных</th></tr></thead>
+<tbody>
+<tr><td><code>#symbol-select</code></td><td class="type-dom">DOM</td><td>Выбор торговой пары</td><td>Hardcoded options</td></tr>
+<tr><td><code>#refresh-btn</code></td><td class="type-dom">DOM</td><td>Кнопка обновления</td><td>—</td></tr>
+<tr><td><code>currentSymbol</code></td><td class="type-js">JS</td><td>Текущий символ</td><td>symbolSelect.value</td></tr>
+<tr><td><code>currentLayout</code></td><td class="type-js">JS</td><td>Текущий layout</td><td>layoutBtn.dataset.layout</td></tr>
+<tr><td><code>formatCurrency(val)</code></td><td class="type-js">JS</td><td>Формат USD (Intl.NumberFormat)</td><td>Внутренняя функция</td></tr>
+<tr><td><code>formatPct(val)</code></td><td class="type-js">JS</td><td>Формат % (+/-X.XX%)</td><td>Внутренняя функция</td></tr>
+<tr><td><code>fetch('/api/summary?symbol=')</code></td><td class="type-api">API</td><td>KPI данные</td><td>main.py /api/summary</td></tr>
+<tr><td><code>fetch('/api/chart/candlestick')</code></td><td class="type-api">API</td><td>Plotly HTML candlestick</td><td>main.py /api/chart/candlestick</td></tr>
+<tr><td><code>fetch('/api/chart/pnl')</code></td><td class="type-api">API</td><td>Plotly HTML PnL</td><td>main.py /api/chart/pnl</td></tr>
+<tr><td><code>fetch('/api/chart/combined')</code></td><td class="type-api">API</td><td>Plotly HTML combined</td><td>main.py /api/chart/combined</td></tr>
+<tr><td><code>fetch('/api/patterns')</code></td><td class="type-api">API</td><td>Паттерны свечей</td><td>main.py /api/patterns</td></tr>
+<tr><td><code>patterns-table tbody</code></td><td class="type-dom">DOM</td><td>Динамически заполняемая таблица паттернов</td><td>JS loadPatterns()</td></tr>
+<tr><td><code>strength bar</code></td><td class="type-dom">DOM</td><td>Шкала силы паттерна (0-100%)</td><td>pattern.strength</td></tr>
+<tr><td><code>last-updated</code></td><td class="type-dom">DOM</td><td>Время последнего обновления</td><td>new Date().toLocaleTimeString()</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<footer style="text-align:center;padding:2rem;color:var(--text2);font-size:.85rem;border-top:1px solid var(--border)">
+<p>Каталог сгенерирован <span id="gen-date"></span></p>
+<p>3 проекта · 8 страниц · full-page скриншоты + ASCII-схемы + DOM + переменные</p>
+</footer>
+
+<script>
+document.getElementById('gen-date').textContent = new Date().toLocaleString('ru-RU');
+// Auto-expand first section of each page
+document.querySelectorAll('.page-section').forEach(section => {
+    const first = section.querySelector('.collapsible-header');
+    if(first) first.click();
+});
+</script>
+
+</main>
+</body>
+</html>
