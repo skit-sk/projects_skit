@@ -2,7 +2,7 @@
 {% block title %}Visualizations · D3.js Dashboard{% endblock %}
 {% block extra_head %}
 <link rel="stylesheet" href="/static/css/visualizations.css">
-<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="/static/js/lib/d3.v7.min.js" defer></script>
 {% endblock %}
 {% block content %}
 <div class="viz-container">
@@ -56,11 +56,6 @@
 <script>
 window.VIZ_OBJECTS = {{ objects|tojson }};
 </script>
-<script src="/static/js/visualizations/tab_manager.js"></script>
-<script src="/static/js/visualizations/settings_manager.js"></script>
-<script src="/static/js/visualizations/d3_v2_liquidation_risk.js"></script>
-<script src="/static/js/visualizations/d3_v4_multi_equity.js"></script>
-<script src="/static/js/visualizations/d3_v1_sessions_heatmap.js"></script>
-<script src="/static/js/visualizations/d3_v3_fibonacci_tool.js"></script>
-<script src="/static/js/visualizations/d3_v5_session_volatility.js"></script>
+<script src="/static/js/visualizations/tab_manager.js" defer></script>
+<script src="/static/js/visualizations/settings_manager.js" defer></script>
 {% endblock %}
