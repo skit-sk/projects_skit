@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Visualizations · D3.js Dashboard{% endblock %}
+{% block extra_head %}
+<link rel="stylesheet" href="/static/css/visualizations.css">
+<script src="https://d3js.org/d3.v7.min.js"></script>
+{% endblock %}
+{% block content %}
+<div class="viz-container">
+  <div class="viz-header">
+    <h1>📊 Visualizations <span class="viz-subtitle">D3.js · 5 модулей</span></h1>
+    <div class="viz-controls">
+      <div class="viz-control-group">
+        <label>Symbol:</label>
+        <select id="viz-symbol" class="viz-select">
+          {% for obj in objects %}
+          <option value="{{ obj.id }}" data-symbol="{{ obj.symbol }}">{{ obj.symbol }} — {{ obj.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="viz-control-group">
+        <label>Range:</label>
+        <select id="viz-range" class="viz-select">
+          <option value="7">7 days</option>
+          <option value="30" selected>30 days</option>
+          <option value="90">90 days</option>
+          <option value="180">180 days</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="viz-tabs">
+    <button class="viz-tab active" data-tab="v2">V2 · Liquidation Risk</button>
+    <button class="viz-tab" data-tab="v4">V4 · Multi-Equity</button>
+    <button class="viz-tab" data-tab="v1">V1 · Sessions Heatmap</button>
+    <button class="viz-tab" data-tab="v3">V3 · Fibonacci Tool</button>
+    <button class="viz-tab" data-tab="v5">V5 · Session Volatility</button>
+    <button class="viz-tab viz-tab-settings" data-tab="settings">⚙ Settings</button>
+  </div>
+
+  <div class="viz-body">
+    {% include "visualizations/_tab_v2.html" %}
+    {% include "visualizations/_tab_v4.html" %}
+    {% include "visualizations/_tab_v1.html" %}
+    {% include "visualizations/_tab_v3.html" %}
+    {% include "visualizations/_tab_v5.html" %}
+    {% include "visualizations/_settings_panel.html" %}
+  </div>
+
+  <div class="viz-footer">
+    <span id="viz-status">Ready</span>
+    <span id="viz-stats"></span>
+  </div>
+</div>
+
+<script>
+window.VIZ_OBJECTS = {{ objects|tojson }};
+</script>
+<script src="/static/js/visualizations/tab_manager.js"></script>
+<script src="/static/js/visualizations/settings_manager.js"></script>
+<script src="/static/js/visualizations/d3_v2_liquidation_risk.js"></script>
+<script src="/static/js/visualizations/d3_v4_multi_equity.js"></script>
+<script src="/static/js/visualizations/d3_v1_sessions_heatmap.js"></script>
+<script src="/static/js/visualizations/d3_v3_fibonacci_tool.js"></script>
+<script src="/static/js/visualizations/d3_v5_session_volatility.js"></script>
+{% endblock %}

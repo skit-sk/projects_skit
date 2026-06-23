@@ -1,0 +1,17 @@
+<div class="viz-tab-pane" data-tab-content="v3">
+  <h2>V3 · Interactive Fibonacci Tool</h2>
+  <p class="viz-desc">Уровни Фибоначчи на произвольном диапазоне дат. Переключайте режим и уровни.</p>
+  <div class="viz-v3-controls">
+    <label>From: <input type="date" id="viz-v3-from" class="viz-input"></label>
+    <label>To:   <input type="date" id="viz-v3-to"   class="viz-input"></label>
+    <label>Mode:
+      <select id="viz-v3-mode" class="viz-select">
+        <option value="retracement">Retracement</option>
+        <option value="extension">Extension</option>
+      </select>
+    </label>
+    <button id="viz-v3-apply" class="viz-btn">Apply</button>
+  </div>
+  <div id="viz-v3-chart"></div>
+  <div id="viz-v3-levels" class="viz-levels-list"></div>
+</div>

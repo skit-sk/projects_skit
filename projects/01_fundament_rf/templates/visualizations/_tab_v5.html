@@ -1,0 +1,18 @@
+<div class="viz-tab-pane" data-tab-content="v5">
+  <h2>V5 · Session Volatility Profile</h2>
+  <p class="viz-desc">Распределение метрики (body_pct) по торговым сессиям. Violin plot + box plot внутри.</p>
+  <div class="viz-v5-controls">
+    <label>Lookback: <input type="number" id="viz-v5-lookback" value="90" min="7" max="365" class="viz-input-sm"></label>
+    <label>Metric:
+      <select id="viz-v5-metric" class="viz-select">
+        <option value="body_pct">body_pct</option>
+        <option value="total_range">total_range</option>
+        <option value="volatility">volatility</option>
+        <option value="volume">volume</option>
+      </select>
+    </label>
+    <button id="viz-v5-apply" class="viz-btn">Apply</button>
+  </div>
+  <div id="viz-v5-chart"></div>
+  <div id="viz-v5-stats" class="viz-stats-table"></div>
+</div>
