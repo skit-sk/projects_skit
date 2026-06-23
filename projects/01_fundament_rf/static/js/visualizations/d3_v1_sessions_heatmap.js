@@ -24,33 +24,37 @@
       container.append("div").text("Нет данных для отображения");
       return;
     }
-    const cellW = 16, cellH = 16, gap = 3;
-    const monthLabelW = 14, dayLabelH = 14;
+    const cellW = 18, cellH = 18, gap = 2;
+    const monthLabelW = 14, dayLabelH = 18;
+    const monthColW = cellW * 7 + gap;
+    const monthColGap = 36;
     const months = data.calendar;
-    const width = monthLabelW + months.length * (cellW * 7 + gap + 30);
-    const height = dayLabelH + 31 * (cellH + gap) + 30;
+    const width = monthLabelW + months.length * monthColW + (months.length - 1) * monthColGap + 20;
+    const maxWeeks = 5;
+    const height = dayLabelH + 4 + maxWeeks * (cellH + gap) + 70;
 
     const svg = container.append("svg")
       .attr("width", width).attr("height", height)
       .attr("viewBox", "0 0 " + width + " " + height);
 
     const maxVal = data.max_value || 1;
-    const colors = SCHEMES.viridis;
 
     const monthNames = ["Янв", "Фев", "Мар", "Апр", "Май", "Июн", "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек"];
 
     months.forEach(function(m, mi) {
-      const xBase = monthLabelW + mi * (cellW * 7 + gap + 30);
-      const [yStr, mStr] = m.month.split("-");
+      const xBase = monthLabelW + mi * (monthColW + monthColGap);
+      const parts = m.month.split("-");
+      const yStr = parts[0], mStr = parts[1];
       const monthLabel = monthNames[parseInt(mStr, 10) - 1] + " " + yStr;
       svg.append("text")
-        .attr("x", xBase).attr("y", dayLabelH - 2)
+        .attr("x", xBase).attr("y", dayLabelH - 4)
         .attr("font-size", "11").attr("fill", "#374151").attr("font-weight", "600")
         .text(monthLabel);
 
-      for (let dayIdx = 0; dayIdx < 31; dayIdx++) {
+      const daysInMonth = new Date(parseInt(yStr, 10), parseInt(mStr, 10), 0).getDate();
+      for (let dayIdx = 0; dayIdx < daysInMonth; dayIdx++) {
         const v = m.days[dayIdx];
-        const wd = (dayIdx + 1);
+        const wd = dayIdx + 1;
         const ts = new Date(Date.UTC(parseInt(yStr, 10), parseInt(mStr, 10) - 1, wd));
         const dayOfWeek = ts.getUTCDay();
         const col = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
@@ -74,7 +78,7 @@
       }
     });
 
-    const legendY = height - 18;
+    const legendY = dayLabelH + 4 + maxWeeks * (cellH + gap) + 14;
     const legendW = 200;
     const legendX0 = 14;
     const steps = 20;
@@ -419,25 +423,26 @@
     }
   };
 
-  document.addEventListener("DOMContentLoaded", function() {
-    document.querySelectorAll(".viz-mode-btn").forEach(function(btn) {
-      btn.addEventListener("click", function() {
-        document.querySelectorAll(".viz-mode-btn").forEach(function(b) { b.classList.remove("active"); });
-        btn.classList.add("active");
-        currentMode = btn.dataset.mode;
-        if (currentData && currentData.view === currentMode && currentData.candles_count) {
-          const container = d3.select("#viz-v1-heatmap");
-          const statsContainer = d3.select("#viz-v1-stats");
-          if (currentMode === "calendar")     renderCalendar(container, currentData);
-          else if (currentMode === "bars")    renderDailyBars(container, currentData);
-          else if (currentMode === "direction") renderDirection(container, currentData);
-          else if (currentMode === "weekday") renderWeekday(container, currentData);
-          else if (currentMode === "heatmap") renderHeatmap(container, currentData);
-          renderStats(statsContainer, currentData);
-        } else {
-          window.renderV1();
-        }
-      });
+  document.addEventListener("click", function(evt) {
+    const btn = evt.target.closest && evt.target.closest(".viz-mode-btn");
+    if (!btn) return;
+    evt.preventDefault();
+    document.querySelectorAll(".viz-mode-btn").forEach(function(b) {
+      b.classList.toggle("active", b === btn);
     });
+    currentMode = btn.dataset.mode;
+    if (currentData && currentData.candles_count) {
+      const container = d3.select("#viz-v1-heatmap");
+      const statsContainer = d3.select("#viz-v1-stats");
+      if (currentMode === "calendar")        renderCalendar(container, currentData);
+      else if (currentMode === "bars")       renderDailyBars(container, currentData);
+      else if (currentMode === "direction")  renderDirection(container, currentData);
+      else if (currentMode === "weekday")    renderWeekday(container, currentData);
+      else if (currentMode === "heatmap")    renderHeatmap(container, currentData);
+      renderStats(statsContainer, currentData);
+      window.VIZ.setStatus("V1 · " + currentMode + " · " + currentData.symbol);
+    } else {
+      window.renderV1();
+    }
   });
 })();

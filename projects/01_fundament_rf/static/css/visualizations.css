@@ -45,6 +45,19 @@
   text-align: center;
 }
 
+#viz-v1-heatmap {
+  min-height: 400px;
+  overflow-x: auto;
+  overflow-y: visible;
+}
+
+#viz-v1-heatmap svg {
+  overflow: visible;
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
 .viz-controls {
   display: flex;
   gap: 16px;
