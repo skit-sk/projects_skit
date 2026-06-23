@@ -42,7 +42,9 @@ def api_objects():
 @bp.route("/api/sessions_heatmap/<obj_id>")
 def api_sessions_heatmap(obj_id):
     days = int(request.args.get("days", 30))
-    return jsonify(sessions_heatmap.compute(obj_id, days=days))
+    metric = request.args.get("metric", "body_pct")
+    tz_offset = int(request.args.get("tz", 3))
+    return jsonify(sessions_heatmap.compute(obj_id, days=days, metric=metric, timezone_offset=tz_offset))
 
 
 @bp.route("/api/liquidation_risk/<obj_id>")
