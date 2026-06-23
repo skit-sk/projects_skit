@@ -74,6 +74,7 @@
         const color = sessionColors[sess.session] || "#6b7280";
         const cy = (y(sess.session) || 0) + y.bandwidth() / 2;
         const values = sess.values;
+        const stats = sess.stats;
         if (values.length < 2) {
           if (settings.show_outliers || true) {
             values.forEach(v => {
@@ -105,7 +106,6 @@
         }
 
         if (settings.plot_type === "box" || settings.plot_type === "both") {
-          const stats = sess.stats;
           const boxW = 8;
           g.append("rect")
             .attr("x", x(stats.q1)).attr("y", cy - boxW / 2)
