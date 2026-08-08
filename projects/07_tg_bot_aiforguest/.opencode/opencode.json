@@ -1,0 +1,30 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "permission": {
+    "webfetch": "allow"
+  },
+  "agent": {
+    "tg-reader": {
+      "permission": {
+        "bash": {
+          "*": "allow",
+          "rm -rf *": "deny",
+          "chmod *": "deny",
+          "sudo *": "deny",
+          "chown *": "deny",
+          "dd *": "deny",
+          "mkfs *": "deny"
+        },
+        "external_directory": "deny"
+      }
+    },
+    "web-search": {
+      "description": "Веб-поиск и парсинг страниц через webfetch",
+      "permission": {
+        "webfetch": "allow",
+        "bash": "deny",
+        "edit": "deny"
+      }
+    }
+  }
+}

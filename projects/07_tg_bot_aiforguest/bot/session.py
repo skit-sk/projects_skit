@@ -136,6 +136,60 @@ def user_dir(uid, platform="tg"):
     return ALL_USERS_DIR / resolved / f"{platform}_{plat_id}"
 
 
+def session_run_dir(uid, platform="tg", key=None):
+    """Per-session рабочая директория для `opencode run --dir`.
+
+    Иерархия:
+        ALL_USERS/usr_<uid>/<platform>_<chat_id>/
+            uploads/                # общий upload на чат
+            _default/               # legacy-файлы (мигрированные)
+            <session_key>/          # ← возвращается
+
+    Миграция: при первом обращении к новой сессии, если _default/ существует и непустой,
+    его содержимое один раз копируется в <session_key>/. Затем _default/ остаётся
+    как fallback (на случай ручного /new).
+    """
+    import shutil
+    chat_dir = user_dir(uid, platform)
+    chat_dir.mkdir(parents=True, exist_ok=True)
+    (chat_dir / "uploads").mkdir(exist_ok=True)
+
+    if key is None:
+        cur_key, _ = get_current_session(uid)
+        key = cur_key
+
+    if not key:
+        default_dir = chat_dir / "_default"
+        default_dir.mkdir(parents=True, exist_ok=True)
+        return default_dir
+
+    sess_dir = chat_dir / key
+    default_dir = chat_dir / "_default"
+
+    if not sess_dir.exists():
+        sess_dir.mkdir(parents=True, exist_ok=True)
+        if default_dir.exists() and any(default_dir.iterdir()):
+            for item in default_dir.iterdir():
+                if item.name == ".opencode":
+                    continue
+                dst = sess_dir / item.name
+                if dst.exists():
+                    continue
+                if item.is_dir():
+                    shutil.copytree(item, dst)
+                else:
+                    shutil.copy2(item, dst)
+            for item in default_dir.iterdir():
+                if item.name == ".opencode":
+                    continue
+                if item.is_dir():
+                    shutil.rmtree(item)
+                else:
+                    item.unlink()
+
+    return sess_dir
+
+
 def get_quota(uid):
     d = user_dir(uid)
     size = 0
@@ -164,6 +218,26 @@ def resolve_uid(any_id: int) -> str | None:
             if any_id in ids:
                 return uid_key
     return None
+
+
+def auto_platform(any_id: int) -> str:
+    """Определить платформу ('tg' | 'max') по platform id.
+    Если не найдено — возвращает 'tg' как default.
+    """
+    state = _load()
+    sid = str(any_id)
+    if sid in state["users"] and sid.startswith("usr_"):
+        links = state["users"][sid].get("platform_links", {})
+        if "max" in links and links["max"]:
+            return "max"
+        if "tg" in links and links["tg"]:
+            return "tg"
+    for uid_key, user in state["users"].items():
+        links = user.get("platform_links", {})
+        for platform, ids in links.items():
+            if any_id in ids:
+                return platform
+    return "tg"
 
 
 def _collect_super_ids(state) -> set:

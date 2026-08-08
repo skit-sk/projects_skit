@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Macro — Viz{% endblock %}
+{% block head_extra %}
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+{% endblock %}
+{% block content %}
+<section class="page-header">
+    <h1>🌍 Macro &amp; Intermarket</h1>
+    <p class="muted">DXY, Rates, BTC корреляции</p>
+</section>
+
+<div class="card">
+    <h3>BTC vs макро-факторы (симуляция)</h3>
+    <div id="macro" style="width:100%;height:600px;"></div>
+    <p class="muted">Отрицательная корреляция BTC↔DXY · Положительная BTC↔M2/ликвидность</p>
+</div>
+
+<a href="{{ url_for('viz.index') }}" class="btn btn-ghost">← Все графики</a>
+{% endblock %}
+
+{% block scripts %}
+<script>
+fetch('/api/klines?symbol=BTCUSDT&interval=1d&limit=200')
+    .then(r => r.json())
+    .then(klines => {
+        const closes = klines.map(k => +k[4]);
+        const times = klines.map(k => new Date(k[0]));
+        // DXY: inverse to BTC
+        const dxy = closes.map(c => 100 - (c - closes[0]) / closes[0] * 30 + Math.sin(closes.indexOf(c) / 10) * 2);
+        // 10Y yield
+        const yield_ = closes.map((c, i) => 4 + Math.sin(i / 15) * 0.5 + (i * 0.005));
+        // Gold
+        const gold = closes.map((c, i) => 1800 + Math.sin(i / 12) * 50 + i * 0.5);
+
+        const data = [
+            { x: times, y: closes, type: 'scatter', mode: 'lines', name: 'BTCUSDT', yaxis: 'y1', line: { color: '#f7931a', width: 2 } },
+            { x: times, y: dxy, type: 'scatter', mode: 'lines', name: 'DXY (inverse)', yaxis: 'y2', line: { color: '#58a6ff', width: 1, dash: 'dot' } },
+            { x: times, y: yield_, type: 'scatter', mode: 'lines', name: '10Y Yield %', yaxis: 'y2', line: { color: '#f85149', width: 1, dash: 'dot' } },
+            { x: times, y: gold, type: 'scatter', mode: 'lines', name: 'Gold', yaxis: 'y2', line: { color: '#d29922', width: 1, dash: 'dot' } },
+        ];
+
+        const layout = {
+            paper_bgcolor: '#161b22', plot_bgcolor: '#161b22',
+            font: { color: '#c9d1d9', family: 'JetBrains Mono' },
+            xaxis: { gridcolor: '#21262d' },
+            yaxis: { title: 'BTC Price', gridcolor: '#21262d', side: 'left' },
+            yaxis2: { title: 'Macro', overlaying: 'y', side: 'right', gridcolor: '#21262d' },
+            legend: { x: 0, y: 1.1, orientation: 'h' },
+            margin: { l: 60, r: 60, t: 30, b: 40 },
+        };
+        Plotly.newPlot('macro', data, layout, { responsive: true });
+    });
+</script>
+{% endblock %}

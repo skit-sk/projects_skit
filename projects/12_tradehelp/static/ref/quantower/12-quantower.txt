@@ -1,0 +1,79 @@
+Quantower
+Ctrl
+K
+Quantower Website
+Welcome to Quantower Help
+🚀
+Getting Started
+⚙️
+General Settings
+🔗
+Connections
+💡
+Analytics Panels
+💵
+Trading Panels
+💼
+Portfolio Panels
+📊
+Information Panels
+📌
+Miscellaneous
+🤖
+Quantower Algo
+💫
+Customization
+⁉️
+FAQ
+UPDATES & RELEASE NOTES
+Release Notes
+Platform update
+Quantower Beta
+HELP & TROUBLESHOOTING
+Backup & restore manager
+Reset settings to default
+You have found a bug. What’s next?
+BILLING & PAYMENTS
+Payment FAQ
+“Coinpayments” payment
+Referral Program
+Powered by GitBook
+For the complete documentation index, see llms.txt. This page is also available as Markdown.
+Copy
+Welcome to Quantower Help
+
+Here you’ll find all the detailed documentation for Quantower features, learn how to create and customize your Workspace, understand all settings, get to know advanced features, and more
+
+For the answers you can't find in the Knowledge Base, please contact us via the following options:
+
+Telegram Support Chat
+
+Live Chat on our website (pop-up window in the lower right)
+
+Email us at info@quantower.com
+
+For ease of navigation, the Knowledge Base is divided into several categories that will allow you to quickly find the information you need:
+
+🚀
+Getting Started
+💡
+Analytics Panels
+💵
+Trading Panels
+💼
+Portfolio Panels
+📊
+Information Panels
+📌
+Miscellaneous
+🤖
+Quantower Algo
+💫
+Customization
+
+Last updated 11 months ago
+
+This site uses cookies to deliver its service and to analyze traffic. By browsing this site, you accept the privacy policy.
+
+Accept
+Reject

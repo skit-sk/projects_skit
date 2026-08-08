@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ConfigDumpInfo xmlns="http://v8.1c.ru/8.3/xcf/dumpinfo" xmlns:xen="http://v8.1c.ru/8.3/xcf/enums" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" format="Hierarchical" version="2.21">
+	<ConfigVersions>
+		<Metadata name="Configuration.ЗагрузкаМагистрDBF" id="308c5fa9-c1de-4ce8-83d8-238238681908" configVersion="3ba3befd88ed17d1e2efe8a06ab6cd1c7ec53a54"/>
+		<Metadata name="DataProcessor.ЗагрузкаМагистрDBF" id="7728fc4c-d4a7-4df3-a26d-a8cd58834bf8" configVersion="e284205a925a9595f05f25a4474b0c95176c5690"/>
+		<Metadata name="DataProcessor.ЗагрузкаМагистрDBF.Form.Форма" id="f2f25d43-1b8e-420b-a7ab-1f7157e1baba" configVersion="776765590536b82c200215ed32c77b57b513382a"/>
+		<Metadata name="DataProcessor.ЗагрузкаМагистрDBF.Form.Форма.Form" id="f2f25d43-1b8e-420b-a7ab-1f7157e1baba.0" configVersion="cc8d16033a31b5dc270b0bab46b222b2d2aabf86"/>
+		<Metadata name="DataProcessor.ЗагрузкаМагистрDBF.ObjectModule" id="7728fc4c-d4a7-4df3-a26d-a8cd58834bf8.0" configVersion="67d683d640b38cfd4b7a3a65cdc718bfe067e7ba"/>
+		<Metadata name="Language.Русский" id="c3faf34c-06c5-4a03-bd89-ec30f48e9aee" configVersion="ea74c16b63a1421ffef7da1142a33d5aeb6dd544"/>
+		<Metadata name="Role.Расш1_ОсновнаяРоль" id="622b8b15-e5a0-44bb-8029-135440536f99" configVersion="2de0c64a1dd89146bafc5cbb02f7e379cfca1d40"/>
+	</ConfigVersions>
+</ConfigDumpInfo>

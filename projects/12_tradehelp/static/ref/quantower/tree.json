@@ -1,0 +1,131 @@
+{
+  "id": "quantower",
+  "title": "Quantower",
+  "url": "https://help.quantower.com/quantower/",
+  "pages": [
+    {
+      "url": "https://help.quantower.com/quantower/",
+      "slug": "00-quantower",
+      "title": "Welcome to Quantower Help | Quantower",
+      "sections": [
+        {
+          "tag": "h1",
+          "text": "Welcome to Quantower Help"
+        }
+      ],
+      "screenshot": "static/ref/quantower/00-quantower.png"
+    },
+    {
+      "url": "https://help.quantower.com/quantower/informational-panels",
+      "slug": "03-quantower-informational-panels",
+      "title": "Information Panels | Quantower",
+      "sections": [
+        {
+          "tag": "h1",
+          "text": "📊\nInformation Panels"
+        }
+      ],
+      "screenshot": "static/ref/quantower/03-quantower-informational-panels.png"
+    },
+    {
+      "url": "https://help.quantower.com/quantower/trading-panels",
+      "slug": "05-quantower-trading-panels",
+      "title": "Trading Panels | Quantower",
+      "sections": [
+        {
+          "tag": "h1",
+          "text": "💵\nTrading Panels"
+        }
+      ],
+      "screenshot": "static/ref/quantower/05-quantower-trading-panels.png"
+    },
+    {
+      "url": "https://help.quantower.com/quantower/analytics-panels",
+      "slug": "06-quantower-analytics-panels",
+      "title": "Analytics Panels | Quantower",
+      "sections": [
+        {
+          "tag": "h1",
+          "text": "💡\nAnalytics Panels"
+        }
+      ],
+      "screenshot": "static/ref/quantower/06-quantower-analytics-panels.png"
+    },
+    {
+      "url": "https://help.quantower.com/quantower/getting-started",
+      "slug": "07-quantower-getting-started",
+      "title": "Getting Started | Quantower",
+      "sections": [
+        {
+          "tag": "h1",
+          "text": "🚀\nGetting Started"
+        },
+        {
+          "tag": "h3",
+          "text": "Install Quantower"
+        },
+        {
+          "tag": "h3",
+          "text": "Take your first look"
+        },
+        {
+          "tag": "h3",
+          "text": "Account & Licensing"
+        },
+        {
+          "tag": "h3",
+          "text": "Connect your broker"
+        }
+      ],
+      "screenshot": "static/ref/quantower/07-quantower-getting-started.png"
+    },
+    {
+      "url": "https://help.quantower.com/quantower/customization",
+      "slug": "09-quantower-customization",
+      "title": "Customization | Quantower",
+      "sections": [
+        {
+          "tag": "h1",
+          "text": "💫\nCustomization"
+        }
+      ],
+      "screenshot": "static/ref/quantower/09-quantower-customization.png"
+    },
+    {
+      "url": "https://help.quantower.com/quantower/general-settings",
+      "slug": "11-quantower-general-settings",
+      "title": "General Settings | Quantower",
+      "sections": [
+        {
+          "tag": "h1",
+          "text": "⚙️\nGeneral Settings"
+        }
+      ],
+      "screenshot": "static/ref/quantower/11-quantower-general-settings.png"
+    },
+    {
+      "url": "https://help.quantower.com/quantower/faq",
+      "slug": "13-quantower-faq",
+      "title": "FAQ | Quantower",
+      "sections": [
+        {
+          "tag": "h1",
+          "text": "⁉️\nFAQ"
+        }
+      ],
+      "screenshot": "static/ref/quantower/13-quantower-faq.png"
+    },
+    {
+      "url": "https://help.quantower.com/quantower/connections",
+      "slug": "19-quantower-connections",
+      "title": "Connections | Quantower",
+      "sections": [
+        {
+          "tag": "h1",
+          "text": "🔗\nConnections"
+        }
+      ],
+      "screenshot": "static/ref/quantower/19-quantower-connections.png"
+    }
+  ]
+}

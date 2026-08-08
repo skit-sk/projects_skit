@@ -1,0 +1,20 @@
+{
+  "id": "youtube-bookmap",
+  "title": "BookMap + Liquidation HeatMap + KingFisher",
+  "url": "https://youtube.com/live/vLspipSCg6Y",
+  "pages": [
+    {
+      "url": "https://youtube.com/live/vLspipSCg6Y",
+      "slug": "00-live-vlspipscg6y",
+      "title": "Voordat je verdergaat naar YouTube",
+      "sections": [
+        {
+          "tag": "h1",
+          "text": "Voordat je verdergaat naar YouTube"
+        }
+      ],
+      "screenshot": "static/ref/youtube-bookmap/00-live-vlspipscg6y.png",
+      "textFile": "static/ref/youtube-bookmap/00-live-vlspipscg6y.txt"
+    }
+  ]
+}

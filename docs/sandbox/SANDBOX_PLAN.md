@@ -154,5 +154,5 @@ Endpoint `/sandbox/logs/<id>`:
 
 # боты
 ./scripts/tg_bot.sh start
-./projects/10_max_bot/scripts/max_bot.sh start
+./scripts/max_bot.sh start
 ```

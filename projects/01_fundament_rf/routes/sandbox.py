@@ -24,9 +24,19 @@ PROJECT_COMMANDS = {
         'restart': ['./scripts/tg_bot.sh', 'restart'],
     },
     '10': {
-        'start':   ['./projects/10_max_bot/scripts/max_bot.sh', 'start'],
-        'stop':    ['./projects/10_max_bot/scripts/max_bot.sh', 'stop'],
-        'restart': ['./projects/10_max_bot/scripts/max_bot.sh', 'restart'],
+        'start':   ['./scripts/max_bot.sh', 'start'],
+        'stop':    ['./scripts/max_bot.sh', 'stop'],
+        'restart': ['./scripts/max_bot.sh', 'restart'],
+    },
+    '12': {
+        'start':   ['./scripts/flask.sh', 'start', '12', '5012'],
+        'stop':    ['./scripts/flask.sh', 'stop', '12'],
+        'restart': ['./scripts/flask.sh', 'restart', '12', '5012'],
+    },
+    '15': {
+        'start':   ['./scripts/flask.sh', 'start', '15', '5015'],
+        'stop':    ['./scripts/flask.sh', 'stop', '15'],
+        'restart': ['./scripts/flask.sh', 'restart', '15', '5015'],
     },
 }
 

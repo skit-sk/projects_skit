@@ -4,9 +4,9 @@
   "homepage": "https://routerai.ru",
   "api_endpoint": "https://routerai.ru/api/v1/models",
   "balance": "prepaid",
-  "updated": "2026-06-19",
+  "updated": "2026-06-24",
   "opencode_prefix": "routerai/",
-  "models_count": 365,
+  "models_count": 380,
   "pricing_available": true,
   "models": [
     {
@@ -1154,6 +1154,32 @@
       }
     },
     {
+      "id": "kwaivgi/kling-v3.0-std",
+      "name": "Kling: Video v3.0 Standard",
+      "type": "llm",
+      "pricing": {
+        "input_rub": null,
+        "output_rub": null
+      },
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "kwaivgi/kling-video-o1",
+      "name": "Kling: Video O1",
+      "type": "llm",
+      "pricing": {
+        "input_rub": null,
+        "output_rub": null
+      },
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
       "id": "meta-llama/llama-4-maverick",
       "name": "Meta: Llama 4 Maverick",
       "type": "llm",
@@ -1427,8 +1453,60 @@
       }
     },
     {
+      "id": "google/veo-3.1-fast",
+      "name": "Google: Veo 3.1 Fast",
+      "type": "llm",
+      "pricing": {
+        "input_rub": null,
+        "output_rub": null
+      },
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "google/veo-3.1-lite",
+      "name": "Google: Veo 3.1 Lite",
+      "type": "llm",
+      "pricing": {
+        "input_rub": null,
+        "output_rub": null
+      },
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
       "id": "mistralai/mistral-saba",
       "name": "Mistral: Saba",
+      "type": "llm",
+      "pricing": {
+        "input_rub": null,
+        "output_rub": null
+      },
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "bytedance/seedance-2.0",
+      "name": "ByteDance: Seedance 2.0",
+      "type": "llm",
+      "pricing": {
+        "input_rub": null,
+        "output_rub": null
+      },
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "bytedance/seedance-2.0-fast",
+      "name": "ByteDance: Seedance 2.0 Fast",
       "type": "llm",
       "pricing": {
         "input_rub": null,
@@ -1481,6 +1559,19 @@
     {
       "id": "aion-labs/aion-rp-llama-3.1-8b",
       "name": "AionLabs: Aion-RP 1.0 (8B)",
+      "type": "llm",
+      "pricing": {
+        "input_rub": null,
+        "output_rub": null
+      },
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "bytedance/seedance-1-5-pro",
+      "name": "ByteDance: Seedance 1.5 Pro",
       "type": "llm",
       "pricing": {
         "input_rub": null,
@@ -1895,6 +1986,19 @@
       }
     },
     {
+      "id": "minimax/hailuo-2.3",
+      "name": "MiniMax: Hailuo 2.3",
+      "type": "llm",
+      "pricing": {
+        "input_rub": null,
+        "output_rub": null
+      },
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
       "id": "qwen/qwen-2.5-72b-instruct",
       "name": "Qwen2.5 72B Instruct",
       "type": "llm",
@@ -2012,6 +2116,19 @@
       }
     },
     {
+      "id": "alibaba/wan-2.7",
+      "name": "Alibaba: Wan 2.7",
+      "type": "llm",
+      "pricing": {
+        "input_rub": null,
+        "output_rub": null
+      },
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
       "id": "meta-llama/llama-3.1-70b-instruct",
       "name": "Meta: Llama 3.1 70B Instruct",
       "type": "llm",
@@ -2116,19 +2233,6 @@
       }
     },
     {
-      "id": "meta-llama/llama-3-70b-instruct",
-      "name": "Meta: Llama 3 70B Instruct",
-      "type": "llm",
-      "pricing": {
-        "input_rub": null,
-        "output_rub": null
-      },
-      "context": null,
-      "capabilities": {
-        "text": true
-      }
-    },
-    {
       "id": "meta-llama/llama-3-8b-instruct",
       "name": "Meta: Llama 3 8B Instruct",
       "type": "llm",
@@ -2170,19 +2274,6 @@
     {
       "id": "openai/gpt-4-turbo",
       "name": "OpenAI: GPT-4 Turbo",
-      "type": "llm",
-      "pricing": {
-        "input_rub": null,
-        "output_rub": null
-      },
-      "context": null,
-      "capabilities": {
-        "text": true
-      }
-    },
-    {
-      "id": "anthropic/claude-3.5-haiku",
-      "name": "Anthropic: Claude 3.5 Haiku",
       "type": "llm",
       "pricing": {
         "input_rub": null,
@@ -2248,6 +2339,19 @@
     {
       "id": "openai/gpt-3.5-turbo-0613",
       "name": "OpenAI: GPT-3.5 Turbo (older v0613)",
+      "type": "llm",
+      "pricing": {
+        "input_rub": null,
+        "output_rub": null
+      },
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "nex-agi/nex-n2-pro",
+      "name": "Nex AGI: Nex-N2-Pro",
       "type": "llm",
       "pricing": {
         "input_rub": null,
@@ -2404,6 +2508,19 @@
     {
       "id": "deepseek/deepseek-v3.1-terminus",
       "name": "DeepSeek: DeepSeek V3.1 Terminus",
+      "type": "llm",
+      "pricing": {
+        "input_rub": null,
+        "output_rub": null
+      },
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "sakana/fugu-ultra",
+      "name": "Sakana: Fugu Ultra",
       "type": "llm",
       "pricing": {
         "input_rub": null,
@@ -2870,6 +2987,19 @@
       }
     },
     {
+      "id": "alibaba/happyhorse-1.1",
+      "name": "Alibaba: HappyHorse 1.1",
+      "type": "llm",
+      "pricing": {
+        "input_rub": null,
+        "output_rub": null
+      },
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
       "id": "deepcogito/cogito-v2.1-671b",
       "name": "Deep Cogito: Cogito v2.1 671B",
       "type": "llm",
@@ -2898,19 +3028,6 @@
     {
       "id": "allenai/olmo-3-32b-think",
       "name": "AllenAI: Olmo 3 32B Think",
-      "type": "llm",
-      "pricing": {
-        "input_rub": null,
-        "output_rub": null
-      },
-      "context": null,
-      "capabilities": {
-        "text": true
-      }
-    },
-    {
-      "id": "prime-intellect/intellect-3",
-      "name": "Prime Intellect: INTELLECT-3",
       "type": "llm",
       "pricing": {
         "input_rub": null,
@@ -3028,19 +3145,6 @@
     {
       "id": "openai/gpt-5.1-codex-max",
       "name": "OpenAI: GPT-5.1-Codex-Max",
-      "type": "llm",
-      "pricing": {
-        "input_rub": null,
-        "output_rub": null
-      },
-      "context": null,
-      "capabilities": {
-        "text": true
-      }
-    },
-    {
-      "id": "essentialai/rnj-1-instruct",
-      "name": "EssentialAI: Rnj 1 Instruct",
       "type": "llm",
       "pricing": {
         "input_rub": null,
@@ -4261,6 +4365,32 @@
       }
     },
     {
+      "id": "z-ai/glm-5v-turbo",
+      "name": "Z.ai: GLM 5V Turbo",
+      "type": "llm",
+      "pricing": {
+        "input_rub": null,
+        "output_rub": null
+      },
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "alibaba/happyhorse-1.0",
+      "name": "Alibaba: HappyHorse 1.0",
+      "type": "llm",
+      "pricing": {
+        "input_rub": null,
+        "output_rub": null
+      },
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
       "id": "google/gemma-4-31b-it",
       "name": "Google: Gemma 4 31B",
       "type": "llm",
@@ -4588,6 +4718,71 @@
     {
       "id": "qwen/qwen3.6-flash",
       "name": "Qwen: Qwen3.6 Flash",
+      "type": "llm",
+      "pricing": {
+        "input_rub": null,
+        "output_rub": null
+      },
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "x-ai/grok-imagine-video",
+      "name": "xAI: Grok Imagine Video",
+      "type": "llm",
+      "pricing": {
+        "input_rub": null,
+        "output_rub": null
+      },
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "kwaivgi/kling-v3.0-pro",
+      "name": "Kling: Video v3.0 Pro",
+      "type": "llm",
+      "pricing": {
+        "input_rub": null,
+        "output_rub": null
+      },
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "alibaba/wan-2.6",
+      "name": "Alibaba: Wan 2.6",
+      "type": "llm",
+      "pricing": {
+        "input_rub": null,
+        "output_rub": null
+      },
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "openai/sora-2-pro",
+      "name": "OpenAI: Sora 2 Pro",
+      "type": "llm",
+      "pricing": {
+        "input_rub": null,
+        "output_rub": null
+      },
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "google/veo-3.1",
+      "name": "Google: Veo 3.1",
       "type": "llm",
       "pricing": {
         "input_rub": null,

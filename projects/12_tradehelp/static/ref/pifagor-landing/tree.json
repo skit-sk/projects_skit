@@ -1,0 +1,13 @@
+{
+  "id": "pifagor-landing",
+  "title": "Pifagor Landing",
+  "url": "https://pifagor.trade/",
+  "pages": [
+    {
+      "url": "https://pifagor.trade/",
+      "slug": "00-main",
+      "title": "Бесплатный доступ — Pifagor Trade",
+      "screenshot": "static/ref/pifagor-landing/00-main.png"
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+Quantower
+Ctrl
+K
+Quantower Website
+Welcome to Quantower Help
+🚀
+Getting Started
+⚙️
+General Settings
+🔗
+Connections
+💡
+Analytics Panels
+💵
+Trading Panels
+Chart Trading
+Multiple Order Entry
+Order Entry
+DOM Trader
+Copy Trading
+Market depth
+Trading simulator
+Market Replay
+FX Cell
+Backtest & Optimize
+Strategies manager
+💼
+Portfolio Panels
+📊
+Information Panels
+📌
+Miscellaneous
+🤖
+Quantower Algo
+💫
+Customization
+⁉️
+FAQ
+UPDATES & RELEASE NOTES
+Release Notes
+Platform update
+Quantower Beta
+HELP & TROUBLESHOOTING
+Backup & restore manager
+Reset settings to default
+You have found a bug. What’s next?
+BILLING & PAYMENTS
+Payment FAQ
+“Coinpayments” payment
+Referral Program
+Powered by GitBook
+For the complete documentation index, see llms.txt. This page is also available as Markdown.
+Copy
+💵
+Trading Panels
+Chart Trading
+Multiple Order Entry
+Order Entry
+DOM Trader
+Copy Trading
+Market depth
+Trading simulator
+Market Replay
+FX Cell
+Backtest & Optimize
+Strategies manager
+
+Last updated 6 years ago
+
+This site uses cookies to deliver its service and to analyze traffic. By browsing this site, you accept the privacy policy.
+
+Accept
+Reject

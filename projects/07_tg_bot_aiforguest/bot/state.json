@@ -13,7 +13,7 @@
           "ses_248207602_1779061887": {
             "name": "[TG] 248207602_SK_18052026_0251",
             "created": 1779061887,
-            "messages": 334,
+            "messages": 336,
             "model": null,
             "opencode_id": "ses_1c7a4a12fffejyYldtxGsionyv",
             "agent": "plan",
@@ -35,6 +35,15 @@
               "cost_in": 0.0,
               "cost_out": 0.0
             }
+          },
+          "ses_3309222_1783801285": {
+            "seq": 3,
+            "status": "DED",
+            "name": "test_session",
+            "created": 1783801285,
+            "messages": 0,
+            "model": null,
+            "opencode_id": null
           }
         }
       },
@@ -45,6 +54,11 @@
         "max": [
           3309222
         ]
+      },
+      "_last_task": {
+        "text": "/restart",
+        "session": "ses_248207602_1779061887",
+        "ts": 1783694917
       }
     },
     "usr_b6d3fda": {
@@ -150,10 +164,10 @@
     }
   },
   "files": {},
-  "session_seq": 2,
+  "session_seq": 3,
   "session_stats": {
-    "total_created": 2,
-    "total_deleted": 0,
+    "total_created": 3,
+    "total_deleted": 1,
     "active": 2
   }
 }

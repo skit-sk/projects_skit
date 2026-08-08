@@ -155,3 +155,37 @@ projects:
       - { id: atlas, label: "Атлас систем", url: "/med-life/atlas/usr_8e498be" }
       - { id: passport, label: "Паспорт состояния", url: "/med-life/passport/usr_8e498be" }
       - { id: timeline, label: "Таймлайн", url: "/med-life/timeline/usr_8e498be" }
+
+  "12":
+    name: "TradeHelp"
+    type: flask
+    port: 5012
+    entry_url: "http://localhost:5012/"
+    health_url: "http://localhost:5012/healthz"
+    proxy_url: "/proxy/12/"
+    log_path: "/tmp/flask_12_tradehelp.log"
+    pidfile: "/tmp/flask_12_tradehelp.pid"
+    embeddable: true
+    description: "Обучающая платформа по институциональному трейдингу: учебник (21 глава), визуализация (Plotly + TV Widgets), live-данные из account/, инструменты (журнал, Risk Calculator, Confluence Score)"
+    sections:
+      - { id: learn, label: "Учебник (21 глава)", url: "/proxy/12/learn/" }
+      - { id: viz, label: "Viz (Plotly)", url: "/proxy/12/viz/" }
+      - { id: tv, label: "TV Widgets", url: "/proxy/12/tv/" }
+      - { id: live, label: "Live Portfolio", url: "/proxy/12/live/" }
+      - { id: tools, label: "Tools (Journal/Risk)", url: "/proxy/12/tools/" }
+      - { id: score, label: "Confluence Score", url: "/proxy/12/tools/score" }
+
+  "15":
+    name: "CRPT — Честный Знак"
+    type: flask
+    port: 5015
+    entry_url: "http://localhost:5015/crpt"
+    health_url: "http://localhost:5000/crpt/"
+    proxy_url: "/proxy/15/"
+    log_path: "/tmp/flask_15_crpt.log"
+    pidfile: "/tmp/flask_15_crpt.pid"
+    embeddable: true
+    description: "API клиент ГИС МТ (Честный Знак) — проверка кодов, карточки товаров, документооборот"
+    sections:
+      - { id: direct, label: "Прямой доступ", url: "/proxy/15/" }
+      - { id: crpt, label: "CRPT Explorer", url: "/crpt/" }

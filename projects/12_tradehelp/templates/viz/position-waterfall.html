@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+{% block title %}Position Engineering — Scaling Waterfall — Viz{% endblock %}
+{% block head_extra %}
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+{% endblock %}
+{% block content %}
+<section class="page-header">
+    <h1>📊 Position Engineering — Scaling Waterfall</h1>
+    <p class="muted">Прогрессивный вход (1/8 → 8/8) и фиксация (1/4 → 4/4) по протоколу MidasFlow</p>
+</section>
+
+<div class="risk-grid">
+    <div class="card">
+        <h3>Параметры</h3>
+        <div class="form-row">
+            <label>Swing Low</label>
+            <input type="number" id="low" value="0.21" step="0.0001">
+        </div>
+        <div class="form-row">
+            <label>Swing High</label>
+            <input type="number" id="high" value="0.32" step="0.0001">
+        </div>
+        <div class="form-row">
+            <label>Account Size (USDT)</label>
+            <input type="number" id="account" value="1000" step="100">
+        </div>
+        <div class="form-row">
+            <label>Risk per trade (%)</label>
+            <input type="number" id="risk" value="2" step="0.5">
+        </div>
+        <div class="form-row">
+            <label>Max Leverage</label>
+            <input type="number" id="leverage" value="10" step="1">
+        </div>
+        <button class="btn btn-primary" onclick="renderScaling()">Рассчитать</button>
+    </div>
+
+    <div class="card">
+        <h3>План входа/выхода</h3>
+        <div id="scaling-result"></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>Waterfall Chart</h3>
+    <div id="waterfall" style="width:100%;height:500px;"></div>
+    <p class="muted">Этапы набора позиции и фиксации прибыли</p>
+</div>
+
+<a href="{{ url_for('viz.index') }}" class="btn btn-ghost">← Все графики</a>
+
+<script>
+function renderScaling() {
+    const low = parseFloat(document.getElementById('low').value);
+    const high = parseFloat(document.getElementById('high').value);
+    const account = parseFloat(document.getElementById('account').value);
+    const risk_pct = parseFloat(document.getElementById('risk').value);
+    const leverage = parseFloat(document.getElementById('leverage').value);
+
+    const range_ = high - low;
+
+    // MidasFlow Grid 2.0 уровни
+    const mss_entry = low + range_ * 0.0;            // 0.0
+    const ote_low = low + range_ * 0.618;            // OTE start
+    const ote_mid = low + range_ * 0.705;            // Sniper
+    const ote_deep = low + range_ * 0.786;           // Last stand
+    const invalidation = low + range_ * 1.0;         // MSS
+    const tp1 = low + range_ * 1.236;                // Early deviation
+    const tp2 = low + range_ * 1.618;                // Whale Alpha
+    const tp3 = low + range_ * 2.0;                  // Cycle double
+    const tp4 = low + range_ * 2.618;                // Whale Beta
+
+    // Max position based on risk
+    const risk_usd = account * (risk_pct / 100);
+    const max_pos_size = (risk_usd / range_) * 100 / leverage;
+
+    // Scaling In: 1/8 + 2/8 + 3/8 = 6/8 (75% before BOS), 8/8 after BOS
+    const slices = [
+        { name: 'MSS (Displacement)', price: mss_entry, fraction: 0.125, label: '1/8' },
+        { name: 'OTE Start (0.618)', price: ote_low, fraction: 0.25, label: '2/8' },
+        { name: 'Sniper (0.705)', price: ote_mid, fraction: 0, label: '—' },
+        { name: 'Last Stand (0.786)', price: ote_deep, fraction: 0, label: '—' },
+        { name: 'BOS Confirmation', price: invalidation, fraction: 0.625, label: '5/8' },
+    ];
+
+    // Scaling Out: TP1 (1/4), TP2 (2/4), TP3 (3/4), TP4 (4/4)
+    const tps = [
+        { name: 'TP1 (1.236)', price: tp1, fraction: 0.25 },
+        { name: 'TP2 (1.618 Whale α)', price: tp2, fraction: 0.25 },
+        { name: 'TP3 (2.000)', price: tp3, fraction: 0.25 },
+        { name: 'TP4 (2.618 Whale β)', price: tp4, fraction: 0.25 },
+    ];
+
+    const resultHTML = `
+        <h4 style="color: #3fb950;">Scaling In (1/8 → 8/8)</h4>
+        ${slices.map(s => `
+            <div class="result-row">
+                <div class="result-label">${s.name}</div>
+                <div class="result-val">${s.price.toFixed(4)} (${s.label}${s.fraction > 0 ? ' / ' + (s.fraction * 100) + '%' : ''})</div>
+            </div>
+        `).join('')}
+        <hr>
+        <div class="result-row">
+            <div class="result-label">Invalidation:</div>
+            <div class="result-val neg">${invalidation.toFixed(4)} (1.0)</div>
+        </div>
+        <hr>
+        <h4 style="color: #58a6ff;">Scaling Out (1/4 → 4/4)</h4>
+        ${tps.map(t => `
+            <div class="result-row">
+                <div class="result-label">${t.name}</div>
+                <div class="result-val pos">${t.price.toFixed(4)} (${(t.fraction * 100)}%)</div>
+            </div>
+        `).join('')}
+        <hr>
+        <div class="result-row">
+            <div class="result-label">Max Position:</div>
+            <div class="result-val">${max_pos_size.toFixed(2)} USDT</div>
+        </div>
+        <div class="result-row">
+            <div class="result-label">Risk USD:</div>
+            <div class="result-val">${risk_usd.toFixed(2)}</div>
+        </div>
+    `;
+    document.getElementById('scaling-result').innerHTML = resultHTML;
+
+    // Waterfall chart
+    const cum = [0];
+    slices.filter(s => s.fraction > 0).forEach(s => cum.push(cum[cum.length-1] + s.fraction));
+    cum.push(1.0); // Final full
+
+    const x = ['Start', 'MSS\n(1/8)', 'OTE\n(2/8)', 'BOS\n(5/8)', 'Final\n(8/8)'];
+    const y = [slices[0].fraction, slices[1].fraction, slices[3] ? 0.375 : 0.375, 0.25, 0.0];
+    const measures = ['relative', 'relative', 'relative', 'relative', 'total'];
+
+    const waterfall = {
+        x: ['MSS', 'OTE', 'BOS', 'Final'],
+        y: [0.125, 0.25, 0.375, 0.25],
+        type: 'waterfall',
+        measure: ['relative', 'relative', 'relative', 'total'],
+        text: ['12.5%', '25.0%', '37.5%', '75%'],
+        textposition: 'outside',
+        increasing: { marker: { color: '#3fb950' } },
+        decreasing: { marker: { color: '#f85149' } },
+        totals: { marker: { color: '#58a6ff' } },
+        connector: { line: { color: '#444466' } }
+    };
+
+    const tpChart = {
+        x: ['TP1 (1.236)', 'TP2 (1.618)', 'TP3 (2.0)', 'TP4 (2.618)'],
+        y: [tp1, tp2, tp3, tp4],
+        type: 'scatter',
+        mode: 'markers+lines',
+        marker: { size: 15, color: ['#3fb950', '#3fb950', '#58a6ff', '#bc8cff'] },
+        line: { color: '#444466', dash: 'dash' },
+        name: 'TP levels'
+    };
+
+    const layout = {
+        paper_bgcolor: '#0d1117', plot_bgcolor: '#161b22',
+        font: { color: '#c9d1d9', family: 'JetBrains Mono' },
+        xaxis: { gridcolor: '#21262d' },
+        yaxis: { title: 'Cumulative fraction', gridcolor: '#21262d', tickformat: '.0%' },
+        margin: { l: 60, r: 30, t: 30, b: 40 }
+    };
+
+    Plotly.newPlot('waterfall', [waterfall, tpChart], layout, { responsive: true });
+}
+renderScaling();
+</script>
+{% endblock %}

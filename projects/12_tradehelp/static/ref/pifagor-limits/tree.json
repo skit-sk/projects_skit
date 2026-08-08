@@ -1,0 +1,13 @@
+{
+  "id": "pifagor-limits",
+  "title": "Pifagor Limits",
+  "url": "https://metrics.pifagor.trade/",
+  "pages": [
+    {
+      "url": "https://metrics.pifagor.trade/",
+      "slug": "00-main",
+      "title": "Pifagor Trade Limits — Chart",
+      "screenshot": "static/ref/pifagor-limits/00-main.png"
+    }
+  ]
+}

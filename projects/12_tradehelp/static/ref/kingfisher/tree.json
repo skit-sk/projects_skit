@@ -1,0 +1,1503 @@
+{
+  "id": "kingfisher",
+  "title": "Kingfisher",
+  "url": "https://thekingfisher.io/ru/blogs",
+  "pages": [
+    {
+      "url": "https://thekingfisher.io/ru/blogs",
+      "slug": "00-ru-blogs",
+      "title": "Kingfisher Blogs | Crypto Trading Insights & Market Analysis | Kingfisher",
+      "sections": [
+        {
+          "tag": "h1",
+          "text": "Блог об анализе рынка и понимании криптовалют"
+        },
+        {
+          "tag": "h2",
+          "text": "Токсичный ордерный поток Биткойна (TOF)"
+        },
+        {
+          "tag": "h2",
+          "text": "Анализ и руководство по использованию шаблонов Skew"
+        },
+        {
+          "tag": "h2",
+          "text": "Начало работы с The Kingfisher"
+        },
+        {
+          "tag": "h2",
+          "text": "Как интерпретировать эффект плеча?"
+        },
+        {
+          "tag": "h2",
+          "text": "Пригласите друзей. Зарабатывайте вместе!"
+        },
+        {
+          "tag": "h2",
+          "text": "KF-GEX+: Гамма, Ванна, Экспозиция и IV"
+        },
+        {
+          "tag": "h2",
+          "text": "KF-Индекс: Создайте и торгуйте своими инструментами"
+        },
+        {
+          "tag": "h2",
+          "text": "KF-GEX+: Гамма, Ванна, Экспозиция и IV"
+        },
+        {
+          "tag": "h2",
+          "text": "Карты ликвидаций и Кумулятивный объем дельты"
+        },
+        {
+          "tag": "h2",
+          "text": "Революционизируйте свою торговлю с KF-Heatmap: Уникальный инструмент для криптотрейдинга!"
+        },
+        {
+          "tag": "h2",
+          "text": "The Good (in)Side,  Premium Package by VEIOU"
+        },
+        {
+          "tag": "h2",
+          "text": "Основы карт ликвидаций от Kingfisher"
+        },
+        {
+          "tag": "h2",
+          "text": "Кулика: Качество Рынка"
+        },
+        {
+          "tag": "h2",
+          "text": "Кингфишер: Ваш инструмент для скальпинга"
+        },
+        {
+          "tag": "h3",
+          "text": "Как обнаружить манипуляции на рынке в реальном времени"
+        },
+        {
+          "tag": "h3",
+          "text": "Как остановить паралич анализа и быстро находить сделки"
+        },
+        {
+          "tag": "h3",
+          "text": "Как остановить ликвидацию перед крупными движениями"
+        },
+        {
+          "tag": "h3",
+          "text": "Охота на Ликвидации на Этой Неделе: Ключевые Уровни BTC и ETH"
+        },
+        {
+          "tag": "h3",
+          "text": "Влияние процентных ставок на ценообразование крипто-опционов: полное руководство"
+        }
+      ],
+      "screenshot": "static/ref/kingfisher/00-ru-blogs.png"
+    },
+    {
+      "url": "https://thekingfisher.io/ru/blogs/invite_friends_profit_together",
+      "slug": "03-ru-blogs-invite_friends_profit_together",
+      "title": "Пригласите друзей. Зарабатывайте вместе! | Kingfisher",
+      "sections": [
+        {
+          "tag": "h1",
+          "text": "Пригласите друзей. Зарабатывайте вместе!"
+        },
+        {
+          "tag": "h3",
+          "text": "Пригласите друзей. Зарабатывайте вместе!"
+        },
+        {
+          "tag": "h3",
+          "text": "Получите бесплатную подписку на 3 месяца"
+        },
+        {
+          "tag": "h3",
+          "text": "Зимородок"
+        }
+      ],
+      "screenshot": "static/ref/kingfisher/03-ru-blogs-invite_friends_profit_together.png"
+    },
+    {
+      "url": "https://thekingfisher.io/ru/blogs/how_to_stop_getting_liquidated_before_major_moves",
+      "slug": "04-ru-blogs-how_to_stop_getting_liquidated_before_major_moves",
+      "title": "Как остановить ликвидацию перед крупными движениями | Kingfisher",
+      "sections": [
+        {
+          "tag": "h1",
+          "text": "Как остановить ликвидацию перед крупными движениями"
+        },
+        {
+          "tag": "h2",
+          "text": "Болезненная правда: вы, вероятно, торгуете вслепую"
+        },
+        {
+          "tag": "h2",
+          "text": "Момент \"Ага!\": Это не ваша вина"
+        },
+        {
+          "tag": "h2",
+          "text": "Решение: Карты ликвидаций Kingfisher"
+        },
+        {
+          "tag": "h2",
+          "text": "Как это работает (без технического жаргона)"
+        },
+        {
+          "tag": "h2",
+          "text": "Пошагово: Как использовать это, чтобы остановить ликвидацию"
+        },
+        {
+          "tag": "h3",
+          "text": "Шаг 1: Откройте карту ликвидаций"
+        },
+        {
+          "tag": "h3",
+          "text": "Шаг 2: Определите зоны топлива"
+        },
+        {
+          "tag": "h3",
+          "text": "Шаг 3: Планируйте свою сделку вокруг карты"
+        },
+        {
+          "tag": "h3",
+          "text": "Шаг 4: Используйте индикатор рыночного дисбаланса"
+        },
+        {
+          "tag": "h2",
+          "text": "Реальные результаты от реальных трейдеров"
+        },
+        {
+          "tag": "h2",
+          "text": "Продвинутая стратегия: Синергия"
+        },
+        {
+          "tag": "h2",
+          "text": "Ваша новая торговая реальность"
+        },
+        {
+          "tag": "h2",
+          "text": "Итог"
+        },
+        {
+          "tag": "h3",
+          "text": "Зимородок"
+        }
+      ],
+      "screenshot": "static/ref/kingfisher/04-ru-blogs-how_to_stop_getting_liquidated_before_major_moves.png"
+    },
+    {
+      "url": "https://thekingfisher.io/ru/lifetime",
+      "slug": "05-ru-lifetime",
+      "title": "Genesis Pass - Пожизненный Премиум Доступ | Kingfisher",
+      "sections": [
+        {
+          "tag": "h1",
+          "text": "Генезис Пасс"
+        },
+        {
+          "tag": "h2",
+          "text": "Genesis Pass - Пожизненный Премиум Доступ"
+        },
+        {
+          "tag": "h2",
+          "text": "Обеспечьте себе пожизненный доступ"
+        },
+        {
+          "tag": "h2",
+          "text": "Динамическая модель ценообразования"
+        },
+        {
+          "tag": "h2",
+          "text": "Премиум функции"
+        },
+        {
+          "tag": "h3",
+          "text": "Пожизненная безопасность"
+        },
+        {
+          "tag": "h3",
+          "text": "Премиум доступ"
+        },
+        {
+          "tag": "h3",
+          "text": "Гарантия навсегда"
+        },
+        {
+          "tag": "h3",
+          "text": "Ранний доступ"
+        },
+        {
+          "tag": "h2",
+          "text": "Что говорят люди"
+        },
+        {
+          "tag": "h2",
+          "text": "Готовы начать?"
+        }
+      ],
+      "screenshot": "static/ref/kingfisher/05-ru-lifetime.png"
+    },
+    {
+      "url": "https://thekingfisher.io/ru/pricing",
+      "slug": "07-ru-pricing",
+      "title": "Цены Kingfisher | Kingfisher",
+      "sections": [
+        {
+          "tag": "h1",
+          "text": "Цены"
+        },
+        {
+          "tag": "h2",
+          "text": "GENESIS PASS"
+        },
+        {
+          "tag": "h3",
+          "text": "Pro"
+        },
+        {
+          "tag": "h3",
+          "text": "Premium"
+        },
+        {
+          "tag": "h3",
+          "text": "Pay-As-You-Go"
+        },
+        {
+          "tag": "h3",
+          "text": "API Access"
+        },
+        {
+          "tag": "h2",
+          "text": "Нам доверяют более 4 000 трейдеров по всему миру"
+        },
+        {
+          "tag": "h3",
+          "text": "Пример ROI: Как Kingfisher окупает себя"
+        },
+        {
+          "tag": "h2",
+          "text": "Часто задаваемые вопросы"
+        }
+      ],
+      "screenshot": "static/ref/kingfisher/07-ru-pricing.png"
+    },
+    {
+      "url": "https://thekingfisher.io/ru/bitcoin-liquidations-heatmap",
+      "slug": "08-ru-bitcoin-liquidations-heatmap",
+      "title": "Карта ликвидаций BTC в реальном времени | Kingfisher",
+      "sections": [
+        {
+          "tag": "h1",
+          "text": "Революционизируйте свою торговлю с помощью тепловой карты ликвидаций KF"
+        },
+        {
+          "tag": "h2",
+          "text": "Универсальный инструмент для крипто-торговли"
+        },
+        {
+          "tag": "h3",
+          "text": "Почему кластеры ликвидации важны в криптотрейдинге"
+        },
+        {
+          "tag": "h3",
+          "text": "Тепловая карта ликвидаций KF: ваш новый торговый помощник"
+        },
+        {
+          "tag": "h3",
+          "text": "Легко фильтруйте кластеры по Z-Score"
+        },
+        {
+          "tag": "h3",
+          "text": "Услышьте это от наших трейдеров"
+        },
+        {
+          "tag": "h2",
+          "text": "Станьте королем криптотрейдинга с тепловой картой ликвидации KF"
+        },
+        {
+          "tag": "h2",
+          "text": "Часто задаваемые вопросы"
+        },
+        {
+          "tag": "h3",
+          "text": "Что такое тепловая карта ликвидации Биткоина?"
+        },
+        {
+          "tag": "h3",
+          "text": "Как читать тепловую карту ликвидации BTC?"
+        },
+        {
+          "tag": "h3",
+          "text": "Где найти бесплатные тепловые карты ликвидации?"
+        },
+        {
+          "tag": "h3",
+          "text": "Почему кластеры ликвидации важны для торговли?"
+        }
+      ],
+      "screenshot": "static/ref/kingfisher/08-ru-bitcoin-liquidations-heatmap.png"
+    },
+    {
+      "url": "https://thekingfisher.io/ru/glossary",
+      "slug": "10-ru-glossary",
+      "title": "Kingfisher Glossary | Crypto Trading Terms & Definitions | Kingfisher",
+      "sections": [
+        {
+          "tag": "h1",
+          "text": "Глоссарий"
+        },
+        {
+          "tag": "h2",
+          "text": "BearMarket"
+        },
+        {
+          "tag": "h2",
+          "text": "#\n130"
+        },
+        {
+          "tag": "h3",
+          "text": "Автоделеверидж (ADL)"
+        },
+        {
+          "tag": "h3",
+          "text": "Автоматическая Защита от Повторов"
+        },
+        {
+          "tag": "h3",
+          "text": "Айсберг-Ордер"
+        },
+        {
+          "tag": "h3",
+          "text": "Аккумуляция"
+        },
+        {
+          "tag": "h3",
+          "text": "Альфа"
+        },
+        {
+          "tag": "h3",
+          "text": "Анализ коэффициента Сортино для криптовалют"
+        },
+        {
+          "tag": "h3",
+          "text": "Анализ Криптовалютных Деривативов"
+        },
+        {
+          "tag": "h3",
+          "text": "Анализ уровней поддержки и сопротивления в криптовалюте"
+        },
+        {
+          "tag": "h3",
+          "text": "Арбитраж Ставки Финансирования"
+        },
+        {
+          "tag": "h3",
+          "text": "Атомарный SWAP"
+        },
+        {
+          "tag": "h3",
+          "text": "Базис"
+        },
+        {
+          "tag": "h3",
+          "text": "Базисные Пункты"
+        },
+        {
+          "tag": "h3",
+          "text": "Бессрочные фьючерсы"
+        },
+        {
+          "tag": "h3",
+          "text": "Бета"
+        },
+        {
+          "tag": "h3",
+          "text": "Биржевые Потоки"
+        },
+        {
+          "tag": "h3",
+          "text": "Бэквордация"
+        },
+        {
+          "tag": "h3",
+          "text": "Ваш-трейдинг"
+        },
+        {
+          "tag": "h3",
+          "text": "Вега"
+        },
+        {
+          "tag": "h3",
+          "text": "Ведение Дневника"
+        },
+        {
+          "tag": "h3",
+          "text": "Влияние на цену"
+        },
+        {
+          "tag": "h3",
+          "text": "Возврат к среднему"
+        },
+        {
+          "tag": "h3",
+          "text": "Вымпел"
+        },
+        {
+          "tag": "h3",
+          "text": "Гамма-Экспозиция (GEX)"
+        },
+        {
+          "tag": "h3",
+          "text": "Глубина Рынка (DOM)"
+        },
+        {
+          "tag": "h3",
+          "text": "Голова и Плечи"
+        },
+        {
+          "tag": "h3",
+          "text": "Греки опционов"
+        },
+        {
+          "tag": "h3",
+          "text": "Двойная Вершина"
+        },
+        {
+          "tag": "h3",
+          "text": "Двойное Дно"
+        },
+        {
+          "tag": "h3",
+          "text": "Дейтрейдинг"
+        },
+        {
+          "tag": "h3",
+          "text": "Дельта"
+        },
+        {
+          "tag": "h3",
+          "text": "Дисбаланс Бид-Аск"
+        },
+        {
+          "tag": "h3",
+          "text": "Длинная позиция (Лонг)"
+        },
+        {
+          "tag": "h3",
+          "text": "Доджи"
+        },
+        {
+          "tag": "h3",
+          "text": "Доказательство с нулевым разглашением"
+        },
+        {
+          "tag": "h3",
+          "text": "Доходное фермерство"
+        },
+        {
+          "tag": "h3",
+          "text": "Зона поддержки"
+        },
+        {
+          "tag": "h3",
+          "text": "Зона предложения"
+        },
+        {
+          "tag": "h3",
+          "text": "Зона сопротивления"
+        },
+        {
+          "tag": "h3",
+          "text": "Зона Спроса"
+        },
+        {
+          "tag": "h3",
+          "text": "Изолированная Маржа"
+        },
+        {
+          "tag": "h3",
+          "text": "Инверсный Контракт"
+        },
+        {
+          "tag": "h3",
+          "text": "Индекс Страха и Жадности"
+        },
+        {
+          "tag": "h3",
+          "text": "Интерфейс Программирования Приложений (API)"
+        },
+        {
+          "tag": "h3",
+          "text": "Интерфейс Программирования Приложений (API)"
+        },
+        {
+          "tag": "h3",
+          "text": "Исторический максимум (ATH)"
+        },
+        {
+          "tag": "h3",
+          "text": "Исторический Минимум (ATL)"
+        },
+        {
+          "tag": "h3",
+          "text": "Канал Дончиана"
+        },
+        {
+          "tag": "h3",
+          "text": "Канал Кельтнера"
+        },
+        {
+          "tag": "h3",
+          "text": "Каскад ликвидаций"
+        },
+        {
+          "tag": "h3",
+          "text": "Керри-Трейд"
+        },
+        {
+          "tag": "h3",
+          "text": "Кит"
+        },
+        {
+          "tag": "h3",
+          "text": "Клин"
+        },
+        {
+          "tag": "h3",
+          "text": "Консолидация"
+        },
+        {
+          "tag": "h3",
+          "text": "Контанго"
+        },
+        {
+          "tag": "h3",
+          "text": "Копи-Трейдинг"
+        },
+        {
+          "tag": "h3",
+          "text": "Коррекция Фибоначчи"
+        },
+        {
+          "tag": "h3",
+          "text": "Корреляция"
+        },
+        {
+          "tag": "h3",
+          "text": "Коэффициент Сортино"
+        },
+        {
+          "tag": "h3",
+          "text": "Коэффициент Шарпа"
+        },
+        {
+          "tag": "h3",
+          "text": "Кросс-Маржа"
+        },
+        {
+          "tag": "h3",
+          "text": "Лимитный Ордер"
+        },
+        {
+          "tag": "h3",
+          "text": "Линейный Контракт"
+        },
+        {
+          "tag": "h3",
+          "text": "Макс Пейн"
+        },
+        {
+          "tag": "h3",
+          "text": "Маржа"
+        },
+        {
+          "tag": "h3",
+          "text": "Маркет-мейкер"
+        },
+        {
+          "tag": "h3",
+          "text": "Математическое Ожидание"
+        },
+        {
+          "tag": "h3",
+          "text": "Механизм Консенсуса"
+        },
+        {
+          "tag": "h3",
+          "text": "Молот (Свеча)"
+        },
+        {
+          "tag": "h3",
+          "text": "Моментум-трейдинг"
+        },
+        {
+          "tag": "h3",
+          "text": "Непостоянная Потеря"
+        },
+        {
+          "tag": "h3",
+          "text": "Облако Ишимоку (Ichimoku Kinko Hyo)"
+        },
+        {
+          "tag": "h3",
+          "text": "Общая заблокированная стоимость"
+        },
+        {
+          "tag": "h3",
+          "text": "Ордер-блок"
+        },
+        {
+          "tag": "h3",
+          "text": "Открытый интерес"
+        },
+        {
+          "tag": "h3",
+          "text": "Паттерн «Треугольник» (Восходящий, Нисходящий, Симметричный)"
+        },
+        {
+          "tag": "h3",
+          "text": "Паттерн Поглощения"
+        },
+        {
+          "tag": "h3",
+          "text": "Паттерн Флаг"
+        },
+        {
+          "tag": "h3",
+          "text": "Платформы для Инвестирования в Криптовалюту"
+        },
+        {
+          "tag": "h3",
+          "text": "Полностью Разводненная Оценка"
+        },
+        {
+          "tag": "h3",
+          "text": "Полосы Боллинджера"
+        },
+        {
+          "tag": "h3",
+          "text": "Понимание агрегированных ордеров в криптотрейдинге"
+        },
+        {
+          "tag": "h3",
+          "text": "Понимание графиков цен на криптовалюту: Полное руководство"
+        },
+        {
+          "tag": "h3",
+          "text": "Преимущество"
+        },
+        {
+          "tag": "h3",
+          "text": "Пробой"
+        },
+        {
+          "tag": "h3",
+          "text": "Пробой Структуры (BOS)"
+        },
+        {
+          "tag": "h3",
+          "text": "Просадка"
+        },
+        {
+          "tag": "h3",
+          "text": "Процент выигрышей"
+        },
+        {
+          "tag": "h3",
+          "text": "Разворот"
+        },
+        {
+          "tag": "h3",
+          "text": "Разрыв Справедливой Стоимости (FVG)"
+        },
+        {
+          "tag": "h3",
+          "text": "Распределение"
+        },
+        {
+          "tag": "h3",
+          "text": "Реализованная цена"
+        },
+        {
+          "tag": "h3",
+          "text": "Риск разорения"
+        },
+        {
+          "tag": "h3",
+          "text": "Роллап"
+        },
+        {
+          "tag": "h3",
+          "text": "Рыночная капитализация"
+        },
+        {
+          "tag": "h3",
+          "text": "Рыночный ордер"
+        },
+        {
+          "tag": "h3",
+          "text": "Свинг-трейдинг"
+        },
+        {
+          "tag": "h3",
+          "text": "Сентимент"
+        },
+        {
+          "tag": "h3",
+          "text": "Сессия вопросов и ответов (AMA)"
+        },
+        {
+          "tag": "h3",
+          "text": "Сеточная Торговля"
+        },
+        {
+          "tag": "h3",
+          "text": "Скальпинг"
+        },
+        {
+          "tag": "h3",
+          "text": "Скользящая средняя"
+        },
+        {
+          "tag": "h3",
+          "text": "Смарт-контракт"
+        },
+        {
+          "tag": "h3",
+          "text": "Специальные интегральные схемы (ASIC)"
+        },
+        {
+          "tag": "h3",
+          "text": "Спред"
+        },
+        {
+          "tag": "h3",
+          "text": "Спуфинг"
+        },
+        {
+          "tag": "h3",
+          "text": "Стейблкоин"
+        },
+        {
+          "tag": "h3",
+          "text": "Стейкинг"
+        },
+        {
+          "tag": "h3",
+          "text": "Стохастический осциллятор"
+        },
+        {
+          "tag": "h3",
+          "text": "Страховой Фонд"
+        },
+        {
+          "tag": "h3",
+          "text": "Сэндвич-атака"
+        },
+        {
+          "tag": "h3",
+          "text": "Тезис"
+        },
+        {
+          "tag": "h3",
+          "text": "Темный Пул"
+        },
+        {
+          "tag": "h3",
+          "text": "Теория Долларового Милкшейка"
+        },
+        {
+          "tag": "h3",
+          "text": "Тета"
+        },
+        {
+          "tag": "h3",
+          "text": "Токеномика"
+        },
+        {
+          "tag": "h3",
+          "text": "Толерантность к проскальзыванию"
+        },
+        {
+          "tag": "h3",
+          "text": "Точки разворота"
+        },
+        {
+          "tag": "h3",
+          "text": "Трейлинг-стоп"
+        },
+        {
+          "tag": "h3",
+          "text": "Тренд"
+        },
+        {
+          "tag": "h3",
+          "text": "Убежденность"
+        },
+        {
+          "tag": "h3",
+          "text": "Уровень 1"
+        },
+        {
+          "tag": "h3",
+          "text": "Уровень 2"
+        },
+        {
+          "tag": "h3",
+          "text": "Устойчивость к ASIC"
+        },
+        {
+          "tag": "h3",
+          "text": "Фактор прибыли"
+        },
+        {
+          "tag": "h3",
+          "text": "Флеш-Кредит"
+        },
+        {
+          "tag": "h3",
+          "text": "Халвинг"
+        },
+        {
+          "tag": "h3",
+          "text": "Хешрейт"
+        },
+        {
+          "tag": "h3",
+          "text": "Цена Предложения"
+        },
+        {
+          "tag": "h3",
+          "text": "Чашка с Ручкой"
+        },
+        {
+          "tag": "h3",
+          "text": "Шорт-позиция"
+        },
+        {
+          "tag": "h2",
+          "text": "A\n3"
+        },
+        {
+          "tag": "h3",
+          "text": "ADX (Индекс Направленного Движения)"
+        },
+        {
+          "tag": "h3",
+          "text": "AMM"
+        },
+        {
+          "tag": "h3",
+          "text": "ATR (Средний Истинный Диапазон)"
+        },
+        {
+          "tag": "h2",
+          "text": "B\n8"
+        },
+        {
+          "tag": "h3",
+          "text": "Bagholder"
+        },
+        {
+          "tag": "h3",
+          "text": "Bakkt"
+        },
+        {
+          "tag": "h3",
+          "text": "BatchAuction"
+        },
+        {
+          "tag": "h3",
+          "text": "BearMarket"
+        },
+        {
+          "tag": "h3",
+          "text": "BidAskSpread"
+        },
+        {
+          "tag": "h3",
+          "text": "Bitcoin"
+        },
+        {
+          "tag": "h3",
+          "text": "Blockchain"
+        },
+        {
+          "tag": "h3",
+          "text": "BullMarket"
+        },
+        {
+          "tag": "h2",
+          "text": "C\n4"
+        },
+        {
+          "tag": "h3",
+          "text": "CandlestickPatterns"
+        },
+        {
+          "tag": "h3",
+          "text": "ChartPatterns"
+        },
+        {
+          "tag": "h3",
+          "text": "CMF (Chaikin Money Flow)"
+        },
+        {
+          "tag": "h3",
+          "text": "Cryptocurrency"
+        },
+        {
+          "tag": "h2",
+          "text": "D\n3"
+        },
+        {
+          "tag": "h3",
+          "text": "DCA"
+        },
+        {
+          "tag": "h3",
+          "text": "Derivatives"
+        },
+        {
+          "tag": "h3",
+          "text": "DEX"
+        },
+        {
+          "tag": "h2",
+          "text": "E\n1"
+        },
+        {
+          "tag": "h3",
+          "text": "EMA (Экспоненциальная Скользящая Средняя)"
+        },
+        {
+          "tag": "h2",
+          "text": "F\n4"
+        },
+        {
+          "tag": "h3",
+          "text": "FOMO"
+        },
+        {
+          "tag": "h3",
+          "text": "FUD"
+        },
+        {
+          "tag": "h3",
+          "text": "FundingRate"
+        },
+        {
+          "tag": "h3",
+          "text": "Futures"
+        },
+        {
+          "tag": "h2",
+          "text": "H\n2"
+        },
+        {
+          "tag": "h3",
+          "text": "Heatmap"
+        },
+        {
+          "tag": "h3",
+          "text": "HODL"
+        },
+        {
+          "tag": "h2",
+          "text": "I\n1"
+        },
+        {
+          "tag": "h3",
+          "text": "IndexPrice"
+        },
+        {
+          "tag": "h2",
+          "text": "L\n5"
+        },
+        {
+          "tag": "h3",
+          "text": "Leverage"
+        },
+        {
+          "tag": "h3",
+          "text": "Liquidation"
+        },
+        {
+          "tag": "h3",
+          "text": "LiquidationPrice"
+        },
+        {
+          "tag": "h3",
+          "text": "Liquidity"
+        },
+        {
+          "tag": "h3",
+          "text": "LiquidityHeatmap"
+        },
+        {
+          "tag": "h2",
+          "text": "M\n11"
+        },
+        {
+          "tag": "h3",
+          "text": "MACD (Схождение/Расхождение Скользящих Средних)"
+        },
+        {
+          "tag": "h3",
+          "text": "MarketAnalysis"
+        },
+        {
+          "tag": "h3",
+          "text": "MarketCycles"
+        },
+        {
+          "tag": "h3",
+          "text": "MarketDepth"
+        },
+        {
+          "tag": "h3",
+          "text": "MarketPrice"
+        },
+        {
+          "tag": "h3",
+          "text": "MarketProfile"
+        },
+        {
+          "tag": "h3",
+          "text": "MarketStructure"
+        },
+        {
+          "tag": "h3",
+          "text": "MarkPrice"
+        },
+        {
+          "tag": "h3",
+          "text": "MEV"
+        },
+        {
+          "tag": "h3",
+          "text": "MFI (Индекс денежного потока)"
+        },
+        {
+          "tag": "h3",
+          "text": "MVRV"
+        },
+        {
+          "tag": "h2",
+          "text": "N\n1"
+        },
+        {
+          "tag": "h3",
+          "text": "NVT Ratio"
+        },
+        {
+          "tag": "h2",
+          "text": "O\n4"
+        },
+        {
+          "tag": "h3",
+          "text": "OBV (Балансовый объём)"
+        },
+        {
+          "tag": "h3",
+          "text": "OrderBook"
+        },
+        {
+          "tag": "h3",
+          "text": "OrderTypes"
+        },
+        {
+          "tag": "h3",
+          "text": "OTC-торговля"
+        },
+        {
+          "tag": "h2",
+          "text": "P\n7"
+        },
+        {
+          "tag": "h3",
+          "text": "Parabolic SAR (Стоп и разворот)"
+        },
+        {
+          "tag": "h3",
+          "text": "PerpetualSwaps"
+        },
+        {
+          "tag": "h3",
+          "text": "PositionSizing"
+        },
+        {
+          "tag": "h3",
+          "text": "PriceAction"
+        },
+        {
+          "tag": "h3",
+          "text": "Proof of Stake"
+        },
+        {
+          "tag": "h3",
+          "text": "Proof of Work"
+        },
+        {
+          "tag": "h3",
+          "text": "Pump and Dump"
+        },
+        {
+          "tag": "h2",
+          "text": "R\n3"
+        },
+        {
+          "tag": "h3",
+          "text": "RiskManagement"
+        },
+        {
+          "tag": "h3",
+          "text": "RiskRewardRatio"
+        },
+        {
+          "tag": "h3",
+          "text": "RSI (Индекс относительной силы)"
+        },
+        {
+          "tag": "h2",
+          "text": "S\n6"
+        },
+        {
+          "tag": "h3",
+          "text": "Slippage"
+        },
+        {
+          "tag": "h3",
+          "text": "SMA (Простая скользящая средняя)"
+        },
+        {
+          "tag": "h3",
+          "text": "SOPR"
+        },
+        {
+          "tag": "h3",
+          "text": "SpotPrice"
+        },
+        {
+          "tag": "h3",
+          "text": "StopLoss"
+        },
+        {
+          "tag": "h3",
+          "text": "SupportAndResistance"
+        },
+        {
+          "tag": "h2",
+          "text": "T\n3"
+        },
+        {
+          "tag": "h3",
+          "text": "TakeProfit"
+        },
+        {
+          "tag": "h3",
+          "text": "TechnicalAnalysis"
+        },
+        {
+          "tag": "h3",
+          "text": "TradingVolume"
+        },
+        {
+          "tag": "h2",
+          "text": "V\n5"
+        },
+        {
+          "tag": "h3",
+          "text": "VIX (Индекс волатильности)"
+        },
+        {
+          "tag": "h3",
+          "text": "Volatility"
+        },
+        {
+          "tag": "h3",
+          "text": "VolumeAnalysis"
+        },
+        {
+          "tag": "h3",
+          "text": "VolumeProfile"
+        },
+        {
+          "tag": "h3",
+          "text": "VWAP"
+        }
+      ],
+      "screenshot": "static/ref/kingfisher/10-ru-glossary.png"
+    },
+    {
+      "url": "https://thekingfisher.io/ru/blogs/bitcoin_toxic_orderflow",
+      "slug": "11-ru-blogs-bitcoin_toxic_orderflow",
+      "title": "Токсичный ордерный поток Биткойна (TOF) | Kingfisher",
+      "sections": [
+        {
+          "tag": "h1",
+          "text": "Токсичный ордерный поток Биткойна (TOF)"
+        },
+        {
+          "tag": "h3",
+          "text": "Экспертный анализ токсичного ордерного потока Биткойна (TOF): Влияние и смягчение"
+        },
+        {
+          "tag": "h3",
+          "text": "Происхождение TOF"
+        },
+        {
+          "tag": "h3",
+          "text": "Что такое TOF?"
+        },
+        {
+          "tag": "h3",
+          "text": "Учебный охотничий ликвидатор и TOF:"
+        },
+        {
+          "tag": "h3",
+          "text": "Как использовать TOF Корюшки"
+        },
+        {
+          "tag": "h3",
+          "text": "Зимородок"
+        }
+      ],
+      "screenshot": "static/ref/kingfisher/11-ru-blogs-bitcoin_toxic_orderflow.png"
+    },
+    {
+      "url": "https://thekingfisher.io/ru/features",
+      "slug": "14-ru-features",
+      "title": "Crypto Trading Features & Tools | Liquidation Maps | Kingfisher | Kingfisher",
+      "sections": [
+        {
+          "tag": "h1",
+          "text": "Снизьте риск с помощью предсказания ликвидации в реальном времени и обнаружения токсичного потока"
+        },
+        {
+          "tag": "h3",
+          "text": "Empower Your Trading with The Kingfisher’s Advanced Tools"
+        },
+        {
+          "tag": "h2",
+          "text": "Forge Your Customized Trading Tools and Strategies"
+        }
+      ],
+      "screenshot": "static/ref/kingfisher/14-ru-features.png"
+    },
+    {
+      "url": "https://thekingfisher.io/ru/blogs/are_interest_rates_a_significant_factor_in_option_pricing_2023-10-11_17-47-49_28",
+      "slug": "15-ru-blogs-are_interest_rates_a_significant_factor_in_option_p",
+      "title": "Влияние процентных ставок на ценообразование крипто-опционов: полное руководство | Kingfisher",
+      "sections": [
+        {
+          "tag": "h1",
+          "text": "Влияние процентных ставок на ценообразование крипто-опционов: полное руководство"
+        },
+        {
+          "tag": "h2",
+          "text": "Процентные ставки и база ценообразования опционов"
+        },
+        {
+          "tag": "h3",
+          "text": "Роль ставок в традиционных финансах"
+        },
+        {
+          "tag": "h3",
+          "text": "Специфика криптовалютного рынка"
+        },
+        {
+          "tag": "h2",
+          "text": "Анализ GEX+ от Kingfisher в контексте ставок"
+        },
+        {
+          "tag": "h3",
+          "text": "IV и изменения ставок"
+        },
+        {
+          "tag": "h3",
+          "text": "Практическое применение"
+        },
+        {
+          "tag": "h2",
+          "text": "Ключевые факторы ценообразования крипто-опционов"
+        },
+        {
+          "tag": "h3",
+          "text": "1. Цена базового актива"
+        },
+        {
+          "tag": "h3",
+          "text": "2. Подразумеваемая волатильность (IV)"
+        },
+        {
+          "tag": "h3",
+          "text": "3. Открытый интерес (OI)"
+        },
+        {
+          "tag": "h3",
+          "text": "4. Рыночные настроения и поток ордеров"
+        },
+        {
+          "tag": "h2",
+          "text": "Часто задаваемые вопросы"
+        },
+        {
+          "tag": "h2",
+          "text": "Заключение"
+        },
+        {
+          "tag": "h3",
+          "text": "Зимородок"
+        }
+      ],
+      "screenshot": "static/ref/kingfisher/15-ru-blogs-are_interest_rates_a_significant_factor_in_option_p.png"
+    },
+    {
+      "url": "https://thekingfisher.io/ru/blogs/getting_started_on_the_kingfisher",
+      "slug": "16-ru-blogs-getting_started_on_the_kingfisher",
+      "title": "Начало работы с The Kingfisher | Kingfisher",
+      "sections": [
+        {
+          "tag": "h1",
+          "text": "Начало работы с The Kingfisher"
+        },
+        {
+          "tag": "h3",
+          "text": "Начало работы с The Kingfisher"
+        },
+        {
+          "tag": "h3",
+          "text": "Социальные сети"
+        },
+        {
+          "tag": "h3",
+          "text": "Зимородок"
+        }
+      ],
+      "screenshot": "static/ref/kingfisher/16-ru-blogs-getting_started_on_the_kingfisher.png"
+    },
+    {
+      "url": "https://thekingfisher.io/ru/blogs/liquidation_maps_cvd",
+      "slug": "17-ru-blogs-liquidation_maps_cvd",
+      "title": "Карты ликвидаций и Кумулятивный объем дельты | Kingfisher",
+      "sections": [
+        {
+          "tag": "h1",
+          "text": "Карты ликвидаций и Кумулятивный объем дельты"
+        },
+        {
+          "tag": "h3",
+          "text": "Карты ликвидаций и Кумулятивный объем дельты"
+        },
+        {
+          "tag": "h3",
+          "text": "Зимородок"
+        }
+      ],
+      "screenshot": "static/ref/kingfisher/17-ru-blogs-liquidation_maps_cvd.png"
+    },
+    {
+      "url": "https://thekingfisher.io/ru/blogs/breakdown_walkthrough_of_using_the_skew_templates",
+      "slug": "19-ru-blogs-breakdown_walkthrough_of_using_the_skew_templates",
+      "title": "Анализ и руководство по использованию шаблонов Skew | Kingfisher",
+      "sections": [
+        {
+          "tag": "h1",
+          "text": "Анализ и руководство по использованию шаблонов Skew"
+        },
+        {
+          "tag": "h3",
+          "text": "Анализ и руководство по использованию шаблонов Skew"
+        },
+        {
+          "tag": "h3",
+          "text": "Skew Basic"
+        },
+        {
+          "tag": "h3",
+          "text": "BTC EMA"
+        },
+        {
+          "tag": "h3",
+          "text": "Кумулятивный дельта ликвидаций"
+        },
+        {
+          "tag": "h3",
+          "text": "Объем покупок против продаж"
+        },
+        {
+          "tag": "h3",
+          "text": "Кумулятивный объем дельта (CVD)"
+        },
+        {
+          "tag": "h3",
+          "text": "Экстремум объема (Отфильтрованный объем)"
+        },
+        {
+          "tag": "h3",
+          "text": "Примеры"
+        },
+        {
+          "tag": "h3",
+          "text": "Skew Vanilla"
+        },
+        {
+          "tag": "h3",
+          "text": "Например:"
+        },
+        {
+          "tag": "h3",
+          "text": "Bybit Vanilla"
+        },
+        {
+          "tag": "h3",
+          "text": "Дельта"
+        },
+        {
+          "tag": "h3",
+          "text": "Пример скрытых дивергенций спот CVD и дельты"
+        },
+        {
+          "tag": "h3",
+          "text": "Индикатор потока покупок против продаж"
+        },
+        {
+          "tag": "h3",
+          "text": "Пример с CVD, дельтой и дивергенциями покупок против продаж на кульминациях продавцов"
+        },
+        {
+          "tag": "h3",
+          "text": "Пример дивергенций на 4H"
+        },
+        {
+          "tag": "h3",
+          "text": "Skew Premium"
+        },
+        {
+          "tag": "h3",
+          "text": "BTC Market Screener"
+        },
+        {
+          "tag": "h3",
+          "text": "Премии BTC Perp против Spot + Рыночные CVD"
+        },
+        {
+          "tag": "h3",
+          "text": "BTC Compact"
+        },
+        {
+          "tag": "h3",
+          "text": "Найдите эти шаблоны на:"
+        },
+        {
+          "tag": "h3",
+          "text": "alpha.thekingfisher.io"
+        },
+        {
+          "tag": "h3",
+          "text": "Зимородок"
+        }
+      ],
+      "screenshot": "static/ref/kingfisher/19-ru-blogs-breakdown_walkthrough_of_using_the_skew_templates.png"
+    }
+  ]
+}

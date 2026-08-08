@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Журнал — Tools{% endblock %}
+{% block content %}
+<section class="page-header">
+    <h1>📓 Торговый журнал</h1>
+    <p class="muted">Источник: <code>01_fundament_rf/data/account/fills.json</code></p>
+</section>
+
+{% if journal %}
+<div class="journal-table-wrap">
+<table class="data-table">
+    <thead>
+        <tr>
+            <th>Время</th>
+            <th>Символ</th>
+            <th>Сторона</th>
+            <th class="num">Цена</th>
+            <th class="num">Кол-во</th>
+            <th class="num">P&L</th>
+            <th>Order ID</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% set total_pnl = 0 %}
+    {% for f in journal[:100] %}
+        <tr>
+            <td>{{ f.time }}</td>
+            <td><span class="badge">{{ f.symbol }}</span></td>
+            <td><span class="side-{{ f.side|lower }}">{{ f.side }}</span></td>
+            <td class="num">{{ "%.4f"|format(f.price) }}</td>
+            <td class="num">{{ "%.4f"|format(f.qty) }}</td>
+            <td class="num {{ 'pos' if f.pnl >= 0 else 'neg' }}">{{ "%.2f"|format(f.pnl) }}</td>
+            <td class="muted">{{ f.order_id }}</td>
+        </tr>
+        {% set total_pnl = total_pnl + f.pnl %}
+    {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="5" class="num"><strong>Всего сделок:</strong> {{ journal|length }} (показано {{ journal[:100]|length }})</td>
+            <td class="num"><strong>{{ "%.2f"|format(total_pnl) }}</strong></td>
+            <td></td>
+        </tr>
+    </tfoot>
+</table>
+</div>
+{% else %}
+<div class="card">
+    <p>Журнал пуст. Добавьте сделки в <code>01_fundament_rf/data/account/fills.json</code></p>
+</div>
+{% endif %}
+{% endblock %}

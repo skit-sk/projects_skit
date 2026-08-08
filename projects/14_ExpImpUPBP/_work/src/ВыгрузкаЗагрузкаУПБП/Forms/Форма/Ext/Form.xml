@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Form xmlns="http://v8.1c.ru/8.3/xcf/logform"
+      xmlns:app="http://v8.1c.ru/8.2/managed-application/core"
+      xmlns:cfg="http://v8.1c.ru/8.1/data/enterprise/current-config"
+      xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core"
+      xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings"
+      xmlns:ent="http://v8.1c.ru/8.1/data/enterprise"
+      xmlns:lf="http://v8.1c.ru/8.2/managed-application/logform"
+      xmlns:style="http://v8.1c.ru/8.1/data/ui/style"
+      xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system"
+      xmlns:v8="http://v8.1c.ru/8.1/data/core"
+      xmlns:v8ui="http://v8.1c.ru/8.1/data/ui"
+      xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web"
+      xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows"
+      xmlns:xr="http://v8.1c.ru/8.3/xcf/readable"
+      xmlns:xs="http://www.w3.org/2001/XMLSchema"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      version="2.17">
+    <Title>
+        <v8:item>
+            <v8:lang>ru</v8:lang>
+            <v8:content>Выгрузка-Загрузка УП -> БП</v8:content>
+        </v8:item>
+    </Title>
+    <AutoTitle>false</AutoTitle>
+    <CommandBarLocation>Top</CommandBarLocation>
+    <AutoCommandBar name="ФормаКоманднаяПанель" id="-1">
+        <Autofill>false</Autofill>
+    </AutoCommandBar>
+    <ChildItems>
+        <UsualGroup name="ГруппаФайлы" id="1">
+            <Title>
+                <v8:item>
+                    <v8:lang>ru</v8:lang>
+                    <v8:content>Файлы данных</v8:content>
+                </v8:item>
+            </Title>
+            <Representation>None</Representation>
+            <ShowTitle>true</ShowTitle>
+            <ExtendedTooltip name="ГруппаФайлыExtendedTooltip" id="100"/>
+            <ChildItems>
+                <InputField name="ИмяФайлаВыгрузки" id="2">
+                    <DataPath>Объект.ИмяФайлаВыгрузки</DataPath>
+                    <TitleLocation>Left</TitleLocation>
+                    <ChoiceButton>true</ChoiceButton>
+                    <ExtendedTooltip name="ИмяФайлаВыгрузкиExtendedTooltip" id="101"/>
+                    <ContextMenu name="ИмяФайлаВыгрузкиКонтекстноеМеню" id="102"/>
+                </InputField>
+                <InputField name="ИмяФайлаЗагрузки" id="3">
+                    <DataPath>Объект.ИмяФайлаЗагрузки</DataPath>
+                    <TitleLocation>Left</TitleLocation>
+                    <ChoiceButton>true</ChoiceButton>
+                    <ExtendedTooltip name="ИмяФайлаЗагрузкиExtendedTooltip" id="103"/>
+                    <ContextMenu name="ИмяФайлаЗагрузкиКонтекстноеМеню" id="104"/>
+                </InputField>
+                <CommandBar name="ПанельКоманд" id="4">
+                    <Autofill>false</Autofill>
+                    <ExtendedTooltip name="ПанельКомандExtendedTooltip" id="105"/>
+                    <ChildItems>
+                        <Button name="ВыгрузитьДанные" id="5">
+                            <Type>UsualButton</Type>
+                            <Title>
+                                <v8:item>
+                                    <v8:lang>ru</v8:lang>
+                                    <v8:content>Выгрузить из УП</v8:content>
+                                </v8:item>
+                            </Title>
+                            <CommandName>Form.Command.ВыгрузитьДанные</CommandName>
+                            <ExtendedTooltip name="ВыгрузитьДанныеExtendedTooltip" id="106"/>
+                        </Button>
+                        <Button name="ЗагрузитьДанные" id="6">
+                            <Type>UsualButton</Type>
+                            <Title>
+                                <v8:item>
+                                    <v8:lang>ru</v8:lang>
+                                    <v8:content>Загрузить в БП</v8:content>
+                                </v8:item>
+                            </Title>
+                            <CommandName>Form.Command.ЗагрузитьДанные</CommandName>
+                            <ExtendedTooltip name="ЗагрузитьДанныеExtendedTooltip" id="107"/>
+                        </Button>
+                    </ChildItems>
+                </CommandBar>
+            </ChildItems>
+        </UsualGroup>
+    </ChildItems>
+    <Attributes>
+        <Attribute name="Объект" id="1">
+            <Type>
+                <v8:Type>cfg:ExternalDataProcessorObject.ВыгрузкаЗагрузкаУПБП</v8:Type>
+            </Type>
+        </Attribute>
+        <Attribute name="ИмяФайлаВыгрузки" id="2">
+            <Type>
+                <v8:Type>xs:string</v8:Type>
+                <v8:StringQualifiers>
+                    <v8:Length>255</v8:Length>
+                    <v8:AllowedLength>Variable</v8:AllowedLength>
+                </v8:StringQualifiers>
+            </Type>
+        </Attribute>
+        <Attribute name="ИмяФайлаЗагрузки" id="3">
+            <Type>
+                <v8:Type>xs:string</v8:Type>
+                <v8:StringQualifiers>
+                    <v8:Length>255</v8:Length>
+                    <v8:AllowedLength>Variable</v8:AllowedLength>
+                </v8:StringQualifiers>
+            </Type>
+        </Attribute>
+    </Attributes>
+    <Commands>
+        <Command name="ВыгрузитьДанные" id="1">
+            <Title>
+                <v8:item>
+                    <v8:lang>ru</v8:lang>
+                    <v8:content>Выгрузить из УП</v8:content>
+                </v8:item>
+            </Title>
+            <ToolTip>
+                <v8:item>
+                    <v8:lang>ru</v8:lang>
+                    <v8:content>Выгрузить данные из Управления Производством в XML</v8:content>
+                </v8:item>
+            </ToolTip>
+            <Action>ВыгрузитьДанные</Action>
+            <CurrentRowUse>DontUse</CurrentRowUse>
+        </Command>
+        <Command name="ЗагрузитьДанные" id="2">
+            <Title>
+                <v8:item>
+                    <v8:lang>ru</v8:lang>
+                    <v8:content>Загрузить в БП</v8:content>
+                </v8:item>
+            </Title>
+            <ToolTip>
+                <v8:item>
+                    <v8:lang>ru</v8:lang>
+                    <v8:content>Загрузить данные из XML в Бухгалтерию Предприятия</v8:content>
+                </v8:item>
+            </ToolTip>
+            <Action>ЗагрузитьДанные</Action>
+            <CurrentRowUse>DontUse</CurrentRowUse>
+        </Command>
+    </Commands>
+</Form>

@@ -1,0 +1,480 @@
+{% extends "base.html" %}
+{% block title %}Портфель 2026 — 12 сделок × 245 полей{% endblock %}
+{% block head_extra %}
+<script src="https://cdn.plot.ly/plotly-3.0.0.min.js"></script>
+<style>
+.portfolio-container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+.kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 20px; }
+.kpi-card { background: var(--bg-card, #161b22); border: 1px solid var(--border-color, #30363d); border-radius: 8px; padding: 14px 16px; }
+.kpi-card .kpi-label { font-size: 12px; color: var(--text-muted, #8b949e); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+.kpi-card .kpi-value { font-size: 22px; font-weight: 700; font-family: 'JetBrains Mono', monospace; }
+.kpi-card .kpi-sub { font-size: 12px; color: var(--text-muted, #8b949e); margin-top: 2px; }
+.kpi-positive { color: #3fb950; }
+.kpi-negative { color: #f85149; }
+.kpi-neutral { color: #58a6ff; }
+
+.trade-selector { display: flex; gap: 12px; align-items: center; margin-bottom: 20px; flex-wrap: wrap; }
+.trade-selector select { padding: 8px 16px; background: var(--bg-card, #161b22); color: var(--text-primary, #e6edf3); border: 1px solid var(--border-color, #30363d); border-radius: 6px; font-size: 14px; min-width: 200px; }
+.trade-selector .quick-nav { display: flex; gap: 6px; flex-wrap: wrap; }
+.trade-selector .quick-nav button { padding: 6px 12px; background: var(--bg-card, #161b22); color: var(--text-primary, #e6edf3); border: 1px solid var(--border-color, #30363d); border-radius: 4px; cursor: pointer; font-size: 12px; font-family: 'JetBrains Mono', monospace; }
+.trade-selector .quick-nav button:hover { background: var(--border-color, #30363d); }
+.trade-selector .quick-nav button.active { background: #1f6feb; border-color: #1f6feb; }
+
+.tabs { display: flex; gap: 0; margin-bottom: 0; border-bottom: 2px solid var(--border-color, #30363d); }
+.tabs button { padding: 10px 20px; background: none; color: var(--text-muted, #8b949e); border: none; cursor: pointer; font-size: 14px; border-bottom: 2px solid transparent; margin-bottom: -2px; }
+.tabs button.active { color: var(--text-primary, #e6edf3); border-bottom-color: #1f6feb; }
+.tab-content { display: none; padding: 20px 0; }
+.tab-content.active { display: block; }
+
+/* ── 20-block color palette ── */
+:root {
+  --blk-1:  #3fb950; --blk-2:  #3fb950; --blk-3:  #3fb950;
+  --blk-4:  #58a6ff; --blk-5:  #bc8cff;
+  --blk-6:  #d29922; --blk-7:  #e3b341;
+  --blk-8:  #f85149; --blk-9:  #8b949e; --blk-10: #7ee787;
+  --blk-11: #ff7b72; --blk-12: #a5d6ff; --blk-13: #f778ba;
+  --blk-14: #c297ff; --blk-15: #68c3d4; --blk-16: #f2a65a;
+  --blk-17: #e06c75; --blk-18: #56b6c2; --blk-19: #98c379;
+  --blk-20: #c678dd;
+}
+
+.table-wrapper { overflow-x: auto; max-height: 70vh; }
+.table-wrapper table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.table-wrapper th { position: sticky; top: 0; background: #0d1117; color: var(--text-muted, #8b949e); text-align: left; padding: 8px 10px; border-bottom: 2px solid var(--border-color, #30363d); font-size: 11px; text-transform: uppercase; z-index: 2; }
+.table-wrapper td { padding: 6px 10px; border-bottom: 1px solid #1c2128; font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+.table-wrapper tr:hover td { background: rgba(255,255,255,0.02); }
+
+/* Block color left borders */
+.table-wrapper .blk-1 td, .table-wrapper .blk-2 td, .table-wrapper .blk-3 td { border-left: 3px solid var(--blk-1); }
+.table-wrapper .blk-4 td { border-left: 3px solid var(--blk-4); }
+.table-wrapper .blk-5 td { border-left: 3px solid var(--blk-5); }
+.table-wrapper .blk-6 td { border-left: 3px solid var(--blk-6); }
+.table-wrapper .blk-7 td { border-left: 3px solid var(--blk-7); }
+.table-wrapper .blk-8 td { border-left: 3px solid var(--blk-8); }
+.table-wrapper .blk-9 td { border-left: 3px solid var(--blk-9); }
+.table-wrapper .blk-10 td { border-left: 3px solid var(--blk-10); }
+.table-wrapper .blk-11 td { border-left: 3px solid var(--blk-11); }
+.table-wrapper .blk-12 td { border-left: 3px solid var(--blk-12); }
+.table-wrapper .blk-13 td { border-left: 3px solid var(--blk-13); }
+.table-wrapper .blk-14 td { border-left: 3px solid var(--blk-14); }
+.table-wrapper .blk-15 td { border-left: 3px solid var(--blk-15); }
+.table-wrapper .blk-16 td { border-left: 3px solid var(--blk-16); }
+.table-wrapper .blk-17 td { border-left: 3px solid var(--blk-17); }
+.table-wrapper .blk-18 td { border-left: 3px solid var(--blk-18); }
+.table-wrapper .blk-19 td { border-left: 3px solid var(--blk-19); }
+.table-wrapper .blk-20 td { border-left: 3px solid var(--blk-20); }
+
+/* Block separator row */
+.block-separator { cursor: pointer; user-select: none; }
+.block-separator td { padding: 10px 12px !important; font-size: 13px !important; font-weight: 600; border-left: none !important; border-bottom: 1px solid var(--border-color, #30363d) !important; }
+.block-separator:hover td { filter: brightness(1.15); }
+.block-separator .sep-icon { display: inline-block; width: 16px; text-align: center; transition: transform 0.2s; font-size: 11px; margin-right: 6px; }
+.block-separator.collapsed .sep-icon { transform: rotate(-90deg); }
+.block-separator .sep-count { font-size: 11px; color: var(--text-muted, #8b949e); font-weight: 400; margin-left: 8px; }
+
+/* Collapsed rows */
+tr.block-hidden { display: none; }
+
+.val-null { color: #484f58; }
+
+.filters { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; align-items: center; }
+.filters input[type="text"] { padding: 7px 12px; background: var(--bg-card, #161b22); color: var(--text-primary, #e6edf3); border: 1px solid var(--border-color, #30363d); border-radius: 4px; width: 250px; font-size: 13px; }
+.block-filters { display: flex; gap: 6px; flex-wrap: wrap; }
+.block-filters label { display: flex; align-items: center; gap: 4px; font-size: 12px; cursor: pointer; color: var(--text-muted, #8b949e); padding: 3px 7px; border-radius: 4px; border: 1px solid transparent; transition: all 0.15s; white-space: nowrap; }
+.block-filters label:hover { border-color: var(--border-color, #30363d); }
+.block-filters label .bf-count { font-size: 10px; opacity: 0.7; }
+.block-filters input[type="checkbox"] { accent-color: #1f6feb; margin: 0; }
+.block-filters label.bf-off { opacity: 0.45; text-decoration: line-through; }
+
+#chart-container { width: 100%; height: 450px; }
+.summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 16px; }
+.summary-grid .section h4 { color: var(--text-muted, #8b949e); margin-bottom: 10px; font-size: 13px; text-transform: uppercase; }
+.summary-grid .section table { width: 100%; font-size: 13px; }
+.summary-grid .section td { padding: 4px 8px; }
+.summary-grid .section td:first-child { color: var(--text-muted, #8b949e); }
+
+.mini-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 20px; }
+.mini-candle { background: var(--bg-card, #161b22); border: 1px solid var(--border-color, #30363d); border-radius: 6px; padding: 10px; text-align: center; cursor: pointer; transition: border-color 0.2s; }
+.mini-candle:hover { border-color: #1f6feb; }
+.mini-candle .mini-sym { font-size: 11px; color: var(--text-muted, #8b949e); }
+.mini-candle .mini-pnl { font-size: 14px; font-weight: 700; font-family: 'JetBrains Mono', monospace; margin: 4px 0; }
+.mini-candle .mini-detail { font-size: 11px; color: var(--text-muted, #8b949e); }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="portfolio-container">
+    <h1 style="margin-bottom: 8px;">📊 Портфель 2026</h1>
+    <p style="color: var(--text-muted, #8b949e); margin-bottom: 20px;">12 сделок × 245 полей — на основе реальных данных Bitget + project01 Processor</p>
+
+    <!-- KPI Row -->
+    <div class="kpi-row" id="kpi-row"></div>
+
+    <!-- Trade Selector -->
+    <div class="trade-selector">
+        <select id="trade-select" onchange="onTradeChange(this.value)"></select>
+        <div class="quick-nav" id="quick-nav"></div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+        <button class="active" onclick="switchTab('summary')">📊 Сводка</button>
+        <button onclick="switchTab('full-table')">📋 Полная таблица (245 полей)</button>
+        <button onclick="switchTab('chart')">📈 Свечной график</button>
+    </div>
+
+    <!-- Tab: Summary -->
+    <div id="tab-summary" class="tab-content active">
+        <div class="summary-grid" id="summary-content"></div>
+        <h4 style="color: var(--text-muted, #8b949e); margin-top: 24px;">Все сделки (нажмите для переключения)</h4>
+        <div class="mini-grid" id="mini-grid"></div>
+    </div>
+
+    <!-- Tab: Full Table -->
+    <div id="tab-full-table" class="tab-content">
+        <div class="filters">
+            <input type="text" id="table-search" placeholder="🔍 Поиск по названию или аббревиатуре..." oninput="filterTable()">
+            <div class="block-filters" id="block-filters"></div>
+            <span id="row-count" style="font-size:12px;color:var(--text-muted, #8b949e);"></span>
+        </div>
+        <div class="table-wrapper" id="full-table-wrapper"></div>
+    </div>
+
+    <!-- Tab: Chart -->
+    <div id="tab-chart" class="tab-content">
+        <div id="chart-container"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+let allData = null;
+let currentTrade = null;
+let currentCandles = {};
+let tradeList = [];
+let activeBlockFilters = new Set();
+let collapsedBlocks = new Set();
+
+fetch('/api/portfolio')
+    .then(r => r.json())
+    .then(data => {
+        allData = data;
+        tradeList = data.trades || [];
+        initUI();
+        selectTrade(tradeList[0]?.trade_name || '');
+    })
+    .catch(err => {
+        document.querySelector('.portfolio-container').innerHTML = `
+            <div class="card" style="padding:40px;text-align:center;color:var(--text-muted)">
+                <h3>Данные портфеля недоступны</h3>
+                <p>Запустите генерацию: <code>python3 generate_metrics.py</code></p>
+                <p style="font-size:12px;margin-top:8px;">${err.message}</p>
+            </div>`;
+    });
+
+function blockColor(blockId) {
+    const c = getComputedStyle(document.documentElement).getPropertyValue(`--blk-${blockId}`).trim();
+    return c || '#8b949e';
+}
+
+function blockColorBg(blockId) {
+    const c = blockColor(blockId);
+    return c + '18';
+}
+
+function initUI() {
+    const sel = document.getElementById('trade-select');
+    const qnav = document.getElementById('quick-nav');
+    tradeList.forEach(t => {
+        sel.innerHTML += `<option value="${t.trade_name}">${t.trade_name} (${t.symbol})</option>`;
+        const btn = document.createElement('button');
+        btn.textContent = t.symbol;
+        btn.title = t.trade_name;
+        btn.onclick = () => selectTrade(t.trade_name);
+        qnav.appendChild(btn);
+    });
+
+    const bf = document.getElementById('block-filters');
+    (allData.blocks || []).forEach(b => {
+        const colorHex = blockColor(b.block_id);
+        const fillCount = b.filled_fields;
+        const totalCount = b.total_fields;
+
+        const label = document.createElement('label');
+        label.title = `${b.emoji} ${b.name} — ${fillCount}/${totalCount} заполнено`;
+        label.style.borderLeft = `3px solid ${colorHex}`;
+        label.innerHTML = `<input type="checkbox" checked onchange="toggleBlock(${b.block_id}, this.checked)">
+            ${b.emoji} ${b.block_id} <span class="bf-count">· ${fillCount}/${totalCount}</span>`;
+        bf.appendChild(label);
+        activeBlockFilters.add(b.block_id);
+    });
+}
+
+function selectTrade(name) {
+    currentTrade = allData.trades.find(t => t.trade_name === name);
+    if (!currentTrade) return;
+
+    document.getElementById('trade-select').value = name;
+    document.querySelectorAll('.quick-nav button').forEach(b => {
+        b.classList.toggle('active', b.textContent === currentTrade.symbol);
+    });
+
+    const sym = currentTrade.symbol;
+    if (!currentCandles[sym]) {
+        loadCandles(sym);
+    } else {
+        renderChart();
+    }
+
+    renderKPIs();
+    renderSummary();
+    renderMiniGrid();
+    renderFullTable();
+}
+
+function loadCandles(symbol) {
+    fetch(`/api/portfolio/candles/${symbol}`)
+        .then(r => r.json())
+        .then(d => {
+            currentCandles[symbol] = d.candles || [];
+            renderChart();
+        })
+        .catch(() => {
+            currentCandles[symbol] = [];
+            renderChart();
+        });
+}
+
+function renderKPIs() {
+    if (!currentTrade) return;
+    const f = currentTrade.fields || {};
+    const pnlPct = f.unrealized_pnl_pct || 0;
+    const cls = pnlPct >= 0 ? 'kpi-positive' : 'kpi-negative';
+
+    const cards = [
+        { label: 'PnL %', value: `${pnlPct >= 0 ? '+' : ''}${pnlPct.toFixed(1)}%`, cls: cls, sub: `${(f.unrealized_pnl || 0).toFixed(2)} USDT` },
+        { label: 'Цена входа', value: `$${(f.entry_price || 0).toFixed(4)}`, cls: 'kpi-neutral', sub: currentTrade.symbol },
+        { label: 'Плечо', value: `${(f.leverage || 0).toFixed(0)}x`, cls: 'kpi-neutral', sub: `Маржа: ${(f.margin_size || 0).toFixed(2)} USDT` },
+        { label: 'Дней', value: f.days_open || 0, cls: 'kpi-neutral', sub: new Date().toISOString().split('T')[0] },
+        { label: 'Последняя свеча', value: `$${(f.close || 0).toFixed(4)}`, cls: f.body_direction > 0 ? 'kpi-positive' : 'kpi-negative', sub: `O=${(f.open || 0).toFixed(2)} H=${(f.high || 0).toFixed(2)} L=${(f.low || 0).toFixed(2)}` },
+        { label: 'Паттерн', value: f.candle_pattern || '—', cls: 'kpi-neutral', sub: `Сессия: ${f.session || '—'}` },
+        { label: 'Liq Price', value: `$${(f.liquidation_price || 0).toFixed(2)}`, cls: (f.liquidation_price || 0) > 0 ? 'kpi-neutral' : 'kpi-negative', sub: currentTrade.trade_type },
+        { label: 'ROE', value: `${(f.roe || 0).toFixed(1)}%`, cls: (f.roe || 0) >= 0 ? 'kpi-positive' : 'kpi-negative', sub: `ROR: ${(f.ror || 0).toFixed(1)}%` },
+    ];
+
+    document.getElementById('kpi-row').innerHTML = cards.map(c =>
+        `<div class="kpi-card">
+            <div class="kpi-label">${c.label}</div>
+            <div class="kpi-value ${c.cls}">${c.value}</div>
+            <div class="kpi-sub">${c.sub}</div>
+        </div>`
+    ).join('');
+}
+
+function renderSummary() {
+    if (!currentTrade) return;
+    const f = currentTrade.fields || {};
+    const leftRows = [
+        ['Символ', currentTrade.symbol], ['Тип', currentTrade.trade_type],
+        ['Сторона', f.position_side || '—'], ['Плечо', `${(f.leverage || 0).toFixed(0)}x`],
+        ['Маржа', `${(f.margin_size || 0).toFixed(4)} USDT`], ['Стоимость', `${(f.position_value || 0).toFixed(2)} USDT`],
+        ['Цена входа', `$${(f.entry_price || 0).toFixed(4)}`], ['PnL USDT', `${(f.unrealized_pnl || 0).toFixed(2)}`],
+        ['PnL %', `${(f.unrealized_pnl_pct || 0).toFixed(1)}%`],
+    ];
+    const rightRows = [
+        ['Дней', f.days_open || 0], ['ROE %', `${(f.roe || 0).toFixed(1)}%`],
+        ['Liq Price', `$${(f.liquidation_price || 0).toFixed(2)}`], ['SL', `$${(f.stop_loss_price || 0).toFixed(2)}`],
+        ['TP', `$${(f.take_profit_price || 0).toFixed(2)}`], ['Открытие', `$${(f.open || 0).toFixed(4)}`],
+        ['Максимум', `$${(f.high || 0).toFixed(4)}`], ['Минимум', `$${(f.low || 0).toFixed(4)}`],
+        ['Закрытие', `$${(f.close || 0).toFixed(4)}`],
+    ];
+    document.getElementById('summary-content').innerHTML = `
+        <div class="section"><h4>Позиция</h4><table>${leftRows.map(r => `<tr><td>${r[0]}</td><td><strong>${r[1]}</strong></td></tr>`).join('')}</table></div>
+        <div class="section"><h4>Свеча & Риск</h4><table>${rightRows.map(r => `<tr><td>${r[0]}</td><td><strong>${r[1]}</strong></td></tr>`).join('')}</table></div>`;
+}
+
+function renderMiniGrid() {
+    const grid = document.getElementById('mini-grid');
+    grid.innerHTML = tradeList.map(t => {
+        const f = t.fields || {};
+        const pnl = f.unrealized_pnl_pct || 0;
+        const cls = pnl >= 0 ? 'kpi-positive' : 'kpi-negative';
+        const isActive = currentTrade && t.trade_name === currentTrade.trade_name;
+        return `<div class="mini-candle" onclick="selectTrade('${t.trade_name}')" style="${isActive ? 'border-color:#1f6feb;' : ''}">
+            <div class="mini-sym">${t.trade_name}</div>
+            <div class="mini-pnl ${cls}">${pnl >= 0 ? '+' : ''}${pnl.toFixed(0)}%</div>
+            <div class="mini-detail">${f.candle_pattern || '—'} | ${f.session || '—'}</div>
+        </div>`;
+    }).join('');
+}
+
+function renderFullTable() {
+    if (!allData || !currentTrade) return;
+    const blocks = allData.blocks || [];
+    const tradeFields = currentTrade.fields || {};
+
+    let htmlParts = [];
+    let rowIndex = 0;
+    let visibleCount = 0;
+    window._tableRows = [];
+
+    htmlParts.push(`<table><thead><tr><th>#</th><th>Abbr</th><th>Поле</th><th>Значение</th><th>Описание</th></tr></thead><tbody>`);
+
+    blocks.forEach(block => {
+        if (!activeBlockFilters.has(block.block_id)) return;
+
+        const colorHex = blockColor(block.block_id);
+        const fillCount = block.filled_fields;
+        const isCollapsed = collapsedBlocks.has(block.block_id);
+        const icon = isCollapsed ? '▶' : '▼';
+
+        htmlParts.push(`<tr class="block-separator${isCollapsed ? ' collapsed' : ''}" onclick="toggleBlockRows(${block.block_id})" style="background:${blockColorBg(block.block_id)};">
+            <td colspan="5" style="border-left:4px solid ${colorHex};">
+                <span class="sep-icon">${icon}</span>
+                ${block.emoji} <strong>Блок ${block.block_id}: ${block.name}</strong>
+                <span class="sep-count">(${block.total_fields} полей · заполнено ${fillCount})</span>
+            </td></tr>`);
+
+        block.fields.forEach(f => {
+            const val = tradeFields[f.name_en];
+            let valDisplay, valClass = '', rowHint = '';
+
+            if (val !== undefined && val !== null) {
+                if (typeof val === 'number') valDisplay = val.toFixed(4);
+                else valDisplay = String(val);
+                rowHint = 'real';
+            } else if (f.availability === 'computed') {
+                valDisplay = `[${f.type}]`;
+                rowHint = 'computed';
+            } else if (f.availability === 'external_api') {
+                valDisplay = `[${f.type}]`;
+                rowHint = 'api';
+            } else {
+                valDisplay = 'NULL';
+                valClass = 'val-null';
+                rowHint = 'null';
+            }
+
+            const rowHtml = `<tr class="blk-${block.block_id}${isCollapsed ? ' block-hidden' : ''}" data-block="${block.block_id}" data-hint="${rowHint}">
+                <td>${f.global_id}</td>
+                <td><code>${f.abbr}</code></td>
+                <td>${f.name_ru}</td>
+                <td><span class="${valClass}">${valDisplay}</span></td>
+                <td style="font-size:11px;color:var(--text-muted)">${f.description || ''}</td>
+            </tr>`;
+
+            htmlParts.push(rowHtml);
+
+            window._tableRows.push({
+                html: rowHtml,
+                blockId: block.block_id,
+                searchText: `${f.global_id} ${f.abbr} ${f.name_ru} ${f.name_en}`.toLowerCase(),
+                isHidden: isCollapsed
+            });
+            visibleCount++;
+            rowIndex++;
+        });
+    });
+
+    htmlParts.push('</tbody></table>');
+
+    document.getElementById('full-table-wrapper').innerHTML = htmlParts.join('');
+    document.getElementById('row-count').textContent = `${visibleCount} полей`;
+}
+
+function toggleBlockRows(blockId) {
+    if (collapsedBlocks.has(blockId)) {
+        collapsedBlocks.delete(blockId);
+    } else {
+        collapsedBlocks.add(blockId);
+    }
+    renderFullTable();
+    filterTable();
+}
+
+function filterTable() {
+    const query = document.getElementById('table-search').value.toLowerCase();
+    const tbody = document.querySelector('#full-table-wrapper tbody');
+    if (!tbody || !window._tableRows) return;
+
+    let count = 0;
+    const trs = tbody.querySelectorAll('tr:not(.block-separator)');
+    let ri = 0;
+    trs.forEach(tr => {
+        const rowData = window._tableRows[ri];
+        if (!rowData) { ri++; return; }
+
+        if (rowData.isHidden || (query && !rowData.searchText.includes(query))) {
+            tr.style.display = 'none';
+        } else {
+            tr.style.display = '';
+            count++;
+        }
+        ri++;
+    });
+
+    // Update separator rows
+    tbody.querySelectorAll('.block-separator').forEach(sep => {
+        sep.style.display = '';
+    });
+
+    document.getElementById('row-count').textContent = `${count} полей`;
+}
+
+function toggleBlock(blockId, checked) {
+    if (checked) {
+        activeBlockFilters.add(blockId);
+    } else {
+        activeBlockFilters.delete(blockId);
+    }
+    // Update label styling
+    document.querySelectorAll('.block-filters label').forEach(l => {
+        const cb = l.querySelector('input[type="checkbox"]');
+        if (cb && parseInt(cb.getAttribute('onchange').match(/\d+/)?.[0]) === blockId) {
+            l.classList.toggle('bf-off', !checked);
+        }
+    });
+    renderFullTable();
+    filterTable();
+}
+
+function switchTab(name) {
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.tabs button').forEach(el => el.classList.remove('active'));
+    document.getElementById(`tab-${name}`).classList.add('active');
+    const idx = name === 'summary' ? 0 : name === 'full-table' ? 1 : 2;
+    document.querySelectorAll('.tabs button')[idx].classList.add('active');
+    if (name === 'chart') renderChart();
+}
+
+function renderChart() {
+    const sym = currentTrade?.symbol;
+    const candles = currentCandles[sym] || [];
+    if (!candles.length) {
+        document.getElementById('chart-container').innerHTML = '<p style="color:var(--text-muted);padding:40px;">Нет данных свечей. Загрузите _1D.json через Processor.</p>';
+        return;
+    }
+    const trace = {
+        type: 'candlestick',
+        x: candles.map(c => c.date || c.datetime),
+        open: candles.map(c => c.open),
+        high: candles.map(c => c.high),
+        low: candles.map(c => c.low),
+        close: candles.map(c => c.close),
+        name: sym,
+        increasing: { line: { color: '#3fb950' } },
+        decreasing: { line: { color: '#f85149' } },
+    };
+    const layout = {
+        paper_bgcolor: '#0d1117', plot_bgcolor: '#0d1117',
+        font: { color: '#8b949e', size: 11 },
+        xaxis: { gridcolor: '#1c2128', showgrid: true, rangeslider: { visible: false } },
+        yaxis: { gridcolor: '#1c2128', showgrid: true, title: 'Price (USDT)' },
+        margin: { l: 10, r: 10, t: 20, b: 10 }, height: 450,
+        title: { text: `${sym} — 1D Candle History`, font: { size: 14 } },
+    };
+    Plotly.newPlot('chart-container', [trace], layout, { displayModeBar: false });
+}
+</script>
+{% endblock %}

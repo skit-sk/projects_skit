@@ -4,7 +4,7 @@
   "homepage": "https://api.ranvik.ru",
   "api_endpoint": "https://api.ranvik.ru/server/pricing",
   "balance": "unknown",
-  "updated": "2026-06-19",
+  "updated": "2026-06-24",
   "opencode_prefix": "ranvik/",
   "models_count": 0,
   "total_models": 138,

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Stock Heatmap — TV{% endblock %}
+{% block content %}
+<section class="page-header"><h1>🟦 Stock Heatmap</h1></section>
+
+<div class="tradingview-widget-container" style="height:{{ widget.height }}px;width:100%">
+    <div class="tradingview-widget-container__widget"></div>
+</div>
+<script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-stock-heatmap.js" async>
+{
+  "width": "100%",
+  "height": "{{ widget.height }}",
+  "exchange": "SPX500",
+  "dataSource": "SPX500",
+  "grouping": "sector",
+  "blockSize": "market_cap_basic",
+  "blockColor": "change",
+  "locale": "ru",
+  "colorTheme": "dark",
+  "hasTopBar": true,
+  "isDataSetEnabled": false,
+  "isZoomEnabled": true,
+  "hasSymbolTooltip": true,
+  "isMonoSize": false
+}
+</script>
+{% endblock %}

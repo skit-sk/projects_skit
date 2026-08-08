@@ -1,0 +1,108 @@
+{
+  "id": "mobchart",
+  "title": "MobChart",
+  "url": "https://mobchart.com/",
+  "pages": [
+    {
+      "url": "https://mobchart.com/",
+      "slug": "00-main",
+      "title": "MobChart.com",
+      "sections": [
+        {
+          "tag": "h1",
+          "text": "Liquidity & Order Flow technical analysis platform"
+        },
+        {
+          "tag": "h2",
+          "text": "Supported Exchanges"
+        },
+        {
+          "tag": "h2",
+          "text": "3500+ Tickers' Data Collected"
+        },
+        {
+          "tag": "h2",
+          "text": "Features"
+        },
+        {
+          "tag": "h3",
+          "text": "Heatmap"
+        },
+        {
+          "tag": "h3",
+          "text": "Footprints"
+        },
+        {
+          "tag": "h3",
+          "text": "Large Trades"
+        },
+        {
+          "tag": "h3",
+          "text": "Volume Profile"
+        },
+        {
+          "tag": "h3",
+          "text": "TPO View"
+        },
+        {
+          "tag": "h3",
+          "text": "Advanced Indicators"
+        },
+        {
+          "tag": "h3",
+          "text": "Watchlist"
+        },
+        {
+          "tag": "h3",
+          "text": "Screeners"
+        },
+        {
+          "tag": "h3",
+          "text": "Orderbook"
+        },
+        {
+          "tag": "h3",
+          "text": "Trades Feed"
+        },
+        {
+          "tag": "h3",
+          "text": "Scripting Engine"
+        },
+        {
+          "tag": "h3",
+          "text": "Even More . . ."
+        },
+        {
+          "tag": "h2",
+          "text": "Screeners"
+        },
+        {
+          "tag": "h3",
+          "text": "Liquidity Screener"
+        },
+        {
+          "tag": "h2",
+          "text": "Pricing"
+        },
+        {
+          "tag": "h3",
+          "text": "Free"
+        },
+        {
+          "tag": "h3",
+          "text": "Pro"
+        },
+        {
+          "tag": "h3",
+          "text": "Premium"
+        },
+        {
+          "tag": "h2",
+          "text": "Don’t Just Read About the Edge — Feel It"
+        }
+      ],
+      "screenshot": "static/ref/mobchart/00-main.png",
+      "textFile": "static/ref/mobchart/00-main.txt"
+    }
+  ]
+}

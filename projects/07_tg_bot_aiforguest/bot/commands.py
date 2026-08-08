@@ -13,7 +13,7 @@ from session import (
     set_build_mode, get_build_mode,
     save_last_task, clear_last_task, reset_session_counters,
     append_model_history,
-    link_platforms, add_platform_link, user_dir,
+    link_platforms, add_platform_link, user_dir, session_run_dir, auto_platform,
 )
 from security import run_opencode, pre_filter
 import monitor as _Mon
@@ -318,9 +318,11 @@ def cmd_message(uid, text):
     if is_super(uid):
         u = get_user(uid)
         cd = u.get("_cwd") if u else None
-        wd = cd or user_dir(uid, "tg")
+        plat = auto_platform(uid)
+        wd = cd or session_run_dir(uid, plat)
     else:
-        wd = user_dir(uid, "tg")
+        plat = auto_platform(uid)
+        wd = session_run_dir(uid, plat)
     wd.mkdir(parents=True, exist_ok=True)
 
     before = set(wd.rglob("*.[pj][np]g"))

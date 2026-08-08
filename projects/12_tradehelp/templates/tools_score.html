@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block title %}Confluence Score — Tools{% endblock %}
+{% block content %}
+<section class="page-header">
+    <h1>🎯 Confluence Score</h1>
+    <p class="muted">10-уровневый чек-лист входа · валидный вход при score ≥ 4</p>
+</section>
+
+<div class="score-grid">
+    <div class="card">
+        <h3>Факторы</h3>
+        <div class="factor-row">
+            <label><input type="checkbox" data-factor="wyckoff"> Wyckoff phase</label>
+            <span class="muted">Макро-фаза определена</span>
+        </div>
+        <div class="factor-row">
+            <label><input type="checkbox" data-factor="mss"> MSS / BOS</label>
+            <span class="muted">Слом структуры с displacement</span>
+        </div>
+        <div class="factor-row">
+            <label><input type="checkbox" data-factor="sweep"> Liquidity sweep</label>
+            <span class="muted">Снятие BSL/SSL</span>
+        </div>
+        <div class="factor-row">
+            <label><input type="checkbox" data-factor="va"> Value Area</label>
+            <span class="muted">VAH/VAL совпадает</span>
+        </div>
+        <div class="factor-row">
+            <label><input type="checkbox" data-factor="poi"> POI</label>
+            <span class="muted">Order Block или FVG</span>
+        </div>
+        <div class="factor-row">
+            <label><input type="checkbox" data-factor="ote"> OTE</label>
+            <span class="muted">Цена в 62–79%</span>
+        </div>
+        <div class="factor-row">
+            <label><input type="checkbox" data-factor="heatmap"> Heatmap</label>
+            <span class="muted">Lp кластер поблизости</span>
+        </div>
+        <div class="factor-row">
+            <label><input type="checkbox" data-factor="oi"> OI healthy</label>
+            <span class="muted">Price + OI согласованы</span>
+        </div>
+        <div class="factor-row">
+            <label><input type="checkbox" data-factor="footprint"> Footprint</label>
+            <span class="muted">Imbalance / Absorption</span>
+        </div>
+        <div class="factor-row">
+            <label><input type="checkbox" data-factor="rr"> RR ≥ 1:2</label>
+            <span class="muted">Risk/Reward соотношение</span>
+        </div>
+        <button class="btn btn-primary" onclick="computeScore()">Compute</button>
+    </div>
+
+    <div class="card">
+        <h3>Результат</h3>
+        <div id="score-output" class="result-grid"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function computeScore() {
+    const checks = document.querySelectorAll('[data-factor]');
+    const factors = {};
+    let score = 0;
+    checks.forEach(c => {
+        const k = c.dataset.factor;
+        factors[k] = c.checked;
+        if (c.checked) score++;
+    });
+    let grade = 'D (Не входить)';
+    if (score >= 8) grade = 'A+ (Confluence максимальная)';
+    else if (score >= 6) grade = 'A (Хороший вход)';
+    else if (score >= 4) grade = 'B (Приемлемо)';
+    else if (score >= 2) grade = 'C (Слабый вход)';
+    const valid = score >= 4;
+    const out = document.getElementById('score-output');
+    out.innerHTML = `
+        <div class="big-value">${score}/10</div>
+        <div class="result-status ${valid ? 'pos' : 'neg'}">${valid ? '✅ ВАЛИДНЫЙ ВХОД' : '❌ СЛИШКОМ СЛАБО'}</div>
+        <div class="muted">Оценка: ${grade}</div>
+    `;
+}
+</script>
+{% endblock %}

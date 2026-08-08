@@ -1,0 +1,37 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "plugin": [
+    ".opencode/plugins/graphify.js"
+  ],
+  "mcp": {
+    "mcp.1c": {
+      "type": "remote",
+      "url": "http://localhost:8080/hs/mcp-1c",
+      "enabled": false
+              }
+	 },
+  "agent": {
+    "tg-reader": {
+      "description": "Read-only agent for Telegram users. Read, search, analyze only. No bash/edit/write.",
+      "mode": "primary",
+      "permission": {
+        "*": "deny",
+        "read": "allow",
+        "glob": "allow",
+        "grep": "allow",
+        "webfetch": "allow",
+        "websearch": "allow",
+        "todowrite": "allow",
+        "task": "allow",
+        "lsp": "allow",
+        "skill": "allow",
+        "question": "allow"
+      },
+      "tools": {
+        "playwright": true,
+        "cloakbrowser": true,
+        "agent-browser": true
+      }
+    }
+  }
+}

@@ -1,0 +1,107 @@
+# Quantower
+
+## Quantower
+
+- [Welcome to Quantower Help](https://help.quantower.com/quantower/master.md): Here you’ll find all the detailed documentation for Quantower features, learn how to create and customize your Workspace, understand all settings, get to know advanced features, and more
+- [Getting Started](https://help.quantower.com/quantower/getting-started.md): Get started with Quantower in a few steps — install, take your first look, set up your account and license, and connect your broker to trade live.
+- [Installation](https://help.quantower.com/quantower/getting-started/installation.md): System requirements and 3 simple steps to successfully install the platform
+- [First start](https://help.quantower.com/quantower/getting-started/first-start.md): Open Quantower for the first time with a ready-made workspace, live data, and popular panels — then switch to a trading connection whenever you're ready.
+- [Account & Licensing](https://help.quantower.com/quantower/getting-started/account-and-licensing.md)
+- [Quantower Account](https://help.quantower.com/quantower/getting-started/account-and-licensing/quantower-account.md): Create and manage your Quantower account to gain access to the platform’s paid features even for a trial period
+- [Quantower Licenses](https://help.quantower.com/quantower/getting-started/account-and-licensing/quantower-licenses.md): See how Quantower licensing works — the free version, 7-day trial, pro features, and the All-in-One license — plus how to buy and activate one.
+- [License Comparison](https://help.quantower.com/quantower/getting-started/account-and-licensing/license-comparison.md): Compare Quantower's free and All-in-One licenses feature by feature — connections, volume analysis, advanced charts, and more — and pick your plan.
+- [Connect Your Broker](https://help.quantower.com/quantower/getting-started/connect-your-broker.md): Connect your broker, prop firm, or data feed to Quantower — futures, stocks, crypto, and forex — and start trading on a live or demo account
+- [General Settings](https://help.quantower.com/quantower/general-settings.md)
+- [Quantower Main Toolbar](https://help.quantower.com/quantower/general-settings/main-toolbar.md): Get to know how to use and manage Main Toolbar that is a starting panel of all platform
+- [Workspaces](https://help.quantower.com/quantower/general-settings/workspaces-binds-groups.md): Create the best trading environment, based on your own preferences. Use panels, Binds, and Groups under one Workspace
+- [Single Panel](https://help.quantower.com/quantower/general-settings/standalone-panels.md): Single panel is the minor element of any Workspace and they behave just like any usual PC window
+- [Link panels](https://help.quantower.com/quantower/general-settings/link-panels.md): Set the same color for multiple panels for applying Linking.
+- [Binds](https://help.quantower.com/quantower/general-settings/binds.md): Binds allow to create any combination of panels in any required way
+- [Group of panels](https://help.quantower.com/quantower/general-settings/group-of-panels.md): Group allows to arrange several panels as nested tabs and then move the created group as one panel.
+- [Templates](https://help.quantower.com/quantower/general-settings/templates.md): Customize the panel as you need and save it as a Template for quick use for other trading instruments
+- [Set as Default](https://help.quantower.com/quantower/general-settings/set-as-default.md): Set as Default option allows to customize the panel and save its settings by default. Each newly opened panel of this type will apply the saved settings.
+- [Symbols lookup](https://help.quantower.com/quantower/general-settings/instruments-lookup.md): Symbols lookup manager allowing to search and select any available symbol from active connections
+- [Table management](https://help.quantower.com/quantower/general-settings/table-management.md): Get to know how to add or remove columns in the table, sort and filter data, set alerts and actions
+- [Alerts](https://help.quantower.com/quantower/general-settings/alerts.md): Setting up alerts in Quantower
+- [General settings](https://help.quantower.com/quantower/general-settings/general-settings-1.md): General settings — is a screen, where you can set up the most common behavior of the whole Quantower platform.
+- [Custom hotkeys](https://help.quantower.com/quantower/general-settings/custom-hotkeys.md): Custom Hotkeys functionality exists alongside the usual hotkeys settings and allows you to bind terminal-wide or panel-specific actions to some keyboard combinations
+- [Setup Actions & Advanced filters](https://help.quantower.com/quantower/general-settings/setup-actions-and-advanced-filters.md): Setup Actions feature allows you to setup certain behavior on some data change in the table.
+- [Notifications center](https://help.quantower.com/quantower/general-settings/notifications-center.md)
+- [Connections](https://help.quantower.com/quantower/connections.md)
+- [Connections manager](https://help.quantower.com/quantower/connections/connections-manager.md): Connections manager allows select from available integrations the ones you are trading with and connect to them using your accounts.
+- [Connection to CQG (AMP Futures)](https://help.quantower.com/quantower/connections/connection-to-cqg-amp-futures.md): CQG provides access to more than 75 world exchanges, allowing you to trade futures, options, stocks, bonds, commodity spreads, and much more.
+- [Errors with CQG](https://help.quantower.com/quantower/connections/connection-to-cqg-amp-futures/errors-with-cqg.md): Here we described the possible errors with CQG connection in Quantower platform
+- [Connection to Rithmic](https://help.quantower.com/quantower/connections/connection-to-rithmic.md): Rithmic technology provides access for trading futures and options on CME, CBOT, NYMEX and other exchanges. Full market depth, reliable data and great execution are main features of Rithmic.
+- [Rithmic Issues](https://help.quantower.com/quantower/connections/connection-to-rithmic/rithmic-issues.md): Fix common Rithmic connection issues in Quantower — login errors, data and backfill problems, and gateway selection — with step-by-step solutions
+- [Connecting to ProjectX](https://help.quantower.com/quantower/connections/connecting-to-projectx.md): This guide walks you through the steps to connect your ProjectX-powered Prop Frim account to Quantower and begin trading live or in evaluation.
+- [Connection to Topstep](https://help.quantower.com/quantower/connections/connection-to-topstep.md): Connect your Topstep account to Quantower to trade evaluations and funded accounts with professional charting and order flow tools
+- [Connection to Binance Futures](https://help.quantower.com/quantower/connections/connection-to-binance-futures.md): Binance Futures allows traders to trade futures on main cryptocurrencies with leverage and open both long & short positions.
+- [Binance fresh account](https://help.quantower.com/quantower/connections/connection-to-binance-futures/binance-fresh-account.md)
+- [Errors with Binance connection](https://help.quantower.com/quantower/connections/connection-to-binance-futures/errors-with-binance-connection.md): Here are descriptions of the most common errors when working with or connecting to Binance Futures / Binance Spot in Quantower platform
+- [Connection to Bybit](https://help.quantower.com/quantower/connections/connection-to-bybit.md): Bybit is a cryptocurrency derivatives exchange that provides trading on the most popular crypto-assets like Bitcoin and Ethereum and their perpetual futures.
+- [Connection to Interactive Brokers](https://help.quantower.com/quantower/connections/connect-quantower-to-interactive-broker.md): Follow the steps in this guide to connect the Quantower platform to the Interactive Brokers. The manual contains a detailed description, which will allow you to correctly configure the connection.
+- [Errors with Interactive Brokers](https://help.quantower.com/quantower/connections/connect-quantower-to-interactive-broker/errors-with-interactive-brokers.md): Resolve common Interactive Brokers connection errors in Quantower, including login, TWS/Gateway setup, and market data issues, with clear fixes
+- [Connection to cTrader](https://help.quantower.com/quantower/connections/connection-to-ctrader.md): Use cTrader Gateway in Quantower platform for connection to any cTrader's broker.
+- [How to connect to FxPro via Quantower](https://help.quantower.com/quantower/connections/connection-to-ctrader/how-to-connect-to-fxpro-via-quantower.md): Connect your FxPro account to Quantower through the cTrader gateway and trade forex, indices, and CFDs with professional charting tools
+- [How to connect to Pepperstone via Quantower](https://help.quantower.com/quantower/connections/connection-to-ctrader/how-to-connect-to-pepperstone-via-quantower.md): Connect your Pepperstone account to Quantower via the cTrader gateway to trade forex and CFDs with advanced charting and order flow tools
+- [How to connect to IC Markets via Quantower](https://help.quantower.com/quantower/connections/connection-to-ctrader/how-to-connect-to-ic-markets-via-quantower.md): Connect your IC Markets account to Quantower through the cTrader gateway and trade forex, indices, and commodities with pro-grade analytics
+- [Connection to OANDA](https://help.quantower.com/quantower/connections/connection-to-oanda.md): This guide helps you in a few simple steps to configure the connection to OANDA with the correct settings.
+- [Connection to FXCM](https://help.quantower.com/quantower/connections/connection-to-fxcm.md): FXCM offers a wide range of trading instruments, such as 40+ FX pairs, CFDs on commodities, indices, as well as the main cryptocurrencies.
+- [Connection to OKEx](https://help.quantower.com/quantower/connections/connection-to-okex.md): OKEx is an innovative cryptocurrency exchange with advanced financial services, providing everything for wise trading and investment.
+- [Connection to MetaStock](https://help.quantower.com/quantower/connections/connection-to-metastock.md): This guide walks you through the process of registering a new account for MetaStock XENITH, installing the Eikon application and how to connect it via Quantower platform
+- [Connection to IQFeed](https://help.quantower.com/quantower/connections/connection-to-iqfeed.md): You can benefit from market data provided by IQFeed while trading on Quantower platform. All you need to create IQFeed account and to connect it to Quantower.
+- [Connection to Hyperliquid](https://help.quantower.com/quantower/connections/connection-to-hyperliquid.md): Master decentralized perpetuals trading by integrating the power of Hyperliquid L1 with the professional-grade analytics of Quantower.
+- [Analytics Panels](https://help.quantower.com/quantower/analytics-panels.md)
+- [Chart](https://help.quantower.com/quantower/analytics-panels/chart.md): Learn how to launch and configure the chart panel. What types of charts are available in the platform? How to activate volumetric analysis tools? Get to know about overlays, indicators and drawings.
+- [Chart Overview](https://help.quantower.com/quantower/analytics-panels/chart/general-overview.md): Basic settings and features for charts in Quantower
+- [Chart Types](https://help.quantower.com/quantower/analytics-panels/chart/chart-types.md): Select various chart types and styles that the most suite for your trading approach
+- [Tick Bars](https://help.quantower.com/quantower/analytics-panels/chart/chart-types/tick-chart.md): Use Tick charts in Quantower to build bars from a fixed number of trades for a clearer view of market activity during fast-moving sessions
+- [Time aggregation](https://help.quantower.com/quantower/analytics-panels/chart/chart-types/time-aggregation.md)
+- [Renko](https://help.quantower.com/quantower/analytics-panels/chart/chart-types/renko.md): Review and setup Renko charts in Quantower platform
+- [Heikin Ashi](https://help.quantower.com/quantower/analytics-panels/chart/chart-types/heiken-ashi.md): Learn how to set up and read Heikin Ashi charts in Quantower to smooth price action, filter market noise, and see trend direction more clearly
+- [Kagi](https://help.quantower.com/quantower/analytics-panels/chart/chart-types/kagi.md): Build and configure Kagi charts in Quantower — a time-independent chart type that tracks pure price movement and reversals to highlight trends
+- [Points & Figures](https://help.quantower.com/quantower/analytics-panels/chart/chart-types/points-and-figures.md): Set up Point & Figure (P\&F) charts in Quantower to filter out time and noise and focus on significant price moves, support, and resistance
+- [Range bars](https://help.quantower.com/quantower/analytics-panels/chart/chart-types/range-bars.md): Configure Range bars in Quantower — each bar covers a fixed price range, helping you read volatility and trend strength independent of time
+- [Line break](https://help.quantower.com/quantower/analytics-panels/chart/chart-types/line-break.md): Set up Line Break charts in Quantower to filter minor price fluctuations and confirm trend reversals based on closing prices
+- [Volume Bars](https://help.quantower.com/quantower/analytics-panels/chart/chart-types/volume-bars.md): Chart type Volume Bars are built based on volume data — tick or exchange volume when available. Time is not involved in this aggregation.
+- [Reversal Bars](https://help.quantower.com/quantower/analytics-panels/chart/chart-types/reversal-bars.md): Configure Reversal bars in Quantower to plot price by directional change and keep your focus on meaningful market reversals
+- [Chart Settings](https://help.quantower.com/quantower/analytics-panels/chart/chart-settings.md): Here you will learn about the basic chart settings in Quantower. To access this menu, right-click on the chart and select 'Settings' in the menu.
+- [View settings](https://help.quantower.com/quantower/analytics-panels/chart/chart-settings/view-settings.md): The View Chart settings allow users to customize various aspects of how charts are displayed and interact with different features in the platform.
+- [Data Style](https://help.quantower.com/quantower/analytics-panels/chart/chart-settings/data-style.md)
+- [Time Scale](https://help.quantower.com/quantower/analytics-panels/chart/chart-settings/time-scale.md)
+- [Price Scale](https://help.quantower.com/quantower/analytics-panels/chart/chart-settings/price-scale.md)
+- [Visual Trading](https://help.quantower.com/quantower/analytics-panels/chart/chart-settings/visual-trading.md)
+- [Positions](https://help.quantower.com/quantower/analytics-panels/chart/chart-settings/visual-trading/positions.md)
+- [Order Entry (Chart sidebar)](https://help.quantower.com/quantower/analytics-panels/chart/chart-settings/order-entry.md): Configure the chart's built-in Order Entry sidebar — set order size and show or hide the order and position buttons.
+- [Quick Ruler](https://help.quantower.com/quantower/analytics-panels/chart/chart-settings/quick-ruler.md)
+- [Info Window](https://help.quantower.com/quantower/analytics-panels/chart/chart-settings/info-window.md)
+- [Volume Bars](https://help.quantower.com/quantower/analytics-panels/chart/chart-settings/volume-bars.md)
+- [Hotkeys](https://help.quantower.com/quantower/analytics-panels/chart/chart-settings/hotkeys.md)
+- [Chart overlays](https://help.quantower.com/quantower/analytics-panels/chart/chart-overlays.md): How to add multiple assets on one chart
+- [Technical indicators](https://help.quantower.com/quantower/analytics-panels/chart/technical-indicators.md): Get to know how to add technical indicators to chart and manage them in one click.
+- [Channels](https://help.quantower.com/quantower/analytics-panels/chart/technical-indicators/channels.md)
+- [Range Marker](https://help.quantower.com/quantower/analytics-panels/chart/technical-indicators/channels/range-marker.md)
+- [Donchian Channel](https://help.quantower.com/quantower/analytics-panels/chart/technical-indicators/channels/donchian-channel.md)
+- [High Low Indicator](https://help.quantower.com/quantower/analytics-panels/chart/technical-indicators/channels/high-low-indicator.md)
+- [Round Numbers](https://help.quantower.com/quantower/analytics-panels/chart/technical-indicators/channels/round-numbers.md)
+- [Highest High](https://help.quantower.com/quantower/analytics-panels/chart/technical-indicators/channels/highest-high.md)
+- [Lowest Low](https://help.quantower.com/quantower/analytics-panels/chart/technical-indicators/channels/lowest-low.md)
+- [Bollinger Bands](https://help.quantower.com/quantower/analytics-panels/chart/technical-indicators/channels/bollinger-bands.md): Add and configure Bollinger Bands in Quantower to measure volatility and identify overbought or oversold conditions around a moving average
+- [Bollinger Bands Flat](https://help.quantower.com/quantower/analytics-panels/chart/technical-indicators/channels/bollinger-bands-flat.md)
+- [Price Channel](https://help.quantower.com/quantower/analytics-panels/chart/technical-indicators/channels/price-channel.md)
+- [Fair Value Gap (FVG)](https://help.quantower.com/quantower/analytics-panels/chart/technical-indicators/channels/fair-value-gap-fvg.md): Add the Fair Value Gap (FVG) indicator in Quantower to automatically spot price imbalances and zones where price is likely to return
+- [Keltner Channel](https://help.quantower.com/quantower/analytics-panels/chart/technical-indicators/channels/keltner-channel.md)
+- [Moving Average Envelope](https://help.quantower.com/quantower/analytics-panels/chart/technical-indicators/channels/moving-average-envelope.md)
+- [Moving averages](https://help.quantower.com/quantower/analytics-panels/chart/technical-indicators/moving-averages.md)
+- [Demand Index](https://help.quantower.com/quantower/analytics-panels/chart/technical-indicators/moving-averages/demand-index.md): The Demand Index is a technical indicator that uses both price and volume to measure buying and selling pressure in the market.
+- [Exponential Moving Average](https://help.quantower.com/quantower/analytics-panels/chart/technical-indicators/moving-averages/exponential-moving-average.md): Add the Exponential Moving Average (EMA) in Quantower to follow trend direction with more weight on recent prices for faster signals
+- [FYL Indicator](https://help.quantower.com/quantower/analytics-panels/chart/technical-indicators/moving-averages/fyl-indicator.md)
+- [Linearly Weighted Moving Average](https://help.quantower.com/quantower/analytics-panels/chart/technical-indicators/moving-averages/linearly-weighted-moving-average.md)
+- [McGinley Dynamic Indicator](https://help.quantower.com/quantower/analytics-panels/chart/technical-indicators/moving-averages/mcginley-dynamic-indicator.md)
+- [Modified Moving Average Indicator](https://help.quantower.com/quantower/analytics-panels/chart/technical-indicators/moving-averages/modified-moving-average-indicator.md)
+- [Pivot Point Moving Average Indicator](https://help.quantower.com/quantower/analytics-panels/chart/technical-indicators/moving-averages/pivot-point-moving-average-indicator.md)
+- [Regression Line Indicator](https://help.quantower.com/quantower/analytics-panels/chart/technical-indicators/moving-averages/regression-line-indicator.md)
+- [Simple Moving Average (SMA) Indicator](https://help.quantower.com/quantower/analytics-panels/chart/technical-indicators/moving-averages/simple-moving-average.md): Add the Simple Moving Average (SMA) in Quantower to smooth price data and identify the underlying trend across any timeframe
+- [Smoothed Moving Average Indicator](https://help.quantower.com/quantower/analytics-panels/chart/technical-indicators/moving-averages/smoothed-moving-average-indicator.md)
+- [Guppy Multiple Moving Average Indicator](https://help.quantower.com/quantower/analytics-panels/chart/technical-indicators/moving-averages/guppy-multiple-moving-average-indicator.md)
+- [Trend Breakout System Indica

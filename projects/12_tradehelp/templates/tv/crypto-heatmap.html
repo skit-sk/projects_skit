@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Crypto Heatmap — TV{% endblock %}
+{% block content %}
+<section class="page-header"><h1>🟩 Crypto Heatmap</h1></section>
+
+<div class="tradingview-widget-container" style="height:{{ widget.height }}px;width:100%">
+    <div class="tradingview-widget-container__widget"></div>
+</div>
+<script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-crypto-coins-heatmap.js" async>
+{
+  "width": "100%",
+  "height": "{{ widget.height }}",
+  "currencies": [
+    {"symbol": "BTC", "color": "#f7931a"},
+    {"symbol": "ETH", "color": "#627eea"},
+    {"symbol": "BNB", "color": "#f3ba2f"},
+    {"symbol": "SOL", "color": "#00FFA3"},
+    {"symbol": "ADA", "color": "#0033AD"},
+    {"symbol": "XRP", "color": "#23292F"},
+    {"symbol": "DOT", "color": "#E6007A"},
+    {"symbol": "AVAX", "color": "#E84142"},
+    {"symbol": "LINK", "color": "#2A5ADA"},
+    {"symbol": "MATIC", "color": "#8247E5"},
+    {"symbol": "API3", "color": "#6C9CE6"},
+    {"symbol": "ATOM", "color": "#2EB7EC"}
+  ],
+  "blockSize": "market_cap_basic",
+  "blockColor": "change",
+  "locale": "ru",
+  "colorTheme": "dark",
+  "hasTopBar": true,
+  "isDataSetEnabled": false,
+  "isZoomEnabled": true,
+  "hasSymbolTooltip": true,
+  "isMonoSize": false,
+  "width": "100%",
+  "height": "{{ widget.height }}"
+}
+</script>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}{{ title }} — Учебник{% endblock %}
+{% block head_extra %}
+<script src="https://unpkg.com/lightweight-charts@5.2.0/dist/lightweight-charts.standalone.production.js"></script>
+{% endblock %}
+{% block content %}
+<article class="learn-chapter">
+    <nav class="breadcrumb">
+        <a href="{{ url_for('learning.index') }}">Учебник</a> / <span>{{ title }}</span>
+    </nav>
+
+    <header class="chapter-header">
+        <span class="chapter-num-large">{{ chapters[cur_idx].num }}</span>
+        <h1>{{ title }}</h1>
+    </header>
+
+    <div class="chapter-toc">
+        <h4>Содержание</h4>
+        <ol>
+            {% for c in chapters %}
+            <li class="{{ 'active' if c.slug == slug else '' }}">
+                <a href="{{ url_for('learning.chapter', slug=c.slug) }}">{{ c.title }}</a>
+            </li>
+            {% endfor %}
+        </ol>
+    </div>
+
+    <div class="chapter-content">
+        {{ content | safe }}
+    </div>
+
+    <div class="lwc-demo">
+        <h4>📈 Интерактивный график: BTCUSDT 1d</h4>
+        <div id="lwc-chart" style="width:100%;height:400px;"></div>
+        <p class="muted">Lightweight Charts v5.2.0 · Данные Binance через прокси /api/klines</p>
+    </div>
+
+    <nav class="chapter-nav">
+        {% if prev_ch %}
+        <a class="btn btn-ghost" href="{{ url_for('learning.chapter', slug=prev_ch.slug) }}">← {{ prev_ch.title }}</a>
+        {% else %}
+        <span></span>
+        {% endif %}
+        {% if next_ch %}
+        <a class="btn btn-primary" href="{{ url_for('learning.chapter', slug=next_ch.slug) }}">{{ next_ch.title }} →</a>
+        {% endif %}
+    </nav>
+</article>
+
+<script>
+// Inline markdown render is disabled in this build; we rely on server-side markdown.
+// For Lightweight Charts init, see static/js/lwc-init.js
+if (window.LightweightCharts) {
+    initLWC('lwc-chart', 'BTCUSDT', '1d', ['MA20', 'MA50', 'BB']);
+}
+</script>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/lwc-init.js') }}"></script>
+{% endblock %}

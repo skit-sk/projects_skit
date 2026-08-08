@@ -1,0 +1,57 @@
+Quantower
+Ctrl
+K
+Quantower Website
+Welcome to Quantower Help
+🚀
+Getting Started
+⚙️
+General Settings
+🔗
+Connections
+💡
+Analytics Panels
+💵
+Trading Panels
+💼
+Portfolio Panels
+📊
+Information Panels
+📌
+Miscellaneous
+🤖
+Quantower Algo
+💫
+Customization
+⁉️
+FAQ
+UPDATES & RELEASE NOTES
+Release Notes
+Platform update
+Quantower Beta
+HELP & TROUBLESHOOTING
+Backup & restore manager
+Reset settings to default
+You have found a bug. What’s next?
+BILLING & PAYMENTS
+Payment FAQ
+“Coinpayments” payment
+Referral Program
+Powered by GitBook
+For the complete documentation index, see llms.txt. This page is also available as Markdown.
+Copy
+Updates & Release Notes
+Quantower Beta
+
+Get early access to in-development Quantower features through the Beta version, and help refine them by reporting bugs.
+
+Like being first? The Beta Version hands you new features while they're still in testing — before everyone else. These builds can have rough edges, and that's where you come in: spot a bug our testers missed, and a quick report helps us polish the feature before its full release.
+
+Activate the "Use Beta Version" option and update the platform to the latest version.
+
+Last updated 1 month ago
+
+This site uses cookies to deliver its service and to analyze traffic. By browsing this site, you accept the privacy policy.
+
+Accept
+Reject

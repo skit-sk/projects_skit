@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Учебник — TradeHelp{% endblock %}
+{% block content %}
+<section class="page-header">
+    <h1>📚 Учебник институционального трейдинга</h1>
+    <p class="muted">30 глав · от индикаторов до MidasFlow Matrix v4.0</p>
+</section>
+
+<div class="chapters-grid">
+    {% for ch in chapters %}
+    <a class="chapter-card" href="{{ url_for('learning.chapter', slug=ch.slug) }}">
+        <span class="chapter-num">{{ ch.num }}</span>
+        <span class="chapter-title">{{ ch.title }}</span>
+    </a>
+    {% endfor %}
+</div>
+{% endblock %}

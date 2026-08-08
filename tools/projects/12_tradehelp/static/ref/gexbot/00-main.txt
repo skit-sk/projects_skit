@@ -1,0 +1,129 @@
+gexbot uses some basic cookies
+
+We use cookies to keep you signed in and to understand how you use gexbot. Analytics data may be shared with our analytics provider. See our Privacy Policy for details.
+
+accept
+decline
+demo
+sign up
+resources
+integrations
+api
+pricing
+support
+login
+live options
+
+analytics
+
+track positioning | trade imbalance
+
+UNDER THE HOOD
+
+real-time options classification
+
+operating at millisecond precision to identify the aggressor. powers state, orderflow, and quant
+
+metrics
+docs
+
+INTEGRATIONS
+
+works with your platform
+
+connect via API key to Sierra Chart, NinjaTrader, Bookmap, Quantower, MotiveWave, and ATAS — or build your own with our API
+
+integrations
+api docs
+
+COVERAGE
+
+56+ tickers live
+
+stocks, indexes, and ETFs. convert options activity to futures levels with an integrated multiplier. or, research any optionable ticker with gbR
+
+tickers
+
+gex by oi and volume — bias and market concentration
+
+classic
+
+demo
+subscribe
+
+classified levels, for key intraday pivots
+
+state+ classic
+
+demo
+subscribe
+
+classified flow signals and regime detection
+
+orderflow+ classic + state
+
+demo
+subscribe
+
+leverage gexbot data to build your own system
+
+quant+ classic + state + orderflow
+
+docs
+subscribe
+
+all optionable US-listed tickers — any exposure, skew, term or surface
+
+research
+
+—
+
+43 charts — GEX, DEX, vanna, charm, skew, and more
+
+—
+
+raw data export as csv
+
+—
+
+filter by expiry, moneyness, or contract type
+
+—
+
+live watchlist with real-time greeks
+
+—
+
+natural language commands via AI key
+
+ADDON OR STANDALONE
+
+30 charts / day
+
+free with any account
+
+unlimited + watchlists
+
+$50 / mo addon
+
+standalone access
+
+$100 / mo
+
+start free
+docs
+Ready to Get Started?
+
+Get 50% off your first month with code: TRIAL50
+
+Subscribe
+
+©2026 Not Financial Advice, LLC
+
+|
+
+Cookies
+Disclaimer
+Privacy Policy
+Terms & Conditions
+Options, futures and forex trading contains substantial risk and is not for every investor. An investor could potentially lose all or more than the initial investment. Risk capital is money that can be lost without jeopardizing ones' financial security or lifestyle. Only risk capital should be used for trading and only those with sufficient risk capital should consider trading. Past performance is not necessarily indicative of future results.

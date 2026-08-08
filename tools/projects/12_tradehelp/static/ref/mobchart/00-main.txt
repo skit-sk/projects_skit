@@ -1,0 +1,159 @@
+Features
+Pricing
+Docs
+Login
+Liquidity & Order Flow technical analysis platform
+
+The difference between guessing and reading the market
+
+Get Started
+Docs
+Supported Exchanges
+
+Unified access to aggregated data from top-tier crypto exchanges
+
+3500+ Tickers' Data Collected
+Full market picture in real time:
+Order Flow
+Liquidity Heatmaps
+Data Aggregation
+Market Depth
+Volume Delta
+Liquidations
+Open Interest
+Funding Rates
+and beyond
+
+Tracked.Visualized.Instantly.
+
+Features
+
+Dozens of tools — one clear winner
+
+Heatmap
+
+Visualize liquidity levels and see where large limit orders sit in the market.
+
+Footprints
+
+Analyze bid and ask volume at each price level to understand real buying and selling pressure.
+
+Large Trades
+
+Track significant trades in real time to spot institutional activity.
+
+Volume Profile
+
+Identify key price levels based on where the most trading volume occurred.
+
+TPO View
+
+Understand market structure by analyzing how long price stays at each level.
+
+Advanced Indicators
+
+Use powerful indicators to enhance your market analysis and trading decisions.
+
+Watchlist
+
+Monitor selected markets and quickly track price action across your favorite assets.
+
+Screeners
+
+Scan the entire market to find large limit orders that match your criteria.
+
+Orderbook
+
+View real-time market depth to see available liquidity and potential support or resistance.
+
+Trades Feed
+
+Follow every executed trade in real time to understand market momentum.
+
+Scripting Engine
+
+Build custom indicators and automate analysis using your own scripts.
+
+Even More . . .
+Discover all tools designed to enhance your trading workflow.
+Screeners
+
+Fast ways to discover high-probability setups
+
+Liquidity Screener
+
+Monitor large limit orders across the order book in real time. Identify key liquidity zones, potential support and resistance levels, and track how major players position their orders.
+
+Pricing
+
+You can try out our functionality in a limited mode with a Free subscription
+
+Month
+Year(Save up to 41% ★)
+Free
+$ 0 /Year
+5 saved workspaces
+2 charts in one workspace
+4 indicators per chart
+4 widgets in one workspace
+1 opened tabs allowed
+800 historical bars
+5 price notifications
+14 days notifications lifespan
+Signup
+TOP
+Pro
+
+🎁 Summer Sale 🎁
+
+$ 99 /Year
+
+$ 140 /Year
+
+*11 days left
+
+20 saved workspaces
+6 charts in one workspace
+20 indicators per chart
+8 widgets in one workspace
+4 opened tabs allowed
+3000 historical bars
+100 price notifications
+30 days notifications lifespan
+Liquidity Screener
+100 daily screener notifications
+3 saved screener notifications
+3 | 20 daily watchlist notifications
+Buy
+Premium
+
+🎁 Summer Sale 🎁
+
+$ 169 /Year
+
+$ 250 /Year
+
+*11 days left
+
+100 saved workspaces
+10 charts in one workspace
+30 indicators per chart
+12 widgets in one workspace
+6 opened tabs allowed
+5000 historical bars
+400 price notifications
+90 days notifications lifespan
+Liquidity Screener
+300 daily screener notifications
+10 saved screener notifications
+10 | 50 daily watchlist notifications
+New features are here first
+Buy
+Don’t Just Read About the Edge — Feel It
+
+Explore every feature free. See why traders choose us.
+
+Try It Now
+Content creator? Want to make MobChart tutorials or guides? Contact us: partnership@mobchart.com
+
+© 2026 Mobchart. All rights reserved. Terms

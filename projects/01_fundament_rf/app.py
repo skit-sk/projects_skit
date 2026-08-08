@@ -62,6 +62,22 @@ app.register_blueprint(kb.bp)
 app.register_blueprint(timeframe_api.bp)
 app.register_blueprint(visualizations.bp)
 
+# ── 15_crpt Blueprint (Честный Знак) ──────────────────────────────
+_crpt_dir = os.path.join(os.path.dirname(__file__), '..', '15_crpt')
+if _crpt_dir not in sys.path:
+    sys.path.insert(0, _crpt_dir)
+_crpt_spec = importlib.util.spec_from_file_location(
+    "crpt_web_routes",
+    os.path.join(_crpt_dir, "crpt", "web", "routes.py")
+)
+_crpt_mod = importlib.util.module_from_spec(_crpt_spec)
+_sys_path_save_crpt = sys.path.copy()
+sys.path.insert(0, _crpt_dir)
+_crpt_spec.loader.exec_module(_crpt_mod)
+sys.path = _sys_path_save_crpt
+app.register_blueprint(_crpt_mod.web_bp)
+print('[OK] 15_crpt loaded at /crpt')
+
 # ── Experimental: graphics_v2 (Bento + Compact) ─────────────────────
 # Полностью изолирован: при ошибке основной проект продолжает работать.
 try:

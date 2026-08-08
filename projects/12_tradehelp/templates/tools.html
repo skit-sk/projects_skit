@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Tools — TradeHelp{% endblock %}
+{% block content %}
+<section class="page-header">
+    <h1>🛠 Инструменты трейдера</h1>
+    <p class="muted">Журнал · Чек-листы · Risk Calculator · Confluence Score</p>
+</section>
+
+<div class="viz-grid">
+    <a class="card-link" href="{{ url_for('tools.journal') }}">
+        <div class="card">
+            <h3>📓 Торговый журнал</h3>
+            <p>Из fills.json проекта 01. P&L, fees, leverage, время.</p>
+        </div>
+    </a>
+    <a class="card-link" href="{{ url_for('tools.checklist') }}">
+        <div class="card">
+            <h3>✅ Pre/Post-trade чек-листы</h3>
+            <p>Дисциплина. До и после сделки.</p>
+        </div>
+    </a>
+    <a class="card-link" href="{{ url_for('tools.risk') }}">
+        <div class="card">
+            <h3>💰 Risk Calculator</h3>
+            <p>Kelly, fixed-fraction, ATR-based stop.</p>
+        </div>
+    </a>
+    <a class="card-link" href="{{ url_for('tools.score') }}">
+        <div class="card">
+            <h3>🎯 Confluence Score</h3>
+            <p>10-уровневый чек-лист входа. Валидный вход при score ≥ 4.</p>
+        </div>
+    </a>
+    <a class="card-link" href="{{ url_for('tools.midasflow_builder') }}">
+        <div class="card">
+            <h3>🛠 MidasFlow Quick Builder</h3>
+            <p>Генератор JSON-протокола MidasFlow Matrix v4.0. Копировать/скачать.</p>
+        </div>
+    </a>
+</div>
+{% endblock %}

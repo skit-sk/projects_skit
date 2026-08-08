@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% block title %}Shadow DOM — Viz{% endblock %}
+{% block head_extra %}
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+{% endblock %}
+{% block content %}
+<section class="page-header">
+    <h1>👁 Shadow DOM Heatmap — Скрытая плотность лимитных ордеров</h1>
+    <p class="muted">Визуализация скрытой ликвидности (Iceberg / Spoofing / Absorption)</p>
+</section>
+
+<div class="risk-grid">
+    <div class="card">
+        <h3>Параметры симуляции</h3>
+        <div class="form-row">
+            <label>Базовая цена</label>
+            <input type="number" id="base_price" value="0.2992" step="0.0001">
+        </div>
+        <div class="form-row">
+            <label>Уровни (price_levels)</label>
+            <input type="number" id="levels" value="40" min="20" max="80">
+        </div>
+        <div class="form-row">
+            <label>Iceberg уровни (qty)</label>
+            <input type="number" id="icebergs" value="3" min="0" max="5">
+        </div>
+        <button class="btn btn-primary" onclick="renderShadow()">Построить Shadow DOM</button>
+    </div>
+
+    <div class="card">
+        <h3>Сигналы</h3>
+        <div id="signals"></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>Shadow DOM Heatmap</h3>
+    <div id="shadow-dom" style="width:100%;height:600px;"></div>
+    <p class="muted">Зелёный = HVN (Iceberg/Stacked) · Циан = Mid · Жёлтый = LVN · Красный = Empty</p>
+</div>
+
+<a href="{{ url_for('viz.index') }}" class="btn btn-ghost">← Все графики</a>
+
+<script>
+function renderShadow() {
+    const base = parseFloat(document.getElementById('base_price').value);
+    const numLevels = parseInt(document.getElementById('levels').value);
+    const numIcebergs = parseInt(document.getElementById('icebergs').value);
+
+    const step = base * 0.002;  // 0.2% per level
+    const prices = [];
+    const visibleDOM = [];  // L2 visible
+    const hiddenIceberg = [];  // inferred shadow
+
+    for (let i = 0; i < numLevels; i++) {
+        const p = base + (i - numLevels/2) * step;
+        prices.push(p);
+        // Random visible orders
+        visibleDOM.push(0.2 + Math.random() * 0.5);
+        // Shadow is mostly empty except for icebergs
+        hiddenIceberg.push(Math.random() * 0.2);
+    }
+
+    // Add icebergs at specific levels
+    for (let j = 0; j < numIcebergs; j++) {
+        const idx = Math.floor(Math.random() * numLevels);
+        hiddenIceberg[idx] = 0.8 + Math.random() * 0.2;
+    }
+
+    // 2D matrix (time × price)
+    const numTimes = 60;
+    const z = [];
+    for (let i = 0; i < numLevels; i++) {
+        const row = [];
+        for (let t = 0; t < numTimes; t++) {
+            const base = visibleDOM[i] * 0.3 + hiddenIceberg[i] * 0.5;
+            const noise = Math.random() * 0.2;
+            row.push(base + noise);
+        }
+        z.push(row);
+    }
+
+    // Plotly heatmap
+    const data = [{
+        z: z,
+        x: Array.from({length: numTimes}, (_, i) => i),
+        y: prices,
+        type: 'heatmap',
+        colorscale: [
+            [0, 'rgba(13,17,23,0)'],
+            [0.2, 'rgba(248, 81, 73, 0.3)'],
+            [0.4, 'rgba(210, 153, 34, 0.5)'],
+            [0.6, 'rgba(57, 197, 207, 0.7)'],
+            [1.0, 'rgba(63, 185, 80, 0.95)']
+        ],
+        hovertemplate: 'Price: %{y:.4f}<br>Time: %{x}<br>Density: %{z:.2f}<extra></extra>'
+    }];
+
+    const icebergLevels = hiddenIceberg.map((v, i) => v > 0.7 ? prices[i] : null).filter(x => x !== null);
+
+    const layout = {
+        paper_bgcolor: '#0d1117', plot_bgcolor: '#161b22',
+        font: { color: '#c9d1d9', family: 'JetBrains Mono' },
+        xaxis: { title: 'Time (s)', gridcolor: '#21262d' },
+        yaxis: { title: 'Price', gridcolor: '#21262d' },
+        shapes: icebergLevels.map(p => ({
+            type: 'line', x0: 0, x1: numTimes, y0: p, y1: p,
+            line: { color: '#ffea00', width: 2, dash: 'dash' }
+        })),
+        annotations: icebergLevels.map(p => ({
+            x: numTimes - 2, y: p, xref: 'x', yref: 'y',
+            text: '🧊 Iceberg', showarrow: false,
+            font: { color: '#ffea00', size: 10 }
+        })),
+        margin: { l: 60, r: 30, t: 30, b: 40 }
+    };
+    Plotly.newPlot('shadow-dom', data, layout, { responsive: true });
+
+    // Signals
+    document.getElementById('signals').innerHTML = `
+        <div class="result-row"><div class="result-label">Iceberg Detected:</div><div class="result-val pos">${numIcebergs} уровней</div></div>
+        <div class="result-row"><div class="result-label">Цена:</div><div class="result-val">${base}</div></div>
+        <div class="result-row"><div class="result-label">Диапазон:</div><div class="result-val">±${(numLevels/2 * step).toFixed(4)}</div></div>
+        <div class="result-row"><div class="result-label">Всего уровней:</div><div class="result-val">${numLevels}</div></div>
+        <hr>
+        <p class="muted" style="color: #ffea00;">🧊 = Iceberg Order (T&S Vol > 5× DOM Vol)</p>
+    `;
+}
+renderShadow();
+</script>
+{% endblock %}

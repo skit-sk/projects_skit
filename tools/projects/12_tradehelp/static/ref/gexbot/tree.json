@@ -1,0 +1,20 @@
+{
+  "id": "gexbot",
+  "title": "GexBot",
+  "url": "https://www.gexbot.com/",
+  "pages": [
+    {
+      "url": "https://www.gexbot.com/",
+      "slug": "00-main",
+      "title": "gexbot - options analytics",
+      "sections": [
+        {
+          "tag": "h1",
+          "text": "live options"
+        }
+      ],
+      "screenshot": "static/ref/gexbot/00-main.png",
+      "textFile": "static/ref/gexbot/00-main.txt"
+    }
+  ]
+}

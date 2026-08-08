@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}TradeHelp — Институциональный трейдинг{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/tradehelp.css') }}">
+    {% block head_extra %}{% endblock %}
+</head>
+<body class="dark-institutional">
+{% include "partials/_ticker.html" %}
+
+<nav class="top-nav">
+    <div class="nav-inner">
+        <a href="{{ url_for('main.index') }}" class="brand">
+            <span class="brand-logo">⬡</span>
+            <span class="brand-text">TradeHelp <span class="brand-version">v3</span></span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('main.index') }}">Главная</a></li>
+            <li><a href="{{ url_for('learning.index') }}">Учебник</a></li>
+            <li><a href="{{ url_for('viz.index') }}">Viz (Plotly)</a></li>
+            <li><a href="{{ url_for('tv.index') }}">TV Widgets</a></li>
+            <li><a href="{{ url_for('live.dashboard') }}">Live</a></li>
+            <li><a href="{{ url_for('terminal.index') }}">Terminal</a></li>
+            <li><a href="{{ url_for('references.index') }}">References</a></li>
+            <li><a href="{{ url_for('tools.index') }}">Tools</a></li>
+            <li><a href="http://localhost:5000/sandbox/" target="_blank" rel="noopener">🧪 Sandbox</a></li>
+        </ul>
+    </div>
+</nav>
+
+<main class="container">
+    {% block content %}{% endblock %}
+</main>
+
+<footer class="footer">
+    <div class="footer-inner">
+        <span>TradeHelp v3 · Dark + Institutional · {{ now.year }}</span>
+        <span class="muted">Основано на data/tradeLLm/ и проекте 01 Fundament RF</span>
+    </div>
+</footer>
+
+{% block scripts %}{% endblock %}
+</body>
+</html>

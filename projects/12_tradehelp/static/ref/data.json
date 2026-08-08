@@ -1,0 +1,2798 @@
+[
+  {
+    "id": "pifagor-bookmap",
+    "title": "Pifagor Trade — BookMap",
+    "url": "https://metrics.pifagor.trade/bookmap.html",
+    "pages": [
+      {
+        "url": "https://metrics.pifagor.trade/bookmap.html",
+        "slug": "00-bookmaphtml",
+        "title": "Liquidity Heatmap — Pifagor Trade",
+        "sections": [
+          {
+            "tag": "h2",
+            "text": "Карта ликвидности"
+          },
+          {
+            "tag": "h3",
+            "text": "Что это за график"
+          },
+          {
+            "tag": "h3",
+            "text": "Что он показывает"
+          },
+          {
+            "tag": "h3",
+            "text": "Как пользоваться"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "gexbot",
+    "title": "GexBot",
+    "url": "https://www.gexbot.com/",
+    "pages": [
+      {
+        "url": "https://www.gexbot.com/",
+        "slug": "00-main",
+        "title": "gexbot - options analytics",
+        "sections": [
+          {
+            "tag": "h1",
+            "text": "live options"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mobchart",
+    "title": "MobChart",
+    "url": "https://mobchart.com/",
+    "pages": [
+      {
+        "url": "https://mobchart.com/",
+        "slug": "00-main",
+        "title": "MobChart.com",
+        "sections": [
+          {
+            "tag": "h1",
+            "text": "Liquidity & Order Flow technical analysis platform"
+          },
+          {
+            "tag": "h2",
+            "text": "Supported Exchanges"
+          },
+          {
+            "tag": "h2",
+            "text": "3500+ Tickers' Data Collected"
+          },
+          {
+            "tag": "h2",
+            "text": "Features"
+          },
+          {
+            "tag": "h3",
+            "text": "Heatmap"
+          },
+          {
+            "tag": "h3",
+            "text": "Footprints"
+          },
+          {
+            "tag": "h3",
+            "text": "Large Trades"
+          },
+          {
+            "tag": "h3",
+            "text": "Volume Profile"
+          },
+          {
+            "tag": "h3",
+            "text": "TPO View"
+          },
+          {
+            "tag": "h3",
+            "text": "Advanced Indicators"
+          },
+          {
+            "tag": "h3",
+            "text": "Watchlist"
+          },
+          {
+            "tag": "h3",
+            "text": "Screeners"
+          },
+          {
+            "tag": "h3",
+            "text": "Orderbook"
+          },
+          {
+            "tag": "h3",
+            "text": "Trades Feed"
+          },
+          {
+            "tag": "h3",
+            "text": "Scripting Engine"
+          },
+          {
+            "tag": "h3",
+            "text": "Even More . . ."
+          },
+          {
+            "tag": "h2",
+            "text": "Screeners"
+          },
+          {
+            "tag": "h3",
+            "text": "Liquidity Screener"
+          },
+          {
+            "tag": "h2",
+            "text": "Pricing"
+          },
+          {
+            "tag": "h3",
+            "text": "Free"
+          },
+          {
+            "tag": "h3",
+            "text": "Pro"
+          },
+          {
+            "tag": "h3",
+            "text": "Premium"
+          },
+          {
+            "tag": "h2",
+            "text": "Don’t Just Read About the Edge — Feel It"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "youtube-bookmap",
+    "title": "YouTube BookMap",
+    "url": "https://youtube.com/live/vLspipSCg6Y",
+    "pages": [
+      {
+        "url": "https://youtube.com/live/vLspipSCg6Y",
+        "slug": "00-live-vlspipscg6y",
+        "title": "Voordat je verdergaat naar YouTube",
+        "sections": [
+          {
+            "tag": "h1",
+            "text": "Voordat je verdergaat naar YouTube"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "deepcharts",
+    "title": "Deepcharts",
+    "url": "https://my.deepcharts.com/",
+    "pages": [
+      {
+        "url": "https://my.deepcharts.com/",
+        "slug": "00-main",
+        "title": "Log in - Deepcharts",
+        "sections": []
+      },
+      {
+        "url": "https://my.deepcharts.com/identity/account/register",
+        "slug": "01-identity-account-register",
+        "title": "Register - Deepcharts",
+        "sections": []
+      },
+      {
+        "url": "https://my.deepcharts.com/?page=%2FIndex",
+        "slug": "02-main",
+        "title": "Log in - Deepcharts",
+        "sections": []
+      },
+      {
+        "url": "https://my.deepcharts.com/identity/account/forgotpassword",
+        "slug": "03-identity-account-forgotpassword",
+        "title": "Forgot Password - Deepcharts",
+        "sections": []
+      }
+    ]
+  },
+  {
+    "id": "tradingiq",
+    "title": "TradingIQ",
+    "url": "https://www.tradingiq.io",
+    "pages": [
+      {
+        "url": "https://www.tradingiq.io",
+        "slug": "00-main",
+        "title": "home - TradingIQ",
+        "sections": [
+          {
+            "tag": "h2",
+            "text": "Application error: a client-side exception has occurred while loading go.tradingiq.io (see the brows"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kingfisher",
+    "title": "Kingfisher",
+    "url": "https://thekingfisher.io/ru/blogs",
+    "pages": [
+      {
+        "url": "https://thekingfisher.io/ru/blogs",
+        "slug": "00-ru-blogs",
+        "title": "Kingfisher Blogs | Crypto Trading Insights & Market Analysis | Kingfisher",
+        "sections": [
+          {
+            "tag": "h1",
+            "text": "Блог об анализе рынка и понимании криптовалют"
+          },
+          {
+            "tag": "h2",
+            "text": "Токсичный ордерный поток Биткойна (TOF)"
+          },
+          {
+            "tag": "h2",
+            "text": "Анализ и руководство по использованию шаблонов Skew"
+          },
+          {
+            "tag": "h2",
+            "text": "Начало работы с The Kingfisher"
+          },
+          {
+            "tag": "h2",
+            "text": "Как интерпретировать эффект плеча?"
+          },
+          {
+            "tag": "h2",
+            "text": "Пригласите друзей. Зарабатывайте вместе!"
+          },
+          {
+            "tag": "h2",
+            "text": "KF-GEX+: Гамма, Ванна, Экспозиция и IV"
+          },
+          {
+            "tag": "h2",
+            "text": "KF-Индекс: Создайте и торгуйте своими инструментами"
+          },
+          {
+            "tag": "h2",
+            "text": "KF-GEX+: Гамма, Ванна, Экспозиция и IV"
+          },
+          {
+            "tag": "h2",
+            "text": "Карты ликвидаций и Кумулятивный объем дельты"
+          },
+          {
+            "tag": "h2",
+            "text": "Революционизируйте свою торговлю с KF-Heatmap: Уникальный инструмент для криптотрейдинга!"
+          },
+          {
+            "tag": "h2",
+            "text": "The Good (in)Side,  Premium Package by VEIOU"
+          },
+          {
+            "tag": "h2",
+            "text": "Основы карт ликвидаций от Kingfisher"
+          },
+          {
+            "tag": "h2",
+            "text": "Кулика: Качество Рынка"
+          },
+          {
+            "tag": "h2",
+            "text": "Кингфишер: Ваш инструмент для скальпинга"
+          },
+          {
+            "tag": "h3",
+            "text": "Как обнаружить манипуляции на рынке в реальном времени"
+          },
+          {
+            "tag": "h3",
+            "text": "Как остановить паралич анализа и быстро находить сделки"
+          },
+          {
+            "tag": "h3",
+            "text": "Как остановить ликвидацию перед крупными движениями"
+          },
+          {
+            "tag": "h3",
+            "text": "Охота на Ликвидации на Этой Неделе: Ключевые Уровни BTC и ETH"
+          },
+          {
+            "tag": "h3",
+            "text": "Влияние процентных ставок на ценообразование крипто-опционов: полное руководство"
+          }
+        ]
+      },
+      {
+        "url": "https://thekingfisher.io/ru/about",
+        "slug": "01-ru-about",
+        "title": "О Kingfisher | Kingfisher",
+        "sections": [
+          {
+            "tag": "h1",
+            "text": "О Kingfisher"
+          },
+          {
+            "tag": "h3",
+            "text": "Наш опыт"
+          }
+        ]
+      },
+      {
+        "url": "https://thekingfisher.io/ru/leverage-traders",
+        "slug": "02-ru-leverage-traders",
+        "title": "For Leverage Traders | Kingfisher",
+        "sections": [
+          {
+            "tag": "h1",
+            "text": "Kingfisher: Секретное оружие трейдеров с кредитным плечом"
+          },
+          {
+            "tag": "h3",
+            "text": "Навигируйте по рынкам с беспрецедентным пониманием"
+          },
+          {
+            "tag": "h3",
+            "text": "Усилите свои стратегии торговли с кредитным плечом"
+          },
+          {
+            "tag": "h2",
+            "text": "Усилите свои стратегии торговли с кредитным плечом"
+          }
+        ]
+      },
+      {
+        "url": "https://thekingfisher.io/ru/blogs/invite_friends_profit_together",
+        "slug": "03-ru-blogs-invite_friends_profit_together",
+        "title": "Пригласите друзей. Зарабатывайте вместе! | Kingfisher",
+        "sections": [
+          {
+            "tag": "h1",
+            "text": "Пригласите друзей. Зарабатывайте вместе!"
+          },
+          {
+            "tag": "h3",
+            "text": "Пригласите друзей. Зарабатывайте вместе!"
+          },
+          {
+            "tag": "h3",
+            "text": "Получите бесплатную подписку на 3 месяца"
+          },
+          {
+            "tag": "h3",
+            "text": "Зимородок"
+          }
+        ]
+      },
+      {
+        "url": "https://thekingfisher.io/ru/blogs/how_to_stop_getting_liquidated_before_major_moves",
+        "slug": "04-ru-blogs-how_to_stop_getting_liquidated_before_major_moves",
+        "title": "Как остановить ликвидацию перед крупными движениями | Kingfisher",
+        "sections": [
+          {
+            "tag": "h1",
+            "text": "Как остановить ликвидацию перед крупными движениями"
+          },
+          {
+            "tag": "h2",
+            "text": "Болезненная правда: вы, вероятно, торгуете вслепую"
+          },
+          {
+            "tag": "h2",
+            "text": "Момент \"Ага!\": Это не ваша вина"
+          },
+          {
+            "tag": "h2",
+            "text": "Решение: Карты ликвидаций Kingfisher"
+          },
+          {
+            "tag": "h2",
+            "text": "Как это работает (без технического жаргона)"
+          },
+          {
+            "tag": "h2",
+            "text": "Пошагово: Как использовать это, чтобы остановить ликвидацию"
+          },
+          {
+            "tag": "h3",
+            "text": "Шаг 1: Откройте карту ликвидаций"
+          },
+          {
+            "tag": "h3",
+            "text": "Шаг 2: Определите зоны топлива"
+          },
+          {
+            "tag": "h3",
+            "text": "Шаг 3: Планируйте свою сделку вокруг карты"
+          },
+          {
+            "tag": "h3",
+            "text": "Шаг 4: Используйте индикатор рыночного дисбаланса"
+          },
+          {
+            "tag": "h2",
+            "text": "Реальные результаты от реальных трейдеров"
+          },
+          {
+            "tag": "h2",
+            "text": "Продвинутая стратегия: Синергия"
+          },
+          {
+            "tag": "h2",
+            "text": "Ваша новая торговая реальность"
+          },
+          {
+            "tag": "h2",
+            "text": "Итог"
+          },
+          {
+            "tag": "h3",
+            "text": "Зимородок"
+          }
+        ]
+      },
+      {
+        "url": "https://thekingfisher.io/ru/lifetime",
+        "slug": "05-ru-lifetime",
+        "title": "Genesis Pass - Пожизненный Премиум Доступ | Kingfisher",
+        "sections": [
+          {
+            "tag": "h1",
+            "text": "Генезис Пасс"
+          },
+          {
+            "tag": "h2",
+            "text": "Genesis Pass - Пожизненный Премиум Доступ"
+          },
+          {
+            "tag": "h2",
+            "text": "Обеспечьте себе пожизненный доступ"
+          },
+          {
+            "tag": "h2",
+            "text": "Динамическая модель ценообразования"
+          },
+          {
+            "tag": "h2",
+            "text": "Премиум функции"
+          },
+          {
+            "tag": "h3",
+            "text": "Пожизненная безопасность"
+          },
+          {
+            "tag": "h3",
+            "text": "Премиум доступ"
+          },
+          {
+            "tag": "h3",
+            "text": "Гарантия навсегда"
+          },
+          {
+            "tag": "h3",
+            "text": "Ранний доступ"
+          },
+          {
+            "tag": "h2",
+            "text": "Что говорят люди"
+          },
+          {
+            "tag": "h2",
+            "text": "Готовы начать?"
+          }
+        ]
+      },
+      {
+        "url": "https://thekingfisher.io/ru/resources",
+        "slug": "06-ru-resources",
+        "title": "Ресурсы Крипто-Трейдинга - Калькуляторы и Анализ | Kingfisher",
+        "sections": [
+          {
+            "tag": "h1",
+            "text": "Ресурсы Крипто-Трейдинга"
+          },
+          {
+            "tag": "h2",
+            "text": "Рекомендуемые Ресурсы"
+          },
+          {
+            "tag": "h3",
+            "text": "Калькулятор Ликвидации"
+          },
+          {
+            "tag": "h3",
+            "text": "Карта Ликвидации Биткоина"
+          },
+          {
+            "tag": "h3",
+            "text": "Тепловая Карта Ликвидации"
+          },
+          {
+            "tag": "h2",
+            "text": "Обзор Ресурсов по Категориям"
+          },
+          {
+            "tag": "h3",
+            "text": "Калькуляторы"
+          },
+          {
+            "tag": "h3",
+            "text": "Анализ Рынка"
+          },
+          {
+            "tag": "h3",
+            "text": "Управление Рисками"
+          },
+          {
+            "tag": "h2",
+            "text": "Глобальный справочник по регулированию и торговле криптовалютами"
+          },
+          {
+            "tag": "h2",
+            "text": "Почему Использовать Наши Ресурсы?"
+          },
+          {
+            "tag": "h3",
+            "text": "Точные данные"
+          },
+          {
+            "tag": "h3",
+            "text": "Молниеносно быстрая"
+          },
+          {
+            "tag": "h3",
+            "text": "Профессиональная точность"
+          },
+          {
+            "tag": "h2",
+            "text": "Разблокировать Полный Доступ"
+          }
+        ]
+      },
+      {
+        "url": "https://thekingfisher.io/ru/pricing",
+        "slug": "07-ru-pricing",
+        "title": "Цены Kingfisher | Kingfisher",
+        "sections": [
+          {
+            "tag": "h1",
+            "text": "Цены"
+          },
+          {
+            "tag": "h2",
+            "text": "GENESIS PASS"
+          },
+          {
+            "tag": "h3",
+            "text": "Pro"
+          },
+          {
+            "tag": "h3",
+            "text": "Premium"
+          },
+          {
+            "tag": "h3",
+            "text": "Pay-As-You-Go"
+          },
+          {
+            "tag": "h3",
+            "text": "API Access"
+          },
+          {
+            "tag": "h2",
+            "text": "Нам доверяют более 4 000 трейдеров по всему миру"
+          },
+          {
+            "tag": "h3",
+            "text": "Пример ROI: Как Kingfisher окупает себя"
+          },
+          {
+            "tag": "h2",
+            "text": "Часто задаваемые вопросы"
+          }
+        ]
+      },
+      {
+        "url": "https://thekingfisher.io/ru/bitcoin-liquidations-heatmap",
+        "slug": "08-ru-bitcoin-liquidations-heatmap",
+        "title": "Карта ликвидаций BTC в реальном времени | Kingfisher",
+        "sections": [
+          {
+            "tag": "h1",
+            "text": "Революционизируйте свою торговлю с помощью тепловой карты ликвидаций KF"
+          },
+          {
+            "tag": "h2",
+            "text": "Универсальный инструмент для крипто-торговли"
+          },
+          {
+            "tag": "h3",
+            "text": "Почему кластеры ликвидации важны в криптотрейдинге"
+          },
+          {
+            "tag": "h3",
+            "text": "Тепловая карта ликвидаций KF: ваш новый торговый помощник"
+          },
+          {
+            "tag": "h3",
+            "text": "Легко фильтруйте кластеры по Z-Score"
+          },
+          {
+            "tag": "h3",
+            "text": "Услышьте это от наших трейдеров"
+          },
+          {
+            "tag": "h2",
+            "text": "Станьте королем криптотрейдинга с тепловой картой ликвидации KF"
+          },
+          {
+            "tag": "h2",
+            "text": "Часто задаваемые вопросы"
+          },
+          {
+            "tag": "h3",
+            "text": "Что такое тепловая карта ликвидации Биткоина?"
+          },
+          {
+            "tag": "h3",
+            "text": "Как читать тепловую карту ликвидации BTC?"
+          },
+          {
+            "tag": "h3",
+            "text": "Где найти бесплатные тепловые карты ликвидации?"
+          },
+          {
+            "tag": "h3",
+            "text": "Почему кластеры ликвидации важны для торговли?"
+          }
+        ]
+      },
+      {
+        "url": "https://thekingfisher.io/ru/privacy",
+        "slug": "09-ru-privacy",
+        "title": "Privacy Policy | Kingfisher",
+        "sections": [
+          {
+            "tag": "h1",
+            "text": "Откройте бесконечные возможности, с уважением"
+          },
+          {
+            "tag": "h3",
+            "text": "Уважательный опыт просмотра"
+          }
+        ]
+      },
+      {
+        "url": "https://thekingfisher.io/ru/glossary",
+        "slug": "10-ru-glossary",
+        "title": "Kingfisher Glossary | Crypto Trading Terms & Definitions | Kingfisher",
+        "sections": [
+          {
+            "tag": "h1",
+            "text": "Глоссарий"
+          },
+          {
+            "tag": "h2",
+            "text": "BearMarket"
+          },
+          {
+            "tag": "h2",
+            "text": "#\n130"
+          },
+          {
+            "tag": "h3",
+            "text": "Автоделеверидж (ADL)"
+          },
+          {
+            "tag": "h3",
+            "text": "Автоматическая Защита от Повторов"
+          },
+          {
+            "tag": "h3",
+            "text": "Айсберг-Ордер"
+          },
+          {
+            "tag": "h3",
+            "text": "Аккумуляция"
+          },
+          {
+            "tag": "h3",
+            "text": "Альфа"
+          },
+          {
+            "tag": "h3",
+            "text": "Анализ коэффициента Сортино для криптовалют"
+          },
+          {
+            "tag": "h3",
+            "text": "Анализ Криптовалютных Деривативов"
+          },
+          {
+            "tag": "h3",
+            "text": "Анализ уровней поддержки и сопротивления в криптовалюте"
+          },
+          {
+            "tag": "h3",
+            "text": "Арбитраж Ставки Финансирования"
+          },
+          {
+            "tag": "h3",
+            "text": "Атомарный SWAP"
+          },
+          {
+            "tag": "h3",
+            "text": "Базис"
+          },
+          {
+            "tag": "h3",
+            "text": "Базисные Пункты"
+          },
+          {
+            "tag": "h3",
+            "text": "Бессрочные фьючерсы"
+          },
+          {
+            "tag": "h3",
+            "text": "Бета"
+          },
+          {
+            "tag": "h3",
+            "text": "Биржевые Потоки"
+          },
+          {
+            "tag": "h3",
+            "text": "Бэквордация"
+          },
+          {
+            "tag": "h3",
+            "text": "Ваш-трейдинг"
+          },
+          {
+            "tag": "h3",
+            "text": "Вега"
+          },
+          {
+            "tag": "h3",
+            "text": "Ведение Дневника"
+          },
+          {
+            "tag": "h3",
+            "text": "Влияние на цену"
+          },
+          {
+            "tag": "h3",
+            "text": "Возврат к среднему"
+          },
+          {
+            "tag": "h3",
+            "text": "Вымпел"
+          },
+          {
+            "tag": "h3",
+            "text": "Гамма-Экспозиция (GEX)"
+          },
+          {
+            "tag": "h3",
+            "text": "Глубина Рынка (DOM)"
+          },
+          {
+            "tag": "h3",
+            "text": "Голова и Плечи"
+          },
+          {
+            "tag": "h3",
+            "text": "Греки опционов"
+          },
+          {
+            "tag": "h3",
+            "text": "Двойная Вершина"
+          },
+          {
+            "tag": "h3",
+            "text": "Двойное Дно"
+          },
+          {
+            "tag": "h3",
+            "text": "Дейтрейдинг"
+          },
+          {
+            "tag": "h3",
+            "text": "Дельта"
+          },
+          {
+            "tag": "h3",
+            "text": "Дисбаланс Бид-Аск"
+          },
+          {
+            "tag": "h3",
+            "text": "Длинная позиция (Лонг)"
+          },
+          {
+            "tag": "h3",
+            "text": "Доджи"
+          },
+          {
+            "tag": "h3",
+            "text": "Доказательство с нулевым разглашением"
+          },
+          {
+            "tag": "h3",
+            "text": "Доходное фермерство"
+          },
+          {
+            "tag": "h3",
+            "text": "Зона поддержки"
+          },
+          {
+            "tag": "h3",
+            "text": "Зона предложения"
+          },
+          {
+            "tag": "h3",
+            "text": "Зона сопротивления"
+          },
+          {
+            "tag": "h3",
+            "text": "Зона Спроса"
+          },
+          {
+            "tag": "h3",
+            "text": "Изолированная Маржа"
+          },
+          {
+            "tag": "h3",
+            "text": "Инверсный Контракт"
+          },
+          {
+            "tag": "h3",
+            "text": "Индекс Страха и Жадности"
+          },
+          {
+            "tag": "h3",
+            "text": "Интерфейс Программирования Приложений (API)"
+          },
+          {
+            "tag": "h3",
+            "text": "Интерфейс Программирования Приложений (API)"
+          },
+          {
+            "tag": "h3",
+            "text": "Исторический максимум (ATH)"
+          },
+          {
+            "tag": "h3",
+            "text": "Исторический Минимум (ATL)"
+          },
+          {
+            "tag": "h3",
+            "text": "Канал Дончиана"
+          },
+          {
+            "tag": "h3",
+            "text": "Канал Кельтнера"
+          },
+          {
+            "tag": "h3",
+            "text": "Каскад ликвидаций"
+          },
+          {
+            "tag": "h3",
+            "text": "Керри-Трейд"
+          },
+          {
+            "tag": "h3",
+            "text": "Кит"
+          },
+          {
+            "tag": "h3",
+            "text": "Клин"
+          },
+          {
+            "tag": "h3",
+            "text": "Консолидация"
+          },
+          {
+            "tag": "h3",
+            "text": "Контанго"
+          },
+          {
+            "tag": "h3",
+            "text": "Копи-Трейдинг"
+          },
+          {
+            "tag": "h3",
+            "text": "Коррекция Фибоначчи"
+          },
+          {
+            "tag": "h3",
+            "text": "Корреляция"
+          },
+          {
+            "tag": "h3",
+            "text": "Коэффициент Сортино"
+          },
+          {
+            "tag": "h3",
+            "text": "Коэффициент Шарпа"
+          },
+          {
+            "tag": "h3",
+            "text": "Кросс-Маржа"
+          },
+          {
+            "tag": "h3",
+            "text": "Лимитный Ордер"
+          },
+          {
+            "tag": "h3",
+            "text": "Линейный Контракт"
+          },
+          {
+            "tag": "h3",
+            "text": "Макс Пейн"
+          },
+          {
+            "tag": "h3",
+            "text": "Маржа"
+          },
+          {
+            "tag": "h3",
+            "text": "Маркет-мейкер"
+          },
+          {
+            "tag": "h3",
+            "text": "Математическое Ожидание"
+          },
+          {
+            "tag": "h3",
+            "text": "Механизм Консенсуса"
+          },
+          {
+            "tag": "h3",
+            "text": "Молот (Свеча)"
+          },
+          {
+            "tag": "h3",
+            "text": "Моментум-трейдинг"
+          },
+          {
+            "tag": "h3",
+            "text": "Непостоянная Потеря"
+          },
+          {
+            "tag": "h3",
+            "text": "Облако Ишимоку (Ichimoku Kinko Hyo)"
+          },
+          {
+            "tag": "h3",
+            "text": "Общая заблокированная стоимость"
+          },
+          {
+            "tag": "h3",
+            "text": "Ордер-блок"
+          },
+          {
+            "tag": "h3",
+            "text": "Открытый интерес"
+          },
+          {
+            "tag": "h3",
+            "text": "Паттерн «Треугольник» (Восходящий, Нисходящий, Симметричный)"
+          },
+          {
+            "tag": "h3",
+            "text": "Паттерн Поглощения"
+          },
+          {
+            "tag": "h3",
+            "text": "Паттерн Флаг"
+          },
+          {
+            "tag": "h3",
+            "text": "Платформы для Инвестирования в Криптовалюту"
+          },
+          {
+            "tag": "h3",
+            "text": "Полностью Разводненная Оценка"
+          },
+          {
+            "tag": "h3",
+            "text": "Полосы Боллинджера"
+          },
+          {
+            "tag": "h3",
+            "text": "Понимание агрегированных ордеров в криптотрейдинге"
+          },
+          {
+            "tag": "h3",
+            "text": "Понимание графиков цен на криптовалюту: Полное руководство"
+          },
+          {
+            "tag": "h3",
+            "text": "Преимущество"
+          },
+          {
+            "tag": "h3",
+            "text": "Пробой"
+          },
+          {
+            "tag": "h3",
+            "text": "Пробой Структуры (BOS)"
+          },
+          {
+            "tag": "h3",
+            "text": "Просадка"
+          },
+          {
+            "tag": "h3",
+            "text": "Процент выигрышей"
+          },
+          {
+            "tag": "h3",
+            "text": "Разворот"
+          },
+          {
+            "tag": "h3",
+            "text": "Разрыв Справедливой Стоимости (FVG)"
+          },
+          {
+            "tag": "h3",
+            "text": "Распределение"
+          },
+          {
+            "tag": "h3",
+            "text": "Реализованная цена"
+          },
+          {
+            "tag": "h3",
+            "text": "Риск разорения"
+          },
+          {
+            "tag": "h3",
+            "text": "Роллап"
+          },
+          {
+            "tag": "h3",
+            "text": "Рыночная капитализация"
+          },
+          {
+            "tag": "h3",
+            "text": "Рыночный ордер"
+          },
+          {
+            "tag": "h3",
+            "text": "Свинг-трейдинг"
+          },
+          {
+            "tag": "h3",
+            "text": "Сентимент"
+          },
+          {
+            "tag": "h3",
+            "text": "Сессия вопросов и ответов (AMA)"
+          },
+          {
+            "tag": "h3",
+            "text": "Сеточная Торговля"
+          },
+          {
+            "tag": "h3",
+            "text": "Скальпинг"
+          },
+          {
+            "tag": "h3",
+            "text": "Скользящая средняя"
+          },
+          {
+            "tag": "h3",
+            "text": "Смарт-контракт"
+          },
+          {
+            "tag": "h3",
+            "text": "Специальные интегральные схемы (ASIC)"
+          },
+          {
+            "tag": "h3",
+            "text": "Спред"
+          },
+          {
+            "tag": "h3",
+            "text": "Спуфинг"
+          },
+          {
+            "tag": "h3",
+            "text": "Стейблкоин"
+          },
+          {
+            "tag": "h3",
+            "text": "Стейкинг"
+          },
+          {
+            "tag": "h3",
+            "text": "Стохастический осциллятор"
+          },
+          {
+            "tag": "h3",
+            "text": "Страховой Фонд"
+          },
+          {
+            "tag": "h3",
+            "text": "Сэндвич-атака"
+          },
+          {
+            "tag": "h3",
+            "text": "Тезис"
+          },
+          {
+            "tag": "h3",
+            "text": "Темный Пул"
+          },
+          {
+            "tag": "h3",
+            "text": "Теория Долларового Милкшейка"
+          },
+          {
+            "tag": "h3",
+            "text": "Тета"
+          },
+          {
+            "tag": "h3",
+            "text": "Токеномика"
+          },
+          {
+            "tag": "h3",
+            "text": "Толерантность к проскальзыванию"
+          },
+          {
+            "tag": "h3",
+            "text": "Точки разворота"
+          },
+          {
+            "tag": "h3",
+            "text": "Трейлинг-стоп"
+          },
+          {
+            "tag": "h3",
+            "text": "Тренд"
+          },
+          {
+            "tag": "h3",
+            "text": "Убежденность"
+          },
+          {
+            "tag": "h3",
+            "text": "Уровень 1"
+          },
+          {
+            "tag": "h3",
+            "text": "Уровень 2"
+          },
+          {
+            "tag": "h3",
+            "text": "Устойчивость к ASIC"
+          },
+          {
+            "tag": "h3",
+            "text": "Фактор прибыли"
+          },
+          {
+            "tag": "h3",
+            "text": "Флеш-Кредит"
+          },
+          {
+            "tag": "h3",
+            "text": "Халвинг"
+          },
+          {
+            "tag": "h3",
+            "text": "Хешрейт"
+          },
+          {
+            "tag": "h3",
+            "text": "Цена Предложения"
+          },
+          {
+            "tag": "h3",
+            "text": "Чашка с Ручкой"
+          },
+          {
+            "tag": "h3",
+            "text": "Шорт-позиция"
+          },
+          {
+            "tag": "h2",
+            "text": "A\n3"
+          },
+          {
+            "tag": "h3",
+            "text": "ADX (Индекс Направленного Движения)"
+          },
+          {
+            "tag": "h3",
+            "text": "AMM"
+          },
+          {
+            "tag": "h3",
+            "text": "ATR (Средний Истинный Диапазон)"
+          },
+          {
+            "tag": "h2",
+            "text": "B\n8"
+          },
+          {
+            "tag": "h3",
+            "text": "Bagholder"
+          },
+          {
+            "tag": "h3",
+            "text": "Bakkt"
+          },
+          {
+            "tag": "h3",
+            "text": "BatchAuction"
+          },
+          {
+            "tag": "h3",
+            "text": "BearMarket"
+          },
+          {
+            "tag": "h3",
+            "text": "BidAskSpread"
+          },
+          {
+            "tag": "h3",
+            "text": "Bitcoin"
+          },
+          {
+            "tag": "h3",
+            "text": "Blockchain"
+          },
+          {
+            "tag": "h3",
+            "text": "BullMarket"
+          },
+          {
+            "tag": "h2",
+            "text": "C\n4"
+          },
+          {
+            "tag": "h3",
+            "text": "CandlestickPatterns"
+          },
+          {
+            "tag": "h3",
+            "text": "ChartPatterns"
+          },
+          {
+            "tag": "h3",
+            "text": "CMF (Chaikin Money Flow)"
+          },
+          {
+            "tag": "h3",
+            "text": "Cryptocurrency"
+          },
+          {
+            "tag": "h2",
+            "text": "D\n3"
+          },
+          {
+            "tag": "h3",
+            "text": "DCA"
+          },
+          {
+            "tag": "h3",
+            "text": "Derivatives"
+          },
+          {
+            "tag": "h3",
+            "text": "DEX"
+          },
+          {
+            "tag": "h2",
+            "text": "E\n1"
+          },
+          {
+            "tag": "h3",
+            "text": "EMA (Экспоненциальная Скользящая Средняя)"
+          },
+          {
+            "tag": "h2",
+            "text": "F\n4"
+          },
+          {
+            "tag": "h3",
+            "text": "FOMO"
+          },
+          {
+            "tag": "h3",
+            "text": "FUD"
+          },
+          {
+            "tag": "h3",
+            "text": "FundingRate"
+          },
+          {
+            "tag": "h3",
+            "text": "Futures"
+          },
+          {
+            "tag": "h2",
+            "text": "H\n2"
+          },
+          {
+            "tag": "h3",
+            "text": "Heatmap"
+          },
+          {
+            "tag": "h3",
+            "text": "HODL"
+          },
+          {
+            "tag": "h2",
+            "text": "I\n1"
+          },
+          {
+            "tag": "h3",
+            "text": "IndexPrice"
+          },
+          {
+            "tag": "h2",
+            "text": "L\n5"
+          },
+          {
+            "tag": "h3",
+            "text": "Leverage"
+          },
+          {
+            "tag": "h3",
+            "text": "Liquidation"
+          },
+          {
+            "tag": "h3",
+            "text": "LiquidationPrice"
+          },
+          {
+            "tag": "h3",
+            "text": "Liquidity"
+          },
+          {
+            "tag": "h3",
+            "text": "LiquidityHeatmap"
+          },
+          {
+            "tag": "h2",
+            "text": "M\n11"
+          },
+          {
+            "tag": "h3",
+            "text": "MACD (Схождение/Расхождение Скользящих Средних)"
+          },
+          {
+            "tag": "h3",
+            "text": "MarketAnalysis"
+          },
+          {
+            "tag": "h3",
+            "text": "MarketCycles"
+          },
+          {
+            "tag": "h3",
+            "text": "MarketDepth"
+          },
+          {
+            "tag": "h3",
+            "text": "MarketPrice"
+          },
+          {
+            "tag": "h3",
+            "text": "MarketProfile"
+          },
+          {
+            "tag": "h3",
+            "text": "MarketStructure"
+          },
+          {
+            "tag": "h3",
+            "text": "MarkPrice"
+          },
+          {
+            "tag": "h3",
+            "text": "MEV"
+          },
+          {
+            "tag": "h3",
+            "text": "MFI (Индекс денежного потока)"
+          },
+          {
+            "tag": "h3",
+            "text": "MVRV"
+          },
+          {
+            "tag": "h2",
+            "text": "N\n1"
+          },
+          {
+            "tag": "h3",
+            "text": "NVT Ratio"
+          },
+          {
+            "tag": "h2",
+            "text": "O\n4"
+          },
+          {
+            "tag": "h3",
+            "text": "OBV (Балансовый объём)"
+          },
+          {
+            "tag": "h3",
+            "text": "OrderBook"
+          },
+          {
+            "tag": "h3",
+            "text": "OrderTypes"
+          },
+          {
+            "tag": "h3",
+            "text": "OTC-торговля"
+          },
+          {
+            "tag": "h2",
+            "text": "P\n7"
+          },
+          {
+            "tag": "h3",
+            "text": "Parabolic SAR (Стоп и разворот)"
+          },
+          {
+            "tag": "h3",
+            "text": "PerpetualSwaps"
+          },
+          {
+            "tag": "h3",
+            "text": "PositionSizing"
+          },
+          {
+            "tag": "h3",
+            "text": "PriceAction"
+          },
+          {
+            "tag": "h3",
+            "text": "Proof of Stake"
+          },
+          {
+            "tag": "h3",
+            "text": "Proof of Work"
+          },
+          {
+            "tag": "h3",
+            "text": "Pump and Dump"
+          },
+          {
+            "tag": "h2",
+            "text": "R\n3"
+          },
+          {
+            "tag": "h3",
+            "text": "RiskManagement"
+          },
+          {
+            "tag": "h3",
+            "text": "RiskRewardRatio"
+          },
+          {
+            "tag": "h3",
+            "text": "RSI (Индекс относительной силы)"
+          },
+          {
+            "tag": "h2",
+            "text": "S\n6"
+          },
+          {
+            "tag": "h3",
+            "text": "Slippage"
+          },
+          {
+            "tag": "h3",
+            "text": "SMA (Простая скользящая средняя)"
+          },
+          {
+            "tag": "h3",
+            "text": "SOPR"
+          },
+          {
+            "tag": "h3",
+            "text": "SpotPrice"
+          },
+          {
+            "tag": "h3",
+            "text": "StopLoss"
+          },
+          {
+            "tag": "h3",
+            "text": "SupportAndResistance"
+          },
+          {
+            "tag": "h2",
+            "text": "T\n3"
+          },
+          {
+            "tag": "h3",
+            "text": "TakeProfit"
+          },
+          {
+            "tag": "h3",
+            "text": "TechnicalAnalysis"
+          },
+          {
+            "tag": "h3",
+            "text": "TradingVolume"
+          },
+          {
+            "tag": "h2",
+            "text": "V\n5"
+          },
+          {
+            "tag": "h3",
+            "text": "VIX (Индекс волатильности)"
+          },
+          {
+            "tag": "h3",
+            "text": "Volatility"
+          },
+          {
+            "tag": "h3",
+            "text": "VolumeAnalysis"
+          },
+          {
+            "tag": "h3",
+            "text": "VolumeProfile"
+          },
+          {
+            "tag": "h3",
+            "text": "VWAP"
+          }
+        ]
+      },
+      {
+        "url": "https://thekingfisher.io/ru/blogs/bitcoin_toxic_orderflow",
+        "slug": "11-ru-blogs-bitcoin_toxic_orderflow",
+        "title": "Токсичный ордерный поток Биткойна (TOF) | Kingfisher",
+        "sections": [
+          {
+            "tag": "h1",
+            "text": "Токсичный ордерный поток Биткойна (TOF)"
+          },
+          {
+            "tag": "h3",
+            "text": "Экспертный анализ токсичного ордерного потока Биткойна (TOF): Влияние и смягчение"
+          },
+          {
+            "tag": "h3",
+            "text": "Происхождение TOF"
+          },
+          {
+            "tag": "h3",
+            "text": "Что такое TOF?"
+          },
+          {
+            "tag": "h3",
+            "text": "Учебный охотничий ликвидатор и TOF:"
+          },
+          {
+            "tag": "h3",
+            "text": "Как использовать TOF Корюшки"
+          },
+          {
+            "tag": "h3",
+            "text": "Зимородок"
+          }
+        ]
+      },
+      {
+        "url": "https://thekingfisher.io/ru/degens",
+        "slug": "12-ru-degens",
+        "title": "For Degen Traders | Kingfisher",
+        "sections": [
+          {
+            "tag": "h1",
+            "text": "KF-API: Освободите дегенерата внутри"
+          },
+          {
+            "tag": "h3",
+            "text": "Отправьте скучную торговлю на обочину"
+          },
+          {
+            "tag": "h3",
+            "text": "Пойдите параболически с данными Kingfisher"
+          },
+          {
+            "tag": "h2",
+            "text": "Ускорьте свою торговлю с пользовательскими инструментами"
+          }
+        ]
+      },
+      {
+        "url": "https://thekingfisher.io/ru/contact",
+        "slug": "13-ru-contact",
+        "title": "Contact Us | Kingfisher",
+        "sections": [
+          {
+            "tag": "h1",
+            "text": "Свяжитесь с нами, мы здесь для вас"
+          },
+          {
+            "tag": "h3",
+            "text": "Свяжитесь с нами, мы готовы помочь"
+          }
+        ]
+      },
+      {
+        "url": "https://thekingfisher.io/ru/features",
+        "slug": "14-ru-features",
+        "title": "Crypto Trading Features & Tools | Liquidation Maps | Kingfisher | Kingfisher",
+        "sections": [
+          {
+            "tag": "h1",
+            "text": "Снизьте риск с помощью предсказания ликвидации в реальном времени и обнаружения токсичного потока"
+          },
+          {
+            "tag": "h3",
+            "text": "Empower Your Trading with The Kingfisher’s Advanced Tools"
+          },
+          {
+            "tag": "h2",
+            "text": "Forge Your Customized Trading Tools and Strategies"
+          }
+        ]
+      },
+      {
+        "url": "https://thekingfisher.io/ru/blogs/are_interest_rates_a_significant_factor_in_option_pricing_2023-10-11_17-47-49_28",
+        "slug": "15-ru-blogs-are_interest_rates_a_significant_factor_in_option_p",
+        "title": "Влияние процентных ставок на ценообразование крипто-опционов: полное руководство | Kingfisher",
+        "sections": [
+          {
+            "tag": "h1",
+            "text": "Влияние процентных ставок на ценообразование крипто-опционов: полное руководство"
+          },
+          {
+            "tag": "h2",
+            "text": "Процентные ставки и база ценообразования опционов"
+          },
+          {
+            "tag": "h3",
+            "text": "Роль ставок в традиционных финансах"
+          },
+          {
+            "tag": "h3",
+            "text": "Специфика криптовалютного рынка"
+          },
+          {
+            "tag": "h2",
+            "text": "Анализ GEX+ от Kingfisher в контексте ставок"
+          },
+          {
+            "tag": "h3",
+            "text": "IV и изменения ставок"
+          },
+          {
+            "tag": "h3",
+            "text": "Практическое применение"
+          },
+          {
+            "tag": "h2",
+            "text": "Ключевые факторы ценообразования крипто-опционов"
+          },
+          {
+            "tag": "h3",
+            "text": "1. Цена базового актива"
+          },
+          {
+            "tag": "h3",
+            "text": "2. Подразумеваемая волатильность (IV)"
+          },
+          {
+            "tag": "h3",
+            "text": "3. Открытый интерес (OI)"
+          },
+          {
+            "tag": "h3",
+            "text": "4. Рыночные настроения и поток ордеров"
+          },
+          {
+            "tag": "h2",
+            "text": "Часто задаваемые вопросы"
+          },
+          {
+            "tag": "h2",
+            "text": "Заключение"
+          },
+          {
+            "tag": "h3",
+            "text": "Зимородок"
+          }
+        ]
+      },
+      {
+        "url": "https://thekingfisher.io/ru/blogs/getting_started_on_the_kingfisher",
+        "slug": "16-ru-blogs-getting_started_on_the_kingfisher",
+        "title": "Начало работы с The Kingfisher | Kingfisher",
+        "sections": [
+          {
+            "tag": "h1",
+            "text": "Начало работы с The Kingfisher"
+          },
+          {
+            "tag": "h3",
+            "text": "Начало работы с The Kingfisher"
+          },
+          {
+            "tag": "h3",
+            "text": "Социальные сети"
+          },
+          {
+            "tag": "h3",
+            "text": "Зимородок"
+          }
+        ]
+      },
+      {
+        "url": "https://thekingfisher.io/ru/blogs/liquidation_maps_cvd",
+        "slug": "17-ru-blogs-liquidation_maps_cvd",
+        "title": "Карты ликвидаций и Кумулятивный объем дельты | Kingfisher",
+        "sections": [
+          {
+            "tag": "h1",
+            "text": "Карты ликвидаций и Кумулятивный объем дельты"
+          },
+          {
+            "tag": "h3",
+            "text": "Карты ликвидаций и Кумулятивный объем дельты"
+          },
+          {
+            "tag": "h3",
+            "text": "Зимородок"
+          }
+        ]
+      },
+      {
+        "url": "https://thekingfisher.io/ru/careers",
+        "slug": "18-ru-careers",
+        "title": "Careers | Kingfisher",
+        "sections": [
+          {
+            "tag": "h1",
+            "text": "Kingfisher растёт!"
+          },
+          {
+            "tag": "h3",
+            "text": "Маркетинговый специалист – Фокус на партнёрствах"
+          }
+        ]
+      },
+      {
+        "url": "https://thekingfisher.io/ru/blogs/breakdown_walkthrough_of_using_the_skew_templates",
+        "slug": "19-ru-blogs-breakdown_walkthrough_of_using_the_skew_templates",
+        "title": "Анализ и руководство по использованию шаблонов Skew | Kingfisher",
+        "sections": [
+          {
+            "tag": "h1",
+            "text": "Анализ и руководство по использованию шаблонов Skew"
+          },
+          {
+            "tag": "h3",
+            "text": "Анализ и руководство по использованию шаблонов Skew"
+          },
+          {
+            "tag": "h3",
+            "text": "Skew Basic"
+          },
+          {
+            "tag": "h3",
+            "text": "BTC EMA"
+          },
+          {
+            "tag": "h3",
+            "text": "Кумулятивный дельта ликвидаций"
+          },
+          {
+            "tag": "h3",
+            "text": "Объем покупок против продаж"
+          },
+          {
+            "tag": "h3",
+            "text": "Кумулятивный объем дельта (CVD)"
+          },
+          {
+            "tag": "h3",
+            "text": "Экстремум объема (Отфильтрованный объем)"
+          },
+          {
+            "tag": "h3",
+            "text": "Примеры"
+          },
+          {
+            "tag": "h3",
+            "text": "Skew Vanilla"
+          },
+          {
+            "tag": "h3",
+            "text": "Например:"
+          },
+          {
+            "tag": "h3",
+            "text": "Bybit Vanilla"
+          },
+          {
+            "tag": "h3",
+            "text": "Дельта"
+          },
+          {
+            "tag": "h3",
+            "text": "Пример скрытых дивергенций спот CVD и дельты"
+          },
+          {
+            "tag": "h3",
+            "text": "Индикатор потока покупок против продаж"
+          },
+          {
+            "tag": "h3",
+            "text": "Пример с CVD, дельтой и дивергенциями покупок против продаж на кульминациях продавцов"
+          },
+          {
+            "tag": "h3",
+            "text": "Пример дивергенций на 4H"
+          },
+          {
+            "tag": "h3",
+            "text": "Skew Premium"
+          },
+          {
+            "tag": "h3",
+            "text": "BTC Market Screener"
+          },
+          {
+            "tag": "h3",
+            "text": "Премии BTC Perp против Spot + Рыночные CVD"
+          },
+          {
+            "tag": "h3",
+            "text": "BTC Compact"
+          },
+          {
+            "tag": "h3",
+            "text": "Найдите эти шаблоны на:"
+          },
+          {
+            "tag": "h3",
+            "text": "alpha.thekingfisher.io"
+          },
+          {
+            "tag": "h3",
+            "text": "Зимородок"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "watchlist-top",
+    "title": "Watchlist.Top",
+    "url": "https://watchlist.top/#list/0",
+    "pages": [
+      {
+        "url": "https://watchlist.top/#list/0",
+        "slug": "00-main",
+        "title": "Скринер криптовалют с графиками для скальпинга: OI, фандинг, стакан, плотности, уровни и алерты Binance, Bybit и OKX",
+        "sections": [
+          {
+            "tag": "h1",
+            "text": "Скринер криптовалют для Binance, Bybit и OKX"
+          },
+          {
+            "tag": "h2",
+            "text": "Описание скринера криптовалют"
+          },
+          {
+            "tag": "h3",
+            "text": "Когда может быть полезен"
+          },
+          {
+            "tag": "h3",
+            "text": "Вход и идентификация в системе"
+          },
+          {
+            "tag": "h3",
+            "text": "Как работает"
+          },
+          {
+            "tag": "h3",
+            "text": "Режимы работы"
+          },
+          {
+            "tag": "h3",
+            "text": "Интерфейс"
+          },
+          {
+            "tag": "h3",
+            "text": "Горячие клавиши"
+          },
+          {
+            "tag": "h2",
+            "text": "Сравнение возможностей скринера в разных режимах работы"
+          },
+          {
+            "tag": "h2",
+            "text": "Timeframes"
+          }
+        ]
+      },
+      {
+        "url": "https://watchlist.top/lang/ko",
+        "slug": "01-lang-ko",
+        "title": "암호화폐 스크리너: OI, 펀딩, 오더북 알림",
+        "sections": [
+          {
+            "tag": "h1",
+            "text": "Binance, Bybit, OKX의 활성 시장을 위한 암호화폐 스크리너"
+          },
+          {
+            "tag": "h2",
+            "text": "유용한 경우"
+          },
+          {
+            "tag": "h2",
+            "text": "시스템 로그인 및 식별"
+          },
+          {
+            "tag": "h2",
+            "text": "작동 방식"
+          },
+          {
+            "tag": "h2",
+            "text": "앱 모드"
+          },
+          {
+            "tag": "h3",
+            "text": "리스트 모드"
+          },
+          {
+            "tag": "h3",
+            "text": "그리드 모드"
+          },
+          {
+            "tag": "h3",
+            "text": "단일 코인 모드"
+          },
+          {
+            "tag": "h3",
+            "text": "모바일 Top 차트"
+          },
+          {
+            "tag": "h2",
+            "text": "인터페이스"
+          },
+          {
+            "tag": "h3",
+            "text": "최근 24시간 변화 스크리너"
+          },
+          {
+            "tag": "h3",
+            "text": "코인 목록"
+          },
+          {
+            "tag": "h3",
+            "text": "TOP 주문"
+          },
+          {
+            "tag": "h3",
+            "text": "차트"
+          },
+          {
+            "tag": "h2",
+            "text": "단축키"
+          },
+          {
+            "tag": "h2",
+            "text": "작동 모드별 스크리너 기능 비교"
+          },
+          {
+            "tag": "h2",
+            "text": "Timeframes"
+          }
+        ]
+      },
+      {
+        "url": "https://watchlist.top/lang/vi",
+        "slug": "02-lang-vi",
+        "title": "Crypto screener: Open Interest, Funding và Order Book Alerts",
+        "sections": [
+          {
+            "tag": "h1",
+            "text": "Crypto screener cho thị trường đang hoạt động trên Binance, Bybit và OKX"
+          },
+          {
+            "tag": "h2",
+            "text": "Khi nào hữu ích"
+          },
+          {
+            "tag": "h2",
+            "text": "Đăng nhập và định danh trong hệ thống"
+          },
+          {
+            "tag": "h2",
+            "text": "Cách hoạt động"
+          },
+          {
+            "tag": "h2",
+            "text": "Các chế độ của app"
+          },
+          {
+            "tag": "h3",
+            "text": "Chế độ danh sách"
+          },
+          {
+            "tag": "h3",
+            "text": "Chế độ lưới"
+          },
+          {
+            "tag": "h3",
+            "text": "Chế độ một coin"
+          },
+          {
+            "tag": "h3",
+            "text": "Top biểu đồ trên mobile"
+          },
+          {
+            "tag": "h2",
+            "text": "Giao diện"
+          },
+          {
+            "tag": "h3",
+            "text": "Screener thay đổi 24 giờ"
+          },
+          {
+            "tag": "h3",
+            "text": "Danh sách coin"
+          },
+          {
+            "tag": "h3",
+            "text": "TOP lệnh"
+          },
+          {
+            "tag": "h3",
+            "text": "Biểu đồ"
+          },
+          {
+            "tag": "h2",
+            "text": "Phím tắt"
+          },
+          {
+            "tag": "h2",
+            "text": "So sánh tính năng của screener ở các chế độ hoạt động khác nhau"
+          },
+          {
+            "tag": "h2",
+            "text": "Timeframes"
+          }
+        ]
+      },
+      {
+        "url": "https://watchlist.top/lang/es",
+        "slug": "03-lang-es",
+        "title": "Screener de criptomonedas: interés abierto, funding y alertas",
+        "sections": [
+          {
+            "tag": "h1",
+            "text": "Screener de criptomonedas para mercados activos en Binance, Bybit y OKX"
+          },
+          {
+            "tag": "h2",
+            "text": "Cuándo puede ser útil"
+          },
+          {
+            "tag": "h2",
+            "text": "Inicio de sesión e identificación en el sistema"
+          },
+          {
+            "tag": "h2",
+            "text": "Cómo funciona"
+          },
+          {
+            "tag": "h2",
+            "text": "Modos de la app"
+          },
+          {
+            "tag": "h3",
+            "text": "Modo lista"
+          },
+          {
+            "tag": "h3",
+            "text": "Modo cuadrícula"
+          },
+          {
+            "tag": "h3",
+            "text": "Modo una sola moneda"
+          },
+          {
+            "tag": "h3",
+            "text": "Top de gráficos móvil"
+          },
+          {
+            "tag": "h2",
+            "text": "Interfaz"
+          },
+          {
+            "tag": "h3",
+            "text": "Screener de cambios de las últimas 24 horas"
+          },
+          {
+            "tag": "h3",
+            "text": "Lista de monedas"
+          },
+          {
+            "tag": "h3",
+            "text": "TOP órdenes"
+          },
+          {
+            "tag": "h3",
+            "text": "Gráficos"
+          },
+          {
+            "tag": "h2",
+            "text": "Atajos de teclado"
+          },
+          {
+            "tag": "h2",
+            "text": "Comparación de funciones del screener en distintos modos de uso"
+          },
+          {
+            "tag": "h2",
+            "text": "Timeframes"
+          }
+        ]
+      },
+      {
+        "url": "https://watchlist.top/lang/tr",
+        "slug": "04-lang-tr",
+        "title": "Kripto Screener: Open Interest, Funding ve Emir Defteri Alarmları",
+        "sections": [
+          {
+            "tag": "h1",
+            "text": "Binance, Bybit ve OKX üzerinde aktif piyasalar için kripto screener"
+          },
+          {
+            "tag": "h2",
+            "text": "Ne zaman faydalı olabilir"
+          },
+          {
+            "tag": "h2",
+            "text": "Sisteme giriş ve kimlik doğrulama"
+          },
+          {
+            "tag": "h2",
+            "text": "Nasıl çalışır"
+          },
+          {
+            "tag": "h2",
+            "text": "Uygulama modları"
+          },
+          {
+            "tag": "h3",
+            "text": "Liste modu"
+          },
+          {
+            "tag": "h3",
+            "text": "Izgara modu"
+          },
+          {
+            "tag": "h3",
+            "text": "Tek coin modu"
+          },
+          {
+            "tag": "h3",
+            "text": "Mobil top grafikler"
+          },
+          {
+            "tag": "h2",
+            "text": "Arayüz"
+          },
+          {
+            "tag": "h3",
+            "text": "Son 24 saat değişim ekranı"
+          },
+          {
+            "tag": "h3",
+            "text": "Coin listesi"
+          },
+          {
+            "tag": "h3",
+            "text": "TOP emirler"
+          },
+          {
+            "tag": "h3",
+            "text": "Grafikler"
+          },
+          {
+            "tag": "h2",
+            "text": "Kısayollar"
+          },
+          {
+            "tag": "h2",
+            "text": "Farklı çalışma modlarında screener özelliklerinin karşılaştırması"
+          },
+          {
+            "tag": "h2",
+            "text": "Timeframes"
+          }
+        ]
+      },
+      {
+        "url": "https://watchlist.top/lang/en",
+        "slug": "05-lang-en",
+        "title": "Crypto Screener for Scalping: Open Interest, Funding, Order Book Alerts",
+        "sections": [
+          {
+            "tag": "h1",
+            "text": "Crypto screener for active markets on Binance, Bybit and OKX"
+          },
+          {
+            "tag": "h2",
+            "text": "When it can be useful"
+          },
+          {
+            "tag": "h2",
+            "text": "Login and identification in the system"
+          },
+          {
+            "tag": "h2",
+            "text": "How does it work"
+          },
+          {
+            "tag": "h2",
+            "text": "App modes"
+          },
+          {
+            "tag": "h3",
+            "text": "List mode"
+          },
+          {
+            "tag": "h3",
+            "text": "Grid mode"
+          },
+          {
+            "tag": "h3",
+            "text": "Single coin mode"
+          },
+          {
+            "tag": "h3",
+            "text": "Mobile top charts"
+          },
+          {
+            "tag": "h2",
+            "text": "Interface"
+          },
+          {
+            "tag": "h3",
+            "text": "Last 24 hours change screener"
+          },
+          {
+            "tag": "h3",
+            "text": "List of coins"
+          },
+          {
+            "tag": "h3",
+            "text": "TOP orders"
+          },
+          {
+            "tag": "h3",
+            "text": "Charts"
+          },
+          {
+            "tag": "h2",
+            "text": "Hotkeys"
+          },
+          {
+            "tag": "h2",
+            "text": "Comparison of screener features across operating modes"
+          },
+          {
+            "tag": "h2",
+            "text": "Timeframes"
+          }
+        ]
+      },
+      {
+        "url": "https://watchlist.top/guide/ru",
+        "slug": "06-guide-ru",
+        "title": "Справка Watchlist.top",
+        "sections": [
+          {
+            "tag": "h1",
+            "text": "Справка Watchlist.top"
+          },
+          {
+            "tag": "h2",
+            "text": "Навигация по фокус-зонам"
+          },
+          {
+            "tag": "h3",
+            "text": "Интерфейс и рабочие сценарии"
+          },
+          {
+            "tag": "h3",
+            "text": "Сигналы и метрики"
+          },
+          {
+            "tag": "h3",
+            "text": "Алерты и уведомления"
+          },
+          {
+            "tag": "h3",
+            "text": "Персонализация"
+          },
+          {
+            "tag": "h3",
+            "text": "Аккаунт и доступ"
+          },
+          {
+            "tag": "h2",
+            "text": "Разделы"
+          },
+          {
+            "tag": "h3",
+            "text": "Быстрый старт"
+          },
+          {
+            "tag": "h3",
+            "text": "Как торговать с помощью скринера WatchlistTop"
+          },
+          {
+            "tag": "h3",
+            "text": "Списки и рабочие пространства"
+          },
+          {
+            "tag": "h3",
+            "text": "Режимы приложения и раскладка графиков"
+          },
+          {
+            "tag": "h3",
+            "text": "Графики по сортированному списку"
+          },
+          {
+            "tag": "h3",
+            "text": "Мобильная версия и Android-приложение"
+          },
+          {
+            "tag": "h3",
+            "text": "График и инструменты рисования"
+          },
+          {
+            "tag": "h3",
+            "text": "Уведомления о событиях"
+          },
+          {
+            "tag": "h3",
+            "text": "Скринер и фильтры"
+          },
+          {
+            "tag": "h3",
+            "text": "Изменения, объёмы, тренды, уровни"
+          },
+          {
+            "tag": "h3",
+            "text": "Сценарный скоринг"
+          },
+          {
+            "tag": "h3",
+            "text": "Стакан"
+          },
+          {
+            "tag": "h3",
+            "text": "Настройки"
+          },
+          {
+            "tag": "h3",
+            "text": "Аккаунт, подписка, пробный период"
+          },
+          {
+            "tag": "h3",
+            "text": "Биржевые аккаунты"
+          },
+          {
+            "tag": "h3",
+            "text": "Уведомления"
+          },
+          {
+            "tag": "h3",
+            "text": "Справочник"
+          },
+          {
+            "tag": "h3",
+            "text": "Алгоритмы"
+          },
+          {
+            "tag": "h3",
+            "text": "Частые проблемы"
+          },
+          {
+            "tag": "h3",
+            "text": "Глоссарий"
+          }
+        ]
+      },
+      {
+        "url": "https://watchlist.top/lang/ru",
+        "slug": "07-lang-ru",
+        "title": "Скринер криптовалют с графиками для скальпинга: OI, фандинг, стакан, плотности, уровни и алерты Binance, Bybit и OKX",
+        "sections": [
+          {
+            "tag": "h1",
+            "text": "Скринер криптовалют для Binance, Bybit и OKX"
+          },
+          {
+            "tag": "h2",
+            "text": "Описание скринера криптовалют"
+          },
+          {
+            "tag": "h3",
+            "text": "Когда может быть полезен"
+          },
+          {
+            "tag": "h3",
+            "text": "Вход и идентификация в системе"
+          },
+          {
+            "tag": "h3",
+            "text": "Как работает"
+          },
+          {
+            "tag": "h3",
+            "text": "Режимы работы"
+          },
+          {
+            "tag": "h3",
+            "text": "Интерфейс"
+          },
+          {
+            "tag": "h3",
+            "text": "Горячие клавиши"
+          },
+          {
+            "tag": "h2",
+            "text": "Сравнение возможностей скринера в разных режимах работы"
+          },
+          {
+            "tag": "h2",
+            "text": "Timeframes"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "quantower",
+    "title": "Quantower",
+    "url": "https://help.quantower.com/quantower/",
+    "pages": [
+      {
+        "url": "https://help.quantower.com/quantower/",
+        "slug": "00-quantower",
+        "title": "Welcome to Quantower Help | Quantower",
+        "sections": [
+          {
+            "tag": "h1",
+            "text": "Welcome to Quantower Help"
+          }
+        ]
+      },
+      {
+        "url": "https://help.quantower.com/quantower/master.md",
+        "slug": "01-quantower-mastermd",
+        "title": "",
+        "sections": []
+      },
+      {
+        "url": "https://help.quantower.com/quantower/llms.txt",
+        "slug": "02-quantower-llmstxt",
+        "title": "",
+        "sections": []
+      },
+      {
+        "url": "https://help.quantower.com/quantower/informational-panels",
+        "slug": "03-quantower-informational-panels",
+        "title": "Information Panels | Quantower",
+        "sections": [
+          {
+            "tag": "h1",
+            "text": "📊\nInformation Panels"
+          }
+        ]
+      },
+      {
+        "url": "https://help.quantower.com/quantower/updates/latest-version",
+        "slug": "04-quantower-updates-latest-version",
+        "title": "Release Notes | Quantower",
+        "sections": [
+          {
+            "tag": "h1",
+            "text": "Release Notes"
+          },
+          {
+            "tag": "h3",
+            "text": "Latest release — v1.146.11 (Beta · June 13, 2026)"
+          },
+          {
+            "tag": "h3",
+            "text": "Full release notes"
+          },
+          {
+            "tag": "h3",
+            "text": "Quantower Blog"
+          },
+          {
+            "tag": "h3",
+            "text": "Download Quantower"
+          }
+        ]
+      },
+      {
+        "url": "https://help.quantower.com/quantower/trading-panels",
+        "slug": "05-quantower-trading-panels",
+        "title": "Trading Panels | Quantower",
+        "sections": [
+          {
+            "tag": "h1",
+            "text": "💵\nTrading Panels"
+          }
+        ]
+      },
+      {
+        "url": "https://help.quantower.com/quantower/analytics-panels",
+        "slug": "06-quantower-analytics-panels",
+        "title": "Analytics Panels | Quantower",
+        "sections": [
+          {
+            "tag": "h1",
+            "text": "💡\nAnalytics Panels"
+          }
+        ]
+      },
+      {
+        "url": "https://help.quantower.com/quantower/getting-started",
+        "slug": "07-quantower-getting-started",
+        "title": "Getting Started | Quantower",
+        "sections": [
+          {
+            "tag": "h1",
+            "text": "🚀\nGetting Started"
+          },
+          {
+            "tag": "h3",
+            "text": "Install Quantower"
+          },
+          {
+            "tag": "h3",
+            "text": "Take your first look"
+          },
+          {
+            "tag": "h3",
+            "text": "Account & Licensing"
+          },
+          {
+            "tag": "h3",
+            "text": "Connect your broker"
+          }
+        ]
+      },
+      {
+        "url": "https://help.quantower.com/quantower/billing/referral-program",
+        "slug": "08-quantower-billing-referral-program",
+        "title": "Referral Program | Quantower",
+        "sections": [
+          {
+            "tag": "h1",
+            "text": "Referral Program"
+          },
+          {
+            "tag": "h3",
+            "text": "There are 4 simple steps to start earning by inviting your friends to Quantower:"
+          },
+          {
+            "tag": "h3",
+            "text": "Referral Program Details:"
+          }
+        ]
+      },
+      {
+        "url": "https://help.quantower.com/quantower/customization",
+        "slug": "09-quantower-customization",
+        "title": "Customization | Quantower",
+        "sections": [
+          {
+            "tag": "h1",
+            "text": "💫\nCustomization"
+          }
+        ]
+      },
+      {
+        "url": "https://help.quantower.com/quantower/updates/quantower-beta",
+        "slug": "10-quantower-updates-quantower-beta",
+        "title": "Quantower Beta | Quantower",
+        "sections": [
+          {
+            "tag": "h1",
+            "text": "Quantower Beta"
+          }
+        ]
+      },
+      {
+        "url": "https://help.quantower.com/quantower/general-settings",
+        "slug": "11-quantower-general-settings",
+        "title": "General Settings | Quantower",
+        "sections": [
+          {
+            "tag": "h1",
+            "text": "⚙️\nGeneral Settings"
+          }
+        ]
+      },
+      {
+        "url": "https://help.quantower.com/quantower",
+        "slug": "12-quantower",
+        "title": "Welcome to Quantower Help | Quantower",
+        "sections": [
+          {
+            "tag": "h1",
+            "text": "Welcome to Quantower Help"
+          }
+        ]
+      },
+      {
+        "url": "https://help.quantower.com/quantower/faq",
+        "slug": "13-quantower-faq",
+        "title": "FAQ | Quantower",
+        "sections": [
+          {
+            "tag": "h1",
+            "text": "⁉️\nFAQ"
+          }
+        ]
+      },
+      {
+        "url": "https://help.quantower.com/quantower/troubleshooting/report-a-bug",
+        "slug": "14-quantower-troubleshooting-report-a-bug",
+        "title": "You have found a bug. What’s next? | Quantower",
+        "sections": [
+          {
+            "tag": "h1",
+            "text": "You have found a bug. What’s next?"
+          },
+          {
+            "tag": "h2",
+            "text": "Bug or not?"
+          },
+          {
+            "tag": "h2",
+            "text": "Reporting a bug"
+          },
+          {
+            "tag": "h2",
+            "text": "Simple bug report example:"
+          }
+        ]
+      },
+      {
+        "url": "https://help.quantower.com/quantower/billing/payment-faq",
+        "slug": "15-quantower-billing-payment-faq",
+        "title": "Payment FAQ | Quantower",
+        "sections": [
+          {
+            "tag": "h1",
+            "text": "Payment FAQ"
+          },
+          {
+            "tag": "h2",
+            "text": "Why isn't PayPal, or similar international payment gateways available as payment methods for Quantow"
+          },
+          {
+            "tag": "h2",
+            "text": "Declined to card issuer"
+          },
+          {
+            "tag": "h2",
+            "text": "WayForPay verification email"
+          },
+          {
+            "tag": "h2",
+            "text": "3D Secure"
+          },
+          {
+            "tag": "h2",
+            "text": "What is an alternative?"
+          }
+        ]
+      },
+      {
+        "url": "https://help.quantower.com/quantower/updates/application-updates",
+        "slug": "16-quantower-updates-application-updates",
+        "title": "Platform update | Quantower",
+        "sections": [
+          {
+            "tag": "h1",
+            "text": "Platform update"
+          },
+          {
+            "tag": "h2",
+            "text": "Rollback to the previous version"
+          }
+        ]
+      },
+      {
+        "url": "https://help.quantower.com/quantower/billing/coinpayments-payment",
+        "slug": "17-quantower-billing-coinpayments-payment",
+        "title": "“Coinpayments” payment | Quantower",
+        "sections": [
+          {
+            "tag": "h1",
+            "text": "“Coinpayments” payment"
+          },
+          {
+            "tag": "h2",
+            "text": "Purchase details page"
+          },
+          {
+            "tag": "h2",
+            "text": "Make a transfer"
+          },
+          {
+            "tag": "h2",
+            "text": "License assignment check"
+          }
+        ]
+      },
+      {
+        "url": "https://help.quantower.com/quantower/troubleshooting/backup-and-restore-manager",
+        "slug": "18-quantower-troubleshooting-backup-and-restore-manager",
+        "title": "Backup & restore manager | Quantower",
+        "sections": [
+          {
+            "tag": "h1",
+            "text": "Backup & restore manager"
+          },
+          {
+            "tag": "h2",
+            "text": "General"
+          },
+          {
+            "tag": "h2",
+            "text": "Backup settings"
+          },
+          {
+            "tag": "h2",
+            "text": "Restore settings"
+          }
+        ]
+      },
+      {
+        "url": "https://help.quantower.com/quantower/connections",
+        "slug": "19-quantower-connections",
+        "title": "Connections | Quantower",
+        "sections": [
+          {
+            "tag": "h1",
+            "text": "🔗\nConnections"
+          }
+        ]
+      }
+    ]
+  }
+]

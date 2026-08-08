@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% block title %}TradeHelp — Главная{% endblock %}
+{% block content %}
+<section class="hero">
+    <div class="hero-content">
+        <h1 class="hero-title">Институциональный трейдинг</h1>
+        <p class="hero-subtitle">От Price Action до микроструктуры — 21 глава на основе реальных данных</p>
+        <div class="hero-stats">
+            <div class="stat">
+                <div class="stat-value">{{ chapters|length }}</div>
+                <div class="stat-label">глав учебника</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">{% if totals.total_value %}{{ "%.2f"|format(totals.total_value) }}{% else %}—{% endif %}</div>
+                <div class="stat-label">portfolio value (USD)</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">{% if totals.total_positions %}{{ totals.total_positions }}{% else %}0{% endif %}</div>
+                <div class="stat-label">открытых позиций</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">{% if totals.total_pl %}{{ "%.2f"|format(totals.total_pl) }}{% else %}—{% endif %}</div>
+                <div class="stat-label">P&L (USD)</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="grid-2col">
+    <a class="card-link" href="{{ url_for('learning.index') }}">
+        <div class="card">
+            <h3>📚 Учебник</h3>
+            <p>{{ chapters|length }} глав: от ADX до on-chain и психологии</p>
+            <ul class="card-list">
+                <li>Глава 1: Введение — от индикаторов к микроструктуре</li>
+                <li>Глава 11: Order Flow (DOM/Footprint)</li>
+                <li>Глава 18: Психология трейдинга</li>
+                <li>Глава 19: Risk Management</li>
+                <li>Глава 20: Backtesting</li>
+                <li>Глава 21: Macro &amp; Intermarket</li>
+            </ul>
+        </div>
+    </a>
+    <a class="card-link" href="{{ url_for('viz.index') }}">
+        <div class="card">
+            <h3>📊 Визуализация (Plotly)</h3>
+            <p>8 интерактивных графиков с реальными данными API3, ATOM, ETH</p>
+            <ul class="card-list">
+                <li>Свечной + Bollinger + ATR</li>
+                <li>Volume Profile (POC, VA)</li>
+                <li>Footprint / Order Flow</li>
+                <li>On-Chain метрики</li>
+            </ul>
+        </div>
+    </a>
+    <a class="card-link" href="{{ url_for('tv.index') }}">
+        <div class="card">
+            <h3>📺 TradingView Widgets</h3>
+            <p>10 embed-виджетов: Advanced Chart, Heatmap, Market Overview, Calendar</p>
+            <ul class="card-list">
+                <li>Lightweight Charts v5.2.0 (в учебнике)</li>
+                <li>Advanced Chart (полноценный TV)</li>
+                <li>Crypto / Stock / Forex Heatmaps</li>
+                <li>Economic Calendar</li>
+            </ul>
+        </div>
+    </a>
+    <a class="card-link" href="{{ url_for('live.dashboard') }}">
+        <div class="card">
+            <h3>🔴 Live</h3>
+            <p>Реальные данные из account/ проекта 01 (Fundament RF)</p>
+            <ul class="card-list">
+                <li>Balance (спот + фьючерсы)</li>
+                <li>Open orders</li>
+                <li>Fills (история сделок)</li>
+                <li>Equity curve</li>
+            </ul>
+        </div>
+    </a>
+    <a class="card-link" href="{{ url_for('tools.journal') }}">
+        <div class="card">
+            <h3>🛠 Инструменты</h3>
+            <p>Практические помощники трейдера</p>
+            <ul class="card-list">
+                <li>📓 Торговый журнал (из fills.json)</li>
+                <li>✅ Pre/Post-trade чек-листы</li>
+                <li>💰 Risk Calculator (Kelly, position sizing)</li>
+                <li>🎯 Confluence Score (10-уровневый)</li>
+            </ul>
+        </div>
+    </a>
+    <a class="card-link" href="{{ url_for('viz.page', slug='portfolio-metrics') }}">
+        <div class="card">
+            <h3>📊 Портфель 2026</h3>
+            <p>12 сделок × 245 полей — реальные данные Bitget</p>
+            <ul class="card-list">
+                <li>{% if totals.total_positions %}{{ totals.total_positions }} сделок{% else %}12 сделок{% endif %}</li>
+                <li>PnL: {% if totals.total_pl %}{{ "%.2f"|format(totals.total_pl) }} USDT{% else %}—{% endif %}</li>
+                <li>245 полей: OHLCV, Fibo, PnL, Risk, Sessions</li>
+                <li>Интерактивный дашборд + графики</li>
+            </ul>
+        </div>
+    </a>
+    <a class="card-link" href="/docs/">
+        <div class="card">
+            <h3>📋 Справочники</h3>
+            <p>Глоссарий, формулы, чек-листы, задачник</p>
+            <ul class="card-list">
+                <li>Глоссарий (80+ терминов)</li>
+                <li>42 формулы с описанием</li>
+                <li>Чек-листы (A+ Setup, 10-Level, Pre/Post)</li>
+                <li>10 задач с решениями</li>
+            </ul>
+        </div>
+    </a>
+</section>
+{% endblock %}

@@ -1,0 +1,19 @@
+<aside class="sidebar">
+    <div class="sidebar-section">
+        <h3 class="sidebar-title">📚 Учебник</h3>
+        <ul class="sidebar-list">
+            {% for ch in chapters %}
+            <li><a href="{{ url_for('learning.chapter', slug=ch.slug) }}">{{ ch.num }}. {{ ch.title }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="sidebar-section">
+        <h3 class="sidebar-title">🔗 Разделы</h3>
+        <ul class="sidebar-list">
+            <li><a href="{{ url_for('viz.index') }}">📊 Viz (Plotly)</a></li>
+            <li><a href="{{ url_for('tv.index') }}">📺 TV Widgets</a></li>
+            <li><a href="{{ url_for('live.dashboard') }}">🔴 Live</a></li>
+            <li><a href="{{ url_for('tools.index') }}">🛠 Tools</a></li>
+        </ul>
+    </div>
+</aside>

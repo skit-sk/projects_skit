@@ -1,0 +1,13 @@
+{
+  "id": "deepcharts",
+  "title": "Deepcharts",
+  "url": "https://my.deepcharts.com/",
+  "pages": [
+    {
+      "url": "https://my.deepcharts.com/",
+      "slug": "00-main",
+      "title": "Log in - Deepcharts",
+      "screenshot": "static/ref/deepcharts/00-main.png"
+    }
+  ]
+}

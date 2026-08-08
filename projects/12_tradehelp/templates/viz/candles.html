@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %}{{ page.title }} — Viz{% endblock %}
+{% block head_extra %}
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+<script src="https://unpkg.com/lightweight-charts@5.2.0/dist/lightweight-charts.standalone.production.js"></script>
+{% endblock %}
+{% block content %}
+<section class="page-header">
+    <h1>{{ page.title }}</h1>
+    <p class="muted">{{ page.desc }} · {{ page.symbol }}</p>
+</section>
+
+<div class="lwc-demo">
+    <h4>📊 Lightweight Charts (5.2.0) — {{ page.symbol }} 1d</h4>
+    <div id="lwc-chart" style="width:100%;height:500px;"></div>
+    <p class="muted">Hover на графике → tooltip с ценами OHLCV</p>
+</div>
+
+<div class="card">
+    <h3>Подробный анализ</h3>
+    <div id="plotly-detail" style="width:100%;height:500px;"></div>
+</div>
+
+<a href="{{ url_for('viz.index') }}" class="btn btn-ghost">← Все графики</a>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/lwc-init.js') }}"></script>
+<script>
+initLWC('lwc-chart', '{{ page.symbol }}', '1d', ['MA20', 'MA50', 'BB', 'VOL']);
+
+// Load Plotly detail
+fetch('/api/klines?symbol={{ page.symbol }}&interval=1d&limit=200')
+    .then(r => r.json())
+    .then(klines => {
+        const times = klines.map(k => new Date(k[0]));
+        const opens = klines.map(k => +k[1]);
+        const highs = klines.map(k => +k[2]);
+        const lows = klines.map(k => +k[3]);
+        const closes = klines.map(k => +k[4]);
+        const volumes = klines.map(k => +k[5]);
+
+        const candle = {
+            x: times, open: opens, high: highs, low: lows, close: closes,
+            type: 'candlestick', name: 'OHLC',
+            increasing: { line: { color: '#3fb950' }, fillcolor: '#3fb950' },
+            decreasing: { line: { color: '#f85149' }, fillcolor: '#f85149' },
+        };
+
+        // MA20
+        const ma20 = [];
+        for (let i = 0; i < closes.length; i++) {
+            if (i < 19) continue;
+            let s = 0; for (let j = 0; j < 20; j++) s += closes[i - j];
+            ma20.push({ x: times[i], y: s / 20 });
+        }
+        const ma50 = [];
+        for (let i = 0; i < closes.length; i++) {
+            if (i < 49) continue;
+            let s = 0; for (let j = 0; j < 50; j++) s += closes[i - j];
+            ma50.push({ x: times[i], y: s / 50 });
+        }
+
+        const vol = {
+            x: times, y: volumes, type: 'bar', name: 'Volume',
+            marker: { color: volumes.map((v, i) => closes[i] >= opens[i] ? 'rgba(63,185,80,0.4)' : 'rgba(248,81,73,0.4)') }
+        };
+
+        const layout = {
+            paper_bgcolor: '#161b22', plot_bgcolor: '#161b22',
+            font: { color: '#c9d1d9', family: 'JetBrains Mono' },
+            xaxis: { gridcolor: '#21262d', rangeslider: { visible: false } },
+            yaxis: { gridcolor: '#21262d', side: 'right' },
+            legend: { x: 0, y: 1.1, orientation: 'h' },
+            margin: { l: 50, r: 80, t: 30, b: 40 },
+        };
+
+        Plotly.newPlot('plotly-detail', [candle, { ...ma20, type: 'scatter', mode: 'lines', name: 'MA20', line: { color: '#58a6ff', width: 1 } }, { ...ma50, type: 'scatter', mode: 'lines', name: 'MA50', line: { color: '#bc8cff', width: 1 } }, vol], layout, { responsive: true });
+    })
+    .catch(e => console.error('Plotly load failed:', e));
+</script>
+{% endblock %}

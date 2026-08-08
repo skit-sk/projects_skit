@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Viz — TradeHelp{% endblock %}
+{% block content %}
+<section class="page-header">
+    <h1>📊 Визуализация (Plotly)</h1>
+    <p class="muted">8 интерактивных графиков на реальных данных проекта 01</p>
+</section>
+
+<div class="viz-grid">
+    {% for p in pages %}
+    <a class="card-link" href="{{ url_for('viz.page', slug=p.slug) }}">
+        <div class="card">
+            <h3>{{ p.title }}</h3>
+            <p>{{ p.desc }}</p>
+            {% if p.symbol %}<span class="badge">{{ p.symbol }}</span>{% endif %}
+        </div>
+    </a>
+    {% endfor %}
+</div>
+{% endblock %}

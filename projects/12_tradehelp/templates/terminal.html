@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block title %}Trade Terminal — TradeHelp{% endblock %}
+
+{% block head_extra %}
+<style>.container { padding:0 !important; max-width:none !important; margin:0 !important; }</style>
+<script src="https://unpkg.com/lightweight-charts@5.2.0/dist/lightweight-charts.standalone.production.js"></script>
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+<script src="{{ url_for('static', filename='js/wm/window.js') }}"></script>
+<script src="{{ url_for('static', filename='js/wm/window-manager.js') }}"></script>
+<script src="{{ url_for('static', filename='js/wm/persistence.js') }}"></script>
+<script src="{{ url_for('static', filename='js/data/data-fetcher.js') }}"></script>
+<script src="{{ url_for('static', filename='js/panels/chart-panel.js') }}"></script>
+<script src="{{ url_for('static', filename='js/panels/ob-panel.js') }}"></script>
+<script src="{{ url_for('static', filename='js/panels/lh-panel.js') }}"></script>
+<script src="{{ url_for('static', filename='js/panels/fp-panel.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="terminal">
+  <div class="toolbar">
+    <div class="tb-left">
+      <select id="sym-select" class="tb-sel">
+        <option value="BTCUSDT">BTC/USDT</option>
+        <option value="ETHUSDT">ETH/USDT</option>
+        <option value="API3USDT">API3/USDT</option>
+        <option value="ATOMUSDT">ATOM/USDT</option>
+        <option value="ADAUSDT">ADA/USDT</option>
+        <option value="DOTUSDT">DOT/USDT</option>
+        <option value="AVAXUSDT">AVAX/USDT</option>
+      </select>
+      <select id="tf-select" class="tb-sel">
+        <option value="1m">1m</option>
+        <option value="5m">5m</option>
+        <option value="15m">15m</option>
+        <option value="1h">1h</option>
+        <option value="4h">4h</option>
+        <option value="1d" selected>1d</option>
+      </select>
+      <select id="aggr-select" class="tb-sel">
+        <option value="0">No Aggr</option>
+        <option value="0.5">0.5</option>
+        <option value="1">1 USDT</option>
+        <option value="5">5 USDT</option>
+        <option value="10">10 USDT</option>
+        <option value="50">50 USDT</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input type="number" id="aggr-custom" class="tb-inp" value="0.5" min="0.01" step="0.01" style="display:none;width:70px;">
+      <label class="tb-lbl">Depth:</label>
+      <input type="number" id="depth-input" class="tb-inp" value="20" min="1" max="500">
+      <span id="status-badge" class="status-live">● Live</span>
+    </div>
+    <div class="tb-right">
+      <label class="tb-lbl">Grid:</label>
+      <select id="grid-select" class="tb-sel"></select>
+      <button id="btn-addcol" class="tb-btn" title="Add column">+col</button>
+      <button id="btn-rmcol" class="tb-btn" title="Remove last column">−col</button>
+      <button id="btn-addrow" class="tb-btn" title="Add row">+row</button>
+      <button id="btn-rmrow" class="tb-btn" title="Remove last row">−row</button>
+      <button id="btn-clean" class="tb-btn" title="Remove empty cols/rows">🧹</button>
+      <button id="btn-center" class="tb-btn" title="Toggle center alignment">⟷ Center</button>
+      <button id="btn-chart" class="tb-btn tb-active">📊 Chart</button>
+      <button id="btn-ob" class="tb-btn tb-active">📋 OB</button>
+      <button id="btn-lh" class="tb-btn">🌊 LH</button>
+      <button id="btn-fp" class="tb-btn">🦶 FP</button>
+    </div>
+  </div>
+
+  <div class="workspace" id="workspace"></div>
+  <div class="ws-resize" id="ws-resize">⋮</div>
+</div>
+
+<script>
+(function(){
+  var sel = document.getElementById('grid-select');
+  for(var r=1;r<=8;r++) for(var c=1;c<=8;c++){
+    var o = document.createElement('option');
+    o.value = c+'x'+r; o.textContent = c+'\u00d7'+r;
+    if(c===2&&r===2) o.selected = true;
+    sel.appendChild(o);
+  }
+})();
+</script>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/terminal.js') }}"></script>
+{% endblock %}

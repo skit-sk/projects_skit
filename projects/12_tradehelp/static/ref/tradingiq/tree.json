@@ -1,0 +1,13 @@
+{
+  "id": "tradingiq",
+  "title": "TradingIQ",
+  "url": "https://www.tradingiq.io",
+  "pages": [
+    {
+      "url": "https://www.tradingiq.io",
+      "slug": "00-main",
+      "title": "home - TradingIQ",
+      "screenshot": "static/ref/tradingiq/00-main.png"
+    }
+  ]
+}

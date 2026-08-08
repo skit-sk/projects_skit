@@ -1,0 +1,39 @@
+{
+  "id": "deepcharts",
+  "title": "Deepcharts",
+  "url": "https://my.deepcharts.com/",
+  "pages": [
+    {
+      "url": "https://my.deepcharts.com/",
+      "slug": "00-main",
+      "title": "Log in - Deepcharts",
+      "sections": [],
+      "screenshot": "static/ref/deepcharts/00-main.png",
+      "textFile": "static/ref/deepcharts/00-main.txt"
+    },
+    {
+      "url": "https://my.deepcharts.com/identity/account/register",
+      "slug": "01-identity-account-register",
+      "title": "Register - Deepcharts",
+      "sections": [],
+      "screenshot": "static/ref/deepcharts/01-identity-account-register.png",
+      "textFile": "static/ref/deepcharts/01-identity-account-register.txt"
+    },
+    {
+      "url": "https://my.deepcharts.com/identity/account/forgotpassword",
+      "slug": "02-identity-account-forgotpassword",
+      "title": "Forgot Password - Deepcharts",
+      "sections": [],
+      "screenshot": "static/ref/deepcharts/02-identity-account-forgotpassword.png",
+      "textFile": "static/ref/deepcharts/02-identity-account-forgotpassword.txt"
+    },
+    {
+      "url": "https://my.deepcharts.com/?page=%2FIndex",
+      "slug": "03-main",
+      "title": "Log in - Deepcharts",
+      "sections": [],
+      "screenshot": "static/ref/deepcharts/03-main.png",
+      "textFile": "static/ref/deepcharts/03-main.txt"
+    }
+  ]
+}

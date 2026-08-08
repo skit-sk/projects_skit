@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}TV Widgets — TradeHelp{% endblock %}
+{% block content %}
+<section class="page-header">
+    <h1>📺 TradingView Embed Widgets</h1>
+    <p class="muted">10 виджетов: Advanced Chart, Heatmap, Calendar, Market Overview</p>
+</section>
+
+<div class="viz-grid">
+    {% for w in widgets %}
+    <a class="card-link" href="{{ url_for('tv.widget', slug=w.slug) }}">
+        <div class="card">
+            <h3>{{ w.title }}</h3>
+            <p>{{ w.desc }}</p>
+            {% if w.symbol %}<span class="badge">{{ w.symbol }}</span>{% endif %}
+        </div>
+    </a>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,24 @@
+Pifagor
+LIQUIDITY HEATMAP
+i
+ПАРА
+BTCUSDT FUTURES
+Binance USDT-перпетуал
+BTC
+ETH
+FUTURES
+SPOT
+ПЕРИОД
+24 часа
+3 дня
+7 дней
+30 дней
+90 дней
+СЛОИ
+Свечи
+Большие глубины
+КОНТРАСТ
+ЛИКВИДНОСТЬ
+мало
+стена
+‹

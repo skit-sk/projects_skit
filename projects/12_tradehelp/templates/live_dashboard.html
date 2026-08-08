@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Live — TradeHelp{% endblock %}
+{% block head_extra %}
+<meta http-equiv="refresh" content="60">
+{% endblock %}
+{% block content %}
+<section class="page-header">
+    <h1>🔴 Live Portfolio</h1>
+    <p class="muted">Источник: <code>projects/01_fundament_rf/data/account/</code> · обновлено {{ now.strftime('%Y-%m-%d %H:%M:%S UTC') }}</p>
+</section>
+
+<section class="live-grid">
+    <div class="card">
+        <h3>Equity</h3>
+        <div class="big-value">${{ "%.2f"|format(totals.total_value or 0) }}</div>
+    </div>
+    <div class="card">
+        <h3>Margin</h3>
+        <div class="big-value">${{ "%.2f"|format(totals.total_margin or 0) }}</div>
+    </div>
+    <div class="card">
+        <h3>P&amp;L</h3>
+        <div class="big-value {{ 'pos' if (totals.total_pl or 0) >= 0 else 'neg' }}">${{ "%.2f"|format(totals.total_pl or 0) }}</div>
+    </div>
+    <div class="card">
+        <h3>Open Positions</h3>
+        <div class="big-value">{{ totals.total_positions or 0 }}</div>
+    </div>
+</section>
+
+<section class="live-section">
+    <h2>Баланс (Spot + Futures)</h2>
+    <pre class="json-dump">{{ balance | tojson(indent=2) }}</pre>
+</section>
+
+<section class="live-section">
+    <h2>Активные ордера</h2>
+    <pre class="json-dump">{{ orders | tojson(indent=2) }}</pre>
+</section>
+
+<section class="live-section">
+    <h2>Totals</h2>
+    <pre class="json-dump">{{ totals | tojson(indent=2) }}</pre>
+</section>
+{% endblock %}

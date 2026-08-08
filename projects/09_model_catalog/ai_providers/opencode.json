@@ -3,9 +3,9 @@
   "label": "OpenCode",
   "homepage": "https://opencode.ai",
   "balance": "prepaid",
-  "updated": "2026-06-19",
+  "updated": "2026-06-24",
   "opencode_prefix": "opencode/",
-  "models_count": 45,
+  "models_count": 46,
   "pricing_available": false,
   "models": [
     {
@@ -181,6 +181,16 @@
     {
       "id": "glm-5.1",
       "name": "glm-5.1",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "glm-5.2",
+      "name": "glm-5.2",
       "type": "llm",
       "pricing": null,
       "context": null,

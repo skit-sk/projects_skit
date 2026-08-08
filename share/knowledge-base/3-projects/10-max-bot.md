@@ -4,7 +4,7 @@
 **Расположение:** `projects/10_max_bot/`
 **Тип:** bot
 **Порт:** —
-**Запуск:** `./projects/10_max_bot/scripts/max_bot.sh start`
+**Запуск:** `./scripts/max_bot.sh start`
 
 ## Назначение
 
@@ -23,8 +23,7 @@ projects/10_max_bot/
 ├── main.py                # Entry point
 ├── handler.py             # Обработчики
 ├── config.py
-├── scripts/
-│   └── max_bot.sh         # Управление ботом
+├── max_bot.sh           # launcher → ../../scripts/max_bot.sh
 └── bot.log
 ```
 
@@ -51,7 +50,7 @@ projects/10_max_bot/
 ## Запуск
 
 ```bash
-./projects/10_max_bot/scripts/max_bot.sh start
+./scripts/max_bot.sh start
 ```
 
 ## Связанные KB

@@ -1,7 +1,8 @@
 # TG BOT Skill — Telegram Bot Proxy → OpenCode
 
 **Статус:** РАБОТАЕТ
-**Обновлено:** 2026-05-23
+**Обновлено:** 2026-07-10
+**См. также:** [max_bot.md](./max_bot.md) — MAX-бот (бывш. mail.ru), сателлит, общий state.json.
 
 ## Команда транскрипции
 
@@ -192,3 +193,37 @@ f"📁 {session_name}"
 | `/removeuser <id>` | Super | Удалить |
 | `/cd [path]` | Super | Сменить директорию |
 | `/shutdown` | Super | Остановка бота |
+
+## 14. MAX-бот — сателлит (95% общий код)
+
+`projects/10_max_bot/` — параллельный бот для MAX (бывш. mail.ru), работает рядом.
+**Большинство модулей — симлинки** в `07_tg_bot_aiforguest/bot/`, поэтому правки `session.py`,
+`commands.py`, `security.py`, `state.json` применяются к обоим ботам сразу.
+
+**Чем MAX отличается:** свой `main.py`, свой `max_client.py`, свой `handler.py`, свой `config.py`,
+свой launcher `scripts/max_bot.sh`. Уникальная команда — `/restart`.
+
+**Различение в `ps`:** cwd родительского процесса:
+- `…/projects/10_max_bot` → MAX
+- `…/projects/07_tg_bot_aiforguest` → TG
+
+Подробности, env-переменные, диагностика, однострочник для классификации — в [max_bot.md](./max_bot.md).
+
+## 15. Per-session каталоги (с 2026-07-10)
+
+Раньше все сессии одного чата сваливали артефакты в одну папку. Теперь у каждой сессии — **свой подкаталог**:
+
+```
+ALL_USERS/usr_<uid>/<platform>_<chat_id>/
+├── uploads/                ← общий для чата (юзерские файлы)
+├── _default/               ← legacy-данные (миграция)
+└── ses_<uid>_<ts>/         ← сессия 1
+    ├── *.png, *.md, *.txt
+    └── .opencode/          ← opencode runtime для этой сессии
+```
+
+`opencode run --dir` теперь указывает на `chat_dir / <session_key>/`. Реализация —
+`session_run_dir(uid, platform)` в `session.py`; используется в `security.py:run_opencode`.
+
+При первом обращении к новой сессии, если `_default/` существует, его содержимое **один раз**
+копируется в новую папку сессии (без дублирования дальше).

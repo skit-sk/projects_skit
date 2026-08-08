@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Sentiment — Viz{% endblock %}
+{% block head_extra %}
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+{% endblock %}
+{% block content %}
+<section class="page-header">
+    <h1>😱 / 🤑 Sentiment</h1>
+    <p class="muted">Fear &amp; Greed + Funding Rate + Put/Call</p>
+</section>
+
+<div class="grid-2col">
+    <div class="card">
+        <h3>Fear &amp; Greed Index (симуляция)</h3>
+        <div id="fg-gauge" style="width:100%;height:300px;"></div>
+        <p class="muted">0-25 Extreme Fear · 25-50 Fear · 50-75 Greed · 75-100 Extreme Greed</p>
+    </div>
+    <div class="card">
+        <h3>Funding Rate</h3>
+        <div id="funding" style="width:100%;height:300px;"></div>
+        <p class="muted">&gt; 0.05% = перегрев лонгов (Leverage Flush risk)</p>
+    </div>
+</div>
+
+<a href="{{ url_for('viz.index') }}" class="btn btn-ghost">← Все графики</a>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const darkLayout = {
+    paper_bgcolor: '#161b22', plot_bgcolor: '#161b22',
+    font: { color: '#c9d1d9', family: 'JetBrains Mono' },
+    xaxis: { gridcolor: '#21262d' },
+    yaxis: { gridcolor: '#21262d' },
+    margin: { l: 50, r: 30, t: 20, b: 30 },
+};
+
+const fgValue = 75;
+Plotly.newPlot('fg-gauge', [{
+    type: 'indicator', mode: 'gauge+number+delta',
+    value: fgValue, delta: { reference: 50, increasing: { color: '#f85149' } },
+    gauge: {
+        axis: { range: [0, 100], tickcolor: '#c9d1d9' },
+        bar: { color: '#d29922' },
+        steps: [
+            { range: [0, 25], color: '#f85149' },
+            { range: [25, 50], color: '#d29922' },
+            { range: [50, 75], color: '#3fb950' },
+            { range: [75, 100], color: '#58a6ff' },
+        ],
+        threshold: { line: { color: 'white', width: 2 }, thickness: 0.75, value: fgValue },
+    },
+}], { ...darkLayout, height: 280, yaxis: { visible: false } }, { responsive: true });
+
+// Funding rate
+const n = 60;
+const funding = Array.from({ length: n }, (_, i) => 0.02 + Math.sin(i / 7) * 0.04 + (Math.random() - 0.5) * 0.01);
+const x = Array.from({ length: n }, (_, i) => i);
+Plotly.newPlot('funding', [{
+    x, y: funding, type: 'bar',
+    marker: { color: funding.map(v => v > 0.05 ? '#f85149' : v > 0 ? '#3fb950' : '#58a6ff') },
+}], { ...darkLayout, shapes: [{ type: 'line', x0: 0, x1: n, y0: 0.05, y1: 0.05, line: { color: '#f85149', dash: 'dash' } }, { type: 'line', x0: 0, x1: n, y0: 0, y1: 0, line: { color: '#c9d1d9' } }] }, { responsive: true });
+</script>
+{% endblock %}

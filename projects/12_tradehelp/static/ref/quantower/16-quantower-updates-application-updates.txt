@@ -1,0 +1,81 @@
+Quantower
+Ctrl
+K
+Quantower Website
+Welcome to Quantower Help
+🚀
+Getting Started
+⚙️
+General Settings
+🔗
+Connections
+💡
+Analytics Panels
+💵
+Trading Panels
+💼
+Portfolio Panels
+📊
+Information Panels
+📌
+Miscellaneous
+🤖
+Quantower Algo
+💫
+Customization
+⁉️
+FAQ
+UPDATES & RELEASE NOTES
+Release Notes
+Platform update
+Quantower Beta
+HELP & TROUBLESHOOTING
+Backup & restore manager
+Reset settings to default
+You have found a bug. What’s next?
+BILLING & PAYMENTS
+Payment FAQ
+“Coinpayments” payment
+Referral Program
+Powered by GitBook
+For the complete documentation index, see llms.txt. This page is also available as Markdown.
+Copy
+Updates & Release Notes
+Platform update
+
+See how Quantower updates itself — automatic checks, one-click downloads, and rolling back to a previous version.
+
+Quantower Beta version
+
+Our team strives to release new updates as soon as possible, usually at least a couple of times per month.
+
+Quantower automatically checks for updates on start and re-checks them every 10 minutes in the background. It helps you to get to know about the latest updates just after we release them.
+
+The green arrow on the logo indicates that a new update is available
+
+When a new version is available, a green arrow appears next to the logo. Click the logo to open the sidebar, then press the "NEW VERSION" button at the bottom to reach the About screen.
+
+New version is available for download
+
+Click "DOWNLOAD", and Quantower will download the latest version and prepare it for the update. When the download process is finished, Quantower will ask you about the restart. This action is required to apply the new version, but you can cancel the reboot and proceed using an application. In this case, updates will be applied on the next start of Quantower.
+
+Restarting to update closes and reopens Quantower with the new version. It takes a moment, and trading is unavailable while it happens.
+
+Your local settings carry over to every update — the process replaces the Core files only, so nothing you've set up is lost.
+
+If your version falls too far behind, Quantower will prompt you to update to avoid issues with connections and trading.
+
+Rollback to the previous version
+
+Need to step back? The rollback function lets you return to any previously supported version in a few clicks.
+
+Rollback to previous Quantower version (new version)
+
+Curious what's coming next? Join the Quantower Beta version to test new features before they release.
+
+Last updated 1 month ago
+
+This site uses cookies to deliver its service and to analyze traffic. By browsing this site, you accept the privacy policy.
+
+Accept
+Reject

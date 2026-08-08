@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% block title %}References — TradeHelp{% endblock %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/references.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="ref-page">
+  <div class="ref-header">
+    <h1>📚 References <span id="data-status" class="ref-status"></span></h1>
+    <p class="ref-subtitle">Отслеживание, анализ и планирование внедрения внешних инструментов и платформ</p>
+  </div>
+
+  <!-- Kanban Board -->
+  <div class="kanban" id="kanban">
+    <div class="kanban-col" data-status="added">
+      <div class="kanban-head head-added">📥 Добавлено</div>
+      <div class="kanban-body" id="kb-added"><div class="kb-placeholder">⏳</div></div>
+    </div>
+    <div class="kanban-col" data-status="analyzing">
+      <div class="kanban-head head-analyzing">🔍 В анализе</div>
+      <div class="kanban-body" id="kb-analyzing"></div>
+    </div>
+    <div class="kanban-col" data-status="done">
+      <div class="kanban-head head-done">✅ Проработано</div>
+      <div class="kanban-body" id="kb-done"></div>
+    </div>
+    <div class="kanban-col" data-status="distributed">
+      <div class="kanban-head head-distributed">📋 Распределено</div>
+      <div class="kanban-body" id="kb-distributed"></div>
+    </div>
+  </div>
+
+  <!-- Add Form -->
+  <details class="ref-add-form" id="add-form">
+    <summary class="ref-add-summary">+ Добавить ссылку</summary>
+    <div class="ref-add-body">
+      <input type="url" id="add-url" placeholder="https://..." class="rf-inp">
+      <input type="text" id="add-title" placeholder="Название" class="rf-inp">
+      <select id="add-category" class="rf-inp">
+        <option value="heatmap">Heatmap</option>
+        <option value="orderflow">Order Flow</option>
+        <option value="screener">Screener</option>
+        <option value="analytics">Analytics</option>
+        <option value="terminal">Terminal</option>
+        <option value="education">Education</option>
+        <option value="other">Other</option>
+      </select>
+      <select id="add-priority" class="rf-inp">
+        <option value="P0">P0 — Critical</option>
+        <option value="P1" selected>P1 — High</option>
+        <option value="P2">P2 — Medium</option>
+        <option value="P3">P3 — Low</option>
+        <option value="P4">P4 — Future</option>
+      </select>
+      <textarea id="add-desc" placeholder="Краткое описание" class="rf-inp rf-ta"></textarea>
+      <button id="add-btn" class="rf-btn">Добавить</button>
+    </div>
+  </details>
+
+  <!-- Table -->
+  <div class="ref-table-wrap">
+    <table class="ref-table" id="ref-table">
+      <thead>
+        <tr>
+          <th class="th-status">Статус</th>
+          <th>Название</th>
+          <th>Описание</th>
+          <th>Категория</th>
+          <th>Приоритет</th>
+          <th class="th-actions"></th>
+        </tr>
+      </thead>
+      <tbody id="ref-tbody"></tbody>
+    </table>
+  </div>
+
+  <!-- Detail Modal -->
+  <div class="ref-modal" id="ref-modal" style="display:none">
+    <div class="ref-modal-bg" onclick="closeModal()"></div>
+    <div class="ref-modal-body" id="modal-body"></div>
+  </div>
+
+  <!-- Plan Table -->
+  <div class="ref-plan">
+    <h2>📋 План внедрения</h2>
+    <table class="ref-table" id="plan-table">
+      <thead>
+        <tr>
+          <th>Модуль</th>
+          <th>Элемент</th>
+          <th>Источник</th>
+          <th>Статус</th>
+          <th>Приоритет</th>
+        </tr>
+      </thead>
+      <tbody id="plan-tbody"></tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/references.js') }}?v={{ now.microsecond }}"></script>
+{% endblock %}

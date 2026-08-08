@@ -1,0 +1,32 @@
+{
+  "id": "pifagor-bookmap",
+  "title": "Pifagor Trade — BookMap",
+  "url": "https://metrics.pifagor.trade/bookmap.html",
+  "pages": [
+    {
+      "url": "https://metrics.pifagor.trade/bookmap.html",
+      "slug": "00-bookmaphtml",
+      "title": "Liquidity Heatmap — Pifagor Trade",
+      "sections": [
+        {
+          "tag": "h2",
+          "text": "Карта ликвидности"
+        },
+        {
+          "tag": "h3",
+          "text": "Что это за график"
+        },
+        {
+          "tag": "h3",
+          "text": "Что он показывает"
+        },
+        {
+          "tag": "h3",
+          "text": "Как пользоваться"
+        }
+      ],
+      "screenshot": "static/ref/pifagor-bookmap/00-bookmaphtml.png",
+      "textFile": "static/ref/pifagor-bookmap/00-bookmaphtml.txt"
+    }
+  ]
+}

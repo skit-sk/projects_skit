@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Чек-листы — Tools{% endblock %}
+{% block content %}
+<section class="page-header">
+    <h1>✅ Чек-листы трейдера</h1>
+    <p class="muted">Дисциплина: до и после сделки</p>
+</section>
+
+<div class="checklist-cols">
+    <div class="checklist">
+        <h3>🚀 Pre-Trade Checklist (до входа)</h3>
+        <ul class="checklist-items">
+            <li>☑️ Макро-фаза Wyckoff определена (накопление/распределение)</li>
+            <li>☑️ MSS / BOS подтверждён (с displacement > 1.5×ATR)</li>
+            <li>☑️ Снятие ликвидности (Sweep BSL/SSL) — есть</li>
+            <li>☑️ POI найден (Order Block или FVG)</li>
+            <li>☑️ Цена в OTE (62–79% отката)</li>
+            <li>☑️ Heatmap ликвидаций подтверждает зону</li>
+            <li>☑️ OI Trend Healthy (цена + OI согласованы)</li>
+            <li>☑️ Footprint: Imbalance / Absorption подтверждение</li>
+            <li>☑️ Risk/Reward ≥ 1:2</li>
+            <li>☑️ Размер позиции по Risk Calculator</li>
+            <li>☑️ Стоп-лосс за пределами OB</li>
+            <li>☑️ Confluence Score ≥ 4</li>
+        </ul>
+    </div>
+
+    <div class="checklist">
+        <h3>🛬 Post-Trade Checklist (после сделки)</h3>
+        <ul class="checklist-items">
+            <li>☑️ Записать сделку в журнал (время, цена, объём, причина)</li>
+            <li>☑️ Скриншот графика с разметкой</li>
+            <li>☑️ Confluence Score: сколько факторов совпало?</li>
+            <li>☑️ Что сработало? Что нет?</li>
+            <li>☑️ Эмоциональное состояние (спокоен / FOMO / страх / жадность)</li>
+            <li>☑️ Соблюдал ли план? (без отклонений)</li>
+            <li>☑️ P&L зафиксирован (psychology: win/loss = OK)</li>
+            <li>☑️ Что улучшить в следующий раз?</li>
+            <li>☑️ Метрики обновлены (win rate, avg RR, profit factor)</li>
+            <li>☑️ Margin / risk exposure в норме</li>
+            <li>☑️ Funding Rate проверен (нет смыва)</li>
+            <li>☑️ Следующая сделка — не из мести (revenge trading)</li>
+        </ul>
+    </div>
+</div>
+
+<div class="card">
+    <h3>🧠 Правила дисциплины</h3>
+    <ol>
+        <li>Не входи без Confluence Score ≥ 4</li>
+        <li>Не усредняй убыточную позицию (no martingale)</li>
+        <li>Не двигай стоп-лосс дальше от входа</li>
+        <li>Не входи после серии убытков (cooldown 30 мин)</li>
+        <li>Фиксируй P&L по плану (не пересиживай)</li>
+        <li>Перед сделкой — дыхание 3 раза (1 мин)</li>
+        <li>После убытка — запись в журнал, а не новый вход</li>
+    </ol>
+</div>
+{% endblock %}

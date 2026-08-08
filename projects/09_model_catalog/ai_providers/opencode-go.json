@@ -3,7 +3,7 @@
   "label": "OpenCode Go",
   "homepage": "https://opencode.ai",
   "balance": "prepaid",
-  "updated": "2026-06-19",
+  "updated": "2026-06-24",
   "opencode_prefix": "opencode-go/",
   "models_count": 13,
   "pricing_available": false,

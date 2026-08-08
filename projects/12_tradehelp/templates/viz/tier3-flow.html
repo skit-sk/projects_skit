@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block title %}3-Tier Data Flow — Viz{% endblock %}
+{% block head_extra %}
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+{% endblock %}
+{% block content %}
+<section class="page-header">
+    <h1>🏗 3-Tier Architecture — Data Flow</h1>
+    <p class="muted">Tier 1 (Raw) → Tier 2 (Microstructure) → Tier 3 (Structural)</p>
+</section>
+
+<div class="card">
+    <h3>Архитектура потоков данных</h3>
+    <div id="flow-diagram" style="width:100%;height:600px;"></div>
+    <p class="muted">Polars + Numba + WebSocket + Datashader — production-grade стек MidasFlow Matrix v4.0</p>
+</div>
+
+<div class="card">
+    <h3>Latency Targets</h3>
+    <div id="latency-table"></div>
+</div>
+
+<a href="{{ url_for('viz.index') }}" class="btn btn-ghost">← Все графики</a>
+
+<script>
+// Sankey diagram: Tier 1 → Tier 2 → Tier 3 → Visualization
+const data = [{
+    type: 'sankey',
+    orientation: 'h',
+    node: {
+        pad: 20, thickness: 30,
+        line: { color: '#21262d', width: 0.5 },
+        label: [
+            'WebSocket\n(Binance)',
+            'REST API\n(Binance)',
+            'Tier 1: Raw\n(Polars Normalize)',
+            'Tier 2: Micro\n(Delta, CVD, VP)',
+            'Tier 3: Structural\n(BOS, OB, FVG)',
+            'MidasFlow Grid\n(33 levels)',
+            'Plotly + WebGL\n(Datashader)',
+            'TradingView\n(Advanced Chart)',
+            'LWC 5.2.0\n(Inline)',
+            'WebSocket\n(Web Client)'
+        ],
+        color: [
+            '#d29922', '#d29922',  // WebSocket, REST
+            '#58a6ff',  // Tier 1
+            '#3fb950',  // Tier 2
+            '#bc8cff',  // Tier 3
+            '#ff9100',  // MidasFlow Grid
+            '#39c5cf', '#39c5cf', '#39c5cf', '#39c5cf'  // Viz
+        ]
+    },
+    link: {
+        source: [0, 1, 2, 2, 3, 3, 4, 4, 5, 6, 7, 8],
+        target: [2, 2, 3, 4, 4, 5, 5, 6, 6, 9, 9, 9],
+        value:  [10, 5, 12, 5, 8, 6, 5, 8, 6, 6, 5, 3],
+        color: 'rgba(88, 166, 255, 0.3)'
+    }
+}];
+
+const layout = {
+    paper_bgcolor: '#0d1117', plot_bgcolor: '#161b22',
+    font: { color: '#c9d1d9', family: 'JetBrains Mono', size: 12 },
+    margin: { l: 10, r: 10, t: 10, b: 10 }
+};
+
+Plotly.newPlot('flow-diagram', data, layout, { responsive: true });
+
+// Latency table
+const latencyData = [
+    ['Tier 1 Normalize', '< 0.1ms', 'Numpy'],
+    ['Tier 2 Microstructure', '< 1ms', 'Polars'],
+    ['Tier 3 Patterns', '< 5ms', 'Numba JIT'],
+    ['Fibo Grid 33 levels', '< 0.1ms', 'Numba JIT'],
+    ['CRP calc (20 candles)', '< 2ms', 'Polars'],
+    ['WebSocket push', '< 10ms', 'ASGI'],
+    ['TOTAL latency', '< 25ms', '—'],
+];
+
+document.getElementById('latency-table').innerHTML = `
+    <table class="data-table">
+        <thead><tr><th>Операция</th><th>Target</th><th>Метод</th></tr></thead>
+        <tbody>
+            ${latencyData.map(r => `
+                <tr>
+                    <td>${r[0]}</td>
+                    <td><span class="${r[1].includes('Total') ? 'pos' : ''}">${r[1]}</span></td>
+                    <td>${r[2]}</td>
+                </tr>
+            `).join('')}
+        </tbody>
+    </table>
+`;
+</script>
+{% endblock %}

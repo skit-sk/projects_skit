@@ -1,0 +1,196 @@
+{% extends "base.html" %}
+{% block title %}MidasFlow Quick Builder — Tools{% endblock %}
+{% block content %}
+<section class="page-header">
+    <h1>🛠 MidasFlow Quick Builder</h1>
+    <p class="muted">Генератор JSON-протокола MidasFlow Matrix v4.0</p>
+</section>
+
+<div class="risk-grid">
+    <div class="card">
+        <h3>Входные данные</h3>
+        <div class="form-row">
+            <label>Symbol</label>
+            <input type="text" id="symbol" value="API3USDT">
+        </div>
+        <div class="form-row">
+            <label>Timeframe</label>
+            <select id="timeframe">
+                <option>D1</option>
+                <option>H4</option>
+                <option>H1</option>
+                <option>M15</option>
+                <option selected>M5</option>
+            </select>
+        </div>
+        <div class="form-row">
+            <label>Bias</label>
+            <select id="bias">
+                <option value="Bullish">Bullish</option>
+                <option value="Bearish">Bearish</option>
+                <option value="Neutral">Neutral</option>
+            </select>
+        </div>
+        <div class="form-row">
+            <label>Phase</label>
+            <select id="phase">
+                <option>Accumulation</option>
+                <option value="Manipulation" selected>Manipulation</option>
+                <option>Distribution</option>
+                <option>Re-entry</option>
+            </select>
+        </div>
+        <div class="form-row">
+            <label>Killzone</label>
+            <select id="killzone">
+                <option value="ASIA">Asia</option>
+                <option value="LONDON_OPEN" selected>London Open</option>
+                <option value="NY_OPEN">New York Open</option>
+                <option value="LONDON_CLOSE">London Close</option>
+            </select>
+        </div>
+        <div class="form-row">
+            <label>Dealing Range High</label>
+            <input type="number" id="range_high" value="0.32" step="0.0001">
+        </div>
+        <div class="form-row">
+            <label>Dealing Range Low</label>
+            <input type="number" id="range_low" value="0.21" step="0.0001">
+        </div>
+        <div class="form-row">
+            <label>POC</label>
+            <input type="number" id="poc" value="0.235" step="0.0001">
+        </div>
+        <div class="form-row">
+            <label>VAH</label>
+            <input type="number" id="vah" value="0.295" step="0.0001">
+        </div>
+        <div class="form-row">
+            <label>VAL</label>
+            <input type="number" id="val" value="0.225" step="0.0001">
+        </div>
+        <button class="btn btn-primary" onclick="generateJSON()">Сгенерировать JSON</button>
+    </div>
+
+    <div class="card">
+        <h3>JSON Output (MidasFlow v1.1.0)</h3>
+        <pre id="json-output" style="font-size:11px;max-height:600px;overflow:auto;background:#0d1117;padding:12px;border-radius:6px;color:#3fb950;">{
+  "matrix_metadata": { ... }
+}</pre>
+        <button class="btn btn-ghost" onclick="copyJSON()">📋 Скопировать</button>
+        <button class="btn btn-ghost" onclick="downloadJSON()">💾 Скачать</button>
+    </div>
+</div>
+
+<a href="{{ url_for('tools.index') }}" class="btn btn-ghost">← Все инструменты</a>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function generateJSON() {
+    const range_high = parseFloat(document.getElementById('range_high').value);
+    const range_low = parseFloat(document.getElementById('range_low').value);
+    const range_ = range_high - range_low;
+
+    // MidasFlow Grid 2.0
+    const ssp = range_low + range_ * 0.705;
+    const ote_start = range_low + range_ * 0.618;
+    const ote_deep = range_low + range_ * 0.786;
+    const invalidation = range_low + range_ * 1.0;
+    const tp1 = range_low + range_ * 1.236;
+    const tp2 = range_low + range_ * 1.618;
+
+    const matrix = {
+        "matrix_metadata": {
+            "protocol_version": "1.1.0",
+            "timestamp": new Date().toISOString(),
+            "symbol": document.getElementById('symbol').value,
+            "timeframe": document.getElementById('timeframe').value,
+            "active_killzone": document.getElementById('killzone').value
+        },
+        "active_zones": [
+            {
+                "type": "Order_Block",
+                "range_type": "IRL",
+                "direction": document.getElementById('bias').value === "Bearish" ? "Bearish" : "Bullish",
+                "proximal_line": parseFloat(document.getElementById('val').value) * 1.001,
+                "distal_line": parseFloat(document.getElementById('val').value) * 0.999,
+                "status": "unmitigated"
+            }
+        ],
+        "crp_ribbons": {
+            "phase": document.getElementById('phase').value,
+            "reference_range": [range_low, range_high],
+            "manipulation_extreme": range_high * 1.005,
+            "confirmation_status": "re-entry_confirmed",
+            "metrics": {
+                "POC": parseFloat(document.getElementById('poc').value),
+                "POC_relative_position": "Lower_Third",
+                "VAH": parseFloat(document.getElementById('vah').value),
+                "VAL": parseFloat(document.getElementById('val').value),
+                "profile_shape": "D-Shape",
+                "sniper_entry": ssp,
+                "ote_zone": [ote_start, ote_deep]
+            }
+        },
+        "market_structure": {
+            "bias": document.getElementById('bias').value,
+            "last_break": "MSS",
+            "displacement_magnitude": "High",
+            "dealing_range": {
+                "high": range_high,
+                "low": range_low
+            },
+            "invalidation": invalidation
+        },
+        "fibo_grid_2_0": {
+            "sweet_spot": ssp,
+            "ote_start": ote_start,
+            "ote_deep": ote_deep,
+            "invalidation": invalidation,
+            "tp1_early_deviation": tp1,
+            "tp2_whale_alpha": tp2,
+            "scaling": [
+                {"step": 1, "fraction": 0.125, "level": "0.0 (MSS)"},
+                {"step": 2, "fraction": 0.25, "level": "0.618 (OTE Start)"},
+                {"step": 3, "fraction": 0.625, "level": "1.0 (BOS)"}
+            ]
+        },
+        "liquidity_pools": {
+            "ERL_targets": {
+                "BSL": range_high * 1.02,
+                "SSL": range_low * 0.98
+            },
+            "current_cycle": "ERL_to_IRL",
+            "liquidity_sweep_confirmed": true
+        },
+        "volume_profile_metrics": {
+            "POC": parseFloat(document.getElementById('poc').value),
+            "poc_relative_position": "Lower_Third",
+            "VAH": parseFloat(document.getElementById('vah').value),
+            "VAL": parseFloat(document.getElementById('val').value),
+            "profile_shape": "D-Shape"
+        }
+    };
+    document.getElementById('json-output').textContent = JSON.stringify(matrix, null, 2);
+    window._currentJSON = matrix;
+}
+
+function copyJSON() {
+    const text = document.getElementById('json-output').textContent;
+    navigator.clipboard.writeText(text).then(() => alert('JSON скопирован в буфер'));
+}
+
+function downloadJSON() {
+    const data = JSON.stringify(window._currentJSON, null, 2);
+    const blob = new Blob([data], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `midasflow_${window._currentJSON.matrix_metadata.symbol}_${Date.now()}.json`;
+    a.click();
+}
+
+generateJSON();
+</script>
+{% endblock %}

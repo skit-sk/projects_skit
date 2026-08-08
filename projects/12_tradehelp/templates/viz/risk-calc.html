@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Risk Calc — Viz{% endblock %}
+{% block content %}
+<section class="page-header">
+    <h1>💰 Risk Calculator (расширенный)</h1>
+    <p class="muted">Используйте <a href="/tools/risk">/tools/risk</a> для интерактивной формы</p>
+</section>
+
+<div class="card">
+    <h3>Формулы</h3>
+    <pre><code>Position Size = (Equity × Risk%) / StopDistance × 100
+Kelly % = (RR × WinRate − (1 − WinRate)) / RR
+Lp (LONG) = Entry × (1 − 1/Leverage)
+Lp (SHORT) = Entry × (1 + 1/Leverage)
+ATR Stop 1× = Entry − ATR(14)
+ATR Stop 2× = Entry − 2×ATR(14)
+Ruin = log(0.5) / log(1 − Risk%)</code></pre>
+</div>
+
+<div class="card">
+    <h3>Пример: API3 #4 (реальные данные)</h3>
+    <table class="data-table">
+        <tr><td>Equity</td><td>$1,847.99 (margin)</td></tr>
+        <tr><td>Entry</td><td>0.2992</td></tr>
+        <tr><td>Leverage</td><td>10x</td></tr>
+        <tr><td>Stop distance</td><td>0.2992 − 0.2693 = 0.0299 (10%)</td></tr>
+        <tr><td>Position (coin)</td><td>85.2 API3</td></tr>
+        <tr><td>Risk USD (1%)</td><td>$18.48</td></tr>
+        <tr><td>Position size</td><td>$18.48 / 0.10 = $184.8 (≈ 85.2 × 0.2992 = $25.5) ❌</td></tr>
+        <tr><td>Liquidation</td><td>0.2992 × 0.9 = 0.2693</td></tr>
+        <tr><td>Days open</td><td>195</td></tr>
+        <tr><td>ROE</td><td>−329% (маржа потеряна)</td></tr>
+    </table>
+    <p class="muted">Урок: 195 дней без закрытия. Funding + −329%. Confluence score: B.</p>
+</div>
+
+<a href="{{ url_for('viz.index') }}" class="btn btn-ghost">← Все графики</a>
+{% endblock %}

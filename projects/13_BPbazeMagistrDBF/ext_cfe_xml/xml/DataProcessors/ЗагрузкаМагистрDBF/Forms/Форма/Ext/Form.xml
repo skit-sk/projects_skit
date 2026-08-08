@@ -1,0 +1,2386 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Form xmlns="http://v8.1c.ru/8.3/xcf/logform" xmlns:app="http://v8.1c.ru/8.2/managed-application/core" xmlns:cfg="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcssch="http://v8.1c.ru/8.1/data-composition-system/schema" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:ent="http://v8.1c.ru/8.1/data/enterprise" xmlns:lf="http://v8.1c.ru/8.2/managed-application/logform" xmlns:pal="http://v8.1c.ru/8.1/data/ui/colors/palette" xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows" xmlns:xr="http://v8.1c.ru/8.3/xcf/readable" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.21">
+	<WindowOpeningMode>DontBlock</WindowOpeningMode>
+	<Group>Vertical</Group>
+	<AutoCommandBar name="ФормаКоманднаяПанель" id="-1"/>
+	<Events>
+		<Event name="OnCreateAtServer">ПриСозданииНаСервере</Event>
+	</Events>
+	<ChildItems>
+		<InputField name="ПутьКФайлу" id="7">
+			<DataPath>ПутькФайлу</DataPath>
+			<ChoiceButton>true</ChoiceButton>
+			<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+			<ContextMenu name="ПутьКФайлуКонтекстноеМеню" id="8"/>
+			<ExtendedTooltip name="ПутьКФайлуРасширеннаяПодсказка" id="9"/>
+			<Events>
+				<Event name="StartChoice">ПутьКФайлуНачалоВыбора</Event>
+			</Events>
+		</InputField>
+		<InputField name="Организация" id="1">
+			<DataPath>Организация</DataPath>
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Организация</v8:content>
+				</v8:item>
+			</Title>
+			<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+			<ContextMenu name="ОрганизацияКонтекстноеМеню" id="2"/>
+			<ExtendedTooltip name="ОрганизацияРасширеннаяПодсказка" id="3"/>
+		</InputField>
+		<InputField name="Склад" id="4">
+			<DataPath>Склад</DataPath>
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Склад</v8:content>
+				</v8:item>
+			</Title>
+			<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+			<ContextMenu name="СкладКонтекстноеМеню" id="5"/>
+			<ExtendedTooltip name="СкладРасширеннаяПодсказка" id="6"/>
+		</InputField>
+		<CommandBar name="Группа1" id="201">
+			<ExtendedTooltip name="Группа1РасширеннаяПодсказка" id="202"/>
+			<ChildItems>
+				<Button name="Прочитать" id="88">
+					<Type>CommandBarButton</Type>
+					<CommandName>Form.Command.Прочитать</CommandName>
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Прочитать</v8:content>
+						</v8:item>
+					</Title>
+					<ExtendedTooltip name="ПрочитатьРасширеннаяПодсказка" id="89"/>
+				</Button>
+				<Button name="Заполнить" id="199">
+					<Type>CommandBarButton</Type>
+					<CommandName>Form.Command.Заполнить</CommandName>
+					<ExtendedTooltip name="ЗаполнитьРасширеннаяПодсказка" id="200"/>
+				</Button>
+			</ChildItems>
+		</CommandBar>
+		<UsualGroup name="Группа1Стьрантцы" id="191">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Группа1 стьрантцы</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Группа1 стьрантцы</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Group>Vertical</Group>
+			<Representation>StrongSeparation</Representation>
+			<AssociatedTableElementId xsi:type="xs:string">142:02023637-7868-4a5f-8576-835a76e0c9ba</AssociatedTableElementId>
+			<ExtendedTooltip name="Группа1СтьрантцыРасширеннаяПодсказка" id="192"/>
+			<ChildItems>
+				<Pages name="Группа3" id="197">
+					<ExtendedTooltip name="Группа3РасширеннаяПодсказка" id="198"/>
+					<ChildItems>
+						<Page name="Группа1Номенклатура" id="193">
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Номенклатура</v8:content>
+								</v8:item>
+							</Title>
+							<ToolTip>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Группа1 номенклатура</v8:content>
+								</v8:item>
+							</ToolTip>
+							<Group>HorizontalIfPossible</Group>
+							<ScrollOnCompress>false</ScrollOnCompress>
+							<ExtendedTooltip name="Группа1НоменклатураРасширеннаяПодсказка" id="194"/>
+							<ChildItems>
+								<Table name="ТЗ_Номенклатура" id="433">
+									<Representation>List</Representation>
+									<RowSelectionMode>Cell</RowSelectionMode>
+									<UseAlternationRowColorBWA>false</UseAlternationRowColorBWA>
+									<AutoInsertNewRow>true</AutoInsertNewRow>
+									<EnableStartDrag>true</EnableStartDrag>
+									<EnableDrag>true</EnableDrag>
+									<DataPath>ТЗ_Номенклатура</DataPath>
+									<RowFilter xsi:nil="true"/>
+									<ContextMenu name="ТЗ_НоменклатураКонтекстноеМеню" id="434"/>
+									<AutoCommandBar name="ТЗ_НоменклатураКоманднаяПанель" id="435">
+										<ChildItems>
+											<Button name="ТЗ_НоменклатураСоздатьНоменклатуру" id="687">
+												<Type>CommandBarButton</Type>
+												<CommandName>Form.Command.СоздатьНоменклатуру</CommandName>
+												<ExtendedTooltip name="ТЗ_НоменклатураСоздатьНоменклатуруРасширеннаяПодсказка" id="688"/>
+											</Button>
+										</ChildItems>
+									</AutoCommandBar>
+									<ExtendedTooltip name="ТЗ_НоменклатураРасширеннаяПодсказка" id="436"/>
+									<SearchStringAddition name="ТЗ_НоменклатураСтрокаПоиска" id="437">
+										<AdditionSource>
+											<Item>ТЗ_Номенклатура</Item>
+											<Type>SearchStringRepresentation</Type>
+										</AdditionSource>
+										<ContextMenu name="ТЗ_НоменклатураСтрокаПоискаКонтекстноеМеню" id="438"/>
+										<ExtendedTooltip name="ТЗ_НоменклатураСтрокаПоискаРасширеннаяПодсказка" id="439"/>
+									</SearchStringAddition>
+									<ViewStatusAddition name="ТЗ_НоменклатураСостояниеПросмотра" id="440">
+										<AdditionSource>
+											<Item>ТЗ_Номенклатура</Item>
+											<Type>ViewStatusRepresentation</Type>
+										</AdditionSource>
+										<ContextMenu name="ТЗ_НоменклатураСостояниеПросмотраКонтекстноеМеню" id="441"/>
+										<ExtendedTooltip name="ТЗ_НоменклатураСостояниеПросмотраРасширеннаяПодсказка" id="442"/>
+									</ViewStatusAddition>
+									<SearchControlAddition name="ТЗ_НоменклатураУправлениеПоиском" id="443">
+										<AdditionSource>
+											<Item>ТЗ_Номенклатура</Item>
+											<Type>SearchControl</Type>
+										</AdditionSource>
+										<ContextMenu name="ТЗ_НоменклатураУправлениеПоискомКонтекстноеМеню" id="444"/>
+										<ExtendedTooltip name="ТЗ_НоменклатураУправлениеПоискомРасширеннаяПодсказка" id="445"/>
+									</SearchControlAddition>
+									<ChildItems>
+										<InputField name="ТЗ_НоменклатураНомерСтроки" id="564">
+											<DataPath>ТЗ_Номенклатура.НомерСтроки</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_НоменклатураНомерСтрокиКонтекстноеМеню" id="565"/>
+											<ExtendedTooltip name="ТЗ_НоменклатураНомерСтрокиРасширеннаяПодсказка" id="566"/>
+										</InputField>
+										<InputField name="ТЗ_НоменклатураTKOD" id="537">
+											<DataPath>ТЗ_Номенклатура.TKOD</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_НоменклатураTKODКонтекстноеМеню" id="538"/>
+											<ExtendedTooltip name="ТЗ_НоменклатураTKODРасширеннаяПодсказка" id="539"/>
+										</InputField>
+										<InputField name="ТЗ_НоменклатураTSHIFR" id="540">
+											<DataPath>ТЗ_Номенклатура.TSHIFR</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_НоменклатураTSHIFRКонтекстноеМеню" id="541"/>
+											<ExtendedTooltip name="ТЗ_НоменклатураTSHIFRРасширеннаяПодсказка" id="542"/>
+										</InputField>
+										<InputField name="ТЗ_НоменклатураTNAZV" id="543">
+											<DataPath>ТЗ_Номенклатура.TNAZV</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_НоменклатураTNAZVКонтекстноеМеню" id="544"/>
+											<ExtendedTooltip name="ТЗ_НоменклатураTNAZVРасширеннаяПодсказка" id="545"/>
+										</InputField>
+										<InputField name="ТЗ_НоменклатураTGROUP" id="546">
+											<DataPath>ТЗ_Номенклатура.TGROUP</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_НоменклатураTGROUPКонтекстноеМеню" id="547"/>
+											<ExtendedTooltip name="ТЗ_НоменклатураTGROUPРасширеннаяПодсказка" id="548"/>
+										</InputField>
+										<InputField name="ТЗ_НоменклатураTEDIZ" id="549">
+											<DataPath>ТЗ_Номенклатура.TEDIZ</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_НоменклатураTEDIZКонтекстноеМеню" id="550"/>
+											<ExtendedTooltip name="ТЗ_НоменклатураTEDIZРасширеннаяПодсказка" id="551"/>
+										</InputField>
+										<InputField name="ТЗ_НоменклатураTCPOK" id="552">
+											<DataPath>ТЗ_Номенклатура.TCPOK</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_НоменклатураTCPOKКонтекстноеМеню" id="553"/>
+											<ExtendedTooltip name="ТЗ_НоменклатураTCPOKРасширеннаяПодсказка" id="554"/>
+										</InputField>
+										<InputField name="ТЗ_НоменклатураTNAC" id="555">
+											<DataPath>ТЗ_Номенклатура.TNAC</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_НоменклатураTNACКонтекстноеМеню" id="556"/>
+											<ExtendedTooltip name="ТЗ_НоменклатураTNACРасширеннаяПодсказка" id="557"/>
+										</InputField>
+										<InputField name="ТЗ_НоменклатураTCPRO" id="558">
+											<DataPath>ТЗ_Номенклатура.TCPRO</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_НоменклатураTCPROКонтекстноеМеню" id="559"/>
+											<ExtendedTooltip name="ТЗ_НоменклатураTCPROРасширеннаяПодсказка" id="560"/>
+										</InputField>
+										<InputField name="ТЗ_НоменклатураTSTNDS" id="561">
+											<DataPath>ТЗ_Номенклатура.TSTNDS</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_НоменклатураTSTNDSКонтекстноеМеню" id="562"/>
+											<ExtendedTooltip name="ТЗ_НоменклатураTSTNDSРасширеннаяПодсказка" id="563"/>
+										</InputField>
+										<CheckBoxField name="ТЗ_НоменклатураПометка" id="567">
+											<DataPath>ТЗ_Номенклатура.Пометка</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ContextMenu name="ТЗ_НоменклатураПометкаКонтекстноеМеню" id="568"/>
+											<ExtendedTooltip name="ТЗ_НоменклатураПометкаРасширеннаяПодсказка" id="569"/>
+										</CheckBoxField>
+										<CheckBoxField name="ТЗ_НоменклатураНаличиеВ1С" id="817">
+											<DataPath>ТЗ_Номенклатура.НаличиеВ1С</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ContextMenu name="ТЗ_НоменклатураНаличиеВ1СКонтекстноеМеню" id="818"/>
+											<ExtendedTooltip name="ТЗ_НоменклатураНаличиеВ1СРасширеннаяПодсказка" id="819"/>
+										</CheckBoxField>
+										<InputField name="ТЗ_НоменклатураКомментарий" id="570">
+											<DataPath>ТЗ_Номенклатура.Комментарий</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_НоменклатураКомментарийКонтекстноеМеню" id="571"/>
+											<ExtendedTooltip name="ТЗ_НоменклатураКомментарийРасширеннаяПодсказка" id="572"/>
+										</InputField>
+									</ChildItems>
+								</Table>
+							</ChildItems>
+						</Page>
+						<Page name="Группа2Контрагенты" id="195">
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Контрагенты</v8:content>
+								</v8:item>
+							</Title>
+							<ToolTip>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Группа2 контрагенты</v8:content>
+								</v8:item>
+							</ToolTip>
+							<Group>HorizontalIfPossible</Group>
+							<ScrollOnCompress>false</ScrollOnCompress>
+							<ExtendedTooltip name="Группа2КонтрагентыРасширеннаяПодсказка" id="196"/>
+							<ChildItems>
+								<Table name="ТЗ_Контрагенты" id="446">
+									<Representation>List</Representation>
+									<RowSelectionMode>Cell</RowSelectionMode>
+									<UseAlternationRowColorBWA>false</UseAlternationRowColorBWA>
+									<AutoInsertNewRow>true</AutoInsertNewRow>
+									<EnableStartDrag>true</EnableStartDrag>
+									<EnableDrag>true</EnableDrag>
+									<DataPath>ТЗ_Контрагенты</DataPath>
+									<RowFilter xsi:nil="true"/>
+									<ContextMenu name="ТЗ_КонтрагентыКонтекстноеМеню" id="447"/>
+									<AutoCommandBar name="ТЗ_КонтрагентыКоманднаяПанель" id="448">
+										<ChildItems>
+											<Button name="ТЗ_КонтрагентыСоздатьКонтрагентов" id="689">
+												<Type>CommandBarButton</Type>
+												<CommandName>Form.Command.СоздатьКонтрагентов</CommandName>
+												<ExtendedTooltip name="ТЗ_КонтрагентыСоздатьКонтрагентовРасширеннаяПодсказка" id="690"/>
+											</Button>
+										</ChildItems>
+									</AutoCommandBar>
+									<ExtendedTooltip name="ТЗ_КонтрагентыРасширеннаяПодсказка" id="449"/>
+									<SearchStringAddition name="ТЗ_КонтрагентыСтрокаПоиска" id="450">
+										<AdditionSource>
+											<Item>ТЗ_Контрагенты</Item>
+											<Type>SearchStringRepresentation</Type>
+										</AdditionSource>
+										<ContextMenu name="ТЗ_КонтрагентыСтрокаПоискаКонтекстноеМеню" id="451"/>
+										<ExtendedTooltip name="ТЗ_КонтрагентыСтрокаПоискаРасширеннаяПодсказка" id="452"/>
+									</SearchStringAddition>
+									<ViewStatusAddition name="ТЗ_КонтрагентыСостояниеПросмотра" id="453">
+										<AdditionSource>
+											<Item>ТЗ_Контрагенты</Item>
+											<Type>ViewStatusRepresentation</Type>
+										</AdditionSource>
+										<ContextMenu name="ТЗ_КонтрагентыСостояниеПросмотраКонтекстноеМеню" id="454"/>
+										<ExtendedTooltip name="ТЗ_КонтрагентыСостояниеПросмотраРасширеннаяПодсказка" id="455"/>
+									</ViewStatusAddition>
+									<SearchControlAddition name="ТЗ_КонтрагентыУправлениеПоиском" id="456">
+										<AdditionSource>
+											<Item>ТЗ_Контрагенты</Item>
+											<Type>SearchControl</Type>
+										</AdditionSource>
+										<ContextMenu name="ТЗ_КонтрагентыУправлениеПоискомКонтекстноеМеню" id="457"/>
+										<ExtendedTooltip name="ТЗ_КонтрагентыУправлениеПоискомРасширеннаяПодсказка" id="458"/>
+									</SearchControlAddition>
+									<ChildItems>
+										<InputField name="ТЗ_КонтрагентыНомерСтроки" id="727">
+											<DataPath>ТЗ_Контрагенты.НомерСтроки</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_КонтрагентыНомерСтрокиКонтекстноеМеню" id="728"/>
+											<ExtendedTooltip name="ТЗ_КонтрагентыНомерСтрокиРасширеннаяПодсказка" id="729"/>
+										</InputField>
+										<InputField name="ТЗ_КонтрагентыKKOD" id="573">
+											<DataPath>ТЗ_Контрагенты.KKOD</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_КонтрагентыKKODКонтекстноеМеню" id="574"/>
+											<ExtendedTooltip name="ТЗ_КонтрагентыKKODРасширеннаяПодсказка" id="575"/>
+										</InputField>
+										<InputField name="ТЗ_КонтрагентыKNAZV" id="576">
+											<DataPath>ТЗ_Контрагенты.KNAZV</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_КонтрагентыKNAZVКонтекстноеМеню" id="577"/>
+											<ExtendedTooltip name="ТЗ_КонтрагентыKNAZVРасширеннаяПодсказка" id="578"/>
+										</InputField>
+										<InputField name="ТЗ_КонтрагентыKPNAZV" id="579">
+											<DataPath>ТЗ_Контрагенты.KPNAZV</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_КонтрагентыKPNAZVКонтекстноеМеню" id="580"/>
+											<ExtendedTooltip name="ТЗ_КонтрагентыKPNAZVРасширеннаяПодсказка" id="581"/>
+										</InputField>
+										<InputField name="ТЗ_КонтрагентыINN" id="582">
+											<DataPath>ТЗ_Контрагенты.INN</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_КонтрагентыINNКонтекстноеМеню" id="583"/>
+											<ExtendedTooltip name="ТЗ_КонтрагентыINNРасширеннаяПодсказка" id="584"/>
+										</InputField>
+										<InputField name="ТЗ_КонтрагентыKPP" id="585">
+											<DataPath>ТЗ_Контрагенты.KPP</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_КонтрагентыKPPКонтекстноеМеню" id="586"/>
+											<ExtendedTooltip name="ТЗ_КонтрагентыKPPРасширеннаяПодсказка" id="587"/>
+										</InputField>
+										<InputField name="ТЗ_КонтрагентыADRES" id="588">
+											<DataPath>ТЗ_Контрагенты.ADRES</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_КонтрагентыADRESКонтекстноеМеню" id="589"/>
+											<ExtendedTooltip name="ТЗ_КонтрагентыADRESРасширеннаяПодсказка" id="590"/>
+										</InputField>
+										<InputField name="ТЗ_КонтрагентыRASS" id="591">
+											<DataPath>ТЗ_Контрагенты.RASS</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_КонтрагентыRASSКонтекстноеМеню" id="592"/>
+											<ExtendedTooltip name="ТЗ_КонтрагентыRASSРасширеннаяПодсказка" id="593"/>
+										</InputField>
+										<InputField name="ТЗ_КонтрагентыKORS" id="594">
+											<DataPath>ТЗ_Контрагенты.KORS</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_КонтрагентыKORSКонтекстноеМеню" id="595"/>
+											<ExtendedTooltip name="ТЗ_КонтрагентыKORSРасширеннаяПодсказка" id="596"/>
+										</InputField>
+										<InputField name="ТЗ_КонтрагентыBANK" id="597">
+											<DataPath>ТЗ_Контрагенты.BANK</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_КонтрагентыBANKКонтекстноеМеню" id="598"/>
+											<ExtendedTooltip name="ТЗ_КонтрагентыBANKРасширеннаяПодсказка" id="599"/>
+										</InputField>
+										<InputField name="ТЗ_КонтрагентыBIK" id="600">
+											<DataPath>ТЗ_Контрагенты.BIK</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_КонтрагентыBIKКонтекстноеМеню" id="601"/>
+											<ExtendedTooltip name="ТЗ_КонтрагентыBIKРасширеннаяПодсказка" id="602"/>
+										</InputField>
+										<CheckBoxField name="ТЗ_КонтрагентыПометка" id="603">
+											<DataPath>ТЗ_Контрагенты.Пометка</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ContextMenu name="ТЗ_КонтрагентыПометкаКонтекстноеМеню" id="604"/>
+											<ExtendedTooltip name="ТЗ_КонтрагентыПометкаРасширеннаяПодсказка" id="605"/>
+										</CheckBoxField>
+										<CheckBoxField name="ТЗ_КонтрагентыНаличиеВ1С" id="820">
+											<DataPath>ТЗ_Контрагенты.НаличиеВ1С</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ContextMenu name="ТЗ_КонтрагентыНаличиеВ1СКонтекстноеМеню" id="821"/>
+											<ExtendedTooltip name="ТЗ_КонтрагентыНаличиеВ1СРасширеннаяПодсказка" id="822"/>
+										</CheckBoxField>
+										<InputField name="ТЗ_КонтрагентыКомментарий" id="724">
+											<DataPath>ТЗ_Контрагенты.Комментарий</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_КонтрагентыКомментарийКонтекстноеМеню" id="725"/>
+											<ExtendedTooltip name="ТЗ_КонтрагентыКомментарийРасширеннаяПодсказка" id="726"/>
+										</InputField>
+									</ChildItems>
+								</Table>
+							</ChildItems>
+						</Page>
+						<Page name="Группа3ДокументыПос" id="346">
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>ДокументыПоступлений</v8:content>
+								</v8:item>
+							</Title>
+							<ToolTip>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Группа3 документы пос</v8:content>
+								</v8:item>
+							</ToolTip>
+							<Group>Vertical</Group>
+							<ScrollOnCompress>false</ScrollOnCompress>
+							<ExtendedTooltip name="Группа3ДокументыПосРасширеннаяПодсказка" id="347"/>
+							<ChildItems>
+								<Table name="ТЗ_ДокументыПос" id="459">
+									<Representation>List</Representation>
+									<RowSelectionMode>Cell</RowSelectionMode>
+									<UseAlternationRowColorBWA>false</UseAlternationRowColorBWA>
+									<AutoInsertNewRow>true</AutoInsertNewRow>
+									<EnableStartDrag>true</EnableStartDrag>
+									<EnableDrag>true</EnableDrag>
+									<DataPath>ТЗ_ДокументыПос</DataPath>
+									<RowFilter xsi:nil="true"/>
+									<ContextMenu name="ТЗ_ДокументыПосКонтекстноеМеню" id="460"/>
+									<AutoCommandBar name="ТЗ_ДокументыПосКоманднаяПанель" id="461">
+										<ChildItems>
+											<Button name="ТЗ_ДокументыПосСоздатьДокументыПоступления" id="829">
+												<Type>CommandBarButton</Type>
+												<CommandName>Form.Command.СоздатьДокументыПоступления</CommandName>
+												<ExtendedTooltip name="ТЗ_ДокументыПосСоздатьДокументыПоступленияРасширеннаяПодсказка" id="830"/>
+											</Button>
+										</ChildItems>
+									</AutoCommandBar>
+									<ExtendedTooltip name="ТЗ_ДокументыПосРасширеннаяПодсказка" id="462"/>
+									<SearchStringAddition name="ТЗ_ДокументыПосСтрокаПоиска" id="463">
+										<AdditionSource>
+											<Item>ТЗ_ДокументыПос</Item>
+											<Type>SearchStringRepresentation</Type>
+										</AdditionSource>
+										<ContextMenu name="ТЗ_ДокументыПосСтрокаПоискаКонтекстноеМеню" id="464"/>
+										<ExtendedTooltip name="ТЗ_ДокументыПосСтрокаПоискаРасширеннаяПодсказка" id="465"/>
+									</SearchStringAddition>
+									<ViewStatusAddition name="ТЗ_ДокументыПосСостояниеПросмотра" id="466">
+										<AdditionSource>
+											<Item>ТЗ_ДокументыПос</Item>
+											<Type>ViewStatusRepresentation</Type>
+										</AdditionSource>
+										<ContextMenu name="ТЗ_ДокументыПосСостояниеПросмотраКонтекстноеМеню" id="467"/>
+										<ExtendedTooltip name="ТЗ_ДокументыПосСостояниеПросмотраРасширеннаяПодсказка" id="468"/>
+									</ViewStatusAddition>
+									<SearchControlAddition name="ТЗ_ДокументыПосУправлениеПоиском" id="469">
+										<AdditionSource>
+											<Item>ТЗ_ДокументыПос</Item>
+											<Type>SearchControl</Type>
+										</AdditionSource>
+										<ContextMenu name="ТЗ_ДокументыПосУправлениеПоискомКонтекстноеМеню" id="470"/>
+										<ExtendedTooltip name="ТЗ_ДокументыПосУправлениеПоискомРасширеннаяПодсказка" id="471"/>
+									</SearchControlAddition>
+									<ChildItems>
+										<InputField name="ТЗ_ДокументыПосНомерСтроки" id="811">
+											<DataPath>ТЗ_ДокументыПос.НомерСтроки</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_ДокументыПосНомерСтрокиКонтекстноеМеню" id="812"/>
+											<ExtendedTooltip name="ТЗ_ДокументыПосНомерСтрокиРасширеннаяПодсказка" id="813"/>
+										</InputField>
+										<InputField name="ТЗ_ДокументыПосТипОперации" id="781">
+											<DataPath>ТЗ_ДокументыПос.ТипОперации</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_ДокументыПосТипОперацииКонтекстноеМеню" id="782"/>
+											<ExtendedTooltip name="ТЗ_ДокументыПосТипОперацииРасширеннаяПодсказка" id="783"/>
+										</InputField>
+										<InputField name="ТЗ_ДокументыПосНомер" id="784">
+											<DataPath>ТЗ_ДокументыПос.Номер</DataPath>
+											<Title>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Номер Док СФ</v8:content>
+												</v8:item>
+											</Title>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_ДокументыПосНомерКонтекстноеМеню" id="785"/>
+											<ExtendedTooltip name="ТЗ_ДокументыПосНомерРасширеннаяПодсказка" id="786"/>
+										</InputField>
+										<InputField name="ТЗ_ДокументыПосДата" id="787">
+											<DataPath>ТЗ_ДокументыПос.Дата</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_ДокументыПосДатаКонтекстноеМеню" id="788"/>
+											<ExtendedTooltip name="ТЗ_ДокументыПосДатаРасширеннаяПодсказка" id="789"/>
+										</InputField>
+										<InputField name="ТЗ_ДокументыПосКодКонтрагента" id="790">
+											<DataPath>ТЗ_ДокументыПос.КодКонтрагента</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_ДокументыПосКодКонтрагентаКонтекстноеМеню" id="791"/>
+											<ExtendedTooltip name="ТЗ_ДокументыПосКодКонтрагентаРасширеннаяПодсказка" id="792"/>
+										</InputField>
+										<InputField name="ТЗ_ДокументыПосИННКонтрагента" id="831">
+											<DataPath>ТЗ_ДокументыПос.ИННКонтрагента</DataPath>
+											<Title>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>ИНН Контрагента</v8:content>
+												</v8:item>
+											</Title>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_ДокументыПосИННКонтрагентаКонтекстноеМеню" id="832"/>
+											<ExtendedTooltip name="ТЗ_ДокументыПосИННКонтрагентаРасширеннаяПодсказка" id="833"/>
+										</InputField>
+										<InputField name="ТЗ_ДокументыПосНаименованиеКонтрагента" id="814">
+											<DataPath>ТЗ_ДокументыПос.НаименованиеКонтрагента</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_ДокументыПосНаименованиеКонтрагентаКонтекстноеМеню" id="815"/>
+											<ExtendedTooltip name="ТЗ_ДокументыПосНаименованиеКонтрагентаРасширеннаяПодсказка" id="816"/>
+										</InputField>
+										<InputField name="ТЗ_ДокументыПосКоличествоСтрок" id="805">
+											<DataPath>ТЗ_ДокументыПос.КоличествоСтрок</DataPath>
+											<Title>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Кол.позиций</v8:content>
+												</v8:item>
+											</Title>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_ДокументыПосКоличествоСтрокКонтекстноеМеню" id="806"/>
+											<ExtendedTooltip name="ТЗ_ДокументыПосКоличествоСтрокРасширеннаяПодсказка" id="807"/>
+										</InputField>
+										<InputField name="ТЗ_ДокументыПосСумма" id="793">
+											<DataPath>ТЗ_ДокументыПос.Сумма</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_ДокументыПосСуммаКонтекстноеМеню" id="794"/>
+											<ExtendedTooltip name="ТЗ_ДокументыПосСуммаРасширеннаяПодсказка" id="795"/>
+										</InputField>
+										<InputField name="ТЗ_ДокументыПосНДС_Входной" id="802">
+											<DataPath>ТЗ_ДокументыПос.НДС_Входной</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_ДокументыПосНДС_ВходнойКонтекстноеМеню" id="803"/>
+											<ExtendedTooltip name="ТЗ_ДокументыПосНДС_ВходнойРасширеннаяПодсказка" id="804"/>
+										</InputField>
+										<InputField name="ТЗ_ДокументыПосНомерСЧФ" id="796">
+											<DataPath>ТЗ_ДокументыПос.НомерСЧФ</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_ДокументыПосНомерСЧФКонтекстноеМеню" id="797"/>
+											<ExtendedTooltip name="ТЗ_ДокументыПосНомерСЧФРасширеннаяПодсказка" id="798"/>
+										</InputField>
+										<InputField name="ТЗ_ДокументыПосДатаСЧФ" id="799">
+											<DataPath>ТЗ_ДокументыПос.ДатаСЧФ</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_ДокументыПосДатаСЧФКонтекстноеМеню" id="800"/>
+											<ExtendedTooltip name="ТЗ_ДокументыПосДатаСЧФРасширеннаяПодсказка" id="801"/>
+										</InputField>
+										<CheckBoxField name="ТЗ_ДокументыПосПометка" id="808">
+											<DataPath>ТЗ_ДокументыПос.Пометка</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ContextMenu name="ТЗ_ДокументыПосПометкаКонтекстноеМеню" id="809"/>
+											<ExtendedTooltip name="ТЗ_ДокументыПосПометкаРасширеннаяПодсказка" id="810"/>
+										</CheckBoxField>
+										<CheckBoxField name="ТЗ_ДокументыПосНаличиеВ1С" id="823">
+											<DataPath>ТЗ_ДокументыПос.НаличиеВ1С</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ContextMenu name="ТЗ_ДокументыПосНаличиеВ1СКонтекстноеМеню" id="824"/>
+											<ExtendedTooltip name="ТЗ_ДокументыПосНаличиеВ1СРасширеннаяПодсказка" id="825"/>
+										</CheckBoxField>
+										<InputField name="ТЗ_ДокументыПосКомментарий" id="834">
+											<DataPath>ТЗ_ДокументыПос.Комментарий</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_ДокументыПосКомментарийКонтекстноеМеню" id="835"/>
+											<ExtendedTooltip name="ТЗ_ДокументыПосКомментарийРасширеннаяПодсказка" id="836"/>
+										</InputField>
+									</ChildItems>
+								</Table>
+							</ChildItems>
+						</Page>
+						<Page name="Группа3ДокументыРеал" id="730">
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>ДокументыРеализаций</v8:content>
+								</v8:item>
+							</Title>
+							<ToolTip>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Группа3 документы реализаций</v8:content>
+								</v8:item>
+							</ToolTip>
+							<Group>Vertical</Group>
+							<ScrollOnCompress>false</ScrollOnCompress>
+							<ExtendedTooltip name="Группа3ДокументыРеалРасширеннаяПодсказка" id="731"/>
+							<ChildItems>
+								<Table name="ТЗ_ДокументыРеал" id="732">
+									<Representation>List</Representation>
+									<RowSelectionMode>Cell</RowSelectionMode>
+									<UseAlternationRowColorBWA>false</UseAlternationRowColorBWA>
+									<AutoInsertNewRow>true</AutoInsertNewRow>
+									<EnableStartDrag>true</EnableStartDrag>
+									<EnableDrag>true</EnableDrag>
+									<DataPath>ТЗ_ДокументыРеал</DataPath>
+									<RowFilter xsi:nil="true"/>
+									<ContextMenu name="ТЗ_ДокументыРеалКонтекстноеМеню" id="733"/>
+									<AutoCommandBar name="ТЗ_ДокументыРеалКоманднаяПанель" id="734">
+										<ChildItems>
+											<Button name="ТЗ_ДокументыРеалСоздатьДокументыРеализации" id="837">
+												<Type>CommandBarButton</Type>
+												<CommandName>Form.Command.СоздатьДокументыРеализации</CommandName>
+												<ExtendedTooltip name="ТЗ_ДокументыРеалСоздатьДокументыРеализацииРасширеннаяПодсказка" id="838"/>
+											</Button>
+											<Button name="ТЗ_ДокументыРеалДиагностика" id="884">
+												<Type>CommandBarButton</Type>
+												<CommandName>Form.Command.Диагностика</CommandName>
+												<ExtendedTooltip name="ТЗ_ДокументыРеалДиагностикаРасширеннаяПодсказка" id="885"/>
+											</Button>
+											<Button name="ТЗ_ДокументыРеалДиагностикаСФ" id="892">
+												<Type>CommandBarButton</Type>
+												<CommandName>Form.Command.ДиагностикаСФ</CommandName>
+												<ExtendedTooltip name="ТЗ_ДокументыРеалДиагностикаСФРасширеннаяПодсказка" id="893"/>
+											</Button>
+										</ChildItems>
+									</AutoCommandBar>
+									<ExtendedTooltip name="ТЗ_ДокументыРеалРасширеннаяПодсказка" id="735"/>
+									<SearchStringAddition name="ТЗ_ДокументыРеалСтрокаПоиска" id="736">
+										<AdditionSource>
+											<Item>ТЗ_ДокументыРеал</Item>
+											<Type>SearchStringRepresentation</Type>
+										</AdditionSource>
+										<ContextMenu name="ТЗ_ДокументыРеалСтрокаПоискаКонтекстноеМеню" id="737"/>
+										<ExtendedTooltip name="ТЗ_ДокументыРеалСтрокаПоискаРасширеннаяПодсказка" id="738"/>
+									</SearchStringAddition>
+									<ViewStatusAddition name="ТЗ_ДокументыРеалСостояниеПросмотра" id="739">
+										<AdditionSource>
+											<Item>ТЗ_ДокументыРеал</Item>
+											<Type>ViewStatusRepresentation</Type>
+										</AdditionSource>
+										<ContextMenu name="ТЗ_ДокументыРеалСостояниеПросмотраКонтекстноеМеню" id="740"/>
+										<ExtendedTooltip name="ТЗ_ДокументыРеалСостояниеПросмотраРасширеннаяПодсказка" id="741"/>
+									</ViewStatusAddition>
+									<SearchControlAddition name="ТЗ_ДокументыРеалУправлениеПоиском" id="742">
+										<AdditionSource>
+											<Item>ТЗ_ДокументыРеал</Item>
+											<Type>SearchControl</Type>
+										</AdditionSource>
+										<ContextMenu name="ТЗ_ДокументыРеалУправлениеПоискомКонтекстноеМеню" id="743"/>
+										<ExtendedTooltip name="ТЗ_ДокументыРеалУправлениеПоискомРасширеннаяПодсказка" id="744"/>
+									</SearchControlAddition>
+									<ChildItems>
+										<InputField name="ТЗ_ДокументыРеалНомерСтроки" id="775">
+											<DataPath>ТЗ_ДокументыРеал.НомерСтроки</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_ДокументыРеалНомерСтрокиКонтекстноеМеню" id="776"/>
+											<ExtendedTooltip name="ТЗ_ДокументыРеалНомерСтрокиРасширеннаяПодсказка" id="777"/>
+										</InputField>
+										<InputField name="ТЗ_ДокументыРеалТипОперации" id="745">
+											<DataPath>ТЗ_ДокументыРеал.ТипОперации</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_ДокументыРеалТипОперацииКонтекстноеМеню" id="746"/>
+											<ExtendedTooltip name="ТЗ_ДокументыРеалТипОперацииРасширеннаяПодсказка" id="747"/>
+										</InputField>
+										<InputField name="ТЗ_ДокументыРеалНомер" id="748">
+											<DataPath>ТЗ_ДокументыРеал.Номер</DataPath>
+											<Title>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Номер Док СФ</v8:content>
+												</v8:item>
+											</Title>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_ДокументыРеалНомерКонтекстноеМеню" id="749"/>
+											<ExtendedTooltip name="ТЗ_ДокументыРеалНомерРасширеннаяПодсказка" id="750"/>
+										</InputField>
+										<InputField name="ТЗ_ДокументыРеалДата" id="751">
+											<DataPath>ТЗ_ДокументыРеал.Дата</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_ДокументыРеалДатаКонтекстноеМеню" id="752"/>
+											<ExtendedTooltip name="ТЗ_ДокументыРеалДатаРасширеннаяПодсказка" id="753"/>
+										</InputField>
+										<InputField name="ТЗ_ДокументыРеалКодКонтрагента" id="754">
+											<DataPath>ТЗ_ДокументыРеал.КодКонтрагента</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_ДокументыРеалКодКонтрагентаКонтекстноеМеню" id="755"/>
+											<ExtendedTooltip name="ТЗ_ДокументыРеалКодКонтрагентаРасширеннаяПодсказка" id="756"/>
+										</InputField>
+										<InputField name="ТЗ_ДокументыРеалИННКонтрагента" id="881">
+											<DataPath>ТЗ_ДокументыРеал.ИННКонтрагента</DataPath>
+											<Title>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>ИНН Контрагента</v8:content>
+												</v8:item>
+											</Title>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_ДокументыРеалИННКонтрагентаКонтекстноеМеню" id="882"/>
+											<ExtendedTooltip name="ТЗ_ДокументыРеалИННКонтрагентаРасширеннаяПодсказка" id="883"/>
+										</InputField>
+										<InputField name="ТЗ_ДокументыРеалНаименованиеКонтрагента" id="778">
+											<DataPath>ТЗ_ДокументыРеал.НаименованиеКонтрагента</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_ДокументыРеалНаименованиеКонтрагентаКонтекстноеМеню" id="779"/>
+											<ExtendedTooltip name="ТЗ_ДокументыРеалНаименованиеКонтрагентаРасширеннаяПодсказка" id="780"/>
+										</InputField>
+										<InputField name="ТЗ_ДокументыРеалКоличествоСтрок" id="769">
+											<DataPath>ТЗ_ДокументыРеал.КоличествоСтрок</DataPath>
+											<Title>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Кол.позиций</v8:content>
+												</v8:item>
+											</Title>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_ДокументыРеалКоличествоСтрокКонтекстноеМеню" id="770"/>
+											<ExtendedTooltip name="ТЗ_ДокументыРеалКоличествоСтрокРасширеннаяПодсказка" id="771"/>
+										</InputField>
+										<InputField name="ТЗ_ДокументыРеалСумма" id="757">
+											<DataPath>ТЗ_ДокументыРеал.Сумма</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_ДокументыРеалСуммаКонтекстноеМеню" id="758"/>
+											<ExtendedTooltip name="ТЗ_ДокументыРеалСуммаРасширеннаяПодсказка" id="759"/>
+										</InputField>
+										<InputField name="ТЗ_ДокументыРеалНДС_Входной" id="766">
+											<DataPath>ТЗ_ДокументыРеал.НДС_Входной</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_ДокументыРеалНДС_ВходнойКонтекстноеМеню" id="767"/>
+											<ExtendedTooltip name="ТЗ_ДокументыРеалНДС_ВходнойРасширеннаяПодсказка" id="768"/>
+										</InputField>
+										<InputField name="ТЗ_ДокументыРеалНомерСЧФ" id="760">
+											<DataPath>ТЗ_ДокументыРеал.НомерСЧФ</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_ДокументыРеалНомерСЧФКонтекстноеМеню" id="761"/>
+											<ExtendedTooltip name="ТЗ_ДокументыРеалНомерСЧФРасширеннаяПодсказка" id="762"/>
+										</InputField>
+										<InputField name="ТЗ_ДокументыРеалДатаСЧФ" id="763">
+											<DataPath>ТЗ_ДокументыРеал.ДатаСЧФ</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_ДокументыРеалДатаСЧФКонтекстноеМеню" id="764"/>
+											<ExtendedTooltip name="ТЗ_ДокументыРеалДатаСЧФРасширеннаяПодсказка" id="765"/>
+										</InputField>
+										<CheckBoxField name="ТЗ_ДокументыРеалПометка" id="772">
+											<DataPath>ТЗ_ДокументыРеал.Пометка</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ContextMenu name="ТЗ_ДокументыРеалПометкаКонтекстноеМеню" id="773"/>
+											<ExtendedTooltip name="ТЗ_ДокументыРеалПометкаРасширеннаяПодсказка" id="774"/>
+										</CheckBoxField>
+										<CheckBoxField name="ТЗ_ДокументыРеалНаличиеВ1С" id="826">
+											<DataPath>ТЗ_ДокументыРеал.НаличиеВ1С</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ContextMenu name="ТЗ_ДокументыРеалНаличиеВ1СКонтекстноеМеню" id="827"/>
+											<ExtendedTooltip name="ТЗ_ДокументыРеалНаличиеВ1СРасширеннаяПодсказка" id="828"/>
+										</CheckBoxField>
+										<InputField name="ТЗ_ДокументыРеалКомментарий" id="878">
+											<DataPath>ТЗ_ДокументыРеал.Комментарий</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_ДокументыРеалКомментарийКонтекстноеМеню" id="879"/>
+											<ExtendedTooltip name="ТЗ_ДокументыРеалКомментарийРасширеннаяПодсказка" id="880"/>
+										</InputField>
+									</ChildItems>
+								</Table>
+							</ChildItems>
+						</Page>
+						<Page name="Группа4СтрокиДокументов" id="431">
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>СтрокиДокументов</v8:content>
+								</v8:item>
+							</Title>
+							<ToolTip>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Группа4 строки документов</v8:content>
+								</v8:item>
+							</ToolTip>
+							<Group>HorizontalIfPossible</Group>
+							<ScrollOnCompress>false</ScrollOnCompress>
+							<ExtendedTooltip name="Группа4СтрокиДокументовРасширеннаяПодсказка" id="432"/>
+							<ChildItems>
+								<Table name="ТЗ_СтрокиДокументов" id="472">
+									<Representation>List</Representation>
+									<RowSelectionMode>Cell</RowSelectionMode>
+									<UseAlternationRowColorBWA>false</UseAlternationRowColorBWA>
+									<AutoInsertNewRow>true</AutoInsertNewRow>
+									<EnableStartDrag>true</EnableStartDrag>
+									<EnableDrag>true</EnableDrag>
+									<DataPath>ТЗ_СтрокиДокументов</DataPath>
+									<RowFilter xsi:nil="true"/>
+									<ContextMenu name="ТЗ_СтрокиДокументовКонтекстноеМеню" id="473"/>
+									<AutoCommandBar name="ТЗ_СтрокиДокументовКоманднаяПанель" id="474"/>
+									<ExtendedTooltip name="ТЗ_СтрокиДокументовРасширеннаяПодсказка" id="475"/>
+									<SearchStringAddition name="ТЗ_СтрокиДокументовСтрокаПоиска" id="476">
+										<AdditionSource>
+											<Item>ТЗ_СтрокиДокументов</Item>
+											<Type>SearchStringRepresentation</Type>
+										</AdditionSource>
+										<ContextMenu name="ТЗ_СтрокиДокументовСтрокаПоискаКонтекстноеМеню" id="477"/>
+										<ExtendedTooltip name="ТЗ_СтрокиДокументовСтрокаПоискаРасширеннаяПодсказка" id="478"/>
+									</SearchStringAddition>
+									<ViewStatusAddition name="ТЗ_СтрокиДокументовСостояниеПросмотра" id="479">
+										<AdditionSource>
+											<Item>ТЗ_СтрокиДокументов</Item>
+											<Type>ViewStatusRepresentation</Type>
+										</AdditionSource>
+										<ContextMenu name="ТЗ_СтрокиДокументовСостояниеПросмотраКонтекстноеМеню" id="480"/>
+										<ExtendedTooltip name="ТЗ_СтрокиДокументовСостояниеПросмотраРасширеннаяПодсказка" id="481"/>
+									</ViewStatusAddition>
+									<SearchControlAddition name="ТЗ_СтрокиДокументовУправлениеПоиском" id="482">
+										<AdditionSource>
+											<Item>ТЗ_СтрокиДокументов</Item>
+											<Type>SearchControl</Type>
+										</AdditionSource>
+										<ContextMenu name="ТЗ_СтрокиДокументовУправлениеПоискомКонтекстноеМеню" id="483"/>
+										<ExtendedTooltip name="ТЗ_СтрокиДокументовУправлениеПоискомРасширеннаяПодсказка" id="484"/>
+									</SearchControlAddition>
+									<ChildItems>
+										<InputField name="ТЗ_СтрокиДокументовКлючДокумента" id="639">
+											<DataPath>ТЗ_СтрокиДокументов.КлючДокумента</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_СтрокиДокументовКлючДокументаКонтекстноеМеню" id="640"/>
+											<ExtendedTooltip name="ТЗ_СтрокиДокументовКлючДокументаРасширеннаяПодсказка" id="641"/>
+										</InputField>
+										<InputField name="ТЗ_СтрокиДокументовТипОперации" id="642">
+											<DataPath>ТЗ_СтрокиДокументов.ТипОперации</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_СтрокиДокументовТипОперацииКонтекстноеМеню" id="643"/>
+											<ExtendedTooltip name="ТЗ_СтрокиДокументовТипОперацииРасширеннаяПодсказка" id="644"/>
+										</InputField>
+										<InputField name="ТЗ_СтрокиДокументовНомерДок" id="645">
+											<DataPath>ТЗ_СтрокиДокументов.НомерДок</DataPath>
+											<Title>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Номер Док СФ</v8:content>
+												</v8:item>
+											</Title>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_СтрокиДокументовНомерДокКонтекстноеМеню" id="646"/>
+											<ExtendedTooltip name="ТЗ_СтрокиДокументовНомерДокРасширеннаяПодсказка" id="647"/>
+										</InputField>
+										<InputField name="ТЗ_СтрокиДокументовДатаДок" id="648">
+											<DataPath>ТЗ_СтрокиДокументов.ДатаДок</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_СтрокиДокументовДатаДокКонтекстноеМеню" id="649"/>
+											<ExtendedTooltip name="ТЗ_СтрокиДокументовДатаДокРасширеннаяПодсказка" id="650"/>
+										</InputField>
+										<InputField name="ТЗ_СтрокиДокументовКодКонтрагента" id="651">
+											<DataPath>ТЗ_СтрокиДокументов.КодКонтрагента</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_СтрокиДокументовКодКонтрагентаКонтекстноеМеню" id="652"/>
+											<ExtendedTooltip name="ТЗ_СтрокиДокументовКодКонтрагентаРасширеннаяПодсказка" id="653"/>
+										</InputField>
+										<InputField name="ТЗ_СтрокиДокументовИННКонтрагента" id="886">
+											<DataPath>ТЗ_СтрокиДокументов.ИННКонтрагента</DataPath>
+											<Title>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>ИНН Контрагента</v8:content>
+												</v8:item>
+											</Title>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_СтрокиДокументовИННКонтрагентаКонтекстноеМеню" id="887"/>
+											<ExtendedTooltip name="ТЗ_СтрокиДокументовИННКонтрагентаРасширеннаяПодсказка" id="888"/>
+										</InputField>
+										<InputField name="ТЗ_СтрокиДокументовНаименованиеКонтрагента" id="889">
+											<DataPath>ТЗ_СтрокиДокументов.НаименованиеКонтрагента</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_СтрокиДокументовНаименованиеКонтрагентаКонтекстноеМеню" id="890"/>
+											<ExtendedTooltip name="ТЗ_СтрокиДокументовНаименованиеКонтрагентаРасширеннаяПодсказка" id="891"/>
+										</InputField>
+										<InputField name="ТЗ_СтрокиДокументовТовар_Код" id="654">
+											<DataPath>ТЗ_СтрокиДокументов.Товар_Код</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_СтрокиДокументовТовар_КодКонтекстноеМеню" id="655"/>
+											<ExtendedTooltip name="ТЗ_СтрокиДокументовТовар_КодРасширеннаяПодсказка" id="656"/>
+										</InputField>
+										<InputField name="ТЗ_СтрокиДокументовТовар_Шифр" id="657">
+											<DataPath>ТЗ_СтрокиДокументов.Товар_Шифр</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_СтрокиДокументовТовар_ШифрКонтекстноеМеню" id="658"/>
+											<ExtendedTooltip name="ТЗ_СтрокиДокументовТовар_ШифрРасширеннаяПодсказка" id="659"/>
+										</InputField>
+										<InputField name="ТЗ_СтрокиДокументовТовар_Название" id="660">
+											<DataPath>ТЗ_СтрокиДокументов.Товар_Название</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_СтрокиДокументовТовар_НазваниеКонтекстноеМеню" id="661"/>
+											<ExtendedTooltip name="ТЗ_СтрокиДокументовТовар_НазваниеРасширеннаяПодсказка" id="662"/>
+										</InputField>
+										<InputField name="ТЗ_СтрокиДокументовКоличество" id="663">
+											<DataPath>ТЗ_СтрокиДокументов.Количество</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_СтрокиДокументовКоличествоКонтекстноеМеню" id="664"/>
+											<ExtendedTooltip name="ТЗ_СтрокиДокументовКоличествоРасширеннаяПодсказка" id="665"/>
+										</InputField>
+										<InputField name="ТЗ_СтрокиДокументовЦенаПоставщика" id="666">
+											<DataPath>ТЗ_СтрокиДокументов.ЦенаПоставщика</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_СтрокиДокументовЦенаПоставщикаКонтекстноеМеню" id="667"/>
+											<ExtendedTooltip name="ТЗ_СтрокиДокументовЦенаПоставщикаРасширеннаяПодсказка" id="668"/>
+										</InputField>
+										<InputField name="ТЗ_СтрокиДокументовСуммаПоставщика" id="669">
+											<DataPath>ТЗ_СтрокиДокументов.СуммаПоставщика</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_СтрокиДокументовСуммаПоставщикаКонтекстноеМеню" id="670"/>
+											<ExtendedTooltip name="ТЗ_СтрокиДокументовСуммаПоставщикаРасширеннаяПодсказка" id="671"/>
+										</InputField>
+										<InputField name="ТЗ_СтрокиДокументовЦенаПродажи" id="672">
+											<DataPath>ТЗ_СтрокиДокументов.ЦенаПродажи</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_СтрокиДокументовЦенаПродажиКонтекстноеМеню" id="673"/>
+											<ExtendedTooltip name="ТЗ_СтрокиДокументовЦенаПродажиРасширеннаяПодсказка" id="674"/>
+										</InputField>
+										<InputField name="ТЗ_СтрокиДокументовСуммаПродажи" id="675">
+											<DataPath>ТЗ_СтрокиДокументов.СуммаПродажи</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_СтрокиДокументовСуммаПродажиКонтекстноеМеню" id="676"/>
+											<ExtendedTooltip name="ТЗ_СтрокиДокументовСуммаПродажиРасширеннаяПодсказка" id="677"/>
+										</InputField>
+										<InputField name="ТЗ_СтрокиДокументовНДС10" id="678">
+											<DataPath>ТЗ_СтрокиДокументов.НДС10</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_СтрокиДокументовНДС10КонтекстноеМеню" id="679"/>
+											<ExtendedTooltip name="ТЗ_СтрокиДокументовНДС10РасширеннаяПодсказка" id="680"/>
+										</InputField>
+										<InputField name="ТЗ_СтрокиДокументовНДС22" id="681">
+											<DataPath>ТЗ_СтрокиДокументов.НДС22</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="ТЗ_СтрокиДокументовНДС22КонтекстноеМеню" id="682"/>
+											<ExtendedTooltip name="ТЗ_СтрокиДокументовНДС22РасширеннаяПодсказка" id="683"/>
+										</InputField>
+										<CheckBoxField name="ТЗ_СтрокиДокументовПометка" id="684">
+											<DataPath>ТЗ_СтрокиДокументов.Пометка</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
+											<ContextMenu name="ТЗ_СтрокиДокументовПометкаКонтекстноеМеню" id="685"/>
+											<ExtendedTooltip name="ТЗ_СтрокиДокументовПометкаРасширеннаяПодсказка" id="686"/>
+										</CheckBoxField>
+									</ChildItems>
+								</Table>
+							</ChildItems>
+						</Page>
+					</ChildItems>
+				</Pages>
+			</ChildItems>
+		</UsualGroup>
+	</ChildItems>
+	<Attributes>
+		<Attribute name="Объект" id="1">
+			<Type>
+				<v8:Type>cfg:DataProcessorObject.ЗагрузкаМагистрDBF</v8:Type>
+			</Type>
+			<MainAttribute>true</MainAttribute>
+		</Attribute>
+		<Attribute name="Организация" id="3">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Организация</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:TypeId>c92a1124-c41e-42a4-bda7-3bbac9c6039e</v8:TypeId>
+			</Type>
+		</Attribute>
+		<Attribute name="Склад" id="4">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Склад</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:TypeId>0574ee81-9dda-4853-85ec-236415303af5</v8:TypeId>
+			</Type>
+		</Attribute>
+		<Attribute name="ПутькФайлу" id="5">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Путьк файлу</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="ТЗ_Контрагенты" id="6">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Контрагенты</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>v8:ValueTable</v8:Type>
+			</Type>
+			<Columns>
+				<Column name="KKOD" id="1">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>KKOD</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="KNAZV" id="2">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>KNAZV</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="KPNAZV" id="3">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>KPNAZV</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="INN" id="4">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>INN</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="KPP" id="5">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>KPP</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="ADRES" id="6">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>ADRES</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="RASS" id="7">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>RASS</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="KORS" id="8">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>KORS</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="BANK" id="9">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>BANK</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="BIK" id="10">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>BIK</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="Пометка" id="11">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Пометка</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:boolean</v8:Type>
+					</Type>
+				</Column>
+				<Column name="Комментарий" id="12">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Комментарий</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="НомерСтроки" id="13">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Номер строки</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:decimal</v8:Type>
+						<v8:NumberQualifiers>
+							<v8:Digits>10</v8:Digits>
+							<v8:FractionDigits>0</v8:FractionDigits>
+							<v8:AllowedSign>Any</v8:AllowedSign>
+						</v8:NumberQualifiers>
+					</Type>
+				</Column>
+				<Column name="НаличиеВ1С" id="14">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Наличие в1 С</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:boolean</v8:Type>
+					</Type>
+				</Column>
+			</Columns>
+		</Attribute>
+		<Attribute name="ТЗ_Номенклатура" id="7">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Номенклатура</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>v8:ValueTable</v8:Type>
+			</Type>
+			<Columns>
+				<Column name="TKOD" id="1">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>TKOD</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="TSHIFR" id="2">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>TSHIFR</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="TNAZV" id="3">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>TNAZV</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="TGROUP" id="4">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>TGROUP</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="TEDIZ" id="5">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>TEDIZ</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="TCPOK" id="6">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>TCPOK</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="TNAC" id="7">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>TNAC</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="TCPRO" id="8">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>TCPRO</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="TSTNDS" id="9">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>TSTNDS</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="НомерСтроки" id="10">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Номер строки</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="Пометка" id="11">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Пометка</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:boolean</v8:Type>
+					</Type>
+				</Column>
+				<Column name="Комментарий" id="13">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Комментарий</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="НаличиеВ1С" id="12">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Наличие в1 С</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:boolean</v8:Type>
+					</Type>
+				</Column>
+			</Columns>
+		</Attribute>
+		<Attribute name="ТЗ_ДокументыПос" id="8">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Документы</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>v8:ValueTable</v8:Type>
+			</Type>
+			<Columns>
+				<Column name="ТипОперации" id="3">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Тип операции</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="Номер" id="4">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Номер</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="Дата" id="5">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Дата</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="КодКонтрагента" id="6">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Код контрагента</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="Сумма" id="1">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Сумма</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="НомерСЧФ" id="2">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Номер СЧФ</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="ДатаСЧФ" id="8">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Дата СЧФ</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="НДС_Входной" id="9">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>НДС входной</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="КоличествоСтрок" id="10">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Количество строк</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="Пометка" id="12">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Пометка</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:boolean</v8:Type>
+					</Type>
+				</Column>
+				<Column name="НомерСтроки" id="7">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Номер строки</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:decimal</v8:Type>
+						<v8:NumberQualifiers>
+							<v8:Digits>10</v8:Digits>
+							<v8:FractionDigits>0</v8:FractionDigits>
+							<v8:AllowedSign>Any</v8:AllowedSign>
+						</v8:NumberQualifiers>
+					</Type>
+				</Column>
+				<Column name="НаименованиеКонтрагента" id="11">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Наименование контрагента</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="НаличиеВ1С" id="13">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Наличие в1 С</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:boolean</v8:Type>
+					</Type>
+				</Column>
+				<Column name="ИННКонтрагента" id="14">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>ИННКонтрагента</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="Комментарий" id="15">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Комментарий</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+			</Columns>
+		</Attribute>
+		<Attribute name="ТЗ_СтрокиДокументов" id="2">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Т з строки документов</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>v8:ValueTable</v8:Type>
+			</Type>
+			<Columns>
+				<Column name="КлючДокумента" id="1">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Ключ документа</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="ТипОперации" id="2">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Тип операции</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="НомерДок" id="3">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Номер док</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="ДатаДок" id="4">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Дата док</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="КодКонтрагента" id="5">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Код контрагента</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="Товар_Код" id="6">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Товар код</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="Товар_Шифр" id="7">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Товар шифр</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="Товар_Название" id="8">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Товар название</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="Количество" id="9">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Количество</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="ЦенаПоставщика" id="10">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Цена поставщика</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="СуммаПоставщика" id="11">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Сумма поставщика</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="ЦенаПродажи" id="12">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Цена продажи</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="СуммаПродажи" id="13">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Сумма продажи</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="НДС10" id="14">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>НДС10</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="НДС22" id="15">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>НДС22</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="Пометка" id="16">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Пометка</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:boolean</v8:Type>
+					</Type>
+				</Column>
+				<Column name="НаименованиеКонтрагента" id="17">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Наименование контрагента</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="ИННКонтрагента" id="18">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>ИННКонтрагента</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+			</Columns>
+		</Attribute>
+		<Attribute name="ТЗ_ДокументыРеал" id="9">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Документы</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>v8:ValueTable</v8:Type>
+			</Type>
+			<Columns>
+				<Column name="ТипОперации" id="3">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Тип операции</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="Номер" id="4">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Номер</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="Дата" id="5">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Дата</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="КодКонтрагента" id="6">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Код контрагента</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="Сумма" id="1">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Сумма</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="НомерСЧФ" id="2">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Номер СЧФ</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="ДатаСЧФ" id="8">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Дата СЧФ</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="НДС_Входной" id="9">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>НДС входной</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="КоличествоСтрок" id="10">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Количество строк</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="Пометка" id="12">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Пометка</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:boolean</v8:Type>
+					</Type>
+				</Column>
+				<Column name="НомерСтроки" id="7">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Номер строки</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:decimal</v8:Type>
+						<v8:NumberQualifiers>
+							<v8:Digits>10</v8:Digits>
+							<v8:FractionDigits>0</v8:FractionDigits>
+							<v8:AllowedSign>Any</v8:AllowedSign>
+						</v8:NumberQualifiers>
+					</Type>
+				</Column>
+				<Column name="НаименованиеКонтрагента" id="13">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Наименование контрагента</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="НаличиеВ1С" id="11">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Наличие в1 С</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:boolean</v8:Type>
+					</Type>
+				</Column>
+				<Column name="Комментарий" id="14">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Комментарий</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="ИННКонтрагента" id="15">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>ИННКонтрагента</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+			</Columns>
+		</Attribute>
+	</Attributes>
+	<Commands>
+		<Command name="Прочитать" id="1">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Прочитать</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Прочитать</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>Загрузка</Action>
+		</Command>
+		<Command name="Заполнить" id="2">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Заполнить</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Заполнить</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>Заполнить</Action>
+		</Command>
+		<Command name="СоздатьНоменклатуру" id="3">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Создать номенклатуру</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Создать номенклатуру</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>СоздатьНоменклатуруВ1С</Action>
+		</Command>
+		<Command name="СоздатьКонтрагентов" id="4">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Создать контрагентов</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Создать контрагентов</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>СоздатьКонтрагентов</Action>
+		</Command>
+		<Command name="СоздатьДокументыПоступления" id="5">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Создать документы поступления</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Создать документы поступления</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>СоздатьДокументыПоступления</Action>
+		</Command>
+		<Command name="СоздатьДокументыРеализации" id="6">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Создать документы реализации</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Создать документы реализации</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>СоздатьДокументыРеализации</Action>
+		</Command>
+		<Command name="Диагностика" id="7">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Диагностика</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Диагностика</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>Диагностика</Action>
+		</Command>
+		<Command name="ДиагностикаСФ" id="8">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Диагностика СФ</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Диагностика СФ</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>ДиагностикаСФ</Action>
+		</Command>
+	</Commands>
+</Form>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CRPT API Explorer — Честный Знак</title>
+<style>
+:root{--bg:#0d1117;--surface:#161b22;--border:#30363d;--text:#c9d1d9;--accent:#58a6ff;--green:#3fb950;--red:#f85149;--muted:#8b949e}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.5}
+header{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 20px;display:flex;align-items:center;gap:12px}
+header h1{font-size:18px;font-weight:600}
+header .env{font-size:12px;color:var(--green);background:#1a2a1a;padding:2px 8px;border-radius:4px}
+main{max-width:1200px;margin:0 auto;padding:16px}
+.auth-bar{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:12px 16px;margin-bottom:16px;display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.auth-bar label{font-size:13px;color:var(--muted)}
+.auth-bar input{background:var(--bg);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:4px;font-size:13px;min-width:200px}
+.auth-bar input:focus{outline:none;border-color:var(--accent)}
+.category{margin-bottom:20px}
+.cat-header{font-size:16px;font-weight:600;padding:10px 14px;background:var(--surface);border:1px solid var(--border);border-radius:8px 8px 0 0;cursor:pointer;display:flex;gap:8px;align-items:center}
+.cat-header .icon{font-size:20px}
+.cat-header .desc{font-size:12px;color:var(--muted);font-weight:400;margin-left:4px}
+.cat-body{border:1px solid var(--border);border-top:0;border-radius:0 0 8px 8px;padding:12px;background:var(--bg)}
+.cat-body.collapsed{display:none}
+.method-card{background:var(--surface);border:1px solid var(--border);border-radius:6px;margin-bottom:8px;overflow:hidden}
+.method-header{padding:10px 14px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-size:14px}
+.method-header .label{font-weight:500}
+.method-header .desc{font-size:12px;color:var(--muted)}
+.method-body{padding:0 14px 12px;display:none}
+.method-body.open{display:block}
+.param-row{display:flex;gap:8px;margin:6px 0;align-items:center}
+.param-row label{font-size:12px;color:var(--muted);min-width:120px}
+.param-row input,.param-row select{background:var(--bg);border:1px solid var(--border);color:var(--text);padding:5px 8px;border-radius:4px;font-size:13px;flex:1}
+.btn{background:var(--accent);color:#fff;border:0;padding:7px 16px;border-radius:4px;cursor:pointer;font-size:13px;font-weight:500;margin-top:6px}
+.btn:hover{opacity:.9}
+.result-box{margin-top:10px;background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:10px;font-family:monospace;font-size:12px;white-space:pre-wrap;word-break:break-all;max-height:400px;overflow:auto}
+.result-box.error{color:var(--red);border-color:var(--red)}
+.result-box .timing{color:var(--muted);font-size:11px;margin-bottom:6px}
+.auth-badge{display:inline-block;font-size:10px;padding:1px 6px;border-radius:3px;margin-left:6px}
+.auth-badge.public{background:#1a2a1a;color:var(--green)}
+.auth-badge.token{background:#2a1a1a;color:var(--red)}
+.auth-badge.apikey{background:#1a1a2a;color:var(--accent)}
+</style>
+</head>
+<body>
+<header>
+    <h1>🧬 CRPT API Explorer</h1>
+    <span class="env">sandbox</span>
+    <span style="font-size:12px;color:var(--muted);margin-left:auto">Честный Знак · ГИС МТ</span>
+</header>
+<main>
+    <div class="auth-bar">
+        <label>🔑 Токен (True API):</label>
+        <input type="text" id="token" placeholder="Bearer-токен для приватных методов">
+        <label>🏪 API Key (НК):</label>
+        <input type="text" id="apikey" placeholder="Ключ Национального каталога">
+    </div>
+
+    {% for cat_name, cat_info in tree.items() %}
+    <div class="category">
+        <div class="cat-header" onclick="this.nextElementSibling.classList.toggle('collapsed')">
+            <span class="icon">{{ cat_info.icon }}</span>
+            <span>{{ cat_name }}</span>
+            <span class="desc">{{ cat_info.desc }}</span>
+            {% if cat_info.auth_required %}
+            <span class="auth-badge token">токен</span>
+            {% elif cat_info.nk_auth %}
+            <span class="auth-badge apikey">api key</span>
+            {% else %}
+            <span class="auth-badge public">публичный</span>
+            {% endif %}
+        </div>
+        <div class="cat-body">
+            {% for mkey, minfo in cat_info.methods.items() %}
+            <div class="method-card">
+                <div class="method-header" onclick="this.nextElementSibling.classList.toggle('open')">
+                    <span>
+                        <span class="label">{{ minfo.label }}</span>
+                        <span class="desc"> — {{ minfo.desc }}</span>
+                    </span>
+                </div>
+                <div class="method-body" id="body-{{ mkey }}">
+                    {% for p in minfo.params %}
+                    <div class="param-row">
+                        <label>{{ p.label }}</label>
+                        <input type="{{ p.type }}" id="p-{{ mkey }}-{{ p.name }}" placeholder="{{ p.default or '' }}">
+                    </div>
+                    {% endfor %}
+                    <button class="btn" onclick="execute('{{ cat_name }}','{{ mkey }}')">▶ Выполнить</button>
+                    <div class="result-box" id="result-{{ mkey }}" style="display:none"></div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+</main>
+
+<script>
+async function execute(cat, method) {
+    const box = document.getElementById('result-' + method);
+    box.style.display = 'block';
+    box.innerHTML = '<span style="color:var(--muted)">⏳ Выполнение...</span>';
+    box.className = 'result-box';
+
+    const params = {};
+    document.querySelectorAll('#body-' + method + ' input').forEach(el => {
+        if (el.value) params[el.id.replace('p-' + method + '-', '')] = el.value;
+    });
+
+    try {
+        const r = await fetch('/api/execute', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                category: cat, method: method, params: params,
+                token: document.getElementById('token').value,
+                api_key: document.getElementById('apikey').value
+            })
+        });
+        const data = await r.json();
+        if (r.ok) {
+            box.innerHTML = '<div class="timing">⏱ ' + data.elapsed_ms + 'ms</div>' + JSON.stringify(data.result, null, 2);
+        } else {
+            box.className = 'result-box error';
+            box.innerHTML = '<div class="timing">⏱ ' + data.elapsed_ms + 'ms</div>' + data.error;
+        }
+    } catch(e) {
+        box.className = 'result-box error';
+        box.innerHTML = e.message;
+    }
+}
+</script>
+</body>
+</html>

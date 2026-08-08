@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% block title %}Volume Profile — Viz{% endblock %}
+{% block head_extra %}
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+{% endblock %}
+{% block content %}
+<section class="page-header">
+    <h1>📊 Volume Profile (POC, VA, HVN/LVN)</h1>
+    <p class="muted">{{ page.symbol }} · Динамический шаг = ATR(14) × 0.2</p>
+</section>
+
+<div class="card">
+    <h3>Гистограмма объёма по ценам</h3>
+    <div id="vp-chart" style="width:100%;height:600px;"></div>
+    <p class="muted">POC = оранжевый · Value Area = голубая зона · HVN/LVN = зелёные/красные</p>
+</div>
+
+<a href="{{ url_for('viz.index') }}" class="btn btn-ghost">← Все графики</a>
+{% endblock %}
+
+{% block scripts %}
+<script>
+fetch('/api/klines?symbol={{ page.symbol }}&interval=1d&limit=200')
+    .then(r => r.json())
+    .then(klines => {
+        const closes = klines.map(k => +k[4]);
+        const highs = klines.map(k => +k[2]);
+        const lows = klines.map(k => +k[3]);
+        const volumes = klines.map(k => +k[5]);
+        const times = klines.map(k => new Date(k[0]));
+
+        // Calculate ATR(14)
+        const tr = highs.map((h, i) => {
+            if (i === 0) return h - lows[0];
+            return Math.max(highs[i] - lows[i], Math.abs(highs[i] - closes[i - 1]), Math.abs(lows[i] - closes[i - 1]));
+        });
+        const atr = tr.slice(0, 14).reduce((a, b) => a + b, 0) / 14;
+
+        // Price bins
+        const priceMin = Math.min(...lows);
+        const priceMax = Math.max(...highs);
+        const step = atr * 0.2;
+        const numBins = Math.ceil((priceMax - priceMin) / step);
+        const bins = Array(numBins).fill(0);
+        for (let i = 0; i < klines.length; i++) {
+            for (let j = 0; j < numBins; j++) {
+                const p1 = priceMin + j * step;
+                const p2 = p1 + step;
+                if (lows[i] <= p2 && highs[i] >= p1) {
+                    const range = highs[i] - lows[i] || 1;
+                    bins[j] += volumes[i] * (Math.min(highs[i], p2) - Math.max(lows[i], p1)) / range;
+                }
+            }
+        }
+        const priceCenters = Array.from({ length: numBins }, (_, j) => priceMin + (j + 0.5) * step);
+        const maxVol = Math.max(...bins);
+        const pocIdx = bins.indexOf(maxVol);
+        const pocPrice = priceCenters[pocIdx];
+
+        // Value Area (68.2%)
+        const sorted = bins.map((v, i) => ({ v, i })).sort((a, b) => b.v - a.v);
+        const total = bins.reduce((a, b) => a + b, 0);
+        let cum = 0;
+        const vaSet = new Set();
+        for (const s of sorted) {
+            cum += s.v;
+            vaSet.add(s.i);
+            if (cum >= total * 0.682) break;
+        }
+        const vaPrices = Array.from(vaSet).map(i => priceCenters[i]);
+        const vaMin = Math.min(...vaPrices);
+        const vaMax = Math.max(...vaPrices);
+
+        // Main chart: candles
+        const candle = {
+            x: times, open: klines.map(k => +k[1]), high: highs, low: lows, close: closes,
+            type: 'candlestick', name: 'OHLC',
+            increasing: { line: { color: '#3fb950' }, fillcolor: '#3fb950' },
+            decreasing: { line: { color: '#f85149' }, fillcolor: '#f85149' },
+            xaxis: 'x', yaxis: 'y',
+        };
+
+        // Volume profile (horizontal)
+        const vp = {
+            x: bins, y: priceCenters, type: 'bar', orientation: 'h',
+            name: 'Volume Profile', marker: { color: 'rgba(88, 166, 255, 0.6)' },
+            xaxis: 'x2', yaxis: 'y',
+        };
+
+        // POC line
+        const pocLine = {
+            x: [times[0], times[times.length - 1]], y: [pocPrice, pocPrice],
+            type: 'scatter', mode: 'lines', name: `POC: ${pocPrice.toFixed(4)}`,
+            line: { color: '#d29922', width: 2 }, xaxis: 'x', yaxis: 'y',
+        };
+
+        const layout = {
+            paper_bgcolor: '#161b22', plot_bgcolor: '#161b22',
+            font: { color: '#c9d1d9', family: 'JetBrains Mono' },
+            grid: { pattern: 'independent' },
+            xaxis: { domain: [0, 0.75], gridcolor: '#21262d', anchor: 'y' },
+            xaxis2: { domain: [0.75, 1], gridcolor: '#21262d', anchor: 'y' },
+            yaxis: { gridcolor: '#21262d', side: 'right', anchor: 'x' },
+            showlegend: true, legend: { x: 0, y: 1.1 },
+            margin: { l: 50, r: 80, t: 30, b: 40 },
+            shapes: [{
+                type: 'rect', xref: 'x', yref: 'y',
+                x0: times[0], x1: times[times.length - 1],
+                y0: vaMin, y1: vaMax,
+                fillcolor: 'rgba(57, 197, 207, 0.05)',
+                line: { color: 'rgba(57, 197, 207, 0.3)', width: 1 },
+            }],
+            annotations: [{
+                x: 0.5, y: vaMax, xref: 'paper', yref: 'y',
+                text: `Value Area: ${vaMin.toFixed(4)} – ${vaMax.toFixed(4)}`,
+                showarrow: false, font: { color: '#39c5cf', size: 11 },
+            }],
+        };
+
+        Plotly.newPlot('vp-chart', [candle, pocLine, vp], layout, { responsive: true });
+    });
+</script>
+{% endblock %}

@@ -11,7 +11,7 @@
 | TG Bot AIForGuest | 07 | — | — | — | `./scripts/tg_bot.sh start` |
 | OFD API | 08 | 5000 | `http://localhost:5000/ofd-api/` | `http://localhost:5000/ofd-api/` | Внутри 01 |
 | Model Catalog | 09 | 5000 | `http://localhost:5000/ai-models/` | `http://localhost:5000/ai-models/` | Внутри 01 |
-| MAX Bot | 10 | — | — | — | `./projects/10_max_bot/scripts/max_bot.sh start` |
+| MAX Bot | 10 | — | — | — | `./scripts/max_bot.sh start` |
 | Med Life | 11 | 5000 | `http://localhost:5000/med-life/` | `http://localhost:5000/med-life/` | Внутри 01 |
 
 ## Ключевые маршруты 01

@@ -3,9 +3,9 @@
   "label": "Novita AI",
   "homepage": "https://novita.ai",
   "balance": "prepaid",
-  "updated": "2026-06-19",
+  "updated": "2026-06-24",
   "opencode_prefix": "novita-ai/",
-  "models_count": 104,
+  "models_count": 105,
   "pricing_unit": "units (divide raw/1e7 for USD per 1M tok)",
   "models": [
     {
@@ -1041,6 +1041,16 @@
     {
       "id": "zai-org/glm-5.1",
       "name": "zai-org/glm-5.1",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "zai-org/glm-5.2",
+      "name": "zai-org/glm-5.2",
       "type": "llm",
       "pricing": null,
       "context": null,

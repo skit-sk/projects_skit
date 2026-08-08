@@ -1,0 +1,14 @@
+{
+  "id": "youtube-bookmap",
+  "title": "YouTube BookMap",
+  "url": "https://www.youtube.com/embed/vLspipSCg6Y",
+  "pages": [
+    {
+      "url": "https://www.youtube.com/embed/vLspipSCg6Y",
+      "slug": "00-main",
+      "title": "HD Bitcoin Live BookMap + Liquidation HeatMap + KingFisher",
+      "sections": [],
+      "screenshot": "static/ref/youtube-bookmap/00-main.png"
+    }
+  ]
+}

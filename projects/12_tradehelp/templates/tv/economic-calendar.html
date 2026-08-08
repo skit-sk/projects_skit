@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Economic Calendar — TV{% endblock %}
+{% block content %}
+<section class="page-header"><h1>📅 Economic Calendar</h1></section>
+
+<div class="tradingview-widget-container" style="height:{{ widget.height }}px;width:100%">
+    <div class="tradingview-widget-container__widget"></div>
+</div>
+<script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-events.js" async>
+{
+  "colorTheme": "dark",
+  "isTransparent": false,
+  "width": "100%",
+  "height": "{{ widget.height }}",
+  "locale": "ru",
+  "importanceFilter": "-1,0,1",
+  "countryFilter": "us,eu,gb,jp,ch,ca,au,nz"
+}
+</script>
+{% endblock %}

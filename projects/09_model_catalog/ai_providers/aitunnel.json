@@ -3,7 +3,7 @@
   "label": "AITunnel",
   "homepage": "https://aitunnel.ru",
   "balance": "prepaid",
-  "updated": "2026-06-19",
+  "updated": "2026-06-24",
   "opencode_prefix": "aitunnel/",
   "models_count": 154,
   "pricing_unit": "RUB per 1M tokens",

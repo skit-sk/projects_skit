@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Fills — Live{% endblock %}
+{% block content %}
+<section class="page-header"><h1>История сделок (Fills)</h1></section>
+<pre class="json-dump">{{ data | tojson(indent=2) }}</pre>
+{% endblock %}

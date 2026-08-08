@@ -33,6 +33,12 @@ declare -A PROJECT_MAP=(
     ["06"]="06_screenshots_project"
     ["6"]="06_screenshots_project"
     ["screenshots_project"]="06_screenshots_project"
+    ["12"]="12_tradehelp"
+    ["12_tradehelp"]="12_tradehelp"
+    ["tradehelp"]="12_tradehelp"
+    ["15"]="15_crpt"
+    ["15_crpt"]="15_crpt"
+    ["crpt"]="15_crpt"
 )
 
 # ─── Определить директорию проекта ───────────────────────
@@ -84,13 +90,15 @@ resolve_entrypoint() {
 # ─── Определить venv ─────────────────────────────────────
 resolve_venv() {
     local proj_dir="$1"
-    # Приоритет: venv_uv (новый uv venv) > venv (старый) > .venv
+    # Приоритет: venv_uv (новый uv venv) > venv (старый) > .venv > workspace venv
     if [ -f "${proj_dir}/venv_uv/bin/python3" ]; then
         echo "${proj_dir}/venv_uv/bin/python3"
     elif [ -f "${proj_dir}/venv/bin/python3" ]; then
         echo "${proj_dir}/venv/bin/python3"
     elif [ -f "${proj_dir}/.venv/bin/python3" ]; then
         echo "${proj_dir}/.venv/bin/python3"
+    elif [ -f "${WORKDIR}/venv/bin/python3" ]; then
+        echo "${WORKDIR}/venv/bin/python3"
     else
         echo "python3"
     fi
@@ -224,8 +232,9 @@ case "$ACTION" in
         echo "Projects:"
         echo "  01 / fundament_rf       → projects/01_fundament_rf/"
         echo "  02 / graphs_candle      → projects/02_graphs_candle/"
-        echo "  03 / demo_charts_ascii  → projects/03_demo_charts_ascii/"
-        echo ""
+            echo "  03 / demo_charts_ascii  → projects/03_demo_charts_ascii/"
+            echo "  15 / crpt                → projects/15_crpt/"
+            echo ""
         echo "Port: default 5000 for all projects, override with 3rd argument"
         echo ""
         echo "Examples:"

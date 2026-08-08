@@ -22,8 +22,8 @@ case "${1:-}" in
     python3 "$METRICS_PY" start 2>/dev/null || true
     echo "🚀 Запуск бота..."
     cd "$PROJECT_DIR"
-    source "$(dirname "$0")/source_env.sh" 2>/dev/null || true
-    source "$(dirname "$0")/../venv/bin/activate" 2>/dev/null || true
+    source "$SCRIPT_DIR/source_env.sh" 2>/dev/null || true
+    source "$SCRIPT_DIR/../venv/bin/activate" 2>/dev/null || true
     PYTHONUNBUFFERED=1 nohup python3 bot/main.py >> "$LOG_FILE" 2>&1 &
     echo $! > "$PID_FILE"
     sleep 2

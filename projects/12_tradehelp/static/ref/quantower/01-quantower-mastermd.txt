@@ -1,0 +1,67 @@
+> For the complete documentation index, see [llms.txt](https://help.quantower.com/quantower/llms.txt). Markdown versions of documentation pages are available by appending `.md` to page URLs; this page is available as [Markdown](https://help.quantower.com/quantower/master.md).
+
+# Welcome to Quantower Help
+
+<div align="center"><img src="/files/-LZJd1Hjxk9J_tt3_9hI" alt=""></div>
+
+For the answers you can't find in the Knowledge Base, please contact us via the following options:
+
+* [**Telegram Support Chat**](https://t.me/quantower)
+* [**Live Chat on our website**](https://www.quantower.com/) (pop-up window in the lower right)
+* Email us at **<info@quantower.com>**
+
+For ease of navigation, the Knowledge Base is divided into several categories that will allow you to quickly find the information you need:
+
+{% content-ref url="/pages/-LD7QsrlQYTMinYrRq7K" %}
+[Getting Started](/quantower/getting-started.md)
+{% endcontent-ref %}
+
+{% content-ref url="/pages/-LEAsY9WP6-SN2SrcBHL" %}
+[Analytics Panels](/quantower/analytics-panels.md)
+{% endcontent-ref %}
+
+{% content-ref url="/pages/-LEAsY9lfZ4AU1vMy-ek" %}
+[Trading Panels](/quantower/trading-panels.md)
+{% endcontent-ref %}
+
+{% content-ref url="/pages/-LD7BNJxbH6aKLsn29Og" %}
+[Portfolio Panels](/quantower/portfolio-panels.md)
+{% endcontent-ref %}
+
+{% content-ref url="/pages/-LEAsY9ygGVI\_vVJGkyi" %}
+[Information Panels](/quantower/informational-panels.md)
+{% endcontent-ref %}
+
+{% content-ref url="/pages/-LD7BV6ahzMdzHnV9I9H" %}
+[Miscellaneous](/quantower/miscellaneous-panels.md)
+{% endcontent-ref %}
+
+{% content-ref url="/pages/-LMCsTAT8\_fplb9NAoUA" %}
+[Quantower Algo](/quantower/quantower-algo.md)
+{% endcontent-ref %}
+
+{% content-ref url="/pages/-LTRiz3ZL84BjiGnjvpn" %}
+[Customization](/quantower/customization.md)
+{% endcontent-ref %}
+
+
+---
+
+# Agent Instructions
+This documentation is published with GitBook. GitBook is the documentation platform designed so that both humans and AI agents can read, navigate, and reason over technical content effectively. Learn more at gitbook.com.
+
+## Querying This Documentation
+If you need additional information that is not directly available in this page, you can query the documentation dynamically by asking a question.
+
+Perform an HTTP GET request on the current page URL with the `ask` query parameter, and the optional `goal` query parameter:
+
+```
+GET https://help.quantower.com/quantower/master.md?ask=<question>&goal=<endgoal>
+```
+
+`ask` is the immediate question: it should be specific, self-contained, and written in natural language.
+`goal` is optional and describes the broader end goal you are ultimately trying to accomplish on behalf of the user. GitBook uses it to tailor the answer towards what is most useful for that goal.
+
+The response will contain a direct answer to the question and relevant excerpts and sources from the documentation.
+
+Use this mechanism when the answer is not explicitly present in the current page, you need clarification or additional context, or you want to retrieve related documentation sections.

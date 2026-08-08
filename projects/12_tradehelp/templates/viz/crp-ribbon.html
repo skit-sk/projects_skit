@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% block title %}CRP Ribbon — Viz{% endblock %}
+{% block head_extra %}
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+{% endblock %}
+{% block content %}
+<section class="page-header">
+    <h1>📊 CRP Ribbon — Cluster Risk Projection</h1>
+    <p class="muted">Статистический профиль объёма Wyckoff-консолидации (15-25 свечей)</p>
+</section>
+
+<div class="risk-grid">
+    <div class="card">
+        <h3>Параметры</h3>
+        <div class="form-row">
+            <label>Consolidation Period (15-25)</label>
+            <input type="number" id="period" value="20" min="15" max="25">
+        </div>
+        <div class="form-row">
+            <label>API3 #1 Entry</label>
+            <input type="number" id="entry" value="0.2992" step="0.0001">
+        </div>
+        <div class="form-row">
+            <label>Live PnL (%)</label>
+            <input type="number" id="pnl" value="-218" step="1">
+        </div>
+        <button class="btn btn-primary" onclick="calcCRP()">Рассчитать CRP</button>
+    </div>
+
+    <div class="card">
+        <h3>Результат</h3>
+        <div id="crp-result"></div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>Profile Visualization</h3>
+    <div id="crp-chart" style="width:100%;height:500px;"></div>
+</div>
+
+<a href="{{ url_for('viz.index') }}" class="btn btn-ghost">← Все графики</a>
+
+<script>
+function calcCRP() {
+    const period = parseInt(document.getElementById('period').value);
+    const entry = parseFloat(document.getElementById('entry').value);
+    const pnl = parseFloat(document.getElementById('pnl').value);
+
+    // Simulate CRP на основе реальной структуры
+    const low = entry * 0.85;
+    const high = entry * 1.15;
+    const range_ = high - low;
+
+    // POC: чаще в нижней трети для бычьего
+    const poc = low + range_ * 0.25;
+    const vah = low + range_ * 0.65;
+    const val = low + range_ * 0.15;
+
+    const poc_pos = (poc - low) / range_;
+    let position, signal, shape;
+
+    if (poc_pos < 0.33) {
+        position = 'Lower_Third';
+        signal = 'Bullish (D-Shape accumulation)';
+        shape = 'D-Shape';
+    } else if (poc_pos > 0.67) {
+        position = 'Upper_Third';
+        signal = 'Bearish (P-Shape distribution)';
+        shape = 'P-Shape';
+    } else {
+        position = 'Middle_Third';
+        signal = 'Neutral (b-Shape balance)';
+        shape = 'b-Shape';
+    }
+
+    // Risk flags
+    const pnl_pct = pnl;
+    const flags = [];
+    if (pnl_pct < -200) flags.push('CRITICAL_LOSS');
+    if (pnl_pct < -100) flags.push('PnL -100%');
+    if (Math.abs(pnl_pct) > 100) flags.push('CRITICAL_RECOVERY');
+
+    const recovery_active = pnl < -100;
+    const recommended_action = recovery_active ?
+        'Activate Smart Recovery: find Breaker Block mitigation, set stop at Mean Threshold (50% OB), wait for re-test' :
+        'Hold position, monitor for TP targets';
+
+    const resultHTML = `
+        <div class="result-row"><div class="result-label">POC:</div><div class="result-val pos">${poc.toFixed(4)}</div></div>
+        <div class="result-row"><div class="result-label">POC Position:</div><div class="result-val">${position}</div></div>
+        <div class="result-row"><div class="result-label">VAH:</div><div class="result-val">${vah.toFixed(4)}</div></div>
+        <div class="result-row"><div class="result-label">VAL:</div><div class="result-val">${val.toFixed(4)}</div></div>
+        <div class="result-row"><div class="result-label">Profile Shape:</div><div class="result-val">${shape}</div></div>
+        <div class="result-row"><div class="result-label">Signal:</div><div class="result-val ${signal.includes('Bullish') ? 'pos' : signal.includes('Bearish') ? 'neg' : ''}">${signal}</div></div>
+        <hr>
+        <div class="result-row"><div class="result-label">Risk Flags:</div><div class="result-val neg">${flags.join(', ') || '—'}</div></div>
+        <div class="result-row"><div class="result-label">Action:</div><div class="result-val">${recommended_action}</div></div>
+    `;
+    document.getElementById('crp-result').innerHTML = resultHTML;
+
+    // Profile chart
+    const price_levels = [];
+    const volumes = [];
+    for (let i = 0; i < 30; i++) {
+        const p = low + (range_ * i / 30);
+        price_levels.push(p);
+        // D-shape: peak in lower third
+        const dist_from_poc = Math.abs(p - poc);
+        const v = Math.exp(-dist_from_poc * 50) * 1000 + Math.random() * 50;
+        volumes.push(v);
+    }
+
+    const profile = {
+        x: volumes, y: price_levels, type: 'bar', orientation: 'h',
+        marker: { color: 'rgba(63, 185, 80, 0.6)' },
+        name: 'Volume'
+    };
+    const candle = {
+        x: [entry, entry, entry, entry, entry, entry],
+        y: [low, low + range_*0.3, low + range_*0.5, low + range_*0.7, high, high],
+        type: 'scatter', mode: 'lines+markers', name: 'Entry',
+        line: { color: '#ff9100', width: 2 }
+    };
+    const pocLine = {
+        x: [0, 1100], y: [poc, poc], type: 'scatter', mode: 'lines',
+        name: 'POC', line: { color: '#d29922', width: 2 }
+    };
+    const vaLine1 = {
+        x: [0, 1100], y: [vah, vah], type: 'scatter', mode: 'lines',
+        name: 'VAH', line: { color: '#39c5cf', width: 1, dash: 'dash' }
+    };
+    const vaLine2 = {
+        x: [0, 1100], y: [val, val], type: 'scatter', mode: 'lines',
+        name: 'VAL', line: { color: '#39c5cf', width: 1, dash: 'dash' }
+    };
+
+    const layout = {
+        paper_bgcolor: '#0d1117', plot_bgcolor: '#161b22',
+        font: { color: '#c9d1d9', family: 'JetBrains Mono' },
+        xaxis: { title: 'Volume', gridcolor: '#21262d' },
+        yaxis: { title: 'Price', gridcolor: '#21262d' },
+        shapes: [{
+            type: 'rect', xref: 'x', yref: 'y',
+            x0: 0, x1: 1100, y0: val, y1: vah,
+            fillcolor: 'rgba(57, 197, 207, 0.05)', line_width: 0
+        }],
+        margin: { l: 60, r: 30, t: 30, b: 40 }
+    };
+    Plotly.newPlot('crp-chart', [profile, candle, pocLine, vaLine1, vaLine2], layout, { responsive: true });
+}
+calcCRP();
+</script>
+{% endblock %}

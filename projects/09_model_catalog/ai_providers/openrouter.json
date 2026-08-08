@@ -3,9 +3,9 @@
   "label": "OpenRouter",
   "homepage": "https://openrouter.ai",
   "balance": "prepaid",
-  "updated": "2026-06-19",
+  "updated": "2026-06-24",
   "opencode_prefix": "openrouter/",
-  "models_count": 335,
+  "models_count": 334,
   "pricing_unit": "USD per token",
   "models": [
     {
@@ -221,16 +221,6 @@
     {
       "id": "anthropic/claude-3-haiku",
       "name": "anthropic/claude-3-haiku",
-      "type": "llm",
-      "pricing": null,
-      "context": null,
-      "capabilities": {
-        "text": true
-      }
-    },
-    {
-      "id": "anthropic/claude-3.5-haiku",
-      "name": "anthropic/claude-3.5-haiku",
       "type": "llm",
       "pricing": null,
       "context": null,
@@ -641,16 +631,6 @@
     {
       "id": "deepseek/deepseek-v4-pro",
       "name": "deepseek/deepseek-v4-pro",
-      "type": "llm",
-      "pricing": null,
-      "context": null,
-      "capabilities": {
-        "text": true
-      }
-    },
-    {
-      "id": "essentialai/rnj-1-instruct",
-      "name": "essentialai/rnj-1-instruct",
       "type": "llm",
       "pricing": null,
       "context": null,
@@ -1071,16 +1051,6 @@
     {
       "id": "mancer/weaver",
       "name": "mancer/weaver",
-      "type": "llm",
-      "pricing": null,
-      "context": null,
-      "capabilities": {
-        "text": true
-      }
-    },
-    {
-      "id": "meta-llama/llama-3-70b-instruct",
-      "name": "meta-llama/llama-3-70b-instruct",
       "type": "llm",
       "pricing": null,
       "context": null,
@@ -1579,8 +1549,8 @@
       }
     },
     {
-      "id": "nex-agi/nex-n2-pro:free",
-      "name": "nex-agi/nex-n2-pro:free",
+      "id": "nex-agi/nex-n2-pro",
+      "name": "nex-agi/nex-n2-pro",
       "type": "llm",
       "pricing": null,
       "context": null,
@@ -2469,6 +2439,16 @@
       }
     },
     {
+      "id": "poolside/laguna-m.1",
+      "name": "poolside/laguna-m.1",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
       "id": "poolside/laguna-m.1:free",
       "name": "poolside/laguna-m.1:free",
       "type": "llm",
@@ -2479,8 +2459,8 @@
       }
     },
     {
-      "id": "poolside/laguna-xs.2:free",
-      "name": "poolside/laguna-xs.2:free",
+      "id": "poolside/laguna-xs.2",
+      "name": "poolside/laguna-xs.2",
       "type": "llm",
       "pricing": null,
       "context": null,
@@ -2489,8 +2469,8 @@
       }
     },
     {
-      "id": "prime-intellect/intellect-3",
-      "name": "prime-intellect/intellect-3",
+      "id": "poolside/laguna-xs.2:free",
+      "name": "poolside/laguna-xs.2:free",
       "type": "llm",
       "pricing": null,
       "context": null,
@@ -3351,6 +3331,16 @@
     {
       "id": "z-ai/glm-5.2",
       "name": "z-ai/glm-5.2",
+      "type": "llm",
+      "pricing": null,
+      "context": null,
+      "capabilities": {
+        "text": true
+      }
+    },
+    {
+      "id": "z-ai/glm-5v-turbo",
+      "name": "z-ai/glm-5v-turbo",
       "type": "llm",
       "pricing": null,
       "context": null,

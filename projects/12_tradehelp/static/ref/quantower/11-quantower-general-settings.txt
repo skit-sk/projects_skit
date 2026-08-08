@@ -1,0 +1,81 @@
+Quantower
+Ctrl
+K
+Quantower Website
+Welcome to Quantower Help
+🚀
+Getting Started
+⚙️
+General Settings
+Quantower Main Toolbar
+Workspaces
+Single Panel
+Link panels
+Binds
+Group of panels
+Templates
+Set as Default
+Symbols lookup
+Table management
+Alerts
+General settings
+Custom hotkeys
+Setup Actions & Advanced filters
+📢
+Notifications center
+🔗
+Connections
+💡
+Analytics Panels
+💵
+Trading Panels
+💼
+Portfolio Panels
+📊
+Information Panels
+📌
+Miscellaneous
+🤖
+Quantower Algo
+💫
+Customization
+⁉️
+FAQ
+UPDATES & RELEASE NOTES
+Release Notes
+Platform update
+Quantower Beta
+HELP & TROUBLESHOOTING
+Backup & restore manager
+Reset settings to default
+You have found a bug. What’s next?
+BILLING & PAYMENTS
+Payment FAQ
+“Coinpayments” payment
+Referral Program
+Powered by GitBook
+For the complete documentation index, see llms.txt. This page is also available as Markdown.
+Copy
+⚙️
+General Settings
+Quantower Main Toolbar
+Workspaces
+Single Panel
+Link panels
+Binds
+Group of panels
+Templates
+Set as Default
+Symbols lookup
+Table management
+Alerts
+General settings
+Custom hotkeys
+Setup Actions & Advanced filters
+📢
+Notifications center
+
+This site uses cookies to deliver its service and to analyze traffic. By browsing this site, you accept the privacy policy.
+
+Accept
+Reject

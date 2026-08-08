@@ -51,7 +51,7 @@ mindmap
 | 07 | tg_bot_aiforguest | bot | — | `./scripts/tg_bot.sh start` |
 | 08 | ofd_api | blueprint | 5000 | `/ofd-api/` |
 | 09 | model_catalog | blueprint/data | 5000 | `/ai-models/` |
-| 10 | max_bot | bot | — | `projects/10_max_bot/scripts/max_bot.sh start` |
+| 10 | max_bot | bot | — | `scripts/max_bot.sh start` |
 | 11 | med_life | atlas/blueprint | 5000 | `/med-life/` |
 
 ---

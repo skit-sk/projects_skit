@@ -4,6 +4,9 @@ L_SKILL.md
 # Vercel
 .vercel
 
+# 1C EPF — временные файлы сборки/верификации
+projects/11_ut11_loader/_work/.tmp/
+
 # Python
 venv/
 .venv/
@@ -20,8 +23,14 @@ data/
 # Logs
 *.log
 
+# 1C build artifacts
+*.epf
+*.erf
+build/
+base/
+.v8-project.json
+
 # IDE
-.opencode/
 .vscode/
 .idea/
 

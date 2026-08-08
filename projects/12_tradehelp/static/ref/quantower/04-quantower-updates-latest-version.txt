@@ -1,0 +1,93 @@
+Quantower
+Ctrl
+K
+Quantower Website
+Welcome to Quantower Help
+🚀
+Getting Started
+⚙️
+General Settings
+🔗
+Connections
+💡
+Analytics Panels
+💵
+Trading Panels
+💼
+Portfolio Panels
+📊
+Information Panels
+📌
+Miscellaneous
+🤖
+Quantower Algo
+💫
+Customization
+⁉️
+FAQ
+UPDATES & RELEASE NOTES
+Release Notes
+Platform update
+Quantower Beta
+HELP & TROUBLESHOOTING
+Backup & restore manager
+Reset settings to default
+You have found a bug. What’s next?
+BILLING & PAYMENTS
+Payment FAQ
+“Coinpayments” payment
+Referral Program
+Powered by GitBook
+For the complete documentation index, see llms.txt. This page is also available as Markdown.
+Copy
+Updates & Release Notes
+Release Notes
+
+See what's new in the latest Quantower release — new features, improvements, and fixes — plus a link to the full version history
+
+Quantower ships regular updates, and when something critical breaks on our end, we patch it fast and push a fix right away.
+
+Latest release — v1.146.11 (Beta · June 13, 2026)
+
+Improved
+
+Chart: the "New bar on session boundary" setting now applies to intraday bars only.
+
+DOM Trader: auto-scroll pauses while you hover the Comments column.
+
+CQG: choose the server URL for API access.
+
+Fixed
+
+Drawings: locked drawing tools can be copied again.
+
+Interactive Brokers: searching certain symbols no longer triggers an "Unknown exchange" rejection.
+
+cTrader: tick historical data now loads correctly.
+
+Watchlist: table alerts restore after a restart when using custom-indicator columns.
+
+General: application settings restore reliably.
+
+Indicators: minor fixes to Daily OHLC.
+
+Looking for earlier versions or the full detail? Browse the complete history:
+
+Full release notes
+
+Every version, in detail
+
+Quantower Blog
+
+Deeper write-ups on bigger releases
+
+Download Quantower
+
+Get the latest version
+
+Last updated 1 month ago
+
+This site uses cookies to deliver its service and to analyze traffic. By browsing this site, you accept the privacy policy.
+
+Accept
+Reject

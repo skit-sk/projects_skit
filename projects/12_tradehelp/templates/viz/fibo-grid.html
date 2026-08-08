@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+{% block title %}MidasFlow Grid 2.0 — 33 уровня — Viz{% endblock %}
+{% block head_extra %}
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+{% endblock %}
+{% block content %}
+<section class="page-header">
+    <h1>📐 MidasFlow Grid 2.0 — 33 уровня Фибоначчи</h1>
+    <p class="muted">Полная сетка от -1.0 до 2.618 с функциональной разметкой</p>
+</section>
+
+<div class="card">
+    <h3>Параметры расчёта</h3>
+    <div class="risk-grid">
+        <div>
+            <div class="form-row">
+                <label>Swing Low</label>
+                <input type="number" id="low" value="0.21" step="0.0001">
+            </div>
+        </div>
+        <div>
+            <div class="form-row">
+                <label>Swing High</label>
+                <input type="number" id="high" value="0.32" step="0.0001">
+            </div>
+        </div>
+    </div>
+    <button class="btn btn-primary" onclick="renderGrid()">Построить сетку</button>
+</div>
+
+<div class="card">
+    <h3>33 уровня MidasFlow Grid 2.0</h3>
+    <div id="fibo-grid" style="width:100%;height:600px;"></div>
+    <p class="muted">Sweet Spot = 0.705 · OTE = 0.618-0.786 · Invalidation = 1.0</p>
+</div>
+
+<div class="card">
+    <h3>Уровни</h3>
+    <div id="levels-table" style="max-height:500px;overflow-y:auto;"></div>
+</div>
+
+<a href="{{ url_for('viz.index') }}" class="btn btn-ghost">← Все графики</a>
+
+<script>
+const LEVELS = [
+    [-1.000, 'Full Hunt Target', 'Expansion (Extreme Manipulation)'],
+    [-0.886, 'Deep Sweep Boundary', 'Manipulation Zone'],
+    [-0.786, 'Liquidity Void Edge', 'Manipulation Zone'],
+    [-0.705, 'Maximum Pain Point', 'Final Liquidity Trigger (Stop Run)'],
+    [-0.618, 'Hunt Expansion 0.618', 'Manipulation Zone'],
+    [-0.500, 'Manipulation Midpoint', 'Equilibrium (Negative)'],
+    [-0.382, 'Early Fakeout Trap', 'Manipulation Zone'],
+    [-0.270, 'Primary Hunt Zone', 'Liquidity Grab (Retail Sweep)'],
+    [-0.236, 'Induction Level', 'Manipulation Zone'],
+    [-0.118, 'Pre-Range Deviation', 'Manipulation Zone'],
+    [0.000, 'Range Origin (Low/High)', 'Pivot Point / Baseline'],
+    [0.118, 'Shadow Induction', 'Early Mitigation'],
+    [0.236, 'Retail Support/Resistance', 'Minor Mitigation'],
+    [0.382, 'Secondary Mitigation', 'Institutional Mitigation'],
+    [0.500, 'Equilibrium', 'Fair Value Level (Neutral)'],
+    [0.618, 'OTE Start (Golden Ratio)', 'Institutional Entry'],
+    [0.705, 'OTE Mid (Sniper Entry)', 'Institutional Entry (Sweet Spot)'],
+    [0.786, 'OTE Deep (Last Stand)', 'Institutional Entry'],
+    [0.886, 'Deep Mitigation', 'Institutional Entry (Extreme)'],
+    [1.000, 'Invalidation Level', 'Idea Cancellation / Structure Shift'],
+    [1.128, 'Early Deviation Target', 'Expansion (Initial)'],
+    [1.236, 'Expansion 1.236', 'Expansion Zone'],
+    [1.272, 'Harmonic Extension', 'Expansion Zone'],
+    [1.414, 'Volatility Extension', 'Expansion Zone'],
+    [1.500, 'Expansion Midpoint', 'Expansion Zone'],
+    [1.618, 'Whale Trap Alpha', 'Deep Expansion (Distribution Magnet)'],
+    [1.786, 'Deep Extension 1.786', 'Expansion Zone'],
+    [2.000, 'Cycle Double Target', 'Expansion Zone'],
+    [2.118, 'Hyper Extension 2.118', 'Expansion Zone'],
+    [2.272, 'Hyper Extension 2.272', 'Expansion Zone'],
+    [2.382, 'Hyper Extension 2.382', 'Expansion Zone'],
+    [2.414, 'Hyper Extension 2.414', 'Expansion Zone'],
+    [2.618, 'Whale Trap Beta', 'Extreme Expansion (Exhaustion)'],
+];
+
+function renderGrid() {
+    const low = parseFloat(document.getElementById('low').value);
+    const high = parseFloat(document.getElementById('high').value);
+    const range_ = high - low;
+    if (range_ <= 0) {
+        alert('Swing High должен быть больше Swing Low');
+        return;
+    }
+
+    const data = LEVELS.map(([coef, name, func]) => {
+        const price = low + range_ * coef;
+        return { coef, name, func, price };
+    });
+
+    // Цвета зон
+    const colors = data.map(d => {
+        if (d.coef < 0) return '#f85149';   // Manipulation
+        if (d.coef === 0) return '#8b949e';  // Pivot
+        if (d.coef < 0.5) return '#d29922';  // Mitigation
+        if (d.coef < 0.786) return '#3fb950'; // OTE Entry
+        if (d.coef < 1.0) return '#58a6ff';  // Entry Extreme
+        if (d.coef === 1.0) return '#bc8cff'; // Invalidation
+        return '#ff9100';                    // Expansion
+    });
+
+    // Main bar chart
+    const trace = {
+        x: data.map(d => d.price),
+        y: data.map(d => d.coef),
+        type: 'scatter',
+        mode: 'markers+text',
+        marker: {
+            size: data.map(d => 15 + Math.abs(d.coef) * 5),
+            color: colors,
+            line: { color: '#0d1117', width: 2 }
+        },
+        text: data.map(d => d.coef.toFixed(3)),
+        textposition: 'top center',
+        textfont: { color: '#c9d1d9', size: 9 },
+        hovertemplate: '<b>%{x:.4f}</b><br>coef: %{y}<br>%{text}<extra></extra>'
+    };
+
+    // OTE zone highlight
+    const ote_low = low + range_ * 0.618;
+    const ote_high = low + range_ * 0.786;
+    const sweet_spot = low + range_ * 0.705;
+
+    const layout = {
+        paper_bgcolor: '#0d1117', plot_bgcolor: '#161b22',
+        font: { color: '#c9d1d9', family: 'JetBrains Mono' },
+        xaxis: { title: 'Price', gridcolor: '#21262d' },
+        yaxis: { title: 'Fibonacci Coefficient', gridcolor: '#21262d' },
+        shapes: [
+            { type: 'rect', xref: 'x', yref: 'y',
+              x0: ote_low, x1: ote_high, y0: -1.2, y1: 2.8,
+              fillcolor: 'rgba(63, 185, 80, 0.08)', line_width: 0 },
+            { type: 'line', x0: sweet_spot, x1: sweet_spot, y0: -1.2, y1: 2.8,
+              line: { color: '#d29922', width: 2, dash: 'dash' } },
+        ],
+        annotations: [
+            { x: sweet_spot, y: 2.85, xref: 'x', yref: 'y',
+              text: 'Sniper (0.705)', showarrow: false,
+              font: { color: '#d29922', size: 11 } }
+        ],
+        margin: { l: 70, r: 30, t: 30, b: 50 },
+        hovermode: 'closest'
+    };
+
+    Plotly.newPlot('fibo-grid', [trace], layout, { responsive: true });
+
+    // Table
+    const tbl = `
+        <table class="data-table">
+            <thead><tr><th>#</th><th>Coeff</th><th>Name</th><th>Function</th><th>Price</th></tr></thead>
+            <tbody>
+            ${data.map((d, i) => `
+                <tr style="border-left: 4px solid ${colors[i]}">
+                    <td>${i+1}</td>
+                    <td>${d.coef.toFixed(3)}</td>
+                    <td>${d.name}</td>
+                    <td>${d.func}</td>
+                    <td><strong>${d.price.toFixed(4)}</strong></td>
+                </tr>
+            `).join('')}
+            </tbody>
+        </table>
+    `;
+    document.getElementById('levels-table').innerHTML = tbl;
+}
+renderGrid();
+</script>
+{% endblock %}
